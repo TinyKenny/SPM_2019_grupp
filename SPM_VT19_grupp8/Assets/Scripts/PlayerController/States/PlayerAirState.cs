@@ -19,5 +19,19 @@ public class PlayerAirState : PlayerBaseState
         {
             owner.TransitionTo<PlayerWalkingState>();
         }
+        else if (WallRun())
+        {
+            owner.TransitionTo<PlayerWallRunState>();
+        }
+    }
+
+    protected bool WallRun()
+    {
+        return findCollision(Vector3.right, SkinWidth * 2) || findCollision(Vector3.left, SkinWidth * 2);
+    }
+
+    protected bool WallRun(out RaycastHit wall)
+    {
+        return findCollision(Vector3.right, out wall, SkinWidth * 2) || findCollision(Vector3.left, out wall, SkinWidth * 2);
     }
 }
