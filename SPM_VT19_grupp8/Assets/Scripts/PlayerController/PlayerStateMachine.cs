@@ -1,0 +1,29 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerStateMachine : StateMachine
+{
+    public LayerMask collisionLayers;
+    public PhysicsComponent physicsComponent;
+    public CapsuleCollider thisCollider;
+    public float skinWidth = 0.01f;
+    public float groundCheckDistance = 0.01f;
+
+
+    public float Acceleration { get { return physicsComponent.acceleration; } set { physicsComponent.acceleration = value; } }
+    public float Deceleration { get { return physicsComponent.deceleration; } set { physicsComponent.deceleration = value; } }
+    public float MaxSpeed { get { return physicsComponent.maxSpeed; } set { physicsComponent.maxSpeed = value; } }
+    public float FrictionCoefficient { get { return physicsComponent.frictionCoefficient; } set { physicsComponent.frictionCoefficient = value; } }
+    public float AirResistanceCoefficient { get { return physicsComponent.airResistanceCoefficient; } set { physicsComponent.airResistanceCoefficient = value; } }
+    public float Gravity { get { return physicsComponent.gravity; } set { physicsComponent.gravity = value; } }
+    public Vector3 Velocity { get { return physicsComponent.velocity; } set { physicsComponent.velocity = value; } }
+
+
+    protected override void Awake()
+    {
+        base.Awake();
+        physicsComponent = GetComponent<PhysicsComponent>();
+        thisCollider = GetComponent<CapsuleCollider>();
+    }
+}
