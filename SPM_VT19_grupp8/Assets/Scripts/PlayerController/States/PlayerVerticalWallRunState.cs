@@ -30,6 +30,7 @@ public class PlayerVerticalWallRunState : PlayerAirState
         }
         else if (WallRun(out wall))
         {
+            LedgeGrabCheck();
             Velocity += Vector3.ClampMagnitude(new Vector3(0, Velocity.y, 0).normalized, 1.0f) * (Acceleration / 2) * Time.deltaTime;
 
             if (Velocity.magnitude > maxVerticalVelocity)

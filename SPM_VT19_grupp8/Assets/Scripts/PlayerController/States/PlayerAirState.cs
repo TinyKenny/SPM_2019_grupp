@@ -23,6 +23,7 @@ public class PlayerAirState : PlayerBaseState
         }
         else if (WallRun(out wallRunCheck))
         {
+            LedgeGrabCheck();
             if (Velocity.x < 0.3f && Velocity.z < 0.3f)
                 owner.TransitionTo<PlayerVerticalWallRunState>();
             else
@@ -32,6 +33,14 @@ public class PlayerAirState : PlayerBaseState
         }
     }
 
+    protected void LedgeGrabCheck()
+    {
+        RaycastHit wall;
+        
+        if (Physics.BoxCast(Transform.position + Vector3.up * ThisCollider.height, new Vector3(ThisCollider.radius, ThisCollider.radius, ThisCollider.radius), Transform.forward, out wall, Quaternion.identity, SkinWidth * 5, LayerMask.NameToLayer("Grabable")) && wall.collider.bounds.max.y < ThisCollider.bounds.max.y)
+            Debug.Log("Ledge grabbed!");
+    }
+
     protected bool WallRun()
     {
         return FindCollision(Transform.right, SkinWidth * 2) || FindCollision(-Transform.right, SkinWidth * 2);
@@ -39,6 +48,7 @@ public class PlayerAirState : PlayerBaseState
 
     protected bool WallRun(out RaycastHit wall)
     {
-        return FindCollision(Transform.right, out wall, SkinWidth * 2) || FindCollision(-Transform.right, out wall, SkinWidth * 2);
+        bool wallFound = FindCollision(Transform.right, out wall, SkinWidth * 2) || FindCollision(-Transform.right, out wall, SkinWidth * 2);
+        return wallFound;
     }
 }
