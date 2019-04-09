@@ -95,20 +95,26 @@ public class PlayerBaseState : State
             Vector3 hitNormalMovement = MathHelper.NormalForce(movement, hitNormal);
             movement += hitNormalMovement;
 
-            if (hitNormalMovement.magnitude > MathHelper.floatEpsilon)
-            {
-                Vector3 hitNormalForce = MathHelper.NormalForce(Velocity, hitNormal);
-                PhysicsComponent otherPhysicsComponent = raycastHit.collider.GetComponent<PhysicsComponent>();
-
-                Velocity += hitNormalForce;
-                CalculateFriction(hitNormalForce.magnitude, otherPhysicsComponent);
-            }
-
             Transform.position += snapMovement;
 
-            if (movement.magnitude > MathHelper.floatEpsilon)
+            if (angle * Mathf.Deg2Rad < 70)
             {
-                CheckCollision(movement);
+                if (hitNormalMovement.magnitude > MathHelper.floatEpsilon)
+                {
+                    Vector3 hitNormalForce = MathHelper.NormalForce(Velocity, hitNormal);
+                    PhysicsComponent otherPhysicsComponent = raycastHit.collider.GetComponent<PhysicsComponent>();
+
+                    Velocity += hitNormalForce;
+                    CalculateFriction(hitNormalForce.magnitude, otherPhysicsComponent);
+                }
+
+                if (movement.magnitude > MathHelper.floatEpsilon)
+                {
+                    CheckCollision(movement);
+                }
+            } else if(movement.magnitude > MathHelper.floatEpsilon)
+            {
+                Velocity = Vector3.zero;
             }
         }
 
