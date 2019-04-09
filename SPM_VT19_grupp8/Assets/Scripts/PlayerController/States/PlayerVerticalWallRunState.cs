@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "States/Player/Vertical Wall Run State")]
 public class PlayerVerticalWallRunState : PlayerAirState
 {
-    private float jumpPower = 10.0f;
+    private float jumpPower = 15.0f;
     private float maxVerticalVelocity = 10f;
 
     public override void Enter()

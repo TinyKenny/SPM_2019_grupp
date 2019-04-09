@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bdba13999ada1445bc9e524be7d52d8, type: 3}
-  m_Name: Player Air State
+  m_Script: {fileID: 11500000, guid: 32a0b3e5d73eb8e4b9343f9542b99f37, type: 3}
+  m_Name: Player Ledge Grab State
   m_EditorClassIdentifier: 
   MaxSpeedMod: 1

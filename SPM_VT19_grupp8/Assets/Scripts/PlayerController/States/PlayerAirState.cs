@@ -36,9 +36,10 @@ public class PlayerAirState : PlayerBaseState
     protected void LedgeGrabCheck()
     {
         RaycastHit wall;
-        bool b = Physics.BoxCast(ThisCollider.bounds.center, Transform.localScale / 2, Transform.forward, out wall, Transform.rotation, SkinWidth * 5);
+        Vector3 topPoint = Transform.position + ThisCollider.center + Transform.up * (ThisCollider.height / 2 - ThisCollider.radius);
+        bool b = Physics.BoxCast(topPoint, Transform.localScale / 2, Transform.forward, out wall, Transform.rotation, ThisCollider.radius + SkinWidth * 5, CollisionLayers) && wall.transform.tag == "Grabable";
         if (b && wall.collider.bounds.max.y < ThisCollider.bounds.max.y)
-            Debug.Log("Ledge grabbed!");
+            owner.TransitionTo<PlayerLedgeGrabState>();
     }
 
     protected bool WallRun()

@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f90bc8f62f980a1498f20794caa248bb, type: 3}
   m_Name: Player Wall Run State
   m_EditorClassIdentifier: 
+  MaxSpeedMod: 1

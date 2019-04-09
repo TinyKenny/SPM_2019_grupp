@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6267d51a70655fc44bd16eaaf4b9b241, type: 3}
   m_Name: Player Walking State
   m_EditorClassIdentifier: 
+  MaxSpeedMod: 1
   jumpPower: 10
