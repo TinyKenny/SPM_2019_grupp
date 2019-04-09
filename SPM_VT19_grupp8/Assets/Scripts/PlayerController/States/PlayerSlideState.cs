@@ -19,11 +19,11 @@ public class PlayerSlideState : PlayerBaseState
 
     public override void HandleUpdate()
     {
-        Velocity += Vector3.down * Gravity * Time.deltaTime;
+        Velocity += Vector3.down * Gravity * PlayerDeltaTime;
 
         Velocity = Vector3.ClampMagnitude(Velocity, MaxSpeed);
 
-        CheckCollision(Velocity * Time.deltaTime);
+        CheckCollision(Velocity * PlayerDeltaTime);
 
         if (!GroundCheck())
         {

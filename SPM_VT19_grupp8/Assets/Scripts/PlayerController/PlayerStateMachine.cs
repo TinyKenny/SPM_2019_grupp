@@ -32,8 +32,6 @@ public class PlayerStateMachine : StateMachine
         thisCollider = GetComponent<CapsuleCollider>();
         standardColliderHeight = thisCollider.height;
 
-        Debug.Log(Time.timeScale);
-
         playerTimeScale = 1.0f;
         slowedPlayerTimeScale = 0.5f;
         slowedWorldTimeScale = 0.2f;
@@ -55,7 +53,6 @@ public class PlayerStateMachine : StateMachine
                 playerTimeScale = 1.0f;
             }
         }
-        Debug.Log(Time.timeScale);
     }
 
     /// <summary>

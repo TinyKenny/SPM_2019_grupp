@@ -14,13 +14,13 @@ public class PlayerWallRunState : PlayerAirState
 
     public override void HandleUpdate()
     {
-        Velocity += Vector3.down * (Gravity / 2) * Time.deltaTime;
+        Velocity += Vector3.down * (Gravity / 2) * PlayerDeltaTime;
 
-        CheckCollision(Velocity * Time.deltaTime);
+        CheckCollision(Velocity * PlayerDeltaTime);
 
         bool grounded = GroundCheck();
 
-        Velocity *= Mathf.Pow(AirResistanceCoefficient, Time.deltaTime);
+        Velocity *= Mathf.Pow(AirResistanceCoefficient, PlayerDeltaTime);
 
         RaycastHit wall = new RaycastHit();
 
@@ -32,7 +32,7 @@ public class PlayerWallRunState : PlayerAirState
         {
             Velocity = ProjectSpeedOnSurface(wall);
 
-            Velocity += Vector3.ClampMagnitude(new Vector3(Velocity.x, 0, Velocity.z).normalized, 1.0f) * Acceleration * Time.deltaTime;
+            Velocity += Vector3.ClampMagnitude(new Vector3(Velocity.x, 0, Velocity.z).normalized, 1.0f) * Acceleration * PlayerDeltaTime;
 
             if (Velocity.y > maxVerticalVelocity)
                 Velocity = new Vector3(Velocity.x, maxVerticalVelocity, Velocity.z);

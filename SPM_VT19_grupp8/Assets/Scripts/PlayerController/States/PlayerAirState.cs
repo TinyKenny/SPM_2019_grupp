@@ -9,13 +9,13 @@ public class PlayerAirState : PlayerBaseState
     {
         RaycastHit wallRunCheck = new RaycastHit();
 
-        Velocity += Vector3.down * Gravity * Time.deltaTime;
+        Velocity += Vector3.down * Gravity * PlayerDeltaTime;
 
-        CheckCollision(Velocity * Time.deltaTime);
+        CheckCollision(Velocity * PlayerDeltaTime);
 
         bool grounded = FindCollision(Vector3.down, GroundCheckDistance + SkinWidth);
 
-        Velocity *= Mathf.Pow(AirResistanceCoefficient, Time.deltaTime);
+        Velocity *= Mathf.Pow(AirResistanceCoefficient, PlayerDeltaTime);
 
         if (grounded)
         {

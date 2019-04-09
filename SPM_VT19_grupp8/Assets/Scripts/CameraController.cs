@@ -64,8 +64,8 @@ public class CameraController : MonoBehaviour
         float mouseX = Input.GetAxisRaw("Mouse X") * mouseSensitivity * 0.0f;
         float mouseY = Input.GetAxisRaw("Mouse Y") * mouseSensitivity * 0.0f;
 
-        float gamePadX = Input.GetAxisRaw("GP Look X") * gamePadSensitivity * Time.deltaTime;
-        float gamePadY = Input.GetAxisRaw("GP Look Y") * gamePadSensitivity * Time.deltaTime;
+        float gamePadX = Input.GetAxisRaw("GP Look X") * gamePadSensitivity * Time.unscaledDeltaTime;
+        float gamePadY = Input.GetAxisRaw("GP Look Y") * gamePadSensitivity * Time.unscaledDeltaTime;
 
         if (new Vector2(mouseX, mouseY).magnitude > new Vector2(gamePadX, gamePadY).magnitude)
         {

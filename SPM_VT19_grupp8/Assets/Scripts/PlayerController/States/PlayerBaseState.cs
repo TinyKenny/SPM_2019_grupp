@@ -119,7 +119,7 @@ public class PlayerBaseState : State
             if (castHasHit)
             {
                 PhysicsComponent otherPhysicsComponent = raycastHit.collider.GetComponent<PhysicsComponent>();
-                CalculateFriction(Gravity * Time.deltaTime, otherPhysicsComponent);
+                CalculateFriction(Gravity * PlayerDeltaTime, otherPhysicsComponent);
             }
             Transform.position += movement;
         }
