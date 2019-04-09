@@ -132,6 +132,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 878ccae6f8ad4a745919b17836bf60d5, type: 2}
   - {fileID: 11400000, guid: 02021b327f1df68429e9965ed0285975, type: 2}
   - {fileID: 11400000, guid: 2f60451e6c37d1c4d8f407eda24ac15b, type: 2}
+  - {fileID: 11400000, guid: 3b670a5733058624b8537518fbde0932, type: 2}
   currentState: {fileID: 0}
   collisionLayers:
     serializedVersion: 2
@@ -140,6 +141,7 @@ MonoBehaviour:
   thisCollider: {fileID: 0}
   skinWidth: 0.01
   groundCheckDistance: 0.01
+  standardColliderHeight: 0
 --- !u!1 &7324594909714858374
 GameObject:
   m_ObjectHideFlags: 0

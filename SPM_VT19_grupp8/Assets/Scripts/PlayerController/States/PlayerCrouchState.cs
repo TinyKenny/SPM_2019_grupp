@@ -23,7 +23,8 @@ public class PlayerCrouchState : PlayerWalkingState
     {
         base.HandleUpdate();
 
-        if (grounded && !Input.GetButton("Crouch") && !FindCollision(Transform.forward, Mathf.Epsilon))
+        if (grounded && !Input.GetButton("Crouch") && 
+            !FindCollision(Vector3.up, Mathf.Clamp(ThisCollider.height, SkinWidth + ThisCollider.radius * 2, Mathf.Infinity) - ThisCollider.radius * 2))
         {
             owner.TransitionTo<PlayerWalkingState>();
         }

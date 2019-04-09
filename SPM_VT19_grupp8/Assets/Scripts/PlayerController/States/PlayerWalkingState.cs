@@ -24,14 +24,21 @@ public class PlayerWalkingState : PlayerBaseState
         CheckCollision(Velocity * Time.deltaTime);
         Velocity *= Mathf.Pow(AirResistanceCoefficient, Time.deltaTime);
 
-        //if speed is high enough for running state
+        //if speed is high enough for running, and you are in walking state
         if(Velocity.magnitude > (MaxSpeed / 2) && Mathf.Approximately(MaxSpeedMod, 1.0f))
         {
             //you are running, this is relevant because of reasons
         }
         if(grounded && Input.GetButton("Crouch"))
         {
-            owner.TransitionTo<PlayerCrouchState>();
+            if (Velocity.magnitude > (MaxSpeed / 2) && Mathf.Approximately(MaxSpeedMod, 1.0f))
+            {
+                owner.TransitionTo<PlayerSlideState>();
+            }
+            else
+            {
+                owner.TransitionTo<PlayerCrouchState>();
+            }
             //Debug.Log("Wat");
         }
     }
