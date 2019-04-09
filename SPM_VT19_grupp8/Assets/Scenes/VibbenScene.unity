@@ -403,7 +403,7 @@ MonoBehaviour:
   lookSensitivity: 10
   gamePadSensitivity: 15
   mouseSensitivity: 1
-  playerTransform: {fileID: 1587429941}
+  playerTransform: {fileID: 1828900657}
   playerLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -593,7 +593,7 @@ Transform:
   m_Father: {fileID: 432681445}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1587429940
+--- !u!1001 &1828900656
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -662,9 +662,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bc4dc44ebc45d0408638807052809b2, type: 3}
---- !u!4 &1587429941 stripped
+--- !u!4 &1828900657 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2112523359584729376, guid: 8bc4dc44ebc45d0408638807052809b2,
     type: 3}
-  m_PrefabInstance: {fileID: 1587429940}
+  m_PrefabInstance: {fileID: 1828900656}
   m_PrefabAsset: {fileID: 0}
