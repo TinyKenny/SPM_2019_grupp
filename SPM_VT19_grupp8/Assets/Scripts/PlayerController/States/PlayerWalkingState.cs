@@ -6,6 +6,17 @@ using UnityEngine;
 public class PlayerWalkingState : PlayerBaseState
 {
     [SerializeField] protected float jumpPower = 10.0f;
+    [Header("Leave at 1 in WalkingState")] //för att skrämma iväg designers
+    [Range(0.0f, 1.0f)]
+    public float MaxSpeedMod = 1.0f;
+    protected bool jumpAllowed = true;
+    protected bool grounded = true;
+
+    public override void Initialize(StateMachine owner)
+    {
+        base.Initialize(owner);
+        MaxSpeedMod = 1.0f; //För att vara säker på att designers inte har sönder något
+    }
 
     public override void HandleUpdate()
     {
@@ -17,9 +28,13 @@ public class PlayerWalkingState : PlayerBaseState
         Velocity *= Mathf.Pow(AirResistanceCoefficient, Time.deltaTime);
 
         //if speed is high enough for running state
-        if(Velocity.magnitude > (MaxSpeed / 2))
+        if(Velocity.magnitude > (MaxSpeed / 2) && Mathf.Approximately(MaxSpeedMod, 1.0f))
         {
-            //go to running state
+            //you are running, this is relevant because of reasons
+        }
+        if(grounded && Input.GetButton("Crouch"))
+        {
+            owner.TransitionTo<PlayerCrouchState>();
         }
     }
 
@@ -27,13 +42,15 @@ public class PlayerWalkingState : PlayerBaseState
     {
         RaycastHit groundCheckHit;
 
-        if (!GroundCheck(out groundCheckHit))
+        grounded = GroundCheck(out groundCheckHit);
+
+        if (!grounded)
         {
             owner.TransitionTo<PlayerAirState>();
         }
         else
         {
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("Jump") && jumpAllowed)
             {
                 Velocity += Vector3.up * jumpPower;
             }
@@ -49,7 +66,7 @@ public class PlayerWalkingState : PlayerBaseState
     private void Accelerate(Vector3 direction)
     {
         Velocity += Vector3.ClampMagnitude(direction, 1.0f) * Acceleration * Time.deltaTime;
-        if (Velocity.magnitude > MaxSpeed)
+        if (Velocity.magnitude > MaxSpeed * MaxSpeedMod)
         {
             Velocity = Velocity.normalized * MaxSpeed;
         }
