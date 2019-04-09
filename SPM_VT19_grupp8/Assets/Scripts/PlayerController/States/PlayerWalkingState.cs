@@ -29,7 +29,11 @@ public class PlayerWalkingState : PlayerBaseState
         {
             //you are running, this is relevant because of reasons
         }
-        if(grounded && Input.GetButton("Crouch"))
+        if (!grounded)
+        {
+            owner.TransitionTo<PlayerAirState>();
+        }
+        else if(grounded && Input.GetButton("Crouch"))
         {
             if (Velocity.magnitude > (MaxSpeed / 2) && Mathf.Approximately(MaxSpeedMod, 1.0f))
             {
@@ -48,12 +52,7 @@ public class PlayerWalkingState : PlayerBaseState
         RaycastHit groundCheckHit;
 
         grounded = GroundCheck(out groundCheckHit);
-
-        if (!grounded)
-        {
-            owner.TransitionTo<PlayerAirState>();
-        }
-        else
+        if(grounded)
         {
             if (Input.GetButtonDown("Jump") && jumpAllowed)
             {
