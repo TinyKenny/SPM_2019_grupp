@@ -101,11 +101,7 @@ public class PlayerBaseState : State
             {
                 if (hitNormalMovement.magnitude > MathHelper.floatEpsilon)
                 {
-                    Vector3 hitNormalForce = MathHelper.NormalForce(Velocity, hitNormal);
-                    PhysicsComponent otherPhysicsComponent = raycastHit.collider.GetComponent<PhysicsComponent>();
-
-                    Velocity += hitNormalForce;
-                    CalculateFriction(hitNormalForce.magnitude, otherPhysicsComponent);
+                    HandleCollition(hitNormal, raycastHit);
                 }
 
                 if (movement.magnitude > MathHelper.floatEpsilon)
@@ -161,5 +157,14 @@ public class PlayerBaseState : State
             Vector3 frictionForce = velocityDelta.normalized * frictionForceMagnitude;
             Velocity -= frictionForce;
         }
+    }
+
+    protected virtual void HandleCollition(Vector3 hitNormal, RaycastHit raycastHit)
+    {
+        Vector3 hitNormalForce = MathHelper.NormalForce(Velocity, hitNormal);
+        PhysicsComponent otherPhysicsComponent = raycastHit.collider.GetComponent<PhysicsComponent>();
+
+        Velocity += hitNormalForce;
+        CalculateFriction(hitNormalForce.magnitude, otherPhysicsComponent);
     }
 }

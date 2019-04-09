@@ -40,7 +40,7 @@ public class PlayerVerticalWallRunState : PlayerAirState
 
             if (Input.GetButtonDown("Jump"))
             {
-                Velocity += (wall.normal + Vector3.up).normalized * jumpPower;
+                Velocity += (wall.normal * 2 + Vector3.up).normalized * jumpPower;
             }
         }
         else
