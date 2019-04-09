@@ -51,7 +51,6 @@ public class CameraController : MonoBehaviour
 
             if (Physics.SphereCast(transform.position, thirdPersonSafety, newRelativePosition.normalized, out rayHit, newRelativePosition.magnitude + thirdPersonSafety, ~playerLayer))
             {
-                Debug.Log(rayHit.collider);
                 newRelativePosition = newRelativePosition.normalized * rayHit.distance;
             }
 
@@ -62,8 +61,8 @@ public class CameraController : MonoBehaviour
     private Quaternion UpdateRotation()
     {
         // Multiply these two by 0.0f if you want to do anything in the inspector while the editor is in "Play"-mode.
-        float mouseX = Input.GetAxisRaw("Mouse X") * mouseSensitivity;
-        float mouseY = Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
+        float mouseX = Input.GetAxisRaw("Mouse X") * mouseSensitivity * 0.0f;
+        float mouseY = Input.GetAxisRaw("Mouse Y") * mouseSensitivity * 0.0f;
 
         float gamePadX = Input.GetAxisRaw("GP Look X") * gamePadSensitivity * Time.deltaTime;
         float gamePadY = Input.GetAxisRaw("GP Look Y") * gamePadSensitivity * Time.deltaTime;

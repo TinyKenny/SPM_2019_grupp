@@ -20,7 +20,7 @@ public class PlayerWallRunState : PlayerAirState
 
         CheckCollision(Velocity * Time.deltaTime);
 
-        bool grounded = findCollision(Vector3.down, GroundCheckDistance + SkinWidth);
+        bool grounded = GroundCheck();
 
         Velocity *= Mathf.Pow(AirResistanceCoefficient, Time.deltaTime);
 

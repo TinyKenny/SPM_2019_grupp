@@ -36,7 +36,7 @@ public class StateMachine : MonoBehaviour
         }
     }
 
-    void Update()
+    protected virtual void Update()
     {
         currentState.HandleUpdate();
     }

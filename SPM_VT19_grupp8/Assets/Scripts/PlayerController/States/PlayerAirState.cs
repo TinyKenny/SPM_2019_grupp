@@ -11,7 +11,7 @@ public class PlayerAirState : PlayerBaseState
 
         CheckCollision(Velocity * Time.deltaTime);
 
-        bool grounded = findCollision(Vector3.down, GroundCheckDistance + SkinWidth);
+        bool grounded = FindCollision(Vector3.down, GroundCheckDistance + SkinWidth);
 
         Velocity *= Mathf.Pow(AirResistanceCoefficient, Time.deltaTime);
 
@@ -27,11 +27,11 @@ public class PlayerAirState : PlayerBaseState
 
     protected bool WallRun()
     {
-        return findCollision(Vector3.right, SkinWidth * 2) || findCollision(Vector3.left, SkinWidth * 2);
+        return FindCollision(Transform.right, SkinWidth * 2) || FindCollision(-Transform.right, SkinWidth * 2);
     }
 
     protected bool WallRun(out RaycastHit wall)
     {
-        return findCollision(Vector3.right, out wall, SkinWidth * 2) || findCollision(Vector3.left, out wall, SkinWidth * 2);
+        return FindCollision(Transform.right, out wall, SkinWidth * 2) || FindCollision(-Transform.right, out wall, SkinWidth * 2);
     }
 }

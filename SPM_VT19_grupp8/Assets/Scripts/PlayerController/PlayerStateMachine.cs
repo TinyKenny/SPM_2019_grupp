@@ -26,4 +26,20 @@ public class PlayerStateMachine : StateMachine
         physicsComponent = GetComponent<PhysicsComponent>();
         thisCollider = GetComponent<CapsuleCollider>();
     }
+
+    protected override void Update()
+    {
+        base.Update();
+        UpdatePlayerRotation();
+    }
+
+    /// <summary>
+    /// Rotates the player-GameObject so that its Z-axis (also known as "forward", example: transform.forward)
+    /// to be pointing in the direction of Velocity.
+    /// </summary>
+    private void UpdatePlayerRotation()
+    {
+        // make this better later
+        transform.LookAt(transform.position + new Vector3(Velocity.x, 0.0f, Velocity.z).normalized);
+    }
 }

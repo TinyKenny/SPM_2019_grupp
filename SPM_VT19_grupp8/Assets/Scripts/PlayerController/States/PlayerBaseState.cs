@@ -26,17 +26,16 @@ public class PlayerBaseState : State
 
     public override void Initialize(StateMachine owner)
     {
-
         this.owner = (PlayerStateMachine)owner;
     }
 
-    protected bool findCollision(Vector3 direction, float maxDistance)
+    protected bool FindCollision(Vector3 direction, float maxDistance)
     {
         RaycastHit raycastHit;
-        return findCollision(direction, out raycastHit, maxDistance);
+        return FindCollision(direction, out raycastHit, maxDistance);
     }
 
-    protected bool findCollision(Vector3 direction, out RaycastHit raycastHit, float maxDistance)
+    protected bool FindCollision(Vector3 direction, out RaycastHit raycastHit, float maxDistance)
     {
         Vector3 topPoint = Transform.position + ThisCollider.center + Vector3.up * (ThisCollider.height / 2 - ThisCollider.radius);
         Vector3 bottomPoint = Transform.position + ThisCollider.center + Vector3.down * (ThisCollider.height / 2 - ThisCollider.radius);
@@ -52,14 +51,14 @@ public class PlayerBaseState : State
 
     protected bool GroundCheck(out RaycastHit raycastHit)
     {
-        return findCollision(Vector3.down, out raycastHit, GroundCheckDistance + SkinWidth);
+        return FindCollision(Vector3.down, out raycastHit, GroundCheckDistance + SkinWidth);
     }
 
     protected void CheckCollision(Vector3 movement)
     {
         RaycastHit raycastHit;
 
-        bool castHasHit = findCollision(movement.normalized, out raycastHit, Mathf.Infinity);
+        bool castHasHit = FindCollision(movement.normalized, out raycastHit, Mathf.Infinity);
 
         if (castHasHit)
         {
@@ -95,7 +94,7 @@ public class PlayerBaseState : State
 
         else if (movement.magnitude > MathHelper.floatEpsilon)
         {
-            castHasHit = findCollision(Vector3.down, out raycastHit, SkinWidth + GroundCheckDistance);
+            castHasHit = FindCollision(Vector3.down, out raycastHit, SkinWidth + GroundCheckDistance);
 
             if (castHasHit)
             {
