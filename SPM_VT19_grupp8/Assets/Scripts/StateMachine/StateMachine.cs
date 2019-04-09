@@ -28,7 +28,7 @@ public class StateMachine : MonoBehaviour
 
     public void TransitionTo<T>() where T : State
     {
-        if (stateDictionary.ContainsKey(typeof(T)))
+        if (typeof(T) != currentState.GetType() && stateDictionary.ContainsKey(typeof(T)))
         {
             currentState.Exit();
             currentState = stateDictionary[typeof(T)];
