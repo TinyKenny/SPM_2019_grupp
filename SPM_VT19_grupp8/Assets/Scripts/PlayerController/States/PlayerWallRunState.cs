@@ -34,9 +34,10 @@ public class PlayerWallRunState : PlayerAirState
         {
             Velocity = ProjectSpeedOnSurface(wall);
 
-            if (Velocity.magnitude > wallRunMaxSpeed)
+            Velocity += Vector3.ClampMagnitude(Velocity.normalized, 1.0f) * Acceleration * Time.deltaTime;
+            if (Velocity.magnitude > MaxSpeed)
             {
-                Velocity = Velocity.normalized * wallRunMaxSpeed;
+                Velocity = Velocity.normalized * MaxSpeed;
             }
 
             if (Input.GetButtonDown("Jump"))
@@ -53,6 +54,6 @@ public class PlayerWallRunState : PlayerAirState
     private Vector3 ProjectSpeedOnSurface(RaycastHit wall)
     {
         Vector3 projection = Vector3.Dot(Velocity, wall.normal) * wall.normal;
-        return (Velocity - projection) * wallRunAmount;
+        return Velocity - projection;
     }
 }
