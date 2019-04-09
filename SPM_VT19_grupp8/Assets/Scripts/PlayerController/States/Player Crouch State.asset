@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53c5a08136078e64fa17b43c62c46baa, type: 3}
   m_Name: Player Crouch State
   m_EditorClassIdentifier: 
+  MaxSpeedMod: 0.3
   jumpPower: 10
-  MaxSpeedMod: 0

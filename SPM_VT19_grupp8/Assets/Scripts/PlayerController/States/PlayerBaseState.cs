@@ -7,6 +7,10 @@ public class PlayerBaseState : State
 {
     protected PlayerStateMachine owner;
 
+    [Header("Leave at 1 in WalkingState")] //för att skrämma iväg designers
+    [Range(0.0f, 1.0f)]
+    public float MaxSpeedMod = 1.0f;
+
 
     public float Acceleration { get { return owner.Acceleration; } set { owner.Acceleration = value; } }
     public float Deceleration { get { return owner.Deceleration; } set { owner.Deceleration = value; } }
