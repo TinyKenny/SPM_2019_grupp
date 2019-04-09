@@ -5,13 +5,13 @@ using UnityEngine;
 public class ProjectileBehaviour : MonoBehaviour
 {
     public float speed = 15.0f;
-    //public LayerMask;
+    public LayerMask ignoreLayer;
 
     private SphereCollider thisCollider;
 
-    public void SetInitialValues()
+    public void SetInitialValues(LayerMask layerToIgnore)
     {
-
+        ignoreLayer = layerToIgnore;
     }
 
     // Start is called before the first frame update
@@ -25,10 +25,25 @@ public class ProjectileBehaviour : MonoBehaviour
     {
         Vector3 movement = transform.forward * speed * Time.deltaTime;
 
-        //Physics.SphereCast()
+        RaycastHit rayHit;
 
-        //bool hitSomething = Physics.SphereCast(transform.position, thisCollider.radius, transform.forward, speed * Time.deltaTime, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
+        bool hitSomething = Physics.SphereCast(transform.position, thisCollider.radius, transform.forward, out rayHit, speed * Time.deltaTime, ~ignoreLayer, QueryTriggerInteraction.Ignore);
 
-        transform.position += movement;
+        if (hitSomething)
+        {
+
+            if (rayHit.transform.CompareTag("Player"))
+            {
+                Debug.Log("The player was hit!");
+            } else if (rayHit.transform.CompareTag("Enemy"))
+            {
+                Debug.Log("An enemy was hit!");
+            }
+
+            Destroy(gameObject);
+        } else
+        {
+            transform.position += movement;
+        }
     }
 }
