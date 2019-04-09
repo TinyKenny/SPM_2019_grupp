@@ -21,7 +21,7 @@ public class PlayerLedgeGrabState : PlayerBaseState
     {
         RaycastHit wallCheckHit;
 
-        bool wallHit = FindCollision(Transform.forward, out wallCheckHit, SkinWidth * 2);
+        bool wallHit = FindCollision(Transform.forward, out wallCheckHit, SkinWidth * 5);
         if (wallHit)
         {
             if (Input.GetButtonDown("Jump"))
@@ -31,14 +31,14 @@ public class PlayerLedgeGrabState : PlayerBaseState
 
             if (Input.GetAxisRaw("Vertical") > 0.9)
             {
-                Vector3 bottomPoint = Transform.position + ThisCollider.center - Transform.up * (ThisCollider.height / 2);
+                Vector3 bottomPoint = Transform.position + ThisCollider.center - Transform.up * (ThisCollider.height / 2 - ThisCollider.radius);
                 if (bottomPoint.y < wallCheckHit.collider.bounds.max.y)
                     Transform.position += Transform.up * Input.GetAxisRaw("Vertical") * PlayerDeltaTime;
                 else
                 {
-                    Transform.position += (Transform.up + Transform.forward).normalized * Input.GetAxisRaw("Vertical") * PlayerDeltaTime;
+                    Velocity += (Transform.up + Transform.forward).normalized * 250 * PlayerDeltaTime;
+                    owner.TransitionTo<PlayerAirState>();
                 }
-                Debug.Log("Stand on platform");
             }
             else if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.1)
             {

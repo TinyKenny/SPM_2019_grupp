@@ -37,9 +37,9 @@ public class PlayerWallRunState : PlayerAirState
             if (Velocity.y > maxVerticalVelocity)
                 Velocity = new Vector3(Velocity.x, maxVerticalVelocity, Velocity.z);
 
-            if (Velocity.magnitude > MaxSpeed)
+            if (Velocity.magnitude > MaxSpeed / 2)
             {
-                Velocity = Velocity.normalized * MaxSpeed;
+                Velocity = Velocity.normalized * MaxSpeed / 2;
             }
 
             if (Input.GetButtonDown("Jump"))

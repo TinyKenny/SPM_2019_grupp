@@ -37,8 +37,15 @@ public class PlayerAirState : PlayerBaseState
     {
         RaycastHit wall;
         Vector3 topPoint = Transform.position + ThisCollider.center + Transform.up * (ThisCollider.height / 2 - ThisCollider.radius);
-        bool b = Physics.BoxCast(topPoint, Transform.localScale / 2, Transform.forward, out wall, Transform.rotation, ThisCollider.radius + SkinWidth * 5, CollisionLayers) && wall.transform.tag == "Grabable";
-        if (b && wall.collider.bounds.max.y < ThisCollider.bounds.max.y)
+        bool b = Physics.BoxCast(topPoint, new Vector3(ThisCollider.radius / 2, ThisCollider.height / 4, ThisCollider.radius / 2), Transform.forward, out wall, Transform.rotation, ThisCollider.radius + SkinWidth * 10, CollisionLayers) && wall.transform.tag == "Grabable";
+        if (wall.transform != null && !b)
+        {
+            //Debug.Log("B is: ");
+            //Debug.Log(Physics.BoxCast(topPoint, Transform.localScale / 2, Transform.forward, out wall, Transform.rotation, ThisCollider.radius + SkinWidth * 10, CollisionLayers));
+            //Debug.Log(", Is grabable? ");
+            //Debug.Log(wall.transform.tag == "Grabable");
+        }
+        if (b && wall.transform.position.y + wall.collider.bounds.max.y < Transform.position.y + ThisCollider.bounds.max.y)
             owner.TransitionTo<PlayerLedgeGrabState>();
     }
 
