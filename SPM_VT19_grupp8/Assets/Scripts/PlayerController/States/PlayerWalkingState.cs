@@ -32,6 +32,7 @@ public class PlayerWalkingState : PlayerBaseState
         if(grounded && Input.GetButton("Crouch"))
         {
             owner.TransitionTo<PlayerCrouchState>();
+            //Debug.Log("Wat");
         }
     }
 

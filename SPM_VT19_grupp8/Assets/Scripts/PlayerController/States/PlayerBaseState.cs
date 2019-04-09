@@ -26,7 +26,7 @@ public class PlayerBaseState : State
     protected CapsuleCollider ThisCollider { get { return owner.thisCollider; } }
     protected float SkinWidth { get { return owner.skinWidth; } }
     protected float GroundCheckDistance { get { return owner.groundCheckDistance; } }
-
+    protected float StandardColliderHeight { get { return owner.standardColliderHeight; } }
 
     public override void Initialize(StateMachine owner)
     {
@@ -41,8 +41,23 @@ public class PlayerBaseState : State
 
     protected bool FindCollision(Vector3 direction, out RaycastHit raycastHit, float maxDistance)
     {
-        Vector3 topPoint = Transform.position + ThisCollider.center + Vector3.up * (ThisCollider.height / 2 - ThisCollider.radius);
-        Vector3 bottomPoint = Transform.position + ThisCollider.center + Vector3.down * (ThisCollider.height / 2 - ThisCollider.radius);
+        Vector3 colliderDirection = Vector3.zero;
+
+        switch (ThisCollider.direction)
+        {
+            case (0): // X-axis
+                colliderDirection = Transform.right;
+                break;
+            case (1): // Y-axis
+                colliderDirection = Transform.up;
+                break;
+            case (2): // Z-axis
+                colliderDirection = Transform.forward;
+                break;
+        }
+
+        Vector3 topPoint = Transform.position + ThisCollider.center + colliderDirection * (ThisCollider.height / 2 - ThisCollider.radius);
+        Vector3 bottomPoint = Transform.position + ThisCollider.center - colliderDirection * (ThisCollider.height / 2 - ThisCollider.radius);
 
         return Physics.CapsuleCast(topPoint, bottomPoint, ThisCollider.radius, direction.normalized, out raycastHit, maxDistance, CollisionLayers, QueryTriggerInteraction.Ignore);
     }

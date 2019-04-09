@@ -10,6 +10,8 @@ public class PlayerStateMachine : StateMachine
     public float skinWidth = 0.01f;
     public float groundCheckDistance = 0.01f;
 
+    [HideInInspector]
+    public float standardColliderHeight;
 
     public float Acceleration { get { return physicsComponent.acceleration; } set { physicsComponent.acceleration = value; } }
     public float Deceleration { get { return physicsComponent.deceleration; } set { physicsComponent.deceleration = value; } }
@@ -25,6 +27,7 @@ public class PlayerStateMachine : StateMachine
         base.Awake();
         physicsComponent = GetComponent<PhysicsComponent>();
         thisCollider = GetComponent<CapsuleCollider>();
+        standardColliderHeight = thisCollider.height;
     }
 
     protected override void Update()

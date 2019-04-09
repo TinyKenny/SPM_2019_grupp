@@ -12,6 +12,13 @@ public class PlayerCrouchState : PlayerWalkingState
         jumpAllowed = false;
     }
 
+    public override void Enter()
+    {
+        base.Enter();
+        ThisCollider.direction = 2;
+        ThisCollider.center = new Vector3(0.0f, ThisCollider.radius - StandardColliderHeight / 2, StandardColliderHeight / 2 - ThisCollider.radius);
+    }
+
     public override void HandleUpdate()
     {
         base.HandleUpdate();
@@ -20,5 +27,12 @@ public class PlayerCrouchState : PlayerWalkingState
         {
             owner.TransitionTo<PlayerWalkingState>();
         }
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        ThisCollider.direction = 1;
+        ThisCollider.center = Vector3.zero;
     }
 }
