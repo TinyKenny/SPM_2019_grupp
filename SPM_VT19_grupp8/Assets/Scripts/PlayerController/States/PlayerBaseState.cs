@@ -27,6 +27,7 @@ public class PlayerBaseState : State
     protected float SkinWidth { get { return owner.skinWidth; } }
     protected float GroundCheckDistance { get { return owner.groundCheckDistance; } }
     protected float StandardColliderHeight { get { return owner.standardColliderHeight; } }
+    protected float PlayerDeltaTime { get { return owner.getPlayerDeltaTime(); } }
 
     public override void Initialize(StateMachine owner)
     {

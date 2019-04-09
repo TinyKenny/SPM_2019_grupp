@@ -21,6 +21,9 @@ public class PlayerStateMachine : StateMachine
     public float Gravity { get { return physicsComponent.gravity; } set { physicsComponent.gravity = value; } }
     public Vector3 Velocity { get { return physicsComponent.velocity; } set { physicsComponent.velocity = value; } }
 
+    private float playerTimeScale;
+    private float slowedPlayerTimeScale;
+    private float slowedWorldTimeScale;
 
     protected override void Awake()
     {
@@ -28,12 +31,40 @@ public class PlayerStateMachine : StateMachine
         physicsComponent = GetComponent<PhysicsComponent>();
         thisCollider = GetComponent<CapsuleCollider>();
         standardColliderHeight = thisCollider.height;
+
+        Debug.Log(Time.timeScale);
+
+        playerTimeScale = 1.0f;
+        slowedPlayerTimeScale = 0.5f;
+        slowedWorldTimeScale = 0.2f;
     }
 
     protected override void Update()
     {
         base.Update();
         UpdatePlayerRotation();
+        if (Input.GetButtonDown("TimeSlowToggle"))
+        {
+            if(Mathf.Approximately(playerTimeScale, 1.0f))
+            {
+                Time.timeScale = slowedWorldTimeScale;
+                playerTimeScale = slowedPlayerTimeScale;
+            } else
+            {
+                Time.timeScale = 1.0f;
+                playerTimeScale = 1.0f;
+            }
+        }
+        Debug.Log(Time.timeScale);
+    }
+
+    /// <summary>
+    /// Returns Time.unscaledDeltaTime multiplied by the players personal timescale.
+    /// </summary>
+    /// <returns>The players deltaTime</returns>
+    public float getPlayerDeltaTime()
+    {
+        return Time.unscaledDeltaTime * playerTimeScale;
     }
 
     /// <summary>
