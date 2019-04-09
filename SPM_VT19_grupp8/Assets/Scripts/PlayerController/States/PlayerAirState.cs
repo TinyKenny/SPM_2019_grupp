@@ -7,6 +7,8 @@ public class PlayerAirState : PlayerBaseState
 {
     public override void HandleUpdate()
     {
+        RaycastHit wallRunCheck = new RaycastHit();
+
         Velocity += Vector3.down * Gravity * Time.deltaTime;
 
         CheckCollision(Velocity * Time.deltaTime);
@@ -19,9 +21,14 @@ public class PlayerAirState : PlayerBaseState
         {
             owner.TransitionTo<PlayerWalkingState>();
         }
-        else if (WallRun())
+        else if (WallRun(out wallRunCheck))
         {
-            owner.TransitionTo<PlayerWallRunState>();
+            if (Velocity.x < 0.3f && Velocity.z < 0.3f)
+                owner.TransitionTo<PlayerVerticalWallRunState>();
+            else
+            {
+                owner.TransitionTo<PlayerWallRunState>();
+            }
         }
     }
 

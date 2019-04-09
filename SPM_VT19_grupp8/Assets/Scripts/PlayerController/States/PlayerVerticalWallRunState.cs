@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "States/Player/Wall run State")]
-public class PlayerWallRunState : PlayerAirState
+[CreateAssetMenu(menuName = "States/Player/Vertical Wall Run State")]
+public class PlayerVerticalWallRunState : PlayerAirState
 {
     private float jumpPower = 10.0f;
-    private float maxVerticalVelocity = 1.5f;
+    private float maxVerticalVelocity = 10f;
 
     public override void Enter()
     {
@@ -14,7 +14,7 @@ public class PlayerWallRunState : PlayerAirState
 
     public override void HandleUpdate()
     {
-        Velocity += Vector3.down * (Gravity / 2) * Time.deltaTime;
+        Velocity += Vector3.down * Gravity * Time.deltaTime;
 
         CheckCollision(Velocity * Time.deltaTime);
 
@@ -30,16 +30,11 @@ public class PlayerWallRunState : PlayerAirState
         }
         else if (WallRun(out wall))
         {
-            Velocity = ProjectSpeedOnSurface(wall);
+            Velocity += Vector3.ClampMagnitude(new Vector3(0, Velocity.y, 0).normalized, 1.0f) * (Acceleration / 2) * Time.deltaTime;
 
-            Velocity += Vector3.ClampMagnitude(new Vector3(Velocity.x, 0, Velocity.z).normalized, 1.0f) * Acceleration * Time.deltaTime;
-
-            if (Velocity.y > maxVerticalVelocity)
-                Velocity = new Vector3(Velocity.x, maxVerticalVelocity, Velocity.z);
-
-            if (Velocity.magnitude > MaxSpeed)
+            if (Velocity.magnitude > maxVerticalVelocity)
             {
-                Velocity = Velocity.normalized * MaxSpeed;
+                Velocity = Velocity.normalized * maxVerticalVelocity;
             }
 
             if (Input.GetButtonDown("Jump"))
@@ -51,11 +46,5 @@ public class PlayerWallRunState : PlayerAirState
         {
             owner.TransitionTo<PlayerAirState>();
         }
-    }
-
-    private Vector3 ProjectSpeedOnSurface(RaycastHit wall)
-    {
-        Vector3 projection = Vector3.Dot(Velocity, wall.normal) * wall.normal;
-        return Velocity - projection;
     }
 }
