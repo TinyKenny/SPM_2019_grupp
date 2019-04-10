@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -532,6 +532,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 726188006}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &805541944 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5301336623721669416, guid: cc03fd6b535ec1f43a36b04dee47abdf,
+    type: 3}
+  m_PrefabInstance: {fileID: 1550172133}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &922040803
 GameObject:
   m_ObjectHideFlags: 0
@@ -689,6 +701,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1309507550 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5301336622669936816, guid: cc03fd6b535ec1f43a36b04dee47abdf,
+    type: 3}
+  m_PrefabInstance: {fileID: 1550172133}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1550172133
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -816,16 +840,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5301336623124182501, guid: cc03fd6b535ec1f43a36b04dee47abdf,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5301336623124182501, guid: cc03fd6b535ec1f43a36b04dee47abdf,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5301336622587874769, guid: cc03fd6b535ec1f43a36b04dee47abdf,
         type: 3}
       propertyPath: m_AnchorMin.x
@@ -837,6 +851,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5301336622587874769, guid: cc03fd6b535ec1f43a36b04dee47abdf,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5301336623124182501, guid: cc03fd6b535ec1f43a36b04dee47abdf,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5301336623124182501, guid: cc03fd6b535ec1f43a36b04dee47abdf,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -925,11 +949,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2112523359584729378, guid: 8bc4dc44ebc45d0408638807052809b2,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
         type: 3}
       propertyPath: m_Enabled
@@ -939,16 +958,21 @@ PrefabInstance:
         type: 3}
       propertyPath: ammoNumber
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1309507550}
     - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
         type: 3}
       propertyPath: timeSlowEnergy
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 805541944}
     - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
         type: 3}
       propertyPath: shieldAmount
       value: 
+      objectReference: {fileID: 1861549786}
+    - target: {fileID: 2112523359584729378, guid: 8bc4dc44ebc45d0408638807052809b2,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bc4dc44ebc45d0408638807052809b2, type: 3}
@@ -958,6 +982,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1828900656}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1861549786 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5301336622634866350, guid: cc03fd6b535ec1f43a36b04dee47abdf,
+    type: 3}
+  m_PrefabInstance: {fileID: 1550172133}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2051063026
 GameObject:
   m_ObjectHideFlags: 0
