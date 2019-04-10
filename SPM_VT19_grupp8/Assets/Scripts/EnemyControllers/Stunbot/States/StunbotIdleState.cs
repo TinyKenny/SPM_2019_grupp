@@ -1,0 +1,21 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(menuName = "States/Enemies/Stunbot/Idle State")]
+public class StunbotIdleState : StunbotBaseState
+{
+    // Start is called before the first frame update
+
+    // Update is called once per frame
+    public override void HandleUpdate()
+    {
+        base.HandleUpdate();
+
+        if (CanSeePlayer())
+        {
+            Debug.Log("Start chasing player");
+            owner.TransitionTo<StunbotChaseState>();
+        }
+    }
+}

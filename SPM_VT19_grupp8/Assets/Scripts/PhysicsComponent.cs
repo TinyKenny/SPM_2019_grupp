@@ -12,6 +12,7 @@ public class PhysicsComponent : MonoBehaviour
     [Range(0.0f, 1.0f)]
     public float airResistanceCoefficient = 0.95f;
     public float gravity;
+    public float skinWidth = 0.01f;
 
     public Vector3 velocity = new Vector3(0.0f, 0.0f, 0.0f);
 
