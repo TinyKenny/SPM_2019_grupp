@@ -40,6 +40,7 @@ public class PlayerStateMachine : StateMachine
     public Text ammoNumber;
     public Slider timeSlowEnergy;
     public Slider shieldAmount;
+    public Transform respawnPoint;
 
     protected override void Awake()
     {
@@ -47,6 +48,8 @@ public class PlayerStateMachine : StateMachine
         physicsComponent = GetComponent<PhysicsComponent>();
         thisCollider = GetComponent<CapsuleCollider>();
         standardColliderHeight = thisCollider.height;
+
+        Respawn();
 
         playerTimeScale = 1.0f;
         slowedPlayerTimeScale = 0.5f;
@@ -62,15 +65,18 @@ public class PlayerStateMachine : StateMachine
 
         // developer cheats start here
 
-        if (Input.GetKeyDown(KeyCode.Keypad7))
+        if (Input.GetKeyDown(KeyCode.Keypad1))
         {
             ammo = 999;
             ammoNumber.text = ammo.ToString();
         }
+        if (Input.GetKeyDown(KeyCode.Keypad2))
+        {
+            Respawn();
+        }
 
 
         // developer cheats end here
-
 
         shieldAmount.value = currentShields;
 
@@ -128,9 +134,34 @@ public class PlayerStateMachine : StateMachine
         if (currentShields <= MathHelper.floatEpsilon)
         {
             Debug.Log("Player took fatal damage");
+            Respawn();
         }
-        currentShields = Mathf.Clamp(currentShields - damage, 0.0f, shieldsMax);
-        shieldsRegenerationTimer = shieldsRegenerationCooldown;
+        else
+        {
+            currentShields = Mathf.Clamp(currentShields - damage, 0.0f, shieldsMax);
+            shieldsRegenerationTimer = shieldsRegenerationCooldown;
+        }
+    }
+
+    /// <summary>
+    /// Transitions the player to PlayerAirState and sets the players position to the respawn point.
+    /// Resets variables related to life, slow-mo, attacking, ect. (example: deactivating slow-mo and refilling shields)
+    /// </summary>
+    private void Respawn()
+    {
+        TransitionTo<PlayerAirState>();
+        transform.position = respawnPoint.position;
+        Velocity = Vector3.zero;
+        playerTimeScale = 1.0f;
+        shieldsRegenerationTimer = 0.0f;
+        currentShields = shieldsMax;
+        currentSlowMotionEnergy = slowMotionEnergyMax;
+        fireCoolDown = 0.0f;
+
+        ammo = 0;
+        ammoNumber.text = ammo.ToString();
+
+        Debug.Log("Reset pickups and enemies when respawning!");
     }
 
     /// <summary>

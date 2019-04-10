@@ -186,10 +186,8 @@ public class PlayerBaseState : State
 
             Ray aimRay = Camera.main.ScreenPointToRay(reticleLocation);
 
-            Debug.DrawRay(aimRay.origin, aimRay.direction * 1023.0f, new Color(255.0f, 0.0f, 0.0f));
-
             RaycastHit rayHit;
-            bool rayHasHit = Physics.Raycast(aimRay, out rayHit, Mathf.Infinity, ~(1 << owner.gameObject.layer), QueryTriggerInteraction.Ignore);
+            bool rayHasHit = Physics.Raycast(aimRay, out rayHit, Mathf.Infinity, ~(1 << owner.gameObject.layer));
 
             Vector3 pointHit = rayHit.point;
             if (!rayHasHit)
