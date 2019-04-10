@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class SoldierStateMachine : StateMachine
 {
-    // Start is called before the first frame update
-    void Start()
+    public Transform playerTransform;
+    public LayerMask visionMask;
+    public LayerMask playerLayer;
+    public CapsuleCollider thisCollider;
+    public GameObject projectilePrefab;
+
+    private void Awake()
     {
-        
+        thisCollider = GetComponent<CapsuleCollider>();
+        base.Awake();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        base.Update();
     }
 }
