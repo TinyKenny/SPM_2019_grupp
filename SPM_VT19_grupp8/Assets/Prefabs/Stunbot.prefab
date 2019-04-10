@@ -106,11 +106,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9814585b4d8cf6149974468c6cdb7f20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 5
+  acceleration: 15
   deceleration: 0
   maxSpeed: 20
   frictionCoefficient: 0.4
-  airResistanceCoefficient: 0.95
+  airResistanceCoefficient: 0.3
   gravity: 0
   skinWidth: 0.01
   velocity: {x: 0, y: 0, z: 0}
@@ -138,6 +138,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   thisCollider: {fileID: 0}
+  turningModifier: 1
 --- !u!1 &2074944539996330791
 GameObject:
   m_ObjectHideFlags: 0

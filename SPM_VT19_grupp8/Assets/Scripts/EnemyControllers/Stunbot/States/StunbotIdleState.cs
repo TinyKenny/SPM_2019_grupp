@@ -11,7 +11,7 @@ public class StunbotIdleState : StunbotBaseState
     public override void HandleUpdate()
     {
         base.HandleUpdate();
-
+        Velocity *= 0.8f;
         if (CanSeePlayer())
         {
             Debug.Log("Start chasing player");
