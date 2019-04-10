@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class SoldierStateMachine : StateMachine
 {
@@ -11,11 +12,15 @@ public class SoldierStateMachine : StateMachine
     public GameObject projectilePrefab;
 
     public Vector3 startPosition;
+    public NavMeshAgent agent;
+    public float currentCoolDown = 0;
+    public float maxCoolDown = 2;
 
     private void Awake()
     {
         thisCollider = GetComponent<CapsuleCollider>();
         startPosition = transform.position;
+        agent = GetComponent<NavMeshAgent>();
         base.Awake();
     }
 
