@@ -208,6 +208,7 @@ MonoBehaviour:
   frictionCoefficient: 0.4
   airResistanceCoefficient: 0.95
   gravity: 9.81
+  skinWidth: 0.02
   velocity: {x: 0, y: 0, z: 0}
 --- !u!114 &2112523359584729377
 MonoBehaviour:
@@ -235,6 +236,8 @@ MonoBehaviour:
   thisCollider: {fileID: 0}
   skinWidth: 0.01
   groundCheckDistance: 0.01
+  projectilePrefab: {fileID: 7036888430852713685, guid: a0c8ce2b47f9167479391fb4014e271e,
+    type: 3}
   standardColliderHeight: 0
   currentSlowMotionEnergy: 5
   slowMotionEnergyMax: 5
@@ -244,6 +247,10 @@ MonoBehaviour:
   shieldsRegeneration: 1
   shieldsRegenerationCooldown: 4
   shieldsRegenerationTimer: 0
+  ammo: 0
+  ammoNumber: {fileID: 0}
+  timeSlowEnergy: {fileID: 0}
+  shieldAmount: {fileID: 0}
 --- !u!1 &2487760420575189443
 GameObject:
   m_ObjectHideFlags: 0
