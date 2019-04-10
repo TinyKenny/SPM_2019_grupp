@@ -29,7 +29,7 @@ public class StunbotChaseState : StunbotBaseState
             Accelerate(-direction.normalized * MaxSpeed * 2);
         }
 
-        ApplyMovement();
+        //ApplyMovement();
 
         base.HandleUpdate();
 
@@ -43,35 +43,5 @@ public class StunbotChaseState : StunbotBaseState
     private void Accelerate(Vector3 accelerationVector)
     {
         Velocity = Vector3.ClampMagnitude(Velocity + accelerationVector, MaxSpeed);
-    }
-
-    
-    private void ApplyMovement()
-    {
-        Vector3 movement = Velocity * Time.deltaTime;
-        RaycastHit rayHit;
-
-        bool rayHasHit = Physics.SphereCast(ThisTransform.position, ThisCollider.radius, movement.normalized, out rayHit, Mathf.Infinity, owner.visionMask);
-
-        if (rayHasHit)
-        {
-            Vector3 hitNormal = rayHit.normal;
-
-            float angle = (Vector3.Angle(hitNormal, movement.normalized) - 90) * Mathf.Deg2Rad;
-            float snapDistanceFromHit = SkinWidth / Mathf.Sin(angle);
-
-            Vector3 snapMovement = movement.normalized * (rayHit.distance - snapDistanceFromHit);
-
-            if (movement.magnitude > snapMovement.magnitude)
-            {
-                Velocity = Vector3.zero;
-            }
-
-            snapMovement = Vector3.ClampMagnitude(snapMovement, movement.magnitude);
-
-            movement = snapMovement;
-        }
-
-        ThisTransform.position += movement;
     }
 }

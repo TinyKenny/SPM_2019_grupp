@@ -24,11 +24,41 @@ public class StunbotBaseState : State
     public override void HandleUpdate()
     {
         base.HandleUpdate();
+        ApplyMovement();
         Velocity *= Mathf.Pow(AirResistanceCoefficient, Time.deltaTime);
     }
 
     protected bool CanSeePlayer()
     {
         return !Physics.Linecast(owner.transform.position, PlayerTransform.position, owner.visionMask);
+    }
+
+    protected void ApplyMovement()
+    {
+        Vector3 movement = Velocity * Time.deltaTime;
+        RaycastHit rayHit;
+
+        bool rayHasHit = Physics.SphereCast(ThisTransform.position, ThisCollider.radius, movement.normalized, out rayHit, Mathf.Infinity, owner.visionMask);
+
+        if (rayHasHit)
+        {
+            Vector3 hitNormal = rayHit.normal;
+
+            float angle = (Vector3.Angle(hitNormal, movement.normalized) - 90) * Mathf.Deg2Rad;
+            float snapDistanceFromHit = SkinWidth / Mathf.Sin(angle);
+
+            Vector3 snapMovement = movement.normalized * (rayHit.distance - snapDistanceFromHit);
+
+            if (movement.magnitude > snapMovement.magnitude)
+            {
+                Velocity = Vector3.zero;
+            }
+
+            snapMovement = Vector3.ClampMagnitude(snapMovement, movement.magnitude);
+
+            movement = snapMovement;
+        }
+
+        ThisTransform.position += movement;
     }
 }
