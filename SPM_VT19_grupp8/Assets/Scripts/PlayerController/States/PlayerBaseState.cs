@@ -29,6 +29,7 @@ public class PlayerBaseState : State
     protected float GroundCheckDistance { get { return owner.groundCheckDistance; } }
     protected float StandardColliderHeight { get { return owner.standardColliderHeight; } }
     protected float PlayerDeltaTime { get { return owner.getPlayerDeltaTime(); } }
+    protected int Ammo { get { return owner.ammo; } set { owner.ammo = value; } }
     private float fireCoolDown = 0;
 
     public override void Initialize(StateMachine owner)
@@ -172,11 +173,13 @@ public class PlayerBaseState : State
 
     protected void Shoot()
     {
-        if (Input.GetAxisRaw("Shoot") == 1f && fireCoolDown < 0)
+        if (Input.GetAxisRaw("Shoot") == 1f && fireCoolDown < 0 && Ammo > 0)
         {
+            Ammo--;
             GameObject projectile = Instantiate(owner.projectilePrefab, Transform.position + Transform.forward, Transform.rotation);
             projectile.GetComponent<ProjectileBehaviour>().SetInitialValues(1 << owner.gameObject.layer);
             fireCoolDown = fireRate;
+            owner.ammoNumber.text = Ammo.ToString();
         }
         fireCoolDown -= PlayerDeltaTime;
     }

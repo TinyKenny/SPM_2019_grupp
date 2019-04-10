@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStateMachine : StateMachine
 {
@@ -34,6 +35,10 @@ public class PlayerStateMachine : StateMachine
     public float shieldsRegeneration = 1.0f; // make this private
     public float shieldsRegenerationCooldown = 4.0f; // make this private
     public float shieldsRegenerationTimer = 0.0f;
+    public int ammo = 0;
+    public Text ammoNumber;
+    public Slider timeSlowEnergy;
+    public Slider shieldAmount;
 
     protected override void Awake()
     {
@@ -45,6 +50,8 @@ public class PlayerStateMachine : StateMachine
         playerTimeScale = 1.0f;
         slowedPlayerTimeScale = 0.5f;
         slowedWorldTimeScale = 0.2f;
+        timeSlowEnergy.maxValue = slowMotionEnergyMax;
+        shieldAmount.maxValue = shieldsMax;
     }
 
     protected override void Update()
@@ -52,29 +59,35 @@ public class PlayerStateMachine : StateMachine
         base.Update();
         UpdatePlayerRotation();
 
+        shieldAmount.value = currentShields;
+
         if (shieldsRegenerationTimer <= 0.0f)
         {
             //currentShields += shieldsRegeneration * Time.deltaTime;
             currentShields = Mathf.Clamp(currentShields + shieldsRegeneration * Time.deltaTime, 0.0f, shieldsMax);
-        } else
+        }
+        else
         {
             shieldsRegenerationTimer -= Time.deltaTime;
         }
 
-        if(Mathf.Approximately(playerTimeScale, 1.0f))
+        if (Mathf.Approximately(playerTimeScale, 1.0f))
         {
             //currentSlowMotionEnergy += slowMotionEnergyRegeneration * Time.deltaTime;
             currentSlowMotionEnergy = Mathf.Clamp(currentSlowMotionEnergy + slowMotionEnergyRegeneration * Time.deltaTime, 0.0f, slowMotionEnergyMax);
+            timeSlowEnergy.value = currentSlowMotionEnergy;
 
-            if(Input.GetButtonDown("TimeSlowToggle") && currentSlowMotionEnergy >= 1.0f)
+            if (Input.GetButtonDown("TimeSlowToggle") && currentSlowMotionEnergy >= 1.0f)
             {
                 Time.timeScale = slowedWorldTimeScale;
                 playerTimeScale = slowedPlayerTimeScale;
             }
-        } else
+        }
+        else
         {
             //currentSlowMotionEnergy -= Time.unscaledDeltaTime;
             currentSlowMotionEnergy = Mathf.Clamp(currentSlowMotionEnergy - Time.unscaledDeltaTime, 0.0f, slowMotionEnergyMax);
+            timeSlowEnergy.value = currentSlowMotionEnergy;
 
             if (Input.GetButtonDown("TimeSlowToggle") || currentSlowMotionEnergy <= MathHelper.floatEpsilon)
             {
@@ -95,7 +108,7 @@ public class PlayerStateMachine : StateMachine
 
     public void TakeDamage(float damage)
     {
-        if(currentShields <= MathHelper.floatEpsilon)
+        if (currentShields <= MathHelper.floatEpsilon)
         {
             Debug.Log("Player took fatal damage");
         }
@@ -111,5 +124,11 @@ public class PlayerStateMachine : StateMachine
     {
         // make this better later
         transform.LookAt(transform.position + new Vector3(Velocity.x, 0.0f, Velocity.z).normalized);
+    }
+
+    public void AddAmmo(int ammo)
+    {
+        this.ammo += ammo;
+        ammoNumber.text = this.ammo.ToString();
     }
 }
