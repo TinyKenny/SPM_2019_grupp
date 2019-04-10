@@ -42,6 +42,17 @@ public class StunbotChaseState : StunbotBaseState
 
     private void Accelerate(Vector3 accelerationVector)
     {
+        /*
+        Vector3 newVelocity = Velocity + accelerationVector;
+
+        if(newVelocity.magnitude > MaxSpeed)
+        {
+            float magPercent = Velocity.magnitude / newVelocity.magnitude;
+            Velocity *= magPercent;
+        }
+
+        Velocity += accelerationVector;
+        */
         Velocity = Vector3.ClampMagnitude(Velocity + accelerationVector, MaxSpeed);
     }
 }

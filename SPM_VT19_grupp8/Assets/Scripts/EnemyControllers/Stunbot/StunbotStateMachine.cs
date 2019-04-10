@@ -8,9 +8,11 @@ public class StunbotStateMachine : StateMachine
     public LayerMask visionMask;
     public LayerMask playerLayer;
     public SphereCollider thisCollider;
+    public float turningModifier = 1.0f;
 
     private PhysicsComponent physicsComponent;
 
+    
     public float Acceleration { get { return physicsComponent.acceleration; } }
     public float Deceleration { get { return physicsComponent.deceleration; } }
     public float MaxSpeed { get { return physicsComponent.maxSpeed; } }
