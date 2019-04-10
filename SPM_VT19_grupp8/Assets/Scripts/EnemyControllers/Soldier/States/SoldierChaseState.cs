@@ -9,9 +9,9 @@ public class SoldierChaseState : SoldierBaseState
     {
         owner.agent.SetDestination(owner.playerTransform.position);
 
-        if (PlayerVisioCheck(20))
+        if (PlayerVisionCheck(20))
+            owner.TransitionTo<SoldierAttackState>();
+        else if (!PlayerVisionCheck(30))
             owner.TransitionTo<SoldierAlertState>();
-        else if (!PlayerVisioCheck(30))
-            owner.TransitionTo<SoldierIdleState>();
     }
 }

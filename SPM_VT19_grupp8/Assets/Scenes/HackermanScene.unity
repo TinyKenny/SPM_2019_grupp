@@ -1028,6 +1028,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2df3a84f94fb3c443ae8c63d63bb5f72, type: 2}
   - {fileID: 11400000, guid: 3bfefe2d985d63b49aabe0a36145f124, type: 2}
   - {fileID: 11400000, guid: 0805a1f303cc0394c8b8cfdaf2a73ba0, type: 2}
+  - {fileID: 11400000, guid: 4febd8cc6d602e147a68c085c651110e, type: 2}
   currentState: {fileID: 0}
   playerTransform: {fileID: 2045762068}
   visionMask:
@@ -1043,6 +1044,7 @@ MonoBehaviour:
   agent: {fileID: 0}
   currentCoolDown: 0
   maxCoolDown: 2
+  playerLastLocation: {x: 0, y: 0, z: 0}
 --- !u!136 &699481593
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2543,6 +2545,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4213275163967302455, guid: cc03fd6b535ec1f43a36b04dee47abdf,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213275163967302455, guid: cc03fd6b535ec1f43a36b04dee47abdf,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4213275163967302455, guid: cc03fd6b535ec1f43a36b04dee47abdf,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -75
+      objectReference: {fileID: 0}
     - target: {fileID: 5301336622407540550, guid: cc03fd6b535ec1f43a36b04dee47abdf,
         type: 3}
       propertyPath: m_Name

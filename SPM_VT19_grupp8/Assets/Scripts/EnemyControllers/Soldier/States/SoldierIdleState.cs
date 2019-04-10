@@ -16,7 +16,7 @@ public class SoldierIdleState : SoldierBaseState
         //    owner.transform.position += 10f * (owner.startPosition - owner.transform.position).normalized * Time.deltaTime;
             
 
-        if (PlayerVisioCheck(30))
+        if (PlayerVisionCheck(30))
         {
             owner.TransitionTo<SoldierChaseState>();
         }

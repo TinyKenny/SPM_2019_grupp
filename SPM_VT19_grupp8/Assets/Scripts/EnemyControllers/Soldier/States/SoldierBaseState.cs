@@ -16,7 +16,7 @@ public class SoldierBaseState : State
         this.owner = (SoldierStateMachine)owner;
     }
 
-    protected bool PlayerVisioCheck(float alertDistance)
+    protected bool PlayerVisionCheck(float alertDistance)
     {
         return !(Physics.Linecast(owner.transform.position, owner.playerTransform.position, owner.visionMask)) && Vector3.Distance(owner.transform.position, owner.playerTransform.position) < alertDistance;
     }
