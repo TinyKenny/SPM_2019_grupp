@@ -20,7 +20,7 @@ public class TestTurretScript : MonoBehaviour
         if(attackTimer <= 0.0f)
         {
             GameObject projectile = Instantiate(projectilePrefab, transform.position + transform.forward, transform.rotation);
-            projectile.GetComponent<ProjectileBehaviour>().SetInitialValues(gameObject.layer);
+            projectile.GetComponent<ProjectileBehaviour>().SetInitialValues(1 << gameObject.layer);
             attackTimer = attackCooldown;
         }
         else

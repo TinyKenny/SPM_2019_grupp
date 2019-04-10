@@ -175,7 +175,7 @@ public class PlayerBaseState : State
         if (Input.GetAxisRaw("Shoot") == 1f && fireCoolDown < 0)
         {
             GameObject projectile = Instantiate(owner.projectilePrefab, Transform.position + Transform.forward, Transform.rotation);
-            projectile.GetComponent<ProjectileBehaviour>().SetInitialValues(owner.gameObject.layer);
+            projectile.GetComponent<ProjectileBehaviour>().SetInitialValues(1 << owner.gameObject.layer);
             fireCoolDown = fireRate;
         }
         fireCoolDown -= PlayerDeltaTime;
