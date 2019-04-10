@@ -11,7 +11,8 @@ public class PlayerStateMachine : StateMachine
     public float skinWidth = 0.01f;
     public float groundCheckDistance = 0.01f;
     public GameObject projectilePrefab;
-
+    public float fireRate = 1.0f;
+    public float fireCoolDown = 0.0f;
 
     [HideInInspector]
     public float standardColliderHeight;
@@ -58,6 +59,18 @@ public class PlayerStateMachine : StateMachine
     {
         base.Update();
         UpdatePlayerRotation();
+
+        // developer cheats start here
+
+        if (Input.GetKeyDown(KeyCode.Keypad7))
+        {
+            ammo = 999;
+            ammoNumber.text = ammo.ToString();
+        }
+
+
+        // developer cheats end here
+
 
         shieldAmount.value = currentShields;
 
