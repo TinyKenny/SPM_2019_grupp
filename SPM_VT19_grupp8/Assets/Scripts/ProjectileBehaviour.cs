@@ -41,9 +41,12 @@ public class ProjectileBehaviour : MonoBehaviour
                 PlayerStateMachine player = rayHit.transform.GetComponent<PlayerStateMachine>();
                 player.TakeDamage(damage);
 
-            } else if (rayHit.transform.CompareTag("Enemy"))
+            }
+            else if (rayHit.transform.CompareTag("Enemy Hitbox"))
             {
                 Debug.Log("An enemy was hit!");
+                EnemyHealthPOC enemyHealth = rayHit.transform.GetComponent<EnemyHealthPOC>();
+                enemyHealth.TakeDamage(damage);
             }
 
             Destroy(gameObject);
