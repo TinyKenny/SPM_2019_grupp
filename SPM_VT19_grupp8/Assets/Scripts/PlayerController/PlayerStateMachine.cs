@@ -103,6 +103,10 @@ public class PlayerStateMachine : StateMachine
     /// <returns>The players deltaTime</returns>
     public float getPlayerDeltaTime()
     {
+        if (Mathf.Approximately(playerTimeScale, 1.0f)) // make this prettier
+        {
+            return Time.deltaTime;
+        }
         return Time.unscaledDeltaTime * playerTimeScale;
     }
 
