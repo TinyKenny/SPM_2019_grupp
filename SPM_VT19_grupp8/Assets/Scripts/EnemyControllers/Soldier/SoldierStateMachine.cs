@@ -10,9 +10,12 @@ public class SoldierStateMachine : StateMachine
     public CapsuleCollider thisCollider;
     public GameObject projectilePrefab;
 
+    public Vector3 startPosition;
+
     private void Awake()
     {
         thisCollider = GetComponent<CapsuleCollider>();
+        startPosition = transform.position;
         base.Awake();
     }
 

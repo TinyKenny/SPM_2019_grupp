@@ -7,9 +7,13 @@ public class SoldierIdleState : SoldierBaseState
 {
     public override void HandleUpdate()
     {
-        if (PlayerVisioCheck())
+        if (Vector3.Distance(owner.transform.position, owner.startPosition) > MathHelper.floatEpsilon)
+            owner.transform.position += 10f * (owner.startPosition - owner.transform.position).normalized * Time.deltaTime;
+            
+
+        if (PlayerVisioCheck(30))
         {
-            owner.TransitionTo<SoldierAlertState>();
+            owner.TransitionTo<SoldierChaseState>();
         }
     }
 }

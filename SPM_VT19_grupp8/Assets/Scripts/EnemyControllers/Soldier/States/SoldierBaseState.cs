@@ -5,7 +5,6 @@ using UnityEngine;
 public class SoldierBaseState : State
 {
     protected SoldierStateMachine owner;
-    protected float alertDistance = 20;
 
     private void Awake()
     {
@@ -17,7 +16,7 @@ public class SoldierBaseState : State
         this.owner = (SoldierStateMachine)owner;
     }
 
-    protected bool PlayerVisioCheck()
+    protected bool PlayerVisioCheck(float alertDistance)
     {
         return !(Physics.Linecast(owner.transform.position, owner.playerTransform.position, owner.visionMask)) && Vector3.Distance(owner.transform.position, owner.playerTransform.position) > alertDistance;
     }

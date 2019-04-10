@@ -16,7 +16,7 @@ public class SoldierAlertState : SoldierBaseState
         }
         currentCoolDown -= Time.deltaTime;
 
-        if (!PlayerVisioCheck())
+        if (!PlayerVisioCheck(20))
         {
             owner.TransitionTo<SoldierIdleState>();
         }
