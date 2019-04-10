@@ -23,6 +23,8 @@ public class PlayerSlideState : PlayerBaseState
 
         Velocity = Vector3.ClampMagnitude(Velocity, MaxSpeed);
 
+        Shoot();
+
         CheckCollision(Velocity * PlayerDeltaTime);
 
         if (!GroundCheck())

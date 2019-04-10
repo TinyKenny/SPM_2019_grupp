@@ -9,6 +9,8 @@ public class PlayerAirState : PlayerBaseState
     {
         RaycastHit wallRunCheck = new RaycastHit();
 
+        Shoot();
+
         Velocity += Vector3.down * Gravity * PlayerDeltaTime;
 
         CheckCollision(Velocity * PlayerDeltaTime);

@@ -176,7 +176,7 @@ public class PlayerBaseState : State
         if (Input.GetAxisRaw("Shoot") == 1f && fireCoolDown < 0 && Ammo > 0)
         {
             Ammo--;
-            GameObject projectile = Instantiate(owner.projectilePrefab, Transform.position + Transform.forward, Transform.rotation);
+            GameObject projectile = Instantiate(owner.projectilePrefab, Transform.position + Transform.forward, Camera.main.transform.rotation);
             projectile.GetComponent<ProjectileBehaviour>().SetInitialValues(1 << owner.gameObject.layer);
             fireCoolDown = fireRate;
             owner.ammoNumber.text = Ammo.ToString();
