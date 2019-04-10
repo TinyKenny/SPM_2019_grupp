@@ -173,10 +173,31 @@ public class PlayerBaseState : State
 
     protected void Shoot()
     {
+        // (start) move this into the if-statement
+        
+
+        // (end) move this into the if-statement
         if (Input.GetAxisRaw("Shoot") == 1f && FireCoolDown < 0 && Ammo > 0)
         {
             Ammo--;
-            GameObject projectile = Instantiate(owner.projectilePrefab, Transform.position + Transform.forward, Camera.main.transform.rotation);
+            GameObject projectile = Instantiate(owner.projectilePrefab, Transform.position + (Camera.main.transform.rotation * Vector3.forward), Camera.main.transform.rotation);
+
+            Vector3 reticleLocation = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0.0f);
+
+            Ray aimRay = Camera.main.ScreenPointToRay(reticleLocation);
+
+            Debug.DrawRay(aimRay.origin, aimRay.direction * 1023.0f, new Color(255.0f, 0.0f, 0.0f));
+
+            RaycastHit rayHit;
+            bool rayHasHit = Physics.Raycast(aimRay, out rayHit, Mathf.Infinity, ~(1 << owner.gameObject.layer), QueryTriggerInteraction.Ignore);
+
+            Vector3 pointHit = rayHit.point;
+            if (!rayHasHit)
+            {
+                pointHit = aimRay.GetPoint(projectile.GetComponent<ProjectileBehaviour>().distanceToTravel);
+            }
+
+            projectile.transform.LookAt(pointHit); // test-y stuff
             projectile.GetComponent<ProjectileBehaviour>().SetInitialValues(1 << owner.gameObject.layer);
             FireCoolDown = FireRate;
             owner.ammoNumber.text = Ammo.ToString();

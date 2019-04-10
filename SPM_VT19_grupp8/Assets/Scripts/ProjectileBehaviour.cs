@@ -7,8 +7,8 @@ public class ProjectileBehaviour : MonoBehaviour
     public float damage = 3.0f;
     private float speed = 60.0f;
     public LayerMask ignoreLayer;
-    public float timeLived = 0.0f;
-    public float timeToLive = 30.0f;
+    public float distanceTraveled = 0.0f;
+    public float distanceToTravel = 300.0f;
 
     private SphereCollider thisCollider;
 
@@ -55,13 +55,14 @@ public class ProjectileBehaviour : MonoBehaviour
         {
             transform.position += movement;
         }
-        if (timeLived >= timeToLive)
+
+        if (distanceTraveled >= distanceToTravel)
         {
             Destroy(gameObject);
         }
         else
         {
-            timeLived += Time.deltaTime;
+            distanceTraveled += movement.magnitude;
         }
     }
 }

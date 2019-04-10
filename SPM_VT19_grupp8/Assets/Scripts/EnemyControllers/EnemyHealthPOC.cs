@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyHealthPOC : MonoBehaviour
 {
-    public float maxHealth = 10.0f;
-    public float currentHealth = 10.0f;
+    private float maxHealth = 2.0f;
+    private float currentHealth = 2.0f;
 
 
     // Start is called before the first frame update
@@ -30,6 +30,7 @@ public class EnemyHealthPOC : MonoBehaviour
         if(currentHealth <= 0.0f)
         {
             Debug.Log("enemy dead");
+            Destroy(transform.parent.gameObject);
         }
     }
 }
