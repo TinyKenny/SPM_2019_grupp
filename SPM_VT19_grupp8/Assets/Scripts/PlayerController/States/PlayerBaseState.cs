@@ -18,6 +18,7 @@ public class PlayerBaseState : State
     public float FrictionCoefficient { get { return owner.FrictionCoefficient; } set { owner.FrictionCoefficient = value; } }
     public float AirResistanceCoefficient { get { return owner.AirResistanceCoefficient; } set { owner.AirResistanceCoefficient = value; } }
     public float Gravity { get { return owner.Gravity; } set { owner.Gravity = value; } }
+    private float fireRate = 1;
     
     public Vector3 Velocity { get { return owner.Velocity; } set { owner.Velocity = value; } }
 
@@ -28,6 +29,7 @@ public class PlayerBaseState : State
     protected float GroundCheckDistance { get { return owner.groundCheckDistance; } }
     protected float StandardColliderHeight { get { return owner.standardColliderHeight; } }
     protected float PlayerDeltaTime { get { return owner.getPlayerDeltaTime(); } }
+    private float fireCoolDown = 0;
 
     public override void Initialize(StateMachine owner)
     {
@@ -166,5 +168,16 @@ public class PlayerBaseState : State
 
         Velocity += hitNormalForce;
         CalculateFriction(hitNormalForce.magnitude, otherPhysicsComponent);
+    }
+
+    protected void Shoot()
+    {
+        if (Input.GetAxisRaw("Shoot") == 1f && fireCoolDown < 0)
+        {
+            GameObject projectile = Instantiate(owner.projectilePrefab, Transform.position + Transform.forward, Transform.rotation);
+            projectile.GetComponent<ProjectileBehaviour>().SetInitialValues(owner.gameObject.layer);
+            fireCoolDown = fireRate;
+        }
+        fireCoolDown -= PlayerDeltaTime;
     }
 }

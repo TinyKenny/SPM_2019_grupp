@@ -19,6 +19,8 @@ public class PlayerWalkingState : PlayerBaseState
     {
         MovementInput();
 
+        Shoot();
+
         Velocity += Vector3.down * Gravity * PlayerDeltaTime; // because slopes are a thing
 
         CheckCollision(Velocity * PlayerDeltaTime);

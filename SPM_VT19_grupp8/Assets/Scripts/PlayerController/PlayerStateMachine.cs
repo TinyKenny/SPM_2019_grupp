@@ -9,7 +9,8 @@ public class PlayerStateMachine : StateMachine
     public CapsuleCollider thisCollider;
     public float skinWidth = 0.01f;
     public float groundCheckDistance = 0.01f;
-    
+    public GameObject projectilePrefab;
+
 
     [HideInInspector]
     public float standardColliderHeight;
