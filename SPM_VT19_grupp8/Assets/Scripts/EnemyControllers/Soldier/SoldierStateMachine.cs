@@ -16,6 +16,7 @@ public class SoldierStateMachine : StateMachine
     public float currentCoolDown = 0;
     public float maxCoolDown = 2;
     public Vector3 playerLastLocation;
+    public Transform[] patrolLocations;
 
     private void Awake()
     {
@@ -23,6 +24,11 @@ public class SoldierStateMachine : StateMachine
         startPosition = transform.position;
         agent = GetComponent<NavMeshAgent>();
         base.Awake();
+        if (patrolLocations.Length == 0)
+        {
+            patrolLocations = new Transform[1];
+            patrolLocations[0] = transform;
+        }
     }
 
     private void Update()
