@@ -11,7 +11,7 @@ public class SoldierChaseState : SoldierBaseState
 
         if (PlayerVisionCheck(20))
             owner.TransitionTo<SoldierAttackState>();
-        else if (!PlayerVisionCheck(30))
+        else if (!PlayerVisionCheck(40))
             owner.TransitionTo<SoldierAlertState>();
     }
 }

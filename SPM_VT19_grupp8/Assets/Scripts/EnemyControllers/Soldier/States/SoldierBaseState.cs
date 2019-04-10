@@ -18,6 +18,6 @@ public class SoldierBaseState : State
 
     protected bool PlayerVisionCheck(float alertDistance)
     {
-        return !(Physics.Linecast(owner.transform.position, owner.playerTransform.position, owner.visionMask)) && Vector3.Distance(owner.transform.position, owner.playerTransform.position) < alertDistance;
+        return !(Physics.Linecast(owner.transform.position, owner.playerTransform.position, owner.visionMask)) && Vector3.Distance(owner.transform.position, owner.playerTransform.position) < alertDistance && Vector3.Dot(owner.transform.forward, (owner.playerTransform.position - owner.transform.position)) > 0.3f;
     }
 }

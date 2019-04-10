@@ -4,14 +4,22 @@ using UnityEngine;
 
 public class EnemyHealthPOC : MonoBehaviour
 {
-    private float maxHealth = 2.0f;
+    [SerializeField]private float maxHealth = 2.0f;
     private float currentHealth = 2.0f;
 
+    private Transform enemyObject;
 
     // Start is called before the first frame update
     void Start()
     {
+        currentHealth = maxHealth;
         Debug.Log(transform.parent);
+
+        if (transform.parent != null)
+            enemyObject = transform.parent;
+        else
+            enemyObject = transform;
+
         if(currentHealth > maxHealth)
         {
             currentHealth = maxHealth;
@@ -30,7 +38,7 @@ public class EnemyHealthPOC : MonoBehaviour
         if(currentHealth <= 0.0f)
         {
             Debug.Log("enemy dead");
-            Destroy(transform.parent.gameObject);
+            Destroy(enemyObject.gameObject);
         }
     }
 }
