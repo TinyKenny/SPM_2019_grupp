@@ -18,7 +18,7 @@ public class AmmoPickup : MonoBehaviour
         if (Vector3.Distance(player.transform.position, transform.position) < 1.0f)
         {
             player.GetComponent<PlayerStateMachine>().AddAmmo(ammoAmount);
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

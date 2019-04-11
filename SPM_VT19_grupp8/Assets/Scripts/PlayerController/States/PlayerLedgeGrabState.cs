@@ -9,6 +9,7 @@ public class PlayerLedgeGrabState : PlayerBaseState
 
     public override void Enter()
     {
+        Camera.main.GetComponent<CameraController>().StopAiming();
         Velocity = Vector3.zero;
     }
 

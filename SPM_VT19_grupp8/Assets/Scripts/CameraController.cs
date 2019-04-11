@@ -19,9 +19,16 @@ public class CameraController : MonoBehaviour
     public float rotationX = 0.0f; // make this private
     public float rotationY = 0.0f; // make this private
 
+    [SerializeField] private float aimFOV = 30;
+    [SerializeField] private float aimSensitivityMultiplier = 0.5f;
+    private float startingGamePadSensitivity;
+    private float startingFOV;
+
 
     private void Start()
     {
+        startingGamePadSensitivity = gamePadSensitivity;
+        startingFOV = Camera.main.fieldOfView;
         //playerTransform = transform.parent;
     }
 
@@ -81,5 +88,17 @@ public class CameraController : MonoBehaviour
         rotationX = Mathf.Clamp(rotationX, -85.0f, 85.0f);
 
         return Quaternion.Euler(rotationX, rotationY, 0.0f);
+    }
+
+    public void Aiming()
+    {
+        Camera.main.fieldOfView = aimFOV;
+        gamePadSensitivity = startingGamePadSensitivity * aimSensitivityMultiplier;
+    }
+
+    public void StopAiming()
+    {
+        Camera.main.fieldOfView = startingFOV;
+        gamePadSensitivity = startingGamePadSensitivity;
     }
 }

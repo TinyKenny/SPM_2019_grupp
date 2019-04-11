@@ -41,6 +41,7 @@ public class PlayerStateMachine : StateMachine
     public Slider timeSlowEnergy;
     public Slider shieldAmount;
     public Transform respawnPoint;
+    public AmmoPickup[] pickups;
 
     protected override void Awake()
     {
@@ -56,6 +57,8 @@ public class PlayerStateMachine : StateMachine
         slowedWorldTimeScale = 0.2f;
         timeSlowEnergy.maxValue = slowMotionEnergyMax;
         shieldAmount.maxValue = shieldsMax;
+
+        pickups = GameObject.FindObjectsOfType<AmmoPickup>();
     }
 
     protected override void Update()
@@ -167,6 +170,9 @@ public class PlayerStateMachine : StateMachine
         ammoNumber.text = ammo.ToString();
 
         Debug.Log("Reset pickups and enemies when respawning!");
+
+        foreach (AmmoPickup pickup in pickups)
+            pickup.gameObject.SetActive(true);
     }
 
     /// <summary>

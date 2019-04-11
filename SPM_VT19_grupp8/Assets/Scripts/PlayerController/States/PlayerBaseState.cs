@@ -173,8 +173,12 @@ public class PlayerBaseState : State
 
     protected void Shoot()
     {
+        if (Input.GetAxisRaw("Aim") == 1f)
+            Camera.main.GetComponent<CameraController>().Aiming();
+        else
+            Camera.main.GetComponent<CameraController>().StopAiming();
         // (start) move this into the if-statement
-        
+
 
         // (end) move this into the if-statement
         if (Input.GetAxisRaw("Shoot") == 1f && FireCoolDown < 0 && Ammo > 0)

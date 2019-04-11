@@ -107,6 +107,6 @@ MonoBehaviour:
   damage: 3
   ignoreLayer:
     serializedVersion: 2
-    m_Bits: 0
-  timeLived: 0
-  timeToLive: 30
+    m_Bits: 2048
+  distanceTraveled: 0
+  distanceToTravel: 300
