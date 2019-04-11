@@ -185,14 +185,22 @@ public class PlayerBaseState : State
             Vector3 reticleLocation = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0.0f);
 
             Ray aimRay = Camera.main.ScreenPointToRay(reticleLocation);
+            
 
             RaycastHit rayHit;
-            bool rayHasHit = Physics.Raycast(aimRay, out rayHit, Mathf.Infinity, ~(1 << owner.gameObject.layer));
+            bool rayHasHit = Physics.Raycast(aimRay, out rayHit, owner.projectilePrefab.GetComponent<ProjectileBehaviour>().distanceToTravel, ~(1 << owner.gameObject.layer));
+
+            Debug.Log(aimRay.origin);
+            Debug.DrawRay(aimRay.origin, aimRay.direction * rayHit.distance, new Color(255.0f, 0.0f, 0.0f), 1.5f);
 
             Vector3 pointHit = rayHit.point;
             if (!rayHasHit)
             {
-                pointHit = aimRay.GetPoint(projectile.GetComponent<ProjectileBehaviour>().distanceToTravel);
+                pointHit = aimRay.GetPoint(owner.projectilePrefab.GetComponent<ProjectileBehaviour>().distanceToTravel);
+            }
+            else
+            {
+                Debug.Log("aim hit! " + rayHit.point);
             }
 
             projectile.transform.LookAt(pointHit); // test-y stuff

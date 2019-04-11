@@ -21,6 +21,8 @@ public class ProjectileBehaviour : MonoBehaviour
     void Start()
     {
         thisCollider = GetComponent<SphereCollider>();
+        Debug.Log(thisCollider.radius);
+        Debug.Log(transform.localScale);
     }
 
     // Update is called once per frame
@@ -30,7 +32,7 @@ public class ProjectileBehaviour : MonoBehaviour
 
         RaycastHit rayHit;
 
-        bool hitSomething = Physics.SphereCast(transform.position, thisCollider.radius, transform.forward, out rayHit, speed * Time.deltaTime, ~ignoreLayer, QueryTriggerInteraction.Ignore);
+        bool hitSomething = Physics.SphereCast(transform.position, thisCollider.radius * transform.localScale.x, transform.forward, out rayHit, speed * Time.deltaTime, ~ignoreLayer, QueryTriggerInteraction.Ignore);
 
         if (hitSomething)
         {
@@ -49,6 +51,8 @@ public class ProjectileBehaviour : MonoBehaviour
                 enemyHealth.TakeDamage(damage);
             }
 
+            //Debug.Log("projectile forward: " + transform.forward);
+            //Debug.Log("projectile hit: " + rayHit.point);
             Destroy(gameObject);
         }
         else

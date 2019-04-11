@@ -15,8 +15,11 @@ public class PlayerCrouchState : PlayerWalkingState
     public override void Enter()
     {
         base.Enter();
-        ThisCollider.direction = 2;
-        ThisCollider.center = new Vector3(0.0f, ThisCollider.radius - StandardColliderHeight / 2, StandardColliderHeight / 2 - ThisCollider.radius);
+        //ThisCollider.direction = 2;
+        //ThisCollider.center = new Vector3(0.0f, ThisCollider.radius - StandardColliderHeight / 2, StandardColliderHeight / 2 - ThisCollider.radius);
+
+        ThisCollider.height = ThisCollider.radius * 2;
+        ThisCollider.center = new Vector3(0.0f, ThisCollider.radius - StandardColliderHeight / 2, 0.0f);
     }
 
     public override void HandleUpdate()
@@ -33,7 +36,10 @@ public class PlayerCrouchState : PlayerWalkingState
     public override void Exit()
     {
         base.Exit();
-        ThisCollider.direction = 1;
+        //ThisCollider.direction = 1;
+        //ThisCollider.center = Vector3.zero;
+
+        ThisCollider.height = StandardColliderHeight;
         ThisCollider.center = Vector3.zero;
     }
 }
