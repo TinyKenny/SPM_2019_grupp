@@ -19,7 +19,7 @@ public class SoldierAlertState : SoldierBaseState
 
     public override void HandleUpdate()
     {
-        if (Vector3.Distance(owner.transform.position, owner.playerLastLocation) < 2.0f || owner.agent.velocity.magnitude < MathHelper.floatEpsilon || owner.agent.pathStatus.Equals(UnityEngine.AI.NavMeshPathStatus.PathPartial))
+        if (Vector3.Distance(owner.transform.position, owner.playerLastLocation) < 2.0f || owner.agent.velocity.magnitude < MathHelper.floatEpsilon)
         {
             owner.TransitionTo<SoldierIdleState>();
         } 

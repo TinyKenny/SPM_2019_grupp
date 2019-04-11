@@ -35,4 +35,14 @@ public class SoldierStateMachine : StateMachine
     {
         base.Update();
     }
+
+    public void setAlerted(Vector3 lastLocation)
+    {
+        if (!(currentState is SoldierAttackState))
+        {
+            playerLastLocation = lastLocation;
+            TransitionTo<SoldierAlertState>();
+        }
+            
+    }
 }
