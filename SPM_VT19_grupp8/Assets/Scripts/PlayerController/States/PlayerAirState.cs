@@ -26,7 +26,7 @@ public class PlayerAirState : PlayerBaseState
         else if (WallRun(out wallRunCheck))
         {
             LedgeGrabCheck();
-            if (Mathf.Abs(Vector3.Angle(Transform.forward, wallRunCheck.normal)) > 160)
+            if (Mathf.Abs(Vector3.Angle(Transform.forward, wallRunCheck.normal)) > 140)
                 owner.TransitionTo<PlayerVerticalWallRunState>();
             else
             {
