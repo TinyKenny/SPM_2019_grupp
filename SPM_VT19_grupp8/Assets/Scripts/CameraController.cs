@@ -23,6 +23,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float aimSensitivityMultiplier = 0.5f;
     private float startingGamePadSensitivity;
     private float startingFOV;
+    private bool currentlyAiming = false;
 
 
     private void Start()
@@ -63,6 +64,18 @@ public class CameraController : MonoBehaviour
 
             transform.position = transform.position + newRelativePosition;
         }
+
+        if (currentlyAiming)
+        {
+            RaycastHit hit;
+            if (Physics.Linecast(transform.position, transform.forward * 40f, out hit, playerTransform.GetComponent<PlayerStateMachine>().collisionLayers))
+            {
+                if (hit.transform.gameObject.layer == 13)
+                    gamePadSensitivity = (startingGamePadSensitivity * aimSensitivityMultiplier) / 2;
+                else
+                    gamePadSensitivity = startingGamePadSensitivity * aimSensitivityMultiplier;
+            }
+        }
     }
 
     private Quaternion UpdateRotation()
@@ -92,12 +105,14 @@ public class CameraController : MonoBehaviour
 
     public void Aiming()
     {
+        currentlyAiming = true;
         Camera.main.fieldOfView = aimFOV;
         gamePadSensitivity = startingGamePadSensitivity * aimSensitivityMultiplier;
     }
 
     public void StopAiming()
     {
+        currentlyAiming = false;
         Camera.main.fieldOfView = startingFOV;
         gamePadSensitivity = startingGamePadSensitivity;
     }
