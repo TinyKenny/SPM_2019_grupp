@@ -14,7 +14,7 @@ public class ProjectileBehaviour : MonoBehaviour
 
     public void SetInitialValues(LayerMask layerToIgnore)
     {
-        ignoreLayer += layerToIgnore;
+        ignoreLayer |= layerToIgnore;
     }
 
     // Start is called before the first frame update
