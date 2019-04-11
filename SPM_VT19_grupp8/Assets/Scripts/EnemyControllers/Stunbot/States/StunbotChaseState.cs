@@ -5,20 +5,14 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "States/Enemies/Stunbot/Chase State")]
 public class StunbotChaseState : StunbotBaseState
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
     public override void HandleUpdate()
     {
         Vector3 direction = (PlayerTransform.position - ThisTransform.position).normalized * Acceleration * Time.deltaTime;
 
         // (start) rotate toward direction
         owner.faceDirection += direction.normalized * 5.0f * Time.deltaTime;
-        if (owner.faceDirection.magnitude > 1)
+        if (owner.faceDirection.magnitude > 1.0f)
         {
             owner.faceDirection = owner.faceDirection.normalized;
         }
@@ -26,12 +20,11 @@ public class StunbotChaseState : StunbotBaseState
         // (end) rotate toward direction
 
 
-        if (Vector3.Dot(ThisTransform.forward, (PlayerTransform.position - ThisTransform.position).normalized) > 0.5)
+        if (Vector3.Dot(ThisTransform.forward, direction.normalized) > 0.5f)
         {
             Accelerate(direction);
         }
         
-
         Vector3 plannedMovement = Velocity * Time.deltaTime;
 
         RaycastHit playerRayHit;
@@ -44,14 +37,21 @@ public class StunbotChaseState : StunbotBaseState
             Accelerate(-direction.normalized * MaxSpeed * 2);
         }
 
-        //ApplyMovement();
-
         base.HandleUpdate();
 
-        if (!CanSeePlayer(21.0f))
+        if (!CanSeeOrigin())
         {
-            Debug.Log("Stop chasing player!");
+            Debug.Log("Chase -> Idle (can't see origin)");
             owner.TransitionTo<StunbotIdleState>();
+        }
+        else if (!CanSeePlayer(21.0f))
+        {
+            Debug.Log("Chase -> Search (lost player)");
+            owner.TransitionTo<StunbotSearchState>();
+        }
+        else
+        {
+            owner.lastPlayerLocation = PlayerTransform.position;
         }
     }
 

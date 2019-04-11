@@ -30,8 +30,14 @@ public class StunbotBaseState : State
 
     protected bool CanSeePlayer(float alertDistance)
     {
-        return !Physics.Linecast(owner.transform.position, PlayerTransform.position, owner.visionMask) &&
-            Vector3.Distance(owner.transform.position, PlayerTransform.position) < alertDistance;
+        return !Physics.Linecast(owner.transform.position, PlayerTransform.position, owner.visionMask)
+            && Vector3.Distance(owner.transform.position, PlayerTransform.position) < alertDistance;
+    }
+
+    protected bool CanSeeOrigin()
+    {
+        return !Physics.Linecast(owner.transform.position, owner.patrolLocations[0].transform.position, owner.visionMask)
+            && Vector3.Distance(owner.transform.position, owner.patrolLocations[0].transform.position) < owner.allowedOriginDistance;
     }
 
     protected void ApplyMovement()

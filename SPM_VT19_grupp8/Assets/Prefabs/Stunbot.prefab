@@ -108,9 +108,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 15
   deceleration: 0
-  maxSpeed: 20
+  maxSpeed: 10
   frictionCoefficient: 0.4
-  airResistanceCoefficient: 0.6
+  airResistanceCoefficient: 0.5
   gravity: 0
   skinWidth: 0.01
   velocity: {x: 0, y: 0, z: 0}
@@ -129,6 +129,7 @@ MonoBehaviour:
   states:
   - {fileID: 11400000, guid: 15173d1ee78928b40afc08e52d5d0ac1, type: 2}
   - {fileID: 11400000, guid: 67cbb676ea65fa84cb9957c3ae59a2ea, type: 2}
+  - {fileID: 11400000, guid: 79d0ede46bd873348a7105878e14a5b2, type: 2}
   currentState: {fileID: 0}
   playerTransform: {fileID: 0}
   visionMask:
@@ -140,7 +141,9 @@ MonoBehaviour:
   thisCollider: {fileID: 0}
   turningModifier: 1
   patrolLocations: []
+  lastPlayerLocation: {x: 0, y: 0, z: 0}
   faceDirection: {x: 0, y: 0, z: 0}
+  allowedOriginDistance: 40
 --- !u!1 &2074944539996330791
 GameObject:
   m_ObjectHideFlags: 0

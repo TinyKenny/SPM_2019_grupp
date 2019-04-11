@@ -10,11 +10,14 @@ public class StunbotStateMachine : StateMachine
     public SphereCollider thisCollider;
     public float turningModifier = 1.0f;
     public Transform[] patrolLocations;
+    public Vector3 lastPlayerLocation;
 
     private PhysicsComponent physicsComponent;
     [HideInInspector]
     public Vector3 faceDirection;
-    
+    [HideInInspector]
+    public readonly float allowedOriginDistance = 400.0f;
+
     public float Acceleration { get { return physicsComponent.acceleration; } }
     public float Deceleration { get { return physicsComponent.deceleration; } }
     public float MaxSpeed { get { return physicsComponent.maxSpeed; } }
