@@ -19,7 +19,7 @@ public class SoldierAttackState : SoldierBaseState
         }
         owner.currentCoolDown -= Time.deltaTime;
 
-        if (!PlayerVisionCheck(20))
+        if (!PlayerVisionCheck(25))
         {
             if (PlayerVisionCheck(40))
                 owner.TransitionTo<SoldierChaseState>();

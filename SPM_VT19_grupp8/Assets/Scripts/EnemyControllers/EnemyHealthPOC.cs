@@ -24,6 +24,8 @@ public class EnemyHealthPOC : MonoBehaviour
         {
             currentHealth = maxHealth;
         }
+
+        Debug.Log(enemyObject);
     }
 
     // Update is called once per frame
