@@ -13,8 +13,8 @@ public class PlayerSlideState : PlayerBaseState
     public override void Enter()
     {
         base.Enter();
-        ThisCollider.direction = 2;
-        ThisCollider.center = new Vector3(0.0f, ThisCollider.radius - StandardColliderHeight / 2, StandardColliderHeight / 2 - ThisCollider.radius);
+        ThisCollider.height = ThisCollider.radius * 2;
+        ThisCollider.center = new Vector3(0.0f, ThisCollider.radius - StandardColliderHeight / 2, 0.0f);
     }
 
     public override void HandleUpdate()
@@ -35,7 +35,7 @@ public class PlayerSlideState : PlayerBaseState
             owner.TransitionTo<PlayerCrouchState>();
         } else if (!Input.GetButton("Crouch"))
         {
-            if(FindCollision(Vector3.up, Mathf.Clamp(ThisCollider.height, SkinWidth + ThisCollider.radius * 2, Mathf.Infinity) - ThisCollider.radius * 2))
+            if(FindCollision(Vector3.up, Mathf.Clamp(StandardColliderHeight, SkinWidth + ThisCollider.radius * 2, Mathf.Infinity) - ThisCollider.radius * 2))
             {
                 owner.TransitionTo<PlayerCrouchState>();
             } else
@@ -43,15 +43,12 @@ public class PlayerSlideState : PlayerBaseState
                 owner.TransitionTo<PlayerWalkingState>();
             }
         }
-
-
     }
-
 
     public override void Exit()
     {
         base.Exit();
-        ThisCollider.direction = 1;
+        ThisCollider.height = StandardColliderHeight;
         ThisCollider.center = Vector3.zero;
     }
 }
