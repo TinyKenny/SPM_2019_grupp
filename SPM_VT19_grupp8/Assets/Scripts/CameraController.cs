@@ -42,6 +42,18 @@ public class CameraController : MonoBehaviour
         }
         */
 
+        if (currentlyAiming)
+        {
+            RaycastHit hit;
+            if (Physics.Linecast(transform.position, transform.forward * 4000f, out hit, playerTransform.GetComponent<PlayerStateMachine>().collisionLayers))
+            {
+                if (hit.transform.gameObject.layer == 13)
+                    gamePadSensitivity = (startingGamePadSensitivity * aimSensitivityMultiplier) / 2;
+                else
+                    gamePadSensitivity = startingGamePadSensitivity * aimSensitivityMultiplier;
+            }
+        }
+
         Quaternion newRotation = UpdateRotation();
         transform.rotation = newRotation;
 
@@ -63,18 +75,6 @@ public class CameraController : MonoBehaviour
             }
 
             transform.position = transform.position + newRelativePosition;
-        }
-
-        if (currentlyAiming)
-        {
-            RaycastHit hit;
-            if (Physics.Linecast(transform.position, transform.forward * 40f, out hit, playerTransform.GetComponent<PlayerStateMachine>().collisionLayers))
-            {
-                if (hit.transform.gameObject.layer == 13)
-                    gamePadSensitivity = (startingGamePadSensitivity * aimSensitivityMultiplier) / 2;
-                else
-                    gamePadSensitivity = startingGamePadSensitivity * aimSensitivityMultiplier;
-            }
         }
     }
 
