@@ -28,9 +28,10 @@ public class StunbotBaseState : State
         Velocity *= Mathf.Pow(AirResistanceCoefficient, Time.deltaTime);
     }
 
-    protected bool CanSeePlayer()
+    protected bool CanSeePlayer(float alertDistance)
     {
-        return !Physics.Linecast(owner.transform.position, PlayerTransform.position, owner.visionMask);
+        return !Physics.Linecast(owner.transform.position, PlayerTransform.position, owner.visionMask) &&
+            Vector3.Distance(owner.transform.position, PlayerTransform.position) < alertDistance;
     }
 
     protected void ApplyMovement()

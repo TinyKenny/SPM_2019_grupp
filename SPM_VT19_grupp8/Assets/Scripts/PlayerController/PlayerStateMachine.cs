@@ -65,6 +65,10 @@ public class PlayerStateMachine : StateMachine
 
         // developer cheats start here
 
+        if (Input.GetKeyDown(KeyCode.Keypad0))
+        {
+            Respawn();
+        }
         if (Input.GetKeyDown(KeyCode.Keypad1))
         {
             ammo = 999;
@@ -72,7 +76,8 @@ public class PlayerStateMachine : StateMachine
         }
         if (Input.GetKeyDown(KeyCode.Keypad2))
         {
-            Respawn();
+            currentShields = shieldsMax;
+            shieldsRegenerationTimer = 0.0f;
         }
 
 

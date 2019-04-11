@@ -9,9 +9,11 @@ public class StunbotStateMachine : StateMachine
     public LayerMask playerLayer;
     public SphereCollider thisCollider;
     public float turningModifier = 1.0f;
+    public Transform[] patrolLocations;
 
     private PhysicsComponent physicsComponent;
-
+    [HideInInspector]
+    public Vector3 faceDirection;
     
     public float Acceleration { get { return physicsComponent.acceleration; } }
     public float Deceleration { get { return physicsComponent.deceleration; } }
@@ -26,14 +28,25 @@ public class StunbotStateMachine : StateMachine
         base.Awake();
         physicsComponent = GetComponent<PhysicsComponent>();
         thisCollider = GetComponent<SphereCollider>();
+        faceDirection = transform.forward;
     }
 
     protected override void Update()
     {
         base.Update();
+
+        /*
         if (Velocity.magnitude > MathHelper.floatEpsilon)
         {
-            transform.LookAt(transform.position + Velocity.normalized);
+            faceDirection += Velocity.normalized * Time.deltaTime * 5.0f;
+            if(faceDirection.magnitude > 1)
+            {
+                faceDirection = faceDirection.normalized;
+            }
+
+
+            transform.LookAt(transform.position + faceDirection);
         }
+        */
     }
 }

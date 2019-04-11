@@ -12,7 +12,7 @@ public class StunbotIdleState : StunbotBaseState
     {
         base.HandleUpdate();
         Velocity *= 0.8f;
-        if (CanSeePlayer())
+        if (CanSeePlayer(20.0f))
         {
             Debug.Log("Start chasing player");
             owner.TransitionTo<StunbotChaseState>();

@@ -110,7 +110,7 @@ MonoBehaviour:
   deceleration: 0
   maxSpeed: 20
   frictionCoefficient: 0.4
-  airResistanceCoefficient: 0.3
+  airResistanceCoefficient: 0.6
   gravity: 0
   skinWidth: 0.01
   velocity: {x: 0, y: 0, z: 0}
@@ -139,6 +139,8 @@ MonoBehaviour:
     m_Bits: 1024
   thisCollider: {fileID: 0}
   turningModifier: 1
+  patrolLocations: []
+  faceDirection: {x: 0, y: 0, z: 0}
 --- !u!1 &2074944539996330791
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,4 +246,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
-  currentHealth: 10

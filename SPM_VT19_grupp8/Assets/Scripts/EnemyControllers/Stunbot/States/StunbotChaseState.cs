@@ -15,7 +15,22 @@ public class StunbotChaseState : StunbotBaseState
     public override void HandleUpdate()
     {
         Vector3 direction = (PlayerTransform.position - ThisTransform.position).normalized * Acceleration * Time.deltaTime;
-        Accelerate(direction);
+
+        // (start) rotate toward direction
+        owner.faceDirection += direction.normalized * 5.0f * Time.deltaTime;
+        if (owner.faceDirection.magnitude > 1)
+        {
+            owner.faceDirection = owner.faceDirection.normalized;
+        }
+        ThisTransform.LookAt(ThisTransform.position + owner.faceDirection);
+        // (end) rotate toward direction
+
+
+        if (Vector3.Dot(ThisTransform.forward, (PlayerTransform.position - ThisTransform.position).normalized) > 0.5)
+        {
+            Accelerate(direction);
+        }
+        
 
         Vector3 plannedMovement = Velocity * Time.deltaTime;
 
@@ -33,7 +48,7 @@ public class StunbotChaseState : StunbotBaseState
 
         base.HandleUpdate();
 
-        if (!CanSeePlayer())
+        if (!CanSeePlayer(21.0f))
         {
             Debug.Log("Stop chasing player!");
             owner.TransitionTo<StunbotIdleState>();
