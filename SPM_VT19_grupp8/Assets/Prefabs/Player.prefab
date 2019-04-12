@@ -228,16 +228,20 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 02021b327f1df68429e9965ed0285975, type: 2}
   - {fileID: 11400000, guid: 2f60451e6c37d1c4d8f407eda24ac15b, type: 2}
   - {fileID: 11400000, guid: 3b670a5733058624b8537518fbde0932, type: 2}
+  - {fileID: 11400000, guid: 12631df3d92fa334eaaaaea05595168f, type: 2}
+  - {fileID: 11400000, guid: 125bf7d34d67ccf45ab94496b40aa2bb, type: 2}
   currentState: {fileID: 0}
   collisionLayers:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 8704
   physicsComponent: {fileID: 0}
   thisCollider: {fileID: 0}
-  skinWidth: 0.01
+  skinWidth: 0.05
   groundCheckDistance: 0.01
   projectilePrefab: {fileID: 7036888430852713685, guid: a0c8ce2b47f9167479391fb4014e271e,
     type: 3}
+  fireRate: 1
+  fireCoolDown: 0
   standardColliderHeight: 0
   currentSlowMotionEnergy: 5
   slowMotionEnergyMax: 5
@@ -251,6 +255,8 @@ MonoBehaviour:
   ammoNumber: {fileID: 0}
   timeSlowEnergy: {fileID: 0}
   shieldAmount: {fileID: 0}
+  respawnPoint: {fileID: 0}
+  pickups: []
 --- !u!1 &2487760420575189443
 GameObject:
   m_ObjectHideFlags: 0

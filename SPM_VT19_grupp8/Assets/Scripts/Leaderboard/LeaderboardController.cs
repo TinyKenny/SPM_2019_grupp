@@ -37,6 +37,8 @@ public class LeaderboardController : MonoBehaviour
     void Start()
     {
         playerScores = ScoreSaveLoad.LoadScores();
+        playerTimes = new SortedSet<PlayerTime>();
+
         foreach(KeyValuePair<string, float> kvp in playerScores)
         {
             PlayerTime pt = new PlayerTime(kvp.Key, kvp.Value);
@@ -52,6 +54,13 @@ public class LeaderboardController : MonoBehaviour
             if (hasNext) {
                 PlayerTime pt = enumerator.Current;
                 hasNext = enumerator.MoveNext();
+
+                Debug.Log(playerTimes.ToString());
+                Debug.Log(playerTimes.Count);
+                Debug.Log(hasNext);
+                Debug.Log(pt);
+                
+
 
                 entryText = pt.name + ": " + pt.GetTime();
             }

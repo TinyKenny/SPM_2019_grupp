@@ -8,6 +8,7 @@ public class TestEndScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Wat");
         if (other.CompareTag("Player"))
         {
             GameController.gameControllerInstance.LoadLevel(sceneToLoad);
