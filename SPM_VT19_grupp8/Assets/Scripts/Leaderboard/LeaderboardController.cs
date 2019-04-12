@@ -63,6 +63,6 @@ public class LeaderboardController : MonoBehaviour
 
     public void GoToMainMenu()
     {
-
+        SceneManager.LoadScene(0);
     }
 }
