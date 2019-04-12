@@ -34,8 +34,10 @@ public class SoldierAttackState : SoldierBaseState
 
     private void Shoot()
     {
-        GameObject projectile = Instantiate(owner.projectilePrefab, owner.transform.position, Quaternion.identity/*Quaternion.FromToRotation(owner.transform.forward, (owner.playerTransform.position - owner.transform.position).normalized) * owner.projectilePrefab.transform.rotation*/);
-        projectile.transform.LookAt(owner.playerTransform);
+        Vector3 playerPosition = owner.playerTransform.position + new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0);
+        GameObject projectile = Instantiate(owner.projectilePrefab, owner.transform.position, Quaternion.identity);
+        projectile.transform.LookAt(playerPosition);
+        owner.transform.LookAt(owner.playerTransform.position);
         projectile.GetComponent<ProjectileBehaviour>().SetInitialValues(1 << owner.gameObject.layer);
         owner.currentCoolDown = owner.maxCoolDown;
     }
