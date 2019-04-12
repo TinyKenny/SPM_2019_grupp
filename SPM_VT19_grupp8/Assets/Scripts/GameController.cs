@@ -12,16 +12,25 @@ public class GameController : MonoBehaviour
     void Start()
     {
         gameControllerInstance = this;
+        levelTime = PlayerPrefs.GetFloat("playerTime");
+        PlayerPrefs.SetFloat("playerTime", 0.0f);
     }
     
     void Update()
     {
-        levelTime += Time.deltaTime;
+        levelTime += Time.unscaledDeltaTime;
     }
 
     public void LoadLevel(int sceneIndex)
     {
-        ScoreSaveLoad.SaveScore(PlayerPrefs.GetString("playerName"), levelTime);
+        if(SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            ScoreSaveLoad.SaveScore(PlayerPrefs.GetString("playerName"), levelTime);
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("playerTime", levelTime);
+        }
 
         SceneManager.LoadScene(sceneIndex);
     }
