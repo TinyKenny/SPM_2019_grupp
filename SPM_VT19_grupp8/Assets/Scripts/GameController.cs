@@ -21,12 +21,7 @@ public class GameController : MonoBehaviour
 
     public void LoadLevel(int sceneIndex)
     {
-        // spara spelarens tid, på något passande sätt
-
-        if (SceneManager.GetActiveScene().name.Equals("HackermanScene"))
-        {
-            
-        }
+        ScoreSaveLoad.SaveScore(PlayerPrefs.GetString("playerName"), levelTime);
 
         SceneManager.LoadScene(sceneIndex);
     }
