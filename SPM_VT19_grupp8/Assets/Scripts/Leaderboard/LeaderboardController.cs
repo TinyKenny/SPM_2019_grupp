@@ -45,29 +45,22 @@ public class LeaderboardController : MonoBehaviour
             playerTimes.Add(pt);
         }
 
-        SortedSet<PlayerTime>.Enumerator enumerator = playerTimes.GetEnumerator();
-        bool hasNext = playerTimes.Count > 0;
+        int textIndex = 0;
 
-        for(int i = 0; i < leaderboardEntries.Length && playerTimes.Count > 0; i++)
+        foreach(PlayerTime pt in playerTimes)
         {
-            string entryText = " ";
-            if (hasNext) {
-                PlayerTime pt = enumerator.Current;
-                hasNext = enumerator.MoveNext();
-
-                Debug.Log(playerTimes.ToString());
-                Debug.Log(playerTimes.Count);
-                Debug.Log(hasNext);
-                Debug.Log(pt);
-                
-
-
-                entryText = pt.name + ": " + pt.GetTime();
+            leaderboardEntries[textIndex].text = pt.name + ": " + pt.GetTime();
+            textIndex++;
+            if(textIndex > 9)
+            {
+                break;
             }
-            leaderboardEntries[i].text = entryText;
         }
 
-
+        for(; textIndex < 10; textIndex++)
+        {
+            leaderboardEntries[textIndex].text = " ";
+        }
     }
 
     public void GoToMainMenu()
