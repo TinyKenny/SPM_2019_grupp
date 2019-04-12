@@ -7,7 +7,7 @@ using UnityEngine.UI;
 [CreateAssetMenu(menuName = "States/Menu/Main/Set Player Name State")]
 public class MenuSetPlayerNameState : MenuBaseState
 {
-    private string name;
+    private string playerName;
 
     public override void Initialize(StateMachine owner)
     {
@@ -18,7 +18,7 @@ public class MenuSetPlayerNameState : MenuBaseState
 
         base.Initialize(owner);
 
-        name = "No name";
+        playerName = "No name";
     }
 
     public override void HandleUpdate()
@@ -28,13 +28,13 @@ public class MenuSetPlayerNameState : MenuBaseState
 
     public void LoadScene()
     {
-        PlayerPrefs.SetString("playerName", name);
+        PlayerPrefs.SetString("playerName", playerName);
         PlayerPrefs.SetFloat("playerTime", 0f);
         SceneManager.LoadScene(owner.levelToLoad);
     }
 
     public void SetName(string name)
     {
-        this.name = name;
+        this.playerName = name;
     }
 }
