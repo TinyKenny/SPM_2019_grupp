@@ -22,7 +22,8 @@ public class MenuMainState : MenuBaseState
 
     public void StartGame()
     {
-
+        owner.levelToLoad = 1;
+        owner.TransitionTo<MenuSetPlayerNameState>();
     }
 
     public void LevelSelect()

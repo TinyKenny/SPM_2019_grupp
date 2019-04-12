@@ -19,11 +19,13 @@ public class MenuLevelSelectState : MenuBaseState
 
     public void StartLevel1()
     {
-
+        owner.levelToLoad = 1;
+        owner.TransitionTo<MenuSetPlayerNameState>();
     }
 
     public void StartLevel2()
     {
-
+        owner.levelToLoad = 2;
+        owner.TransitionTo<MenuSetPlayerNameState>();
     }
 }
