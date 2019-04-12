@@ -23,6 +23,11 @@ public class GameController : MonoBehaviour
     {
         // spara spelarens tid, på något passande sätt
 
+        if (SceneManager.GetActiveScene().name.Equals("HackermanScene"))
+        {
+            
+        }
+
         SceneManager.LoadScene(sceneIndex);
     }
 }
