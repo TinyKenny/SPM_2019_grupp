@@ -8,7 +8,7 @@ public class PlayerStateMachine : StateMachine
     public LayerMask collisionLayers;
     public PhysicsComponent physicsComponent;
     public CapsuleCollider thisCollider;
-    public float skinWidth = 0.01f;
+    public float skinWidth = 0.51f;
     public float groundCheckDistance = 0.01f;
     public GameObject projectilePrefab;
     public float fireRate = 1.0f;

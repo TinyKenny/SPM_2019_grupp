@@ -20,10 +20,9 @@ public class CameraController : MonoBehaviour
     public float rotationY = 0.0f; // make this private
 
     [SerializeField] private float aimFOV = 30;
-    [SerializeField] private float aimSensitivityMultiplier = 0.5f;
+    [SerializeField] private float aimSensitivityMultiplier = 0.1f;
     private float startingGamePadSensitivity;
     private float startingFOV;
-    private bool currentlyAiming = false;
 
 
     private void Start()
@@ -41,18 +40,6 @@ public class CameraController : MonoBehaviour
             thirdPerson = !thirdPerson;
         }
         */
-
-        if (currentlyAiming)
-        {
-            RaycastHit hit;
-            if (Physics.Linecast(transform.position, transform.forward * 4000f, out hit, playerTransform.GetComponent<PlayerStateMachine>().collisionLayers))
-            {
-                if (hit.transform.gameObject.layer == 13)
-                    gamePadSensitivity = (startingGamePadSensitivity * aimSensitivityMultiplier) / 2;
-                else
-                    gamePadSensitivity = startingGamePadSensitivity * aimSensitivityMultiplier;
-            }
-        }
 
         Quaternion newRotation = UpdateRotation();
         transform.rotation = newRotation;
@@ -105,14 +92,21 @@ public class CameraController : MonoBehaviour
 
     public void Aiming()
     {
-        currentlyAiming = true;
         Camera.main.fieldOfView = aimFOV;
         gamePadSensitivity = startingGamePadSensitivity * aimSensitivityMultiplier;
+
+        RaycastHit hit;
+        if (Physics.Linecast(transform.position, transform.forward * 100f, out hit, playerTransform.GetComponent<PlayerStateMachine>().collisionLayers))
+        {
+            if (hit.transform.gameObject.layer == 13)
+                gamePadSensitivity = (startingGamePadSensitivity * aimSensitivityMultiplier) / 2;
+            else
+                gamePadSensitivity = startingGamePadSensitivity * aimSensitivityMultiplier;
+        }
     }
 
     public void StopAiming()
     {
-        currentlyAiming = false;
         Camera.main.fieldOfView = startingFOV;
         gamePadSensitivity = startingGamePadSensitivity;
     }
