@@ -42,6 +42,7 @@ public class PlayerStateMachine : StateMachine
     public Slider shieldAmount;
     public Transform respawnPoint;
     public AmmoPickup[] pickups;
+    private float tempTimeScale;
 
     protected override void Awake()
     {
@@ -86,6 +87,8 @@ public class PlayerStateMachine : StateMachine
 
         // developer cheats end here
 
+        Pause();
+
         shieldAmount.value = currentShields;
 
         if (shieldsRegenerationTimer <= 0.0f)
@@ -110,7 +113,7 @@ public class PlayerStateMachine : StateMachine
                 playerTimeScale = slowedPlayerTimeScale;
             }
         }
-        else
+        else if(Mathf.Approximately(playerTimeScale, slowedPlayerTimeScale))
         {
             //currentSlowMotionEnergy -= Time.unscaledDeltaTime;
             currentSlowMotionEnergy = Mathf.Clamp(currentSlowMotionEnergy - Time.unscaledDeltaTime, 0.0f, slowMotionEnergyMax);
@@ -148,6 +151,21 @@ public class PlayerStateMachine : StateMachine
         {
             currentShields = Mathf.Clamp(currentShields - damage, 0.0f, shieldsMax);
             shieldsRegenerationTimer = shieldsRegenerationCooldown;
+        }
+    }
+
+    public void Pause()
+    {
+        if (Input.GetButtonDown("Pause") && Time.timeScale == 1)
+        {
+            tempTimeScale = playerTimeScale;
+            Time.timeScale = 0;
+            playerTimeScale = 0;
+        }
+        else if (Input.GetButtonDown("Pause"))
+        {
+            Time.timeScale = 1;
+            playerTimeScale = tempTimeScale;
         }
     }
 

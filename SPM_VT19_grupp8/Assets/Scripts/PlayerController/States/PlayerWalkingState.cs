@@ -56,7 +56,7 @@ public class PlayerWalkingState : PlayerBaseState
         grounded = GroundCheck(out groundCheckHit);
         if(grounded)
         {
-            if (Input.GetButtonDown("Jump") && jumpAllowed)
+            if (Input.GetButtonDown("Jump") && jumpAllowed && Time.timeScale > 0)
             {
                 Velocity += Vector3.up * jumpPower;
             }
