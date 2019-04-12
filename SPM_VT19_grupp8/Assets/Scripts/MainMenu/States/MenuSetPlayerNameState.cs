@@ -30,6 +30,7 @@ public class MenuSetPlayerNameState : MenuBaseState
     {
         PlayerPrefs.SetString("playerName", playerName);
         PlayerPrefs.SetFloat("playerTime", 0f);
+        PlayerPrefs.SetInt("playerAmmo", 0);
         SceneManager.LoadScene(owner.levelToLoad);
     }
 
