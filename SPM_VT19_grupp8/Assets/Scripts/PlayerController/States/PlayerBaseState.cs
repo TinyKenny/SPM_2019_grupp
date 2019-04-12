@@ -181,7 +181,7 @@ public class PlayerBaseState : State
 
 
         // (end) move this into the if-statement
-        if (Input.GetAxisRaw("Shoot") == 1f && FireCoolDown < 0 && Ammo > 0)
+        if (Input.GetAxisRaw("Shoot") == 1f && FireCoolDown < 0 && Ammo > 0 && Time.timeScale > 0)
         {
             Ammo--;
             GameObject projectile = Instantiate(owner.projectilePrefab, Transform.position + (Camera.main.transform.rotation * Vector3.forward), Camera.main.transform.rotation);
