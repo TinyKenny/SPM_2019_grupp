@@ -7,7 +7,7 @@ public class StunbotIdleState : StunbotBaseState
 {
     public override void HandleUpdate()
     {
-        Velocity *= 0.5f;
+        Velocity *= 0.05f * Time.deltaTime;
 
         if (Vector3.Distance(owner.patrolLocations[0].position, ThisTransform.position) > MaxSpeed * 0.1f)
         {
