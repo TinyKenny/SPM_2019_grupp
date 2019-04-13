@@ -2368,7 +2368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderArea: {fileID: 394255229}
-  precision: 5
+  precision: 2
   colliders:
     serializedVersion: 2
     m_Bits: 512
