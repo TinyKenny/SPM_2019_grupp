@@ -173,7 +173,7 @@ public class PlayerStateMachine : StateMachine
     /// Transitions the player to PlayerAirState and sets the players position to the respawn point.
     /// Resets variables related to life, slow-mo, attacking, ect. (example: deactivating slow-mo and refilling shields)
     /// </summary>
-    private void Respawn()
+    public void Respawn()
     {
         TransitionTo<PlayerAirState>();
         transform.position = respawnPoint.position;
