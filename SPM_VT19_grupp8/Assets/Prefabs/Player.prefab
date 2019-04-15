@@ -202,11 +202,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9814585b4d8cf6149974468c6cdb7f20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 10
-  deceleration: 5
-  maxSpeed: 50
-  frictionCoefficient: 0.4
-  airResistanceCoefficient: 0.95
+  acceleration: 15
+  deceleration: 10
+  maxSpeed: 25
+  frictionCoefficient: 0.6
+  airResistanceCoefficient: 0.9
   gravity: 9.81
   skinWidth: 0.02
   velocity: {x: 0, y: 0, z: 0}
