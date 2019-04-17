@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerLedgeGrabState : PlayerBaseState
 {
     private float jumpPower = 5.0f;
+    private bool climbing = false;
 
     public override void Enter()
     {
@@ -30,11 +31,13 @@ public class PlayerLedgeGrabState : PlayerBaseState
                 Velocity += wallCheckHit.normal * jumpPower;
             }
 
-            if (Input.GetAxisRaw("Vertical") > 0.9)
+            if (Input.GetAxisRaw("Vertical") > 0.9 || climbing)
             {
+                climbing = true;
+
                 Vector3 bottomPoint = Transform.position + ThisCollider.center - Transform.up * (ThisCollider.height / 2 - ThisCollider.radius);
                 if (bottomPoint.y < wallCheckHit.collider.bounds.max.y)
-                    Transform.position += Transform.up * Input.GetAxisRaw("Vertical") * PlayerDeltaTime;
+                    Transform.position += Transform.up * 1 * PlayerDeltaTime;
                 else
                 {
                     Velocity += (Transform.up + Transform.forward).normalized * 350 * PlayerDeltaTime;

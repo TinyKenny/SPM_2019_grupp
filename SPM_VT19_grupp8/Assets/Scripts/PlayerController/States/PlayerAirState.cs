@@ -15,7 +15,7 @@ public class PlayerAirState : PlayerBaseState
 
         MovementInput();
 
-        Velocity += (Vector3.down * Gravity + direction * (Gravity / 3)) * PlayerDeltaTime;
+        Velocity += (Vector3.down * Gravity + direction * Gravity) * PlayerDeltaTime;
 
         CheckCollision(Velocity * PlayerDeltaTime);
 
@@ -30,8 +30,10 @@ public class PlayerAirState : PlayerBaseState
         else if (WallRun(out wallRunCheck))
         {
             LedgeGrabCheck();
-            if (Mathf.Abs(Vector3.Angle(Transform.forward, wallRunCheck.normal)) > 140)
+            if (Mathf.Abs(Vector3.Angle(Transform.forward, wallRunCheck.normal)) > 120)
+            {
                 owner.TransitionTo<PlayerVerticalWallRunState>();
+            }
             else
             {
                 owner.TransitionTo<PlayerWallRunState>();
