@@ -37,7 +37,7 @@ public class PlayerLedgeGrabState : PlayerBaseState
                     Transform.position += Transform.up * Input.GetAxisRaw("Vertical") * PlayerDeltaTime;
                 else
                 {
-                    Velocity += (Transform.up + Transform.forward).normalized * 250 * PlayerDeltaTime;
+                    Velocity += (Transform.up + Transform.forward).normalized * 350 * PlayerDeltaTime;
                     owner.TransitionTo<PlayerAirState>();
                 }
             }
