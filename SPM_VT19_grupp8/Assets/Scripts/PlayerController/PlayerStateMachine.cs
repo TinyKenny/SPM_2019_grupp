@@ -177,7 +177,7 @@ public class PlayerStateMachine : StateMachine
     {
         TransitionTo<PlayerAirState>();
         transform.position = respawnPoint.position;
-        transform.rotation = respawnPoint.rotation;
+        transform.rotation = Quaternion.Euler(0.0f, respawnPoint.rotation.y, 0.0f);
         Velocity = Vector3.zero;
         playerTimeScale = 1.0f;
         shieldsRegenerationTimer = 0.0f;
