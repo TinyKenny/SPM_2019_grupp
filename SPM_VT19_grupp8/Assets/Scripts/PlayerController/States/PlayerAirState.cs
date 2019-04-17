@@ -5,13 +5,17 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "States/Player/Air State")]
 public class PlayerAirState : PlayerBaseState
 {
+    private Vector3 direction;
+
     public override void HandleUpdate()
     {
         RaycastHit wallRunCheck = new RaycastHit();
 
         Shoot();
 
-        Velocity += Vector3.down * Gravity * PlayerDeltaTime;
+        MovementInput();
+
+        Velocity += (Vector3.down * Gravity + direction * (Gravity /4)) * PlayerDeltaTime;
 
         CheckCollision(Velocity * PlayerDeltaTime);
 
@@ -40,13 +44,6 @@ public class PlayerAirState : PlayerBaseState
         RaycastHit wall;
         Vector3 topPoint = Transform.position + ThisCollider.center + Transform.up * (ThisCollider.height / 2 - ThisCollider.radius);
         bool b = Physics.BoxCast(topPoint, new Vector3(ThisCollider.radius / 2, ThisCollider.height / 4, ThisCollider.radius / 2), Transform.forward, out wall, Transform.rotation, ThisCollider.radius + SkinWidth * 10, CollisionLayers) && wall.transform.tag == "Grabable";
-        if (wall.transform != null && !b)
-        {
-            //Debug.Log("B is: ");
-            //Debug.Log(Physics.BoxCast(topPoint, Transform.localScale / 2, Transform.forward, out wall, Transform.rotation, ThisCollider.radius + SkinWidth * 10, CollisionLayers));
-            //Debug.Log(", Is grabable? ");
-            //Debug.Log(wall.transform.tag == "Grabable");
-        }
         if (b && wall.transform.position.y + wall.collider.bounds.max.y < Transform.position.y + ThisCollider.bounds.max.y)
             owner.TransitionTo<PlayerLedgeGrabState>();
     }
@@ -65,5 +62,12 @@ public class PlayerAirState : PlayerBaseState
     protected override void HandleCollition(Vector3 hitNormal, RaycastHit raycastHit)
     {
 
+    }
+
+    private void MovementInput()
+    {
+        direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0.0f, Input.GetAxisRaw("Vertical"));
+
+        direction = Camera.main.transform.rotation * direction;
     }
 }
