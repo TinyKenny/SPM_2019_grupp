@@ -36,7 +36,7 @@ public class PlayerLedgeGrabState : PlayerBaseState
                 Vector3 bottomPoint = Transform.position + ThisCollider.center - Transform.up * (ThisCollider.height / 2 - ThisCollider.radius);
                 if (bottomPoint.y < wallCheckHit.collider.bounds.max.y)
                 {
-                    Transform.position += Transform.forward * 2 + Vector3.up * (wallCheckHit.collider.bounds.max.y - (Transform.position.y - ThisCollider.bounds.extents.y));
+                    Transform.position += Transform.forward * 2 + Vector3.up * (wallCheckHit.collider.bounds.max.y - (Transform.position.y - ThisCollider.bounds.extents.y) + SkinWidth);
                 }
                     //Transform.position += Transform.up * 1 * PlayerDeltaTime;
                 else
