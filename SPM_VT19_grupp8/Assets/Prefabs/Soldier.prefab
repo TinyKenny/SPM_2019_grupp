@@ -206,12 +206,7 @@ MonoBehaviour:
   currentCoolDown: 0
   maxCoolDown: 2
   playerLastLocation: {x: 0, y: 0, z: 0}
-  patrolLocations:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  patrolLocations: []
 --- !u!195 &2606758103786762027
 NavMeshAgent:
   m_ObjectHideFlags: 0

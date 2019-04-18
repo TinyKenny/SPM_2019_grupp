@@ -205,7 +205,7 @@ MonoBehaviour:
   acceleration: 15
   deceleration: 10
   maxSpeed: 25
-  frictionCoefficient: 0.6
+  frictionCoefficient: 0.8
   airResistanceCoefficient: 0.9
   gravity: 13
   skinWidth: 0.02
