@@ -1,14 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class NavBox : MonoBehaviour
 {
-    public List<GameObject> neighbours = new List<GameObject>();
-
-    private void Awake()
-    {
-        foreach (GameObject g in neighbours)
-            Debug.Log(g.GetType());
-    }
+    public List<GameObject> Neighbours = new List<GameObject>();
 }

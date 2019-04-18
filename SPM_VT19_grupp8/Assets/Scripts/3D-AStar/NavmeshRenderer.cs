@@ -8,12 +8,14 @@ public class NavmeshRenderer : MonoBehaviour
     [SerializeField] private int precision = 2;
     [SerializeField] private LayerMask colliders;
     private LayerMask navColl = 1 << 14;
-    private List<BoxCollider> objects;
+    private List<BoxCollider> objects = new List<BoxCollider>();
 
     [ContextMenu("Render a 3D-Navigational mesh for stunbot.")]
     public void Generate3DNavmesh()
     {
         BoxCollider area = (BoxCollider)GameObject.CreatePrimitive(PrimitiveType.Cube).GetComponent<BoxCollider>();
+        area.gameObject.name = "NavBox 0";
+        area.transform.SetParent(transform, true);
         area.size = renderArea.size;
         area.center = renderArea.transform.position + renderArea.center;
         area.gameObject.AddComponent<NavBox>();
@@ -38,6 +40,8 @@ public class NavmeshRenderer : MonoBehaviour
                 for (int i = 0; i < 8; i++)
                 {
                     BoxCollider traversableBox = (BoxCollider)GameObject.CreatePrimitive(PrimitiveType.Cube).GetComponent<BoxCollider>();
+                    traversableBox.gameObject.name = "NavBox" + (precision + 1 - recursion);
+                    traversableBox.transform.SetParent(transform, true);
                     traversableBox.size = area.size / 2;
                     traversableBox.center = area.transform.position + boxPlacing[i];
                     DestroyImmediate(traversableBox.GetComponent<MeshRenderer>());
@@ -61,23 +65,10 @@ public class NavmeshRenderer : MonoBehaviour
     private void AddNeighbours(BoxCollider traversableBox)
     {
         RaycastHit[] hitsRight = Physics.BoxCastAll(traversableBox.center, traversableBox.size / 2, Vector3.right, Quaternion.identity, MathHelper.floatEpsilon, navColl);
-        //RaycastHit[] hitsLeft = Physics.BoxCastAll(traversableBox.center, traversableBox.size / 2, Vector3.left, Quaternion.identity, MathHelper.floatEpsilon, navColl);
-        //RaycastHit[] hitsUp = Physics.BoxCastAll(traversableBox.center, traversableBox.size / 2, Vector3.up, Quaternion.identity, MathHelper.floatEpsilon, navColl);
-        //RaycastHit[] hitsDown = Physics.BoxCastAll(traversableBox.center, traversableBox.size / 2, Vector3.down, Quaternion.identity, MathHelper.floatEpsilon, navColl);
-        //RaycastHit[] hits = new RaycastHit[hitsRight.Length + hitsLeft.Length + hitsUp.Length + hitsDown.Length];
-        //int pos = 0;
-        //hitsRight.CopyTo(hits, pos);
-        //pos += hitsRight.Length;
-        //hitsLeft.CopyTo(hits, pos);
-        //pos += hitsLeft.Length;
-        //hitsUp.CopyTo(hits, pos);
-        //pos += hitsUp.Length;
-        //hitsDown.CopyTo(hits, pos);
-        //pos += hitsDown.Length;
         foreach (RaycastHit hit in hitsRight)
         {
             if (!hit.transform.gameObject.Equals(traversableBox.gameObject))
-                traversableBox.GetComponent<NavBox>().neighbours.Add(hit.transform.gameObject);
+                traversableBox.GetComponent<NavBox>().Neighbours.Add(hit.transform.gameObject);
         }
     }
 }
