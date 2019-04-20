@@ -10,6 +10,13 @@ public class NavmeshRenderer : MonoBehaviour
     private LayerMask navColl = 1 << 14;
     private List<BoxCollider> objects = new List<BoxCollider>();
 
+    public List<NavBox> boxes = new List<NavBox>();
+
+    private void Awake()
+    {
+        boxes.ToString();
+    }
+
     [ContextMenu("Render a 3D-Navigational mesh for stunbot.")]
     public void Generate3DNavmesh()
     {
@@ -20,6 +27,7 @@ public class NavmeshRenderer : MonoBehaviour
         area.center = renderArea.transform.position + renderArea.center;
         area.gameObject.AddComponent<NavBox>();
         area.gameObject.layer = 14;
+        boxes.Add(area.GetComponent<NavBox>());
         CheckCollision(area, precision);
 
         foreach (BoxCollider b in objects)
@@ -49,10 +57,12 @@ public class NavmeshRenderer : MonoBehaviour
                     traversableBox.gameObject.AddComponent<NavBox>();
                     traversableBox.gameObject.layer = 14;
                     objects.Add(traversableBox);
+                    boxes.Add(traversableBox.GetComponent<NavBox>());
                     traversableBox = CheckCollision(traversableBox, recursion - 1);
                 }
             }
             objects.Remove(area);
+            boxes.Remove(area.GetComponent<NavBox>());
             DestroyImmediate(area.gameObject);
         }
         else
@@ -68,7 +78,7 @@ public class NavmeshRenderer : MonoBehaviour
         foreach (RaycastHit hit in hitsRight)
         {
             if (!hit.transform.gameObject.Equals(traversableBox.gameObject))
-                traversableBox.GetComponent<NavBox>().Neighbours.Add(hit.transform.gameObject);
+                traversableBox.GetComponent<NavBox>().Neighbours.Add(hit.transform.GetComponent<NavBox>());
         }
     }
 }

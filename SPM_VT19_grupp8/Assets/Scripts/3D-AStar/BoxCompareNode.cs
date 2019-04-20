@@ -6,13 +6,13 @@ using System;
 public class BoxCompareNode : IComparable<BoxCompareNode>
 {
     private NavBox box;
-    private Vector3 end;
+    private BoxCompareNode end;
     public BoxCompareNode Previous;
-    public List<GameObject> Neighbours { get { return box.Neighbours; } }
+    public List<NavBox> Neighbours { get { return box.Neighbours; } }
     public float DistanceTraveled = Mathf.Infinity;
     public bool Known = false;
 
-    public BoxCompareNode (NavBox b, Vector3 e, BoxCompareNode pre)
+    public BoxCompareNode (NavBox b, BoxCompareNode e, BoxCompareNode pre)
     {
         box = b;
         end = e;
@@ -26,7 +26,7 @@ public class BoxCompareNode : IComparable<BoxCompareNode>
 
     private float GetValue()
     {
-        return (end - box.transform.position).magnitude + PreviousDistance();
+        return (end.box.transform.position - box.transform.position).magnitude + PreviousDistance();
     }
 
     private float PreviousDistance()
@@ -39,5 +39,10 @@ public class BoxCompareNode : IComparable<BoxCompareNode>
         }
 
         return previousDistance;
+    }
+
+    public NavBox GetBox()
+    {
+        return box;
     }
 }
