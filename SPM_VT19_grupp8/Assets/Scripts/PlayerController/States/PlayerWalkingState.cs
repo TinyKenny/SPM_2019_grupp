@@ -56,22 +56,58 @@ public class PlayerWalkingState : PlayerBaseState
         grounded = GroundCheck(out groundCheckHit);
         if(grounded)
         {
+            Vector3 direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0.0f, Input.GetAxisRaw("Vertical"));
+            direction = Camera.main.transform.rotation * direction;
+            direction = Vector3.ProjectOnPlane(direction, groundCheckHit.normal).normalized * direction.magnitude;
+
+            if (direction.magnitude < MathHelper.floatEpsilon)
+            {
+                Decelerate(groundCheckHit);
+            }
+            else
+            {
+                Accelerate(groundCheckHit, direction);
+            }
+
             if (Input.GetButtonDown("Jump") && jumpAllowed && Time.timeScale > 0)
             {
                 Velocity += Vector3.up * jumpPower;
             }
-
-            Vector3 direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0.0f, Input.GetAxisRaw("Vertical"));
-
-            direction = Camera.main.transform.rotation * direction;
-            direction = Vector3.ProjectOnPlane(direction, groundCheckHit.normal).normalized * direction.magnitude;
-            Accelerate(direction);
         }
     }
 
-    private void Accelerate(Vector3 direction)
+    private void Decelerate(RaycastHit groundCheckHit)
     {
-        Velocity += Vector3.ClampMagnitude(direction, 1.0f) * Acceleration * PlayerDeltaTime;
+        Vector3 velocityOnGround = Vector3.ProjectOnPlane(Velocity, groundCheckHit.normal);
+
+        Vector3 decelerationVector = velocityOnGround.normalized * Deceleration * PlayerDeltaTime;
+
+        if (decelerationVector.magnitude > velocityOnGround.magnitude)
+        {
+            Velocity = Vector3.zero;
+        }
+        else
+        {
+            Velocity -= decelerationVector;
+        }
+    }
+
+    private void Accelerate(RaycastHit groundCheckHit, Vector3 direction)
+    {
+        Vector3 velocityOnGround = Vector3.ProjectOnPlane(Velocity, groundCheckHit.normal);
+
+        float turnDot = Vector3.Dot(direction.normalized, velocityOnGround.normalized);
+
+        if (velocityOnGround.magnitude > MathHelper.floatEpsilon && turnDot < -0.5f)
+        {
+            Velocity += Vector3.ClampMagnitude(direction, 1.0f) * TurnSpeedModifier * Acceleration * PlayerDeltaTime;
+        }
+        else
+        {
+            Velocity += Vector3.ClampMagnitude(direction, 1.0f) * Acceleration * PlayerDeltaTime;
+        }
+
+
         if (Velocity.magnitude > MaxSpeed * MaxSpeedMod)
         {
             Velocity = Velocity.normalized * MaxSpeed * MaxSpeedMod;

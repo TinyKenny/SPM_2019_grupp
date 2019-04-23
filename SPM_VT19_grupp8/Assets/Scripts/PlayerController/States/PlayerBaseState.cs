@@ -8,7 +8,7 @@ public class PlayerBaseState : State
     protected PlayerStateMachine owner;
 
     [Header("Leave at 1 in WalkingState")] //för att skrämma iväg designers
-    [Range(0.0f, 1.0f)]
+    //[Range(0.0f, 1.0f)]
     public float MaxSpeedMod = 1.0f;
 
 
@@ -27,6 +27,7 @@ public class PlayerBaseState : State
     protected CapsuleCollider ThisCollider { get { return owner.thisCollider; } }
     protected float SkinWidth { get { return owner.skinWidth; } }
     protected float GroundCheckDistance { get { return owner.groundCheckDistance; } }
+    protected float TurnSpeedModifier { get { return owner.turnSpeedModifier; } }
     protected float StandardColliderHeight { get { return owner.standardColliderHeight; } }
     protected float PlayerDeltaTime { get { return owner.getPlayerDeltaTime(); } }
     protected int Ammo { get { return owner.ammo; } set { owner.ammo = value; } }
@@ -85,6 +86,9 @@ public class PlayerBaseState : State
 
         if (castHasHit)
         {
+            Debug.DrawLine(Transform.position, raycastHit.point, new Color(0.0f, 255.0f, 0.0f));
+            Debug.DrawRay(Transform.position, Velocity, new Color(255.0f, 0.0f, 0.0f));
+
             Vector3 hitNormal = raycastHit.normal;
 
             float angle = (Vector3.Angle(hitNormal, movement.normalized) - 90) * Mathf.Deg2Rad;
@@ -100,7 +104,7 @@ public class PlayerBaseState : State
 
             Transform.position += snapMovement;
 
-            if (angle * Mathf.Deg2Rad < 70)
+            if (angle * Mathf.Rad2Deg < 70)
             {
                 if (hitNormalMovement.magnitude > MathHelper.floatEpsilon)
                 {
@@ -111,7 +115,8 @@ public class PlayerBaseState : State
                 {
                     CheckCollision(movement);
                 }
-            } else if(movement.magnitude > MathHelper.floatEpsilon)
+            }
+            else if(hitNormalMovement.magnitude > MathHelper.floatEpsilon)
             {
                 Velocity = Vector3.zero;
             }
@@ -124,12 +129,14 @@ public class PlayerBaseState : State
             if (castHasHit)
             {
                 PhysicsComponent otherPhysicsComponent = raycastHit.collider.GetComponent<PhysicsComponent>();
-                CalculateFriction(Gravity * PlayerDeltaTime, otherPhysicsComponent);
+                //CalculateFriction(Gravity * PlayerDeltaTime * PlayerDeltaTime, otherPhysicsComponent); // remove this if we dont need friction
             }
+
             Transform.position += movement;
         }
     }
 
+    /*
     protected void CalculateFriction(float normalForceMagnitude, PhysicsComponent otherPhysicsComponent)
     {
         float realFrictionCoefficient = FrictionCoefficient;
@@ -161,6 +168,7 @@ public class PlayerBaseState : State
             Velocity -= frictionForce;
         }
     }
+    */
 
     protected virtual void HandleCollition(Vector3 hitNormal, RaycastHit raycastHit)
     {
@@ -168,7 +176,7 @@ public class PlayerBaseState : State
         PhysicsComponent otherPhysicsComponent = raycastHit.collider.GetComponent<PhysicsComponent>();
 
         Velocity += hitNormalForce;
-        CalculateFriction(hitNormalForce.magnitude, otherPhysicsComponent);
+        //CalculateFriction(hitNormalForce.magnitude, otherPhysicsComponent); // remove this if we dont need friction
     }
 
     protected void Shoot()
@@ -177,10 +185,8 @@ public class PlayerBaseState : State
             Camera.main.GetComponent<CameraController>().Aiming();
         else
             Camera.main.GetComponent<CameraController>().StopAiming();
-        // (start) move this into the if-statement
 
 
-        // (end) move this into the if-statement
         if (Input.GetAxisRaw("Shoot") == 1f && FireCoolDown < 0 && Ammo > 0 && Time.timeScale > 0)
         {
             Ammo--;

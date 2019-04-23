@@ -10,6 +10,7 @@ public class PlayerStateMachine : StateMachine
     public CapsuleCollider thisCollider;
     public float skinWidth = 0.51f;
     public float groundCheckDistance = 0.01f;
+    public float turnSpeedModifier = 2.5f;
     public GameObject projectilePrefab;
     public float fireRate = 1.0f;
     public float fireCoolDown = 0.0f;

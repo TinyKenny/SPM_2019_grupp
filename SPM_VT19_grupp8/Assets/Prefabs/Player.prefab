@@ -202,9 +202,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9814585b4d8cf6149974468c6cdb7f20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 15
-  deceleration: 10
-  maxSpeed: 25
+  acceleration: 20
+  deceleration: 50
+  maxSpeed: 20
   frictionCoefficient: 0.8
   airResistanceCoefficient: 0.9
   gravity: 13
@@ -238,11 +238,13 @@ MonoBehaviour:
   thisCollider: {fileID: 0}
   skinWidth: 0.05
   groundCheckDistance: 0.01
+  turnSpeedModifier: 4
   projectilePrefab: {fileID: 7036888430852713685, guid: a0c8ce2b47f9167479391fb4014e271e,
     type: 3}
   fireRate: 1
   fireCoolDown: 0
   standardColliderHeight: 0
+  VelocityAtFrameStart: {x: 0, y: 0, z: 0}
   currentSlowMotionEnergy: 5
   slowMotionEnergyMax: 5
   slowMotionEnergyRegeneration: 1

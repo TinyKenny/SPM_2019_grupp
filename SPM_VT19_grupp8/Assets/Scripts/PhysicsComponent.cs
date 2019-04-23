@@ -7,7 +7,7 @@ public class PhysicsComponent : MonoBehaviour
     public float acceleration;
     public float deceleration; // not used?
     public float maxSpeed;
-    [Range(0.0f, 1.0f)]
+    //[Range(0.0f, 1.0f)]
     public float frictionCoefficient = 0.4f;
     [Range(0.0f, 1.0f)]
     public float airResistanceCoefficient = 0.95f;

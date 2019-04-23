@@ -13,7 +13,7 @@ public class EnemyHealthPOC : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
-        Debug.Log(transform.parent);
+        //Debug.Log(transform.parent);
 
         if (transform.parent != null)
             enemyObject = transform.parent;
@@ -25,7 +25,7 @@ public class EnemyHealthPOC : MonoBehaviour
             currentHealth = maxHealth;
         }
 
-        Debug.Log(enemyObject);
+        //Debug.Log(enemyObject);
     }
 
     // Update is called once per frame
