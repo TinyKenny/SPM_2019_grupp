@@ -15,7 +15,7 @@ public class PlayerAirState : PlayerBaseState
 
         MovementInput();
 
-        Velocity += (Vector3.down * Gravity + direction * Gravity) * PlayerDeltaTime;
+        Velocity += (Vector3.down * Gravity + direction * Gravity/2) * PlayerDeltaTime;
 
         CheckCollision(Velocity * PlayerDeltaTime);
 
