@@ -8,7 +8,24 @@ public class StunbotChaseState : StunbotBaseState
 
     public override void HandleUpdate()
     {
-        Vector3 direction = (PlayerTransform.position - ThisTransform.position).normalized * Acceleration * Time.deltaTime;
+        NavBox end = Physics.OverlapBox(PlayerTransform.position, new Vector3(0.01f, 0.01f, 0.01f), Quaternion.identity, 1 << 14)[0].GetComponent<NavBox>();
+        BoxCompareNode bcnEnd = new BoxCompareNode(end, null);
+        NavBox start = Physics.OverlapBox(owner.transform.position, new Vector3(0.01f, 0.01f, 0.01f), Quaternion.identity, 1 << 14)[0].GetComponent<NavBox>();
+        BoxCompareNode bcnStart = new BoxCompareNode(start, bcnEnd);
+        owner.GetComponent<AStarPathfindning>().FindPath(bcnStart, ThisTransform.position, bcnEnd);
+
+        Vector3 nextTargetPosition = Vector3.zero;
+        float f = 0;
+        foreach (KeyValuePair<float, Vector3> pos in owner.GetComponent<AStarPathfindning>().Paths)
+        {
+            nextTargetPosition = pos.Value;
+            f = pos.Key;
+            break;
+        }
+
+        owner.GetComponent<AStarPathfindning>().Paths.Remove(f);
+
+        Vector3 direction = (nextTargetPosition - ThisTransform.position).normalized * Acceleration * Time.deltaTime;
 
         // (start) rotate toward direction
         owner.faceDirection += direction.normalized * 5.0f * Time.deltaTime;
