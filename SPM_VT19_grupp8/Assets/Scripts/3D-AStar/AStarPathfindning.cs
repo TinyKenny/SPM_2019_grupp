@@ -18,7 +18,7 @@ public class AStarPathfindning : MonoBehaviour
         list = new Dictionary<NavBox, BoxCompareNode>();
         BoxCompareNode e = new BoxCompareNode(endb, null, null);
         BoxCompareNode s = new BoxCompareNode(startb, e, null);
-        FindPath(s, e);
+        FindPath(s, transform.position, e);
 
         boxes.Add(endb.gameObject);
         Debug.Log(list[endb].DistanceTraveled);
@@ -32,7 +32,7 @@ public class AStarPathfindning : MonoBehaviour
 
 
     //Den tar ej hänsyn till storleken på boxar så den åker gärna via så stora som möjligt
-    public void FindPath(BoxCompareNode start, BoxCompareNode end)
+    public void FindPath(BoxCompareNode start, Vector3 startPosition, BoxCompareNode end)
     {
         this.start = start;
         this.end = end;
@@ -49,12 +49,15 @@ public class AStarPathfindning : MonoBehaviour
         start.Known = false;
         start.DistanceTraveled = 0;
         list[start.GetBox()] = start;
+        start.position = startPosition;
 
         pq.Insert(start);
+        Vector3 currentPosition = startPosition;
 
         while (!end.Known && !(pq.Size() == 0))
         {
             BoxCompareNode box = pq.DeleteMin();
+            currentPosition = box.position;
             if (!box.Known)
             {
                 box.Known = true;
@@ -64,11 +67,13 @@ public class AStarPathfindning : MonoBehaviour
                     BoxCompareNode compBox = list[aBox];
                     if (!compBox.Known)
                     {
-                        float distance = box.DistanceTraveled + Vector3.Distance(box.GetBox().transform.position, compBox.GetBox().transform.position);
+                        Vector3 nextPosition = compBox.GetBox().GetComponent<BoxCollider>().ClosestPointOnBounds(currentPosition);
+                        float distance = box.DistanceTraveled + Vector3.Distance(currentPosition, nextPosition);
                         if (distance < compBox.DistanceTraveled)
                         {
                             compBox.DistanceTraveled = distance;
                             compBox.Previous = box;
+                            compBox.position = nextPosition;
                             list[aBox] = compBox;
                             pq.Insert(compBox);
                         }

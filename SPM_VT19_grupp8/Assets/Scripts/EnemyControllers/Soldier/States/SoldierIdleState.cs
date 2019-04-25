@@ -41,7 +41,7 @@ public class SoldierIdleState : SoldierBaseState
         }
             
 
-        if (PlayerVisionCheck(40))
+        if (PlayerVisionCheck(60))
         {
             owner.TransitionTo<SoldierChaseState>();
         }

@@ -23,7 +23,7 @@ public class SoldierAlertState : SoldierBaseState
         {
             owner.TransitionTo<SoldierIdleState>();
         } 
-        else if(PlayerVisionCheck(40))
+        else if(PlayerVisionCheck(60))
             owner.TransitionTo<SoldierChaseState>();
     }
 }
