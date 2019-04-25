@@ -60,7 +60,7 @@ public class PlayerStateMachine : StateMachine
         timeSlowEnergy.maxValue = slowMotionEnergyMax;
         shieldAmount.maxValue = shieldsMax;
 
-        pickups = GameObject.FindObjectsOfType<AmmoPickup>();
+        pickups = FindObjectsOfType<AmmoPickup>();
     }
 
     protected override void Update()
@@ -180,6 +180,7 @@ public class PlayerStateMachine : StateMachine
         transform.position = respawnPoint.position;
         transform.rotation = Quaternion.Euler(0.0f, respawnPoint.rotation.y, 0.0f);
         Velocity = Vector3.zero;
+        Time.timeScale = 1.0f;
         playerTimeScale = 1.0f;
         shieldsRegenerationTimer = 0.0f;
         currentShields = shieldsMax;
