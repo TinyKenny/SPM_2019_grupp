@@ -18,7 +18,7 @@ public class AStarPathfindning : MonoBehaviour
         list = new Dictionary<NavBox, BoxCompareNode>();
         BoxCompareNode e = new BoxCompareNode(endb, null, null);
         BoxCompareNode s = new BoxCompareNode(startb, e, null);
-        FindPath(s, e);
+        FindPath(s, transform.position, e);
 
         boxes.Add(endb.gameObject);
         Debug.Log(list[endb].DistanceTraveled);
@@ -32,7 +32,7 @@ public class AStarPathfindning : MonoBehaviour
 
 
     //Den tar ej hänsyn till storleken på boxar så den åker gärna via så stora som möjligt
-    public void FindPath(BoxCompareNode start, BoxCompareNode end)
+    public void FindPath(BoxCompareNode start, Vector3 startPosition, BoxCompareNode end)
     {
         this.start = start;
         this.end = end;
