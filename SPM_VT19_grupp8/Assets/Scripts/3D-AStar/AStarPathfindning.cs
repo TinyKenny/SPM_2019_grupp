@@ -49,12 +49,15 @@ public class AStarPathfindning : MonoBehaviour
         start.Known = false;
         start.DistanceTraveled = 0;
         list[start.GetBox()] = start;
+        start.position = startPosition;
 
         pq.Insert(start);
+        Vector3 currentPosition = startPosition;
 
         while (!end.Known && !(pq.Size() == 0))
         {
             BoxCompareNode box = pq.DeleteMin();
+            currentPosition = box.position;
             if (!box.Known)
             {
                 box.Known = true;
@@ -64,11 +67,13 @@ public class AStarPathfindning : MonoBehaviour
                     BoxCompareNode compBox = list[aBox];
                     if (!compBox.Known)
                     {
-                        float distance = box.DistanceTraveled + Vector3.Distance(box.GetBox().transform.position, compBox.GetBox().transform.position);
+                        Vector3 nextPosition = compBox.GetBox().GetComponent<BoxCollider>().ClosestPointOnBounds(currentPosition);
+                        float distance = box.DistanceTraveled + Vector3.Distance(currentPosition, nextPosition);
                         if (distance < compBox.DistanceTraveled)
                         {
                             compBox.DistanceTraveled = distance;
                             compBox.Previous = box;
+                            compBox.position = nextPosition;
                             list[aBox] = compBox;
                             pq.Insert(compBox);
                         }

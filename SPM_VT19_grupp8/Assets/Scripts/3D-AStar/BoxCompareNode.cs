@@ -11,6 +11,7 @@ public class BoxCompareNode : IComparable<BoxCompareNode>
     public List<NavBox> Neighbours { get { return box.Neighbours; } }
     public float DistanceTraveled = Mathf.Infinity;
     public bool Known = false;
+    public Vector3 position;
 
     public BoxCompareNode (NavBox b, BoxCompareNode e, BoxCompareNode pre)
     {
@@ -35,7 +36,7 @@ public class BoxCompareNode : IComparable<BoxCompareNode>
 
         if (Previous != null)
         {
-            previousDistance += (box.transform.position - Previous.box.transform.position).magnitude + Previous.PreviousDistance();
+            previousDistance += (box.GetComponent<BoxCollider>().bounds.max - Previous.box.GetComponent<BoxCollider>().bounds.max).magnitude + Previous.PreviousDistance();
         }
 
         return previousDistance;
