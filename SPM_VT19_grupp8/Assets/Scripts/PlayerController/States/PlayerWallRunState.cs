@@ -38,7 +38,7 @@ public class PlayerWallRunState : PlayerAirState
         {
             Velocity = ProjectSpeedOnSurface(wall);
 
-            Velocity += Vector3.ClampMagnitude(new Vector3(Velocity.x, 0, Velocity.z).normalized, 1.0f) * (Acceleration * 4) * PlayerDeltaTime;
+            Velocity += Vector3.ClampMagnitude(new Vector3(Velocity.x, 0, Velocity.z).normalized, 1.0f) * Acceleration * PlayerDeltaTime;
 
             if (Velocity.y > maxVerticalVelocity)
                 Velocity = new Vector3(Velocity.x, maxVerticalVelocity, Velocity.z);
