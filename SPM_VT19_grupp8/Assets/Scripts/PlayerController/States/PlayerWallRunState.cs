@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "States/Player/Wall run State")]
 public class PlayerWallRunState : PlayerAirState
 {
-    private float jumpPower = 10.0f;
+    private float jumpPower = 12.5f;
     private float maxVerticalVelocity = 1.5f;
 
     public override void Enter()
@@ -32,7 +32,7 @@ public class PlayerWallRunState : PlayerAirState
         {
             Velocity = ProjectSpeedOnSurface(wall);
 
-            Velocity += Vector3.ClampMagnitude(new Vector3(Velocity.x, 0, Velocity.z).normalized, 1.0f) * Acceleration * PlayerDeltaTime;
+            Velocity += Vector3.ClampMagnitude(new Vector3(Velocity.x, 0, Velocity.z).normalized, 1.0f) * (Acceleration * 4) * PlayerDeltaTime;
 
             if (Velocity.y > maxVerticalVelocity)
                 Velocity = new Vector3(Velocity.x, maxVerticalVelocity, Velocity.z);

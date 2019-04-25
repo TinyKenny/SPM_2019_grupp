@@ -6,19 +6,26 @@ public class Respawn : MonoBehaviour
 {
 
 
-    private static Transform checkPoint;
-    public int position;
-    private void Start()
+    private GameObject player;
+    private bool triggerd = false;
+    private void Awake()
     {
-        checkPoint = gameObject.transform;
+       
+        player = GameObject.Find("Player");
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void Update()
     {
-        if (CompareTag("Player"))
+        if (!triggerd)
         {
-            //if(position > PlayerStateMachine.respawnPoint.position)
-           // PlayerStateMachine.respawnPoint = checkPoint;
+            if (Vector3.Distance(player.transform.position, transform.position) < 4.0f)
+            {
+                Debug.Log("Changed");
+                player.GetComponent<PlayerStateMachine>().respawnPoint = transform;
+                triggerd = true;
+            }
         }
     }
+
+
 }
