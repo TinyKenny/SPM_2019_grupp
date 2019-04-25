@@ -14,7 +14,7 @@ public class PlayerBaseState : State
 
     public float Acceleration { get { return owner.Acceleration; } set { owner.Acceleration = value; } }
     public float Deceleration { get { return owner.Deceleration; } set { owner.Deceleration = value; } }
-    public float MaxSpeed { get { return owner.MaxSpeed; } set { owner.MaxSpeed = value; } }
+    public float MaxSpeed { get { return owner.MaxSpeed * MaxSpeedMod; } /*set { owner.MaxSpeed = value; } */}
     public float FrictionCoefficient { get { return owner.FrictionCoefficient; } set { owner.FrictionCoefficient = value; } }
     public float AirResistanceCoefficient { get { return owner.AirResistanceCoefficient; } set { owner.AirResistanceCoefficient = value; } }
     public float Gravity { get { return owner.Gravity; } set { owner.Gravity = value; } }

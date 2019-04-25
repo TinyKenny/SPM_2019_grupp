@@ -108,9 +108,9 @@ public class PlayerWalkingState : PlayerBaseState
         }
 
 
-        if (Velocity.magnitude > MaxSpeed * MaxSpeedMod)
+        if (Velocity.magnitude > MaxSpeed)
         {
-            Velocity = Velocity.normalized * MaxSpeed * MaxSpeedMod;
+            Velocity = Velocity.normalized * MaxSpeed;
         }
     }
 }

@@ -8,6 +8,12 @@ public class PlayerWallRunState : PlayerAirState
     private float jumpPower = 12.5f;
     private float maxVerticalVelocity = 1.5f;
 
+    public override void Initialize(StateMachine owner)
+    {
+        base.Initialize(owner);
+        MaxSpeedMod = 1.2f;
+    }
+
     public override void Enter()
     {
     }
@@ -37,9 +43,9 @@ public class PlayerWallRunState : PlayerAirState
             if (Velocity.y > maxVerticalVelocity)
                 Velocity = new Vector3(Velocity.x, maxVerticalVelocity, Velocity.z);
 
-            if (Velocity.magnitude > MaxSpeed / 2)
+            if (Velocity.magnitude > MaxSpeed)
             {
-                Velocity = Velocity.normalized * MaxSpeed / 2;
+                Velocity = Velocity.normalized * MaxSpeed;
             }
 
             if (Input.GetButtonDown("Jump"))
