@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "States/Player/Vertical Wall Run State")]
 public class PlayerVerticalWallRunState : PlayerAirState
 {
-    private float jumpPower = 15.0f;
     private float maxVerticalVelocity = 10f;
     private Vector3 wallNormal;
     private float verticalSpeedMultiplier = 2;
@@ -51,10 +50,7 @@ public class PlayerVerticalWallRunState : PlayerAirState
                 Velocity = Velocity.normalized * maxVerticalVelocity;
             }
 
-            if (Input.GetButtonDown("Jump"))
-            {
-                Velocity += (wallNormal * 2 + Vector3.up).normalized * jumpPower;
-            }
+            Jump(wallNormal);
         }
         else
         {

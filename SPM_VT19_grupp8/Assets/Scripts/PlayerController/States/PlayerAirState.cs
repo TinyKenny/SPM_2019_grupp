@@ -7,6 +7,7 @@ public class PlayerAirState : PlayerBaseState
 {
     private Vector3 direction;
     protected float MinimumYVelocity = -4f;
+    private float jumpPower = 12.5f;
 
     public override void HandleUpdate()
     {
@@ -28,16 +29,21 @@ public class PlayerAirState : PlayerBaseState
         {
             owner.TransitionTo<PlayerWalkingState>();
         }
-        else if (WallRun(out wallRunCheck) && Input.GetButton("Wallrun") && Velocity.y > MinimumYVelocity)
+        else if (WallRun(out wallRunCheck))
         {
-            LedgeGrabCheck();
-            if (Mathf.Abs(Vector3.Angle(Transform.forward, wallRunCheck.normal)) > 120)
+            Jump(wallRunCheck.normal);
+
+            if (Input.GetButton("Wallrun") && Velocity.y > MinimumYVelocity)
             {
-                owner.TransitionTo<PlayerVerticalWallRunState>();
-            }
-            else
-            {
-                owner.TransitionTo<PlayerWallRunState>();
+                LedgeGrabCheck();
+                if (Mathf.Abs(Vector3.Angle(Transform.forward, wallRunCheck.normal)) > 140)
+                {
+                    owner.TransitionTo<PlayerVerticalWallRunState>();
+                }
+                else
+                {
+                    owner.TransitionTo<PlayerWallRunState>();
+                }
             }
         }
     }
@@ -74,5 +80,14 @@ public class PlayerAirState : PlayerBaseState
         direction = Camera.main.transform.rotation * direction;
 
         direction = Vector3.ProjectOnPlane(direction, Vector3.up);
+    }
+
+    protected void Jump(Vector3 normal)
+    {
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            Velocity += (normal + Vector3.up).normalized * jumpPower;
+        }
     }
 }
