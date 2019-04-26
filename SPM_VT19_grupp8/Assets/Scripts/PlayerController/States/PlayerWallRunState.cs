@@ -7,15 +7,23 @@ public class PlayerWallRunState : PlayerAirState
 {
     private float jumpPower = 12.5f;
     private float maxVerticalVelocity = 1.5f;
+    private Vector3 wallNormal;
 
     public override void Initialize(StateMachine owner)
     {
         base.Initialize(owner);
-        MaxSpeedMod = 1.2f;
+        MaxSpeedMod = 1f;
     }
 
     public override void Enter()
     {
+        RaycastHit wall = new RaycastHit();
+
+        WallRun(out wall);
+
+        wallNormal = wall.normal;
+
+        Velocity = ProjectSpeedOnSurface();
     }
 
     public override void HandleUpdate()
@@ -34,11 +42,9 @@ public class PlayerWallRunState : PlayerAirState
         {
             owner.TransitionTo<PlayerWalkingState>();
         }
-        else if (WallRun(out wall))
+        else if (WallRun(out wall) && Velocity.y > MinimumYVelocity && Input.GetButton("Wallrun"))
         {
-            Velocity = ProjectSpeedOnSurface(wall);
-
-            Velocity += Vector3.ClampMagnitude(new Vector3(Velocity.x, 0, Velocity.z).normalized, 1.0f) * Acceleration * PlayerDeltaTime;
+            //Velocity += Vector3.ClampMagnitude(new Vector3(Velocity.x, 0, Velocity.z).normalized, 1.0f) * Acceleration * PlayerDeltaTime;
 
             if (Velocity.y > maxVerticalVelocity)
                 Velocity = new Vector3(Velocity.x, maxVerticalVelocity, Velocity.z);
@@ -50,7 +56,7 @@ public class PlayerWallRunState : PlayerAirState
 
             if (Input.GetButtonDown("Jump"))
             {
-                Velocity += (wall.normal + Vector3.up).normalized * jumpPower;
+                Velocity += (wallNormal + Vector3.up).normalized * jumpPower;
             }
         }
         else
@@ -59,9 +65,9 @@ public class PlayerWallRunState : PlayerAirState
         }
     }
 
-    private Vector3 ProjectSpeedOnSurface(RaycastHit wall)
+    private Vector3 ProjectSpeedOnSurface()
     {
-        Vector3 projection = Vector3.Dot(Velocity, wall.normal) * wall.normal;
+        Vector3 projection = Vector3.Dot(Velocity, wallNormal) * wallNormal;
         return Velocity - projection;
     }
 }
