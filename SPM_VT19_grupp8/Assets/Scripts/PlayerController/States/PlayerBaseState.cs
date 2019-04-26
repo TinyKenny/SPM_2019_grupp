@@ -195,10 +195,11 @@ public class PlayerBaseState : State
             Vector3 reticleLocation = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0.0f);
 
             Ray aimRay = Camera.main.ScreenPointToRay(reticleLocation);
-            
 
+
+            string[] ignoreLayers = new string[]{"3DNavMesh"};
             RaycastHit rayHit;
-            bool rayHasHit = Physics.Raycast(aimRay, out rayHit, owner.projectilePrefab.GetComponent<ProjectileBehaviour>().distanceToTravel, ~(1 << owner.gameObject.layer));
+            bool rayHasHit = Physics.Raycast(aimRay, out rayHit, owner.projectilePrefab.GetComponent<ProjectileBehaviour>().distanceToTravel, ~((1 << owner.gameObject.layer) | (LayerMask.GetMask(ignoreLayers))));
 
             Debug.Log(aimRay.origin);
             Debug.DrawRay(aimRay.origin, aimRay.direction * rayHit.distance, new Color(255.0f, 0.0f, 0.0f), 1.5f);
@@ -211,10 +212,11 @@ public class PlayerBaseState : State
             else
             {
                 Debug.Log("aim hit! " + rayHit.point);
+                Debug.Log(rayHit.collider.name);
             }
 
             projectile.transform.LookAt(pointHit); // test-y stuff
-            projectile.GetComponent<ProjectileBehaviour>().SetInitialValues(1 << owner.gameObject.layer);
+            projectile.GetComponent<ProjectileBehaviour>().SetInitialValues((1 << owner.gameObject.layer) | LayerMask.GetMask(ignoreLayers));
             FireCoolDown = FireRate;
             owner.ammoNumber.text = Ammo.ToString();
         }
