@@ -5896,7 +5896,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 403539786}
   m_LocalRotation: {x: -0.0055937227, y: 0.70973724, z: 0.0067207864, w: 0.7044122}
-  m_LocalPosition: {x: 21.007, y: 75.084, z: 216.26}
+  m_LocalPosition: {x: 21.007, y: 74.79, z: 216.26}
   m_LocalScale: {x: 23.184523, y: 0.82579964, z: 6.4980993}
   m_Children: []
   m_Father: {fileID: 1970934142}
@@ -6555,7 +6555,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 439558693}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 21.058884, y: 74.17, z: 227.57}
+  m_LocalPosition: {x: 21.058884, y: 73.876, z: 227.57}
   m_LocalScale: {x: 4.42, y: 2.76, z: 0.7567914}
   m_Children: []
   m_Father: {fileID: 1970934142}
@@ -10576,7 +10576,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 703112547}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.6600037, y: 4.6857834, z: 8.4}
+  m_LocalPosition: {x: -3.6600037, y: 4.6857834, z: 13.32}
   m_LocalScale: {x: 1, y: 86.159485, z: 1.1403}
   m_Children: []
   m_Father: {fileID: 718762528}
@@ -13166,7 +13166,7 @@ GameObject:
   - component: {fileID: 893538942}
   m_Layer: 9
   m_Name: Elevator Cube
-  m_TagString: Untagged
+  m_TagString: Grabable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
@@ -13179,7 +13179,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 893538940}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.7287674, y: -10.739998, z: 4.6099854}
+  m_LocalPosition: {x: -6.7287674, y: -10.739998, z: 9.35}
   m_LocalScale: {x: 6.492, y: 6.4293227, z: 7.136674}
   m_Children: []
   m_Father: {fileID: 718762528}
@@ -13871,7 +13871,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 920475016}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.6600037, y: 4.6857834, z: 0.8693695}
+  m_LocalPosition: {x: -3.6600037, y: 4.6857834, z: 4.97}
   m_LocalScale: {x: 1, y: 86.159485, z: 1.1403}
   m_Children: []
   m_Father: {fileID: 718762528}
@@ -22923,7 +22923,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1652694116}
   m_LocalRotation: {x: 0.5000003, y: -0.5000002, z: -0.4999998, w: 0.49999976}
-  m_LocalPosition: {x: 20.595993, y: -5.845, z: -5.49}
+  m_LocalPosition: {x: 20.595993, y: -6.1389985, z: -5.49}
   m_LocalScale: {x: 5.525785, y: 4.0754166, z: 2.738517}
   m_Children: []
   m_Father: {fileID: 762664061}
@@ -30079,6 +30079,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Checkpoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 8436239185858029419, guid: 155c97d94b2ca3a45b1f660a65440db2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8436239185858029399, guid: 155c97d94b2ca3a45b1f660a65440db2,
         type: 3}
