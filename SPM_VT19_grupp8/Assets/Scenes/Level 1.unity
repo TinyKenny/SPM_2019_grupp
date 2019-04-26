@@ -22361,6 +22361,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 3072
   thirdPerson: 1
+  thirdPersonOffset: {x: 0, y: 1, z: -5}
   rotationX: 0
   rotationY: 0
   aimFOV: 30
@@ -38429,16 +38430,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5301336623721669417, guid: cc03fd6b535ec1f43a36b04dee47abdf,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -114
-      objectReference: {fileID: 0}
-    - target: {fileID: 5301336623721669417, guid: cc03fd6b535ec1f43a36b04dee47abdf,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 431
       objectReference: {fileID: 0}
     - target: {fileID: 5301336622383288956, guid: cc03fd6b535ec1f43a36b04dee47abdf,
         type: 3}
