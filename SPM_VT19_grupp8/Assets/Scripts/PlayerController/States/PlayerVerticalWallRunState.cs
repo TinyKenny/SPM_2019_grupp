@@ -66,6 +66,6 @@ public class PlayerVerticalWallRunState : PlayerAirState
     {
         Vector3 projection = Vector3.Dot(Velocity, wallNormal) * wallNormal;
         float magnitude = projection.magnitude * verticalSpeedMultiplier;
-        return new Vector3(Velocity.x, Velocity.y + magnitude, Velocity.z);
+        return new Vector3(Velocity.x, Velocity.y + magnitude, Velocity.z) - projection;
     }
 }

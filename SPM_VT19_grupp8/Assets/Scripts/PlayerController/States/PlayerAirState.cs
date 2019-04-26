@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerAirState : PlayerBaseState
 {
     private Vector3 direction;
-    protected float MinimumYVelocity = -3f;
+    protected float MinimumYVelocity = -4f;
 
     public override void HandleUpdate()
     {
@@ -72,5 +72,7 @@ public class PlayerAirState : PlayerBaseState
         direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0.0f, Input.GetAxisRaw("Vertical"));
 
         direction = Camera.main.transform.rotation * direction;
+
+        direction = Vector3.ProjectOnPlane(direction, Vector3.up);
     }
 }
