@@ -6,12 +6,13 @@ using UnityEngine;
 public class StunbotSearchState : StunbotBaseState
 {
     private float searchTimer;
+    Vector3 nextTargetPosition;
 
     public override void Enter()
     {
         base.Enter();
         searchTimer = 30.0f;
-
+        nextTargetPosition = owner.transform.position;
         NavBox end = Physics.OverlapBox(owner.lastPlayerLocation, new Vector3(0.01f, 0.01f, 0.01f), Quaternion.identity, 1 << 14)[0].GetComponent<NavBox>();
         BoxCompareNode bcnEnd = new BoxCompareNode(end, null);
         NavBox start = Physics.OverlapBox(owner.transform.position, new Vector3(0.01f, 0.01f, 0.01f), Quaternion.identity, 1 << 14)[0].GetComponent<NavBox>();
@@ -24,16 +25,18 @@ public class StunbotSearchState : StunbotBaseState
 
         if (owner.GetComponent<AStarPathfindning>().Paths.Count > 0)
         {
-            Vector3 nextTargetPosition = Vector3.zero;
-            float f = 0;
-            foreach (KeyValuePair<float, Vector3> pos in owner.GetComponent<AStarPathfindning>().Paths)
+            if (Vector3.Distance(nextTargetPosition, owner.transform.position) < 1)
             {
-                nextTargetPosition = pos.Value;
-                f = pos.Key;
-                break;
-            }
+                float f = 0;
+                foreach (KeyValuePair<float, Vector3> pos in owner.GetComponent<AStarPathfindning>().Paths)
+                {
+                    nextTargetPosition = pos.Value;
+                    f = pos.Key;
+                    break;
+                }
 
-            owner.GetComponent<AStarPathfindning>().Paths.Remove(f);
+                owner.GetComponent<AStarPathfindning>().Paths.Remove(f);
+            }
 
             direction = (nextTargetPosition - ThisTransform.position).normalized * Acceleration * Time.deltaTime;
         }

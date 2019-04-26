@@ -19,7 +19,7 @@ public class StunbotChaseState : StunbotBaseState
 
     public override void HandleUpdate()
     {
-        if (Vector3.Distance(nextTargetPosition, owner.transform.position) < 2)
+        if (Vector3.Distance(nextTargetPosition, owner.transform.position) < 1)
         {
             float f = 0;
             foreach (KeyValuePair<float, Vector3> pos in owner.GetComponent<AStarPathfindning>().Paths)

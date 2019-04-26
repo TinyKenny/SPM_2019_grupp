@@ -5,8 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "States/Enemies/Stunbot/Idle State")]
 public class StunbotIdleState : StunbotBaseState
 {
+    Vector3 nextTargetPosition;
+
     public override void Enter()
     {
+        nextTargetPosition = owner.transform.position;
         NavBox end = Physics.OverlapBox(owner.patrolLocations[0].position, new Vector3(0.01f, 0.01f, 0.01f), Quaternion.identity, 1 << 14)[0].GetComponent<NavBox>();
         BoxCompareNode bcnEnd = new BoxCompareNode(end, null);
         NavBox start = Physics.OverlapBox(owner.transform.position, new Vector3(0.01f, 0.01f, 0.01f), Quaternion.identity, 1 << 14)[0].GetComponent<NavBox>();
@@ -16,16 +19,19 @@ public class StunbotIdleState : StunbotBaseState
 
     public override void HandleUpdate()
     {
-        Vector3 nextTargetPosition = Vector3.zero;
-        float f = 0;
-        foreach (KeyValuePair<float, Vector3> pos in owner.GetComponent<AStarPathfindning>().Paths)
+        if (Vector3.Distance(nextTargetPosition, owner.transform.position) < 1)
         {
-            nextTargetPosition = pos.Value;
-            f = pos.Key;
-            break;
-        }
+            float f = 0;
+            foreach (KeyValuePair<float, Vector3> pos in owner.GetComponent<AStarPathfindning>().Paths)
+            {
+                nextTargetPosition = pos.Value;
+                f = pos.Key;
+                break;
+            }
 
-        owner.GetComponent<AStarPathfindning>().Paths.Remove(f);
+            owner.GetComponent<AStarPathfindning>().Paths.Remove(f);
+
+        }
 
         Velocity *= 0.05f * Time.deltaTime;
 
