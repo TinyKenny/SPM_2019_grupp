@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerAirState : PlayerBaseState
 {
     private Vector3 direction;
+    protected float MinimumYVelocity = -3f;
 
     public override void HandleUpdate()
     {
@@ -27,7 +28,7 @@ public class PlayerAirState : PlayerBaseState
         {
             owner.TransitionTo<PlayerWalkingState>();
         }
-        else if (WallRun(out wallRunCheck))
+        else if (WallRun(out wallRunCheck) && Input.GetButton("Wallrun") && Velocity.y > MinimumYVelocity)
         {
             LedgeGrabCheck();
             if (Mathf.Abs(Vector3.Angle(Transform.forward, wallRunCheck.normal)) > 120)
