@@ -16006,7 +16006,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 888079000}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13.6, y: -3.24, z: -110.77}
+  m_LocalPosition: {x: 13.6, y: -8.49, z: -110.77}
   m_LocalScale: {x: 88.18737, y: 26.032984, z: 25.02965}
   m_Children: []
   m_Father: {fileID: 8030632440777219476}
@@ -38338,6 +38338,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5301336623721669417, guid: cc03fd6b535ec1f43a36b04dee47abdf,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -114
+      objectReference: {fileID: 0}
+    - target: {fileID: 5301336623721669417, guid: cc03fd6b535ec1f43a36b04dee47abdf,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 431
+      objectReference: {fileID: 0}
+    - target: {fileID: 5301336622383288956, guid: cc03fd6b535ec1f43a36b04dee47abdf,
+        type: 3}
+      propertyPath: m_Name
+      value: Shield
+      objectReference: {fileID: 0}
+    - target: {fileID: 5909666597916428698, guid: cc03fd6b535ec1f43a36b04dee47abdf,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -57
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc03fd6b535ec1f43a36b04dee47abdf, type: 3}
