@@ -192,6 +192,13 @@ public class PlayerStateMachine : StateMachine
 
         Debug.Log("Reset pickups and enemies when respawning!");
 
+
+        PlayerRespawnEventInfo PREI = new PlayerRespawnEventInfo(gameObject);
+        EventCoordinator.CurrentEventCoordinator.ActivateEvent(PREI);
+
+
+        //replace the stuff below, to be triggered by events
+
         foreach (AmmoPickup pickup in pickups)
             pickup.gameObject.SetActive(true);
     }
