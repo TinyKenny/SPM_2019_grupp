@@ -17,6 +17,8 @@ public class PlayerWalkingState : PlayerBaseState
 
     public override void HandleUpdate()
     {
+        base.HandleUpdate();
+
         MovementInput();
 
         Shoot();

@@ -11,6 +11,8 @@ public class PlayerAirState : PlayerBaseState
 
     public override void HandleUpdate()
     {
+        base.HandleUpdate();
+
         RaycastHit wallRunCheck = new RaycastHit();
 
         Shoot();
@@ -89,5 +91,15 @@ public class PlayerAirState : PlayerBaseState
         {
             Velocity += (normal + Vector3.up).normalized * jumpPower;
         }
+    }
+
+    protected override void UpdatePlayerRotation()
+    {
+        Vector3 direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0.0f, Input.GetAxisRaw("Vertical"));
+        direction = Camera.main.transform.rotation * direction;
+
+        // project on plane?
+
+        Transform.LookAt(Transform.position + new Vector3(direction.x, 0.0f, direction.z).normalized);
     }
 }

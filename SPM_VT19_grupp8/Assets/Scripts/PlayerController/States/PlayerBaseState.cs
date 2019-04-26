@@ -38,6 +38,12 @@ public class PlayerBaseState : State
         this.owner = (PlayerStateMachine)owner;
     }
 
+    public override void HandleUpdate()
+    {
+        base.HandleUpdate();
+        UpdatePlayerRotation();
+    }
+
     protected bool FindCollision(Vector3 direction, float maxDistance)
     {
         RaycastHit raycastHit;
@@ -222,4 +228,19 @@ public class PlayerBaseState : State
         }
         FireCoolDown -= PlayerDeltaTime;
     }
+
+    protected virtual void UpdatePlayerRotation()
+    {
+        Transform.LookAt(Transform.position + new Vector3(Velocity.x, 0.0f, Velocity.z).normalized);
+
+
+        //Vector3 direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0.0f, Input.GetAxisRaw("Vertical"));
+        //direction = Camera.main.transform.rotation * direction;
+
+        //// project on plane?
+
+        //Transform.LookAt(Transform.position + new Vector3(direction.x, 0.0f, direction.z).normalized);
+    }
+
+
 }

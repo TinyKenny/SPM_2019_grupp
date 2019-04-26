@@ -66,7 +66,7 @@ public class PlayerStateMachine : StateMachine
     protected override void Update()
     {
         base.Update();
-        UpdatePlayerRotation();
+        //UpdatePlayerRotation();
 
         // developer cheats start here
 
@@ -196,6 +196,7 @@ public class PlayerStateMachine : StateMachine
             pickup.gameObject.SetActive(true);
     }
 
+    /*
     /// <summary>
     /// Rotates the player-GameObject so that its Z-axis (also known as "forward", example: transform.forward)
     /// to be pointing in the direction of Velocity.
@@ -205,10 +206,13 @@ public class PlayerStateMachine : StateMachine
         // make this better later
         transform.LookAt(transform.position + new Vector3(Velocity.x, 0.0f, Velocity.z).normalized);
     }
+    */
 
     public void AddAmmo(int ammo)
     {
         this.ammo += ammo;
         ammoNumber.text = this.ammo.ToString();
     }
+
+
 }

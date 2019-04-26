@@ -21,6 +21,8 @@ public class PlayerVerticalWallRunState : PlayerAirState
             Velocity = new Vector3(Velocity.x, 0f, Velocity.z);
 
         Velocity = ProjectSpeedOnSurface();
+
+        Transform.LookAt(Transform.position - wallNormal);
     }
 
     public override void HandleUpdate()

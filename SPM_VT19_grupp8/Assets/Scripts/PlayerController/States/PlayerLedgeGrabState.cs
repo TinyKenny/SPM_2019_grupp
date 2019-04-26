@@ -11,10 +11,13 @@ public class PlayerLedgeGrabState : PlayerBaseState
     {
         Camera.main.GetComponent<CameraController>().StopAiming();
         Velocity = Vector3.zero;
+        Debug.Log("Change the rotation of the player so that the player faces the grabbed ledge");
     }
 
     public override void HandleUpdate()
     {
+        base.HandleUpdate();
+
         MovementInput();
     }
 
@@ -52,5 +55,10 @@ public class PlayerLedgeGrabState : PlayerBaseState
         }
         else
             owner.TransitionTo<PlayerAirState>();
+    }
+
+    protected override void UpdatePlayerRotation()
+    {
+        
     }
 }
