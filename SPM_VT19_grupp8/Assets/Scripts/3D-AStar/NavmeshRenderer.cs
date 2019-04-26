@@ -28,6 +28,7 @@ public class NavmeshRenderer : MonoBehaviour
         area.gameObject.AddComponent<NavBox>();
         area.gameObject.layer = 14;
         boxes.Add(area.GetComponent<NavBox>());
+        objects.Add(area);
         CheckCollision(area, precision);
 
         foreach (BoxCollider b in objects)
@@ -39,7 +40,7 @@ public class NavmeshRenderer : MonoBehaviour
 
     private BoxCollider CheckCollision(BoxCollider area, int recursion)
     {
-        if (Physics.CheckBox(area.center, area.size / 2, Quaternion.identity, colliders))
+        if (Physics.CheckBox(area.center, area.size / 2 + new Vector3(0.5f, 0.5f, 0.5f), Quaternion.identity, colliders))
         {
             if (recursion > 0)
             {

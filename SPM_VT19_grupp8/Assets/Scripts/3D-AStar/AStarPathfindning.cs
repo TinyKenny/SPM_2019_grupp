@@ -16,7 +16,7 @@ public class AStarPathfindning : MonoBehaviour
 
     private void Awake()
     {
-        list = new Dictionary<NavBox, BoxCompareNode>();
+        
         //BoxCompareNode e = new BoxCompareNode(endb, null, null);
         //BoxCompareNode s = new BoxCompareNode(startb, e, null);
         //FindPath(s, transform.position, e);
@@ -35,7 +35,7 @@ public class AStarPathfindning : MonoBehaviour
     public void FindPath(BoxCompareNode start, Vector3 startPosition, BoxCompareNode end)
     {
         Paths.Clear();
-        list.Clear();
+        list = new Dictionary<NavBox, BoxCompareNode>();
         this.start = start;
         this.end = end;
         pq = new PriorityQueue();
@@ -45,7 +45,8 @@ public class AStarPathfindning : MonoBehaviour
             BoxCompareNode bcn = new BoxCompareNode(b, end);
             bcn.DistanceTraveled = Mathf.Infinity;
             bcn.Known = false;
-            list.Add(b, bcn);
+            if (b != null)
+                list.Add(b, bcn);
         }
 
         start.Known = false;
