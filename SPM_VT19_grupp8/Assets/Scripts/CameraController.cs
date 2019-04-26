@@ -14,7 +14,7 @@ public class CameraController : MonoBehaviour
     public bool thirdPerson = false;
 
     private Vector3 thirdPersonOffset = new Vector3(0.0f, 1.0f, -5.0f);
-    public float thirdPersonSafety = 0.5f; // shortest allowed distance from a collider
+    private float thirdPersonSafety = 0.3f; // shortest allowed distance from a collider
     private Vector3 firstPersonOffset = new Vector3(0.0f, 0.5f, 0.0f);
     public float rotationX = 0.0f; // make this private
     public float rotationY = 0.0f; // make this private
