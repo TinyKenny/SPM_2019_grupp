@@ -35,15 +35,17 @@ public class PlayerAirState : PlayerBaseState
         {
             Jump(wallRunCheck.normal);
 
-            if (Input.GetButton("Wallrun") && Velocity.y > MinimumYVelocity && wallRunCheck.normal.y > -0.5f)
+            if (Input.GetButton("Wallrun") && Velocity.y > MinimumYVelocity && wallRunCheck.normal.y > -0.5f && owner.WallrunAllowed())
             {
                 LedgeGrabCheck();
                 if (Mathf.Abs(Vector3.Angle(Transform.forward, wallRunCheck.normal)) > 140)
                 {
+                    owner.ResetWallrunCooldown();
                     owner.TransitionTo<PlayerVerticalWallRunState>();
                 }
                 else
                 {
+                    owner.ResetWallrunCooldown();
                     owner.TransitionTo<PlayerWallRunState>();
                 }
             }

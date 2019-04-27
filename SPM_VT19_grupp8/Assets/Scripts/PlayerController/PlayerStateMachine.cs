@@ -44,6 +44,8 @@ public class PlayerStateMachine : StateMachine
     public Transform respawnPoint;
     public AmmoPickup[] pickups;
     private float tempTimeScale;
+    private float wallrunCooldown;
+    [SerializeField] private float wallrunCooldownAmount = 0.5f;
 
     protected override void Awake()
     {
@@ -61,6 +63,7 @@ public class PlayerStateMachine : StateMachine
         shieldAmount.maxValue = shieldsMax;
 
         pickups = FindObjectsOfType<AmmoPickup>();
+        wallrunCooldown = wallrunCooldownAmount;
     }
 
     protected override void Update()
@@ -126,6 +129,7 @@ public class PlayerStateMachine : StateMachine
                 playerTimeScale = 1.0f;
             }
         }
+        wallrunCooldown -= getPlayerDeltaTime();
     }
 
     /// <summary>
@@ -221,5 +225,14 @@ public class PlayerStateMachine : StateMachine
         ammoNumber.text = this.ammo.ToString();
     }
 
+    public void ResetWallrunCooldown()
+    {
+        wallrunCooldown = wallrunCooldownAmount;
+    }
+
+    public bool WallrunAllowed()
+    {
+        return wallrunCooldown < 0f;
+    }
 
 }
