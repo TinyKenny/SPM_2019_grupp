@@ -6,20 +6,43 @@ using UnityEngine;
 public class StunbotChaseState : StunbotBaseState
 {
     Vector3 nextTargetPosition;
+    private bool foundPath = false;
 
     public override void Enter()
     {
+        base.Enter();
+        FindTarget();
+    }
+
+    private void FindTarget()
+    {
         nextTargetPosition = owner.transform.position;
-        NavBox end = Physics.OverlapBox(PlayerTransform.position, new Vector3(0.01f, 0.01f, 0.01f), Quaternion.identity, 1 << 14)[0].GetComponent<NavBox>();
+        NavBox end = new NavBox();
+        Collider[] colls;
+        colls = Physics.OverlapBox(PlayerTransform.position, new Vector3(0.1f, 0.1f, 0.1f), Quaternion.identity, owner.NavLayer);
+        if (colls.Length > 0)
+            end = colls[0].GetComponent<NavBox>();
         BoxCompareNode bcnEnd = new BoxCompareNode(end, null);
-        NavBox start = Physics.OverlapBox(owner.transform.position, new Vector3(0.01f, 0.01f, 0.01f), Quaternion.identity, 1 << 14)[0].GetComponent<NavBox>();
+        NavBox start = new NavBox();
+        colls = Physics.OverlapBox(owner.transform.position, new Vector3(0.1f, 0.1f, 0.1f), Quaternion.identity, owner.NavLayer);
+        if (colls.Length > 0)
+            start = colls[0].GetComponent<NavBox>();
         BoxCompareNode bcnStart = new BoxCompareNode(start, bcnEnd);
-        owner.GetComponent<AStarPathfindning>().FindPath(bcnStart, ThisTransform.position, bcnEnd);
+        if (start != null && end != null)
+            owner.GetComponent<AStarPathfindning>().FindPath(bcnStart, ThisTransform.position, bcnEnd);
     }
 
     public override void HandleUpdate()
     {
-        if (Vector3.Distance(nextTargetPosition, owner.transform.position) < 1)
+        //raycasta för att kolla om man behöver räkna ut en ny väg
+        RaycastHit hit = new RaycastHit();
+        LayerMask lm = owner.playerLayer | owner.EnviromentLayer;
+        if (Physics.SphereCast(owner.transform.position, owner.thisCollider.radius, (owner.playerTransform.position - ThisTransform.position).normalized, out hit, Mathf.Infinity, lm) && hit.transform.GetComponent<PlayerStateMachine>() == null && !foundPath)
+        {
+            foundPath = true;
+            FindTarget();
+        }
+        if (Vector3.Distance(nextTargetPosition, owner.transform.position) < 0.5f && owner.GetComponent<AStarPathfindning>().Paths.Count > 0)
         {
             float f = 0;
             foreach (KeyValuePair<float, Vector3> pos in owner.GetComponent<AStarPathfindning>().Paths)
@@ -30,6 +53,11 @@ public class StunbotChaseState : StunbotBaseState
             }
 
             owner.GetComponent<AStarPathfindning>().Paths.Remove(f);
+        }
+        else if (owner.GetComponent<AStarPathfindning>().Paths.Count == 0)
+        {
+            nextTargetPosition = owner.playerTransform.position;
+            foundPath = false;
         }
 
         Vector3 direction = (nextTargetPosition - ThisTransform.position).normalized * Acceleration * Time.deltaTime;

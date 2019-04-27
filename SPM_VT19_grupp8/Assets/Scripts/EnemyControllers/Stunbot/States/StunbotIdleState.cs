@@ -10,11 +10,18 @@ public class StunbotIdleState : StunbotBaseState
     public override void Enter()
     {
         nextTargetPosition = owner.transform.position;
-        NavBox end = Physics.OverlapBox(owner.patrolLocations[0].position, new Vector3(0.01f, 0.01f, 0.01f), Quaternion.identity, 1 << 14)[0].GetComponent<NavBox>();
+        NavBox end = new NavBox();
+        Collider[] colls = Physics.OverlapBox(owner.patrolLocations[0].position, new Vector3(0.1f, 0.1f, 0.1f), Quaternion.identity, owner.NavLayer);
+        if (colls.Length > 0)
+            end = colls[0].GetComponent<NavBox>();
         BoxCompareNode bcnEnd = new BoxCompareNode(end, null);
-        NavBox start = Physics.OverlapBox(owner.transform.position, new Vector3(0.01f, 0.01f, 0.01f), Quaternion.identity, 1 << 14)[0].GetComponent<NavBox>();
+        NavBox start  = new NavBox();
+        colls = Physics.OverlapBox(owner.transform.position, new Vector3(0.1f, 0.1f, 0.1f), Quaternion.identity, owner.NavLayer);
+        if (colls.Length > 0)
+            start = colls[0].GetComponent<NavBox>();
         BoxCompareNode bcnStart = new BoxCompareNode(start, bcnEnd);
-        owner.GetComponent<AStarPathfindning>().FindPath(bcnStart, ThisTransform.position, bcnEnd);
+        if (start != null && end != null)
+            owner.GetComponent<AStarPathfindning>().FindPath(bcnStart, ThisTransform.position, bcnEnd);
     }
 
     public override void HandleUpdate()

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class AStarPathfindning : MonoBehaviour
 {
-    private BoxCompareNode start;
-    private BoxCompareNode end;
+    //private BoxCompareNode start;
+    //private BoxCompareNode end;
     private PriorityQueue pq;
     private Dictionary<NavBox, BoxCompareNode> list;
 
@@ -36,8 +36,6 @@ public class AStarPathfindning : MonoBehaviour
     {
         Paths.Clear();
         list = new Dictionary<NavBox, BoxCompareNode>();
-        this.start = start;
-        this.end = end;
         pq = new PriorityQueue();
 
         foreach (NavBox b in NavmeshRender.GetComponent<NavmeshRenderer>().boxes)
