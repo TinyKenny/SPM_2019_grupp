@@ -188,58 +188,54 @@ public class PlayerBaseState : State
     protected void Shoot()
     {
         if (Input.GetAxisRaw("Aim") == 1f)
-            Camera.main.GetComponent<CameraController>().Aiming();
-        else
-            Camera.main.GetComponent<CameraController>().StopAiming();
-
-
-        if (Input.GetAxisRaw("Shoot") == 1f && FireCoolDown < 0 && Ammo > 0 && Time.timeScale > 0)
         {
-            Ammo--;
-            GameObject projectile = Instantiate(owner.projectilePrefab, Transform.position + (Camera.main.transform.rotation * Vector3.forward), Camera.main.transform.rotation);
+            Camera.main.GetComponent<CameraController>().Aiming();
 
-            Vector3 reticleLocation = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0.0f);
-
-            Ray aimRay = Camera.main.ScreenPointToRay(reticleLocation);
-
-
-            string[] ignoreLayers = new string[]{"3DNavMesh"};
-            RaycastHit rayHit;
-            bool rayHasHit = Physics.Raycast(aimRay, out rayHit, owner.projectilePrefab.GetComponent<ProjectileBehaviour>().distanceToTravel, ~((1 << owner.gameObject.layer) | (LayerMask.GetMask(ignoreLayers))));
-
-            Debug.Log(aimRay.origin);
-            Debug.DrawRay(aimRay.origin, aimRay.direction * rayHit.distance, new Color(255.0f, 0.0f, 0.0f), 1.5f);
-
-            Vector3 pointHit = rayHit.point;
-            if (!rayHasHit)
+            if (Input.GetAxisRaw("Shoot") == 1f && FireCoolDown < 0 && Ammo > 0 && Time.timeScale > 0)
             {
-                pointHit = aimRay.GetPoint(owner.projectilePrefab.GetComponent<ProjectileBehaviour>().distanceToTravel);
-            }
-            else
-            {
-                Debug.Log("aim hit! " + rayHit.point);
-                Debug.Log(rayHit.collider.name);
-            }
+                Ammo--;
+                GameObject projectile = Instantiate(owner.projectilePrefab, Transform.position + (Camera.main.transform.rotation * Vector3.forward), Camera.main.transform.rotation);
 
-            projectile.transform.LookAt(pointHit); // test-y stuff
-            projectile.GetComponent<ProjectileBehaviour>().SetInitialValues((1 << owner.gameObject.layer) | LayerMask.GetMask(ignoreLayers));
-            FireCoolDown = FireRate;
-            owner.ammoNumber.text = Ammo.ToString();
+                Vector3 reticleLocation = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0.0f);
+
+                Ray aimRay = Camera.main.ScreenPointToRay(reticleLocation);
+
+
+                string[] ignoreLayers = new string[] { "3DNavMesh" };
+                RaycastHit rayHit;
+                bool rayHasHit = Physics.Raycast(aimRay, out rayHit, owner.projectilePrefab.GetComponent<ProjectileBehaviour>().distanceToTravel, ~((1 << owner.gameObject.layer) | (LayerMask.GetMask(ignoreLayers))));
+
+                Debug.Log(aimRay.origin);
+                Debug.DrawRay(aimRay.origin, aimRay.direction * rayHit.distance, new Color(255.0f, 0.0f, 0.0f), 1.5f);
+
+                Vector3 pointHit = rayHit.point;
+                if (!rayHasHit)
+                {
+                    pointHit = aimRay.GetPoint(owner.projectilePrefab.GetComponent<ProjectileBehaviour>().distanceToTravel);
+                }
+                else
+                {
+                    Debug.Log("aim hit! " + rayHit.point);
+                    Debug.Log(rayHit.collider.name);
+                }
+
+                projectile.transform.LookAt(pointHit); // test-y stuff
+                projectile.GetComponent<ProjectileBehaviour>().SetInitialValues((1 << owner.gameObject.layer) | LayerMask.GetMask(ignoreLayers));
+                FireCoolDown = FireRate;
+                owner.ammoNumber.text = Ammo.ToString();
+            }
         }
+        else
+        {
+            Camera.main.GetComponent<CameraController>().StopAiming();
+        }
+        
         FireCoolDown -= PlayerDeltaTime;
     }
 
     protected virtual void UpdatePlayerRotation()
     {
         Transform.LookAt(Transform.position + new Vector3(Velocity.x, 0.0f, Velocity.z).normalized);
-
-
-        //Vector3 direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0.0f, Input.GetAxisRaw("Vertical"));
-        //direction = Camera.main.transform.rotation * direction;
-
-        //// project on plane?
-
-        //Transform.LookAt(Transform.position + new Vector3(direction.x, 0.0f, direction.z).normalized);
     }
 
 
