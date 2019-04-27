@@ -28,7 +28,7 @@ public class StunbotIdleState : StunbotBaseState
 
         base.HandleUpdate();
 
-        if (CanSeePlayer(20.0f) &&
+        if (CanSeePlayer(60.0f) &&
             Vector3.Distance(ThisTransform.position, owner.patrolLocations[0].position) < MaxSpeed * 0.1f)
             //Vector3.Distance(PlayerTransform.position, owner.patrolLocations[0].position) < owner.allowedOriginDistance)
         {

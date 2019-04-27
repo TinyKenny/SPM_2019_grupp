@@ -44,7 +44,7 @@ public class StunbotChaseState : StunbotBaseState
             Debug.Log("Chase -> Idle (can't see origin)");
             owner.TransitionTo<StunbotIdleState>();
         }
-        else if (!CanSeePlayer(21.0f))
+        else if (!CanSeePlayer(65.0f))
         {
             Debug.Log("Chase -> Search (lost player)");
             owner.TransitionTo<StunbotSearchState>();
