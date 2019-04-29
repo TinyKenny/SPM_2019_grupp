@@ -28,12 +28,6 @@ public class EnemyHealthPOC : MonoBehaviour
         //Debug.Log(enemyObject);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void TakeDamage(float damage)
     {
         if (GetComponent<SoldierStateMachine>() != null)
