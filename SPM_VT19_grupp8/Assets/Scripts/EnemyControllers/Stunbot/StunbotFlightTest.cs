@@ -10,23 +10,23 @@ public class StunbotFlightTest : MonoBehaviour
     private int currentGoal = 0;
     private Vector3 startPosition;
     private float maxSpeed = 10.0f;
-    private float velocity = 0.0f;
+    public float velocity = 0.0f;
     private float acceleration = 2.0f;
     private float deceleration = 1.0f;
-    private float turnSpeed = 45.0f;
+    private float turnSpeed = 60.0f;
     //private float turnSpeed = 0.5f;
-    private float airResistance = 0.95f;
+    private float airResistance = 0.9f;
 
 
-    private float CurrentMaxSpeed;
+    public float CurrentMaxSpeed = 0.0f;
 
     // Start is called before the first frame update
     void Start()
     {
         startPosition = transform.position;
-        CurrentMaxSpeed = CalculateMaxSpeed();
+        CurrentMaxSpeed = CalculateMaxSpeed(transform.position, goals[currentGoal].position);
 
-        Debug.Log("Förutsäg rotationen den ska ha när den når sitt mål!");
+        Debug.Log("Förutsäg rotationen den ska ha när den når sitt mål, så att den kan anpassa sin hastighet i förväg");
     }
 
     // Update is called once per frame
@@ -81,15 +81,16 @@ public class StunbotFlightTest : MonoBehaviour
         if(Vector3.Distance(transform.position, goals[currentGoal].position) < 0.1f)
         {
             currentGoal = (currentGoal + 1) % goals.Length;
-            CurrentMaxSpeed = CalculateMaxSpeed();
+            
         }
+        CurrentMaxSpeed = CalculateMaxSpeed(transform.position, goals[currentGoal].position);
     }
 
-    private float CalculateMaxSpeed()
+    private float CalculateMaxSpeed(Vector3 startPosition, Vector3 goalPosition)
     {
-        Vector3 goalPosition = goals[currentGoal].position;
 
-        Vector3 goalPositionDifference = goalPosition - transform.position;
+
+        Vector3 goalPositionDifference = goalPosition - startPosition;
 
         float goFast = goalPositionDifference.magnitude * turnSpeed * Mathf.Deg2Rad / (2 * Mathf.Sin(Vector3.Angle(transform.forward, goalPositionDifference.normalized) * Mathf.Deg2Rad));
 
