@@ -7,6 +7,7 @@ public class PlayerAirState : PlayerBaseState
 {
     private Vector3 direction;
     protected float MinimumYVelocity = -4f;
+    protected float maxYVelocity = 15f;
     private float jumpPower = 12.5f;
 
     public override void HandleUpdate()
@@ -26,6 +27,11 @@ public class PlayerAirState : PlayerBaseState
         bool grounded = FindCollision(Vector3.down, GroundCheckDistance + SkinWidth);
 
         Velocity *= Mathf.Pow(AirResistanceCoefficient, PlayerDeltaTime);
+
+        if (Velocity.y > maxYVelocity)
+        {
+            Velocity = new Vector3(Velocity.x, maxYVelocity, Velocity.z);
+        }
 
         if (grounded)
         {
