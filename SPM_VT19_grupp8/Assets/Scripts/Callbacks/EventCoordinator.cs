@@ -13,7 +13,7 @@ public class EventCoordinator : MonoBehaviour
     }
 
     public delegate void EventListener(EventInfo eventInfo);
-    public static Dictionary<Type, EventListener> EventListeners;
+    public Dictionary<Type, EventListener> EventListeners;
 
     public void RegisterEventListener<T>(EventListener eventListener) where T : EventInfo
     {
