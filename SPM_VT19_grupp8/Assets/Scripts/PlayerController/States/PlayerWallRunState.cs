@@ -5,11 +5,26 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "States/Player/Wall run State")]
 public class PlayerWallRunState : PlayerAirState
 {
-    private float jumpPower = 10.0f;
     private float maxVerticalVelocity = 1.5f;
+    private Vector3 wallNormal;
+
+    public override void Initialize(StateMachine owner)
+    {
+        base.Initialize(owner);
+        MaxSpeedMod = 1f;
+    }
 
     public override void Enter()
     {
+        RaycastHit wall = new RaycastHit();
+
+        WallRun(out wall);
+
+        wallNormal = wall.normal;
+
+        Velocity = ProjectSpeedOnSurface();
+
+        Transform.LookAt(Transform.position + new Vector3(Velocity.x, 0.0f, Velocity.z).normalized);
     }
 
     public override void HandleUpdate()
@@ -28,24 +43,19 @@ public class PlayerWallRunState : PlayerAirState
         {
             owner.TransitionTo<PlayerWalkingState>();
         }
-        else if (WallRun(out wall))
+        else if (WallRun(out wall) && Velocity.y > MinimumYVelocity && Input.GetButton("Wallrun"))
         {
-            Velocity = ProjectSpeedOnSurface(wall);
-
-            Velocity += Vector3.ClampMagnitude(new Vector3(Velocity.x, 0, Velocity.z).normalized, 1.0f) * Acceleration * PlayerDeltaTime;
+            //Velocity += Vector3.ClampMagnitude(new Vector3(Velocity.x, 0, Velocity.z).normalized, 1.0f) * Acceleration * PlayerDeltaTime;
 
             if (Velocity.y > maxVerticalVelocity)
                 Velocity = new Vector3(Velocity.x, maxVerticalVelocity, Velocity.z);
 
-            if (Velocity.magnitude > MaxSpeed / 2)
+            if (Velocity.magnitude > MaxSpeed)
             {
-                Velocity = Velocity.normalized * MaxSpeed / 2;
+                Velocity = Velocity.normalized * MaxSpeed;
             }
 
-            if (Input.GetButtonDown("Jump"))
-            {
-                Velocity += (wall.normal + Vector3.up).normalized * jumpPower;
-            }
+            Jump(wallNormal);
         }
         else
         {
@@ -53,9 +63,9 @@ public class PlayerWallRunState : PlayerAirState
         }
     }
 
-    private Vector3 ProjectSpeedOnSurface(RaycastHit wall)
+    private Vector3 ProjectSpeedOnSurface()
     {
-        Vector3 projection = Vector3.Dot(Velocity, wall.normal) * wall.normal;
+        Vector3 projection = Vector3.Dot(Velocity, wallNormal) * wallNormal;
         return Velocity - projection;
     }
 }

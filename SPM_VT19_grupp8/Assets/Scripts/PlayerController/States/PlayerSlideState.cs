@@ -22,6 +22,8 @@ public class PlayerSlideState : PlayerBaseState
 
     public override void HandleUpdate()
     {
+        base.HandleUpdate();
+
         Velocity += Vector3.down * Gravity * PlayerDeltaTime;
 
         SlidingDecelerate();
@@ -82,5 +84,10 @@ public class PlayerSlideState : PlayerBaseState
                 Velocity -= decelerationVector;
             }
         }
+    }
+
+    protected override void UpdatePlayerRotation()
+    {
+        Transform.LookAt(Transform.position + new Vector3(Velocity.x, 0.0f, Velocity.z).normalized);
     }
 }

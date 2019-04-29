@@ -13,8 +13,8 @@ public class CameraController : MonoBehaviour
     [Header("Perspective (first/third person)")]
     public bool thirdPerson = false;
 
-    private Vector3 thirdPersonOffset = new Vector3(0.0f, 1.0f, -5.0f);
-    public float thirdPersonSafety = 0.5f; // shortest allowed distance from a collider
+    private Vector3 thirdPersonOffset = new Vector3(0.0f, 0.9f, -4.4f);
+    private float thirdPersonSafety = 0.3f; // shortest allowed distance from a collider
     private Vector3 firstPersonOffset = new Vector3(0.0f, 0.5f, 0.0f);
     public float rotationX = 0.0f; // make this private
     public float rotationY = 0.0f; // make this private
@@ -29,6 +29,7 @@ public class CameraController : MonoBehaviour
     {
         startingGamePadSensitivity = gamePadSensitivity;
         startingFOV = Camera.main.fieldOfView;
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerRespawnEventInfo>(OnPlayerRespawn);
         //playerTransform = transform.parent;
     }
 
@@ -109,5 +110,18 @@ public class CameraController : MonoBehaviour
     {
         Camera.main.fieldOfView = startingFOV;
         gamePadSensitivity = startingGamePadSensitivity;
+    }
+
+
+    public void OnPlayerRespawn(EventInfo eventInfo)
+    {
+        PlayerRespawnEventInfo PREI = (PlayerRespawnEventInfo)eventInfo;
+
+        //Vector3 playerRotation = PREI.GO.transform.rotation.eulerAngles;
+        transform.rotation = PREI.GO.transform.rotation;
+        rotationY = transform.rotation.eulerAngles.y;
+        rotationX = transform.rotation.eulerAngles.x;
+
+        
     }
 }

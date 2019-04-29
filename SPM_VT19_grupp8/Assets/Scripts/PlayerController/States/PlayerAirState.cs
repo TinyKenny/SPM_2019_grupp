@@ -6,9 +6,13 @@ using UnityEngine;
 public class PlayerAirState : PlayerBaseState
 {
     private Vector3 direction;
+    protected float MinimumYVelocity = -4f;
+    private float jumpPower = 12.5f;
 
     public override void HandleUpdate()
     {
+        base.HandleUpdate();
+
         RaycastHit wallRunCheck = new RaycastHit();
 
         Shoot();
@@ -29,14 +33,21 @@ public class PlayerAirState : PlayerBaseState
         }
         else if (WallRun(out wallRunCheck))
         {
-            LedgeGrabCheck();
-            if (Mathf.Abs(Vector3.Angle(Transform.forward, wallRunCheck.normal)) > 120)
+            Jump(wallRunCheck.normal);
+
+            if (Input.GetButton("Wallrun") && Velocity.y > MinimumYVelocity && wallRunCheck.normal.y > -0.5f && owner.WallrunAllowed())
             {
-                owner.TransitionTo<PlayerVerticalWallRunState>();
-            }
-            else
-            {
-                owner.TransitionTo<PlayerWallRunState>();
+                LedgeGrabCheck();
+                if (Mathf.Abs(Vector3.Angle(Transform.forward, wallRunCheck.normal)) > 140)
+                {
+                    owner.ResetWallrunCooldown();
+                    owner.TransitionTo<PlayerVerticalWallRunState>();
+                }
+                else
+                {
+                    owner.ResetWallrunCooldown();
+                    owner.TransitionTo<PlayerWallRunState>();
+                }
             }
         }
     }
@@ -71,5 +82,26 @@ public class PlayerAirState : PlayerBaseState
         direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0.0f, Input.GetAxisRaw("Vertical"));
 
         direction = Camera.main.transform.rotation * direction;
+
+        direction = Vector3.ProjectOnPlane(direction, Vector3.up);
+    }
+
+    protected void Jump(Vector3 normal)
+    {
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            Velocity += (normal + Vector3.up).normalized * jumpPower;
+        }
+    }
+
+    protected override void UpdatePlayerRotation()
+    {
+        Vector3 direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0.0f, Input.GetAxisRaw("Vertical"));
+        direction = Camera.main.transform.rotation * direction;
+
+        // project on plane?
+
+        Transform.LookAt(Transform.position + new Vector3(direction.x, 0.0f, direction.z).normalized);
     }
 }

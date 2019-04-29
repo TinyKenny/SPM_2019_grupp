@@ -44,6 +44,8 @@ public class PlayerStateMachine : StateMachine
     public Transform respawnPoint;
     public AmmoPickup[] pickups;
     private float tempTimeScale;
+    private float wallrunCooldown;
+    [SerializeField] private float wallrunCooldownAmount = 0.5f;
 
     protected override void Awake()
     {
@@ -60,13 +62,14 @@ public class PlayerStateMachine : StateMachine
         timeSlowEnergy.maxValue = slowMotionEnergyMax;
         shieldAmount.maxValue = shieldsMax;
 
-        pickups = GameObject.FindObjectsOfType<AmmoPickup>();
+        pickups = FindObjectsOfType<AmmoPickup>();
+        wallrunCooldown = wallrunCooldownAmount;
     }
 
     protected override void Update()
     {
         base.Update();
-        UpdatePlayerRotation();
+        //UpdatePlayerRotation();
 
         // developer cheats start here
 
@@ -126,6 +129,7 @@ public class PlayerStateMachine : StateMachine
                 playerTimeScale = 1.0f;
             }
         }
+        wallrunCooldown -= getPlayerDeltaTime();
     }
 
     /// <summary>
@@ -180,6 +184,7 @@ public class PlayerStateMachine : StateMachine
         transform.position = respawnPoint.position;
         transform.rotation = Quaternion.Euler(0.0f, respawnPoint.rotation.y, 0.0f);
         Velocity = Vector3.zero;
+        Time.timeScale = 1.0f;
         playerTimeScale = 1.0f;
         shieldsRegenerationTimer = 0.0f;
         currentShields = shieldsMax;
@@ -191,10 +196,18 @@ public class PlayerStateMachine : StateMachine
 
         Debug.Log("Reset pickups and enemies when respawning!");
 
+
+        PlayerRespawnEventInfo PREI = new PlayerRespawnEventInfo(gameObject);
+        EventCoordinator.CurrentEventCoordinator.ActivateEvent(PREI);
+
+
+        //replace the stuff below, to be triggered by events
+
         foreach (AmmoPickup pickup in pickups)
             pickup.gameObject.SetActive(true);
     }
 
+    /*
     /// <summary>
     /// Rotates the player-GameObject so that its Z-axis (also known as "forward", example: transform.forward)
     /// to be pointing in the direction of Velocity.
@@ -204,10 +217,22 @@ public class PlayerStateMachine : StateMachine
         // make this better later
         transform.LookAt(transform.position + new Vector3(Velocity.x, 0.0f, Velocity.z).normalized);
     }
+    */
 
     public void AddAmmo(int ammo)
     {
         this.ammo += ammo;
         ammoNumber.text = this.ammo.ToString();
     }
+
+    public void ResetWallrunCooldown()
+    {
+        wallrunCooldown = wallrunCooldownAmount;
+    }
+
+    public bool WallrunAllowed()
+    {
+        return wallrunCooldown < 0f;
+    }
+
 }

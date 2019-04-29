@@ -15,7 +15,7 @@ public class EnemyHealthPOC : MonoBehaviour
         currentHealth = maxHealth;
         //Debug.Log(transform.parent);
 
-        if (transform.parent != null)
+        if (transform.parent != null && transform.parent.GetComponent<StunbotStateMachine>() != null)
             enemyObject = transform.parent;
         else
             enemyObject = transform;
@@ -26,12 +26,6 @@ public class EnemyHealthPOC : MonoBehaviour
         }
 
         //Debug.Log(enemyObject);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     public void TakeDamage(float damage)

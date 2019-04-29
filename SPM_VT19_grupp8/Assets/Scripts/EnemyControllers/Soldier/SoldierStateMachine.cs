@@ -15,6 +15,7 @@ public class SoldierStateMachine : StateMachine
     public NavMeshAgent agent;
     public float currentCoolDown = 0;
     public float maxCoolDown = 2;
+    public float cooldownVarianceMax = 0.5f;
     public Vector3 playerLastLocation;
     public Transform[] patrolLocations;
 

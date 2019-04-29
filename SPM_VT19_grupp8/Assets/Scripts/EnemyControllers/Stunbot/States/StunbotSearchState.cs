@@ -87,7 +87,7 @@ public class StunbotSearchState : StunbotBaseState
             searchTimer -= Time.deltaTime;
         }
 
-        if (CanSeePlayer(20.0f))
+        if (CanSeePlayer(60.0f))
         {
             Debug.Log("Search -> Chase (found player)");
             owner.TransitionTo<StunbotChaseState>();

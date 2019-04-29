@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestEndScript : MonoBehaviour
+public class FinishLevel : MonoBehaviour
 {
     public int sceneToLoad;
 

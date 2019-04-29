@@ -41,6 +41,6 @@ public class SoldierAttackState : SoldierBaseState
         owner.transform.LookAt(owner.playerTransform.position);
         projectile.transform.LookAt(projectile.transform.position + (Quaternion.Euler(Random.Range(0.0f, inaccuracy), Random.Range(-inaccuracy, inaccuracy), 0.0f) * owner.transform.forward));
         projectile.GetComponent<ProjectileBehaviour>().SetInitialValues(1 << owner.gameObject.layer);
-        owner.currentCoolDown = owner.maxCoolDown;
+        owner.currentCoolDown = owner.maxCoolDown + Random.Range(0.0f, owner.cooldownVarianceMax);
     }
 }
