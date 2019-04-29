@@ -15,7 +15,7 @@ public class EnemyHealthPOC : MonoBehaviour
         currentHealth = maxHealth;
         //Debug.Log(transform.parent);
 
-        if (transform.parent != null)
+        if (transform.parent != null && transform.parent.GetComponent<StunbotStateMachine>() != null)
             enemyObject = transform.parent;
         else
             enemyObject = transform;
