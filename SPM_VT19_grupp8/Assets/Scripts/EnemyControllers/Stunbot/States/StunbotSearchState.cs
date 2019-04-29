@@ -40,7 +40,7 @@ public class StunbotSearchState : StunbotBaseState
 
         if (owner.GetComponent<AStarPathfindning>().Paths.Count > 0)
         {
-            if (Vector3.Distance(nextTargetPosition, owner.transform.position) < 0.5f)
+            if (Vector3.Distance(nextTargetPosition, owner.transform.position) < 0.1f)
             {
                 float f = 0;
                 foreach (KeyValuePair<float, Vector3> pos in owner.GetComponent<AStarPathfindning>().Paths)

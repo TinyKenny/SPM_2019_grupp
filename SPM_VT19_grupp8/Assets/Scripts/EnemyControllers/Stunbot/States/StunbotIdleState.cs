@@ -32,7 +32,7 @@ public class StunbotIdleState : StunbotBaseState
 
     public override void HandleUpdate()
     {
-        if (Vector3.Distance(nextTargetPosition, owner.transform.position) < 0.5f && owner.GetComponent<AStarPathfindning>().Paths.Count > 0)
+        if (Vector3.Distance(nextTargetPosition, owner.transform.position) < 0.1f && owner.GetComponent<AStarPathfindning>().Paths.Count > 0)
         {
             float f = 0;
             foreach (KeyValuePair<float, Vector3> pos in owner.GetComponent<AStarPathfindning>().Paths)
@@ -43,10 +43,13 @@ public class StunbotIdleState : StunbotBaseState
             }
 
             owner.GetComponent<AStarPathfindning>().Paths.Remove(f);
-
+        }
+        else if (owner.GetComponent<AStarPathfindning>().Paths.Count == 0)
+        {
+            nextTargetPosition = owner.patrolLocations[0].position;
         }
 
-        Velocity *= 0.05f * Time.deltaTime;
+        Velocity *= /*0.05f **/ Time.deltaTime;
 
         if (Vector3.Distance(owner.patrolLocations[0].position, ThisTransform.position) > MaxSpeed * 0.1f)
         {
