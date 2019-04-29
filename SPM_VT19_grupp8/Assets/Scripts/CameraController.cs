@@ -115,12 +115,12 @@ public class CameraController : MonoBehaviour
 
     public void OnPlayerRespawn(EventInfo eventInfo)
     {
-        PlayerRespawnEventInfo PREI = (PlayerRespawnEventInfo)eventInfo;
+        //PlayerRespawnEventInfo PREI = (PlayerRespawnEventInfo)eventInfo;
 
-        //Vector3 playerRotation = PREI.GO.transform.rotation.eulerAngles;
-        transform.rotation = PREI.GO.transform.rotation;
-        rotationY = transform.rotation.eulerAngles.y;
-        rotationX = transform.rotation.eulerAngles.x;
+        ////Vector3 playerRotation = PREI.GO.transform.rotation.eulerAngles;
+        //transform.rotation = PREI.GO.transform.rotation;
+        //rotationY = transform.rotation.eulerAngles.y;
+        //rotationX = transform.rotation.eulerAngles.x;
 
         
     }
