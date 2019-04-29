@@ -17712,8 +17712,8 @@ GameObject:
   - component: {fileID: 1041845924}
   - component: {fileID: 1041845923}
   - component: {fileID: 1041845922}
-  - component: {fileID: 1041845925}
   - component: {fileID: 1041845926}
+  - component: {fileID: 1041845925}
   m_Layer: 9
   m_Name: Finishline
   m_TagString: Untagged
@@ -17802,9 +17802,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1041845920}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc6dfe8cf98d6364f85cde1bc89229ee, type: 3}
+  m_Script: {fileID: 11500000, guid: 4da8977fa26833e49927706e08522d70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneToLoad: 2
 --- !u!54 &1041845926
 Rigidbody:
   m_ObjectHideFlags: 0
