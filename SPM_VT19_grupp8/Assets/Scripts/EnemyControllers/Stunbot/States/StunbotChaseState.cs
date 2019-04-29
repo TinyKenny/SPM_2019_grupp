@@ -12,6 +12,7 @@ public class StunbotChaseState : StunbotBaseState
     {
         base.Enter();
         FindTarget();
+        foundPath = true;
     }
 
     private void FindTarget()

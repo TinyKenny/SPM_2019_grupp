@@ -9,14 +9,20 @@ public class StunbotIdleState : StunbotBaseState
 
     public override void Enter()
     {
+        FindTarget();
+    }
+
+    private void FindTarget()
+    {
         nextTargetPosition = owner.transform.position;
         NavBox end = new NavBox();
-        Collider[] colls = Physics.OverlapBox(owner.patrolLocations[0].position, new Vector3(0.1f, 0.1f, 0.1f), Quaternion.identity, owner.NavLayer);
+        Collider[] colls;
+        colls = Physics.OverlapBox(owner.patrolLocations[0].position, new Vector3(0.1f, 0.1f, 0.1f), Quaternion.identity, owner.NavLayer); //end
         if (colls.Length > 0)
             end = colls[0].GetComponent<NavBox>();
         BoxCompareNode bcnEnd = new BoxCompareNode(end, null);
-        NavBox start  = new NavBox();
-        colls = Physics.OverlapBox(owner.transform.position, new Vector3(0.1f, 0.1f, 0.1f), Quaternion.identity, owner.NavLayer);
+        NavBox start = new NavBox();
+        colls = Physics.OverlapBox(owner.transform.position, new Vector3(0.1f, 0.1f, 0.1f), Quaternion.identity, owner.NavLayer); //start
         if (colls.Length > 0)
             start = colls[0].GetComponent<NavBox>();
         BoxCompareNode bcnStart = new BoxCompareNode(start, bcnEnd);
@@ -26,7 +32,7 @@ public class StunbotIdleState : StunbotBaseState
 
     public override void HandleUpdate()
     {
-        if (Vector3.Distance(nextTargetPosition, owner.transform.position) < 1)
+        if (Vector3.Distance(nextTargetPosition, owner.transform.position) < 0.5f && owner.GetComponent<AStarPathfindning>().Paths.Count > 0)
         {
             float f = 0;
             foreach (KeyValuePair<float, Vector3> pos in owner.GetComponent<AStarPathfindning>().Paths)
