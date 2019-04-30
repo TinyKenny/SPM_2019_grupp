@@ -194,7 +194,7 @@ public class PlayerBaseState : State
             if (Input.GetAxisRaw("Shoot") == 1f && FireCoolDown < 0 && Ammo > 0 && Time.timeScale > 0)
             {
                 Ammo--;
-                GameObject projectile = Instantiate(owner.projectilePrefab, Transform.position + (Camera.main.transform.rotation * Vector3.forward), Camera.main.transform.rotation);
+               
 
                 Vector3 reticleLocation = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0.0f);
 
@@ -218,6 +218,7 @@ public class PlayerBaseState : State
                     Debug.Log("aim hit! " + rayHit.point);
                     Debug.Log(rayHit.collider.name);
                 }
+                GameObject projectile = Instantiate(owner.projectilePrefab, Transform.position + (Camera.main.transform.rotation * Vector3.forward), Camera.main.transform.rotation);
 
                 projectile.transform.LookAt(pointHit); // test-y stuff
                 projectile.GetComponent<ProjectileBehaviour>().SetInitialValues((1 << owner.gameObject.layer) | LayerMask.GetMask(ignoreLayers));
