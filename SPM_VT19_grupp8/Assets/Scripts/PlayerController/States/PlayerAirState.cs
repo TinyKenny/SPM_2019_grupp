@@ -7,8 +7,8 @@ public class PlayerAirState : PlayerBaseState
 {
     private Vector3 direction;
     protected float MinimumYVelocity = -4f;
-    protected float maxYVelocity = 15f;
-    private float jumpPower = 12.5f;
+    protected float maxYVelocity = 12.5f;
+    private static float jumpPower = 12.5f;
 
     public override void HandleUpdate()
     {
@@ -35,13 +35,13 @@ public class PlayerAirState : PlayerBaseState
 
         if (grounded)
         {
-            owner.TransitionTo<PlayerWalkingState>();
+            TransitionToWalkingState();
         }
         else if (WallRun(out wallRunCheck))
         {
             Jump(wallRunCheck.normal);
 
-            if (Input.GetButton("Wallrun") && Velocity.y > MinimumYVelocity && wallRunCheck.normal.y > -0.5f && owner.WallrunAllowed())
+            if (Input.GetButton("Wallrun") && Velocity.y > MinimumYVelocity && wallRunCheck.normal.y > -0.5f && owner.WallrunAllowed() && Mathf.Abs(Vector3.Dot(wallRunCheck.normal, Vector3.up)) < MathHelper.floatEpsilon)
             {
                 LedgeGrabCheck();
                 if (Mathf.Abs(Vector3.Angle(Transform.forward, wallRunCheck.normal)) > 140)
@@ -98,6 +98,7 @@ public class PlayerAirState : PlayerBaseState
         if (Input.GetButtonDown("Jump"))
         {
             Velocity += (normal + Vector3.up).normalized * jumpPower;
+            jumpPower *= 0.75f;
         }
     }
 
@@ -109,5 +110,11 @@ public class PlayerAirState : PlayerBaseState
         // project on plane?
 
         Transform.LookAt(Transform.position + new Vector3(direction.x, 0.0f, direction.z).normalized);
+    }
+
+    protected void TransitionToWalkingState()
+    {
+        jumpPower = 12.5f;
+        owner.TransitionTo<PlayerWalkingState>();
     }
 }

@@ -39,7 +39,7 @@ public class PlayerVerticalWallRunState : PlayerAirState
 
         if (grounded)
         {
-            owner.TransitionTo<PlayerWalkingState>();
+            TransitionToWalkingState();
         }
         else if (WallRun(out wall) && Velocity.y > MinimumYVelocity && Input.GetButton("Wallrun"))
         {
