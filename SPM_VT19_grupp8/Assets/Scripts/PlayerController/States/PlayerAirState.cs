@@ -20,7 +20,7 @@ public class PlayerAirState : PlayerBaseState
 
         MovementInput();
 
-        Velocity += (Vector3.down * Gravity + direction * Gravity/2) * PlayerDeltaTime;
+        Velocity += (Vector3.down * Gravity + direction * Gravity / 2) * PlayerDeltaTime;
 
         CheckCollision(Velocity * PlayerDeltaTime);
 
@@ -31,6 +31,11 @@ public class PlayerAirState : PlayerBaseState
         if (Velocity.y > maxYVelocity)
         {
             Velocity = new Vector3(Velocity.x, maxYVelocity, Velocity.z);
+        }
+
+        if (Velocity.magnitude > MaxSpeed * 2)
+        {
+            Velocity = Velocity.normalized * MaxSpeed;
         }
 
         if (grounded)
@@ -97,7 +102,7 @@ public class PlayerAirState : PlayerBaseState
 
         if (Input.GetButtonDown("Jump"))
         {
-            Velocity += (normal + Vector3.up).normalized * jumpPower;
+            Velocity += (normal + Vector3.up).normalized * (jumpPower * owner.TimeSlowMultiplier);
             jumpPower *= 0.75f;
         }
     }

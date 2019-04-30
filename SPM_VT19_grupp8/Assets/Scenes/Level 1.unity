@@ -14213,6 +14213,38 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
+        type: 3}
+      propertyPath: respawnPoint
+      value: 
+      objectReference: {fileID: 1570306221}
+    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
+        type: 3}
+      propertyPath: timeSlowEnergy
+      value: 
+      objectReference: {fileID: 2075612436}
+    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
+        type: 3}
+      propertyPath: shieldAmount
+      value: 
+      objectReference: {fileID: 1042235210}
+    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
+        type: 3}
+      propertyPath: projectilePrefab
+      value: 
+      objectReference: {fileID: 1468789670608892739, guid: 4bd3c14ec32e9a34bb17dffeab61485b,
+        type: 3}
+    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
+        type: 3}
+      propertyPath: ammoNumber
+      value: 
+      objectReference: {fileID: 20289220}
+    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
+        type: 3}
+      propertyPath: states.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: b412ca5ebfc280a4ea2515f844d61f92,
+        type: 2}
     - target: {fileID: 2112523359584729376, guid: 8bc4dc44ebc45d0408638807052809b2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -14268,42 +14300,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
-        type: 3}
-      propertyPath: respawnPoint
-      value: 
-      objectReference: {fileID: 1570306221}
-    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
-        type: 3}
-      propertyPath: timeSlowEnergy
-      value: 
-      objectReference: {fileID: 2075612436}
-    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
-        type: 3}
-      propertyPath: shieldAmount
-      value: 
-      objectReference: {fileID: 1042235210}
-    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
-        type: 3}
-      propertyPath: projectilePrefab
-      value: 
-      objectReference: {fileID: 1468789670608892739, guid: 4bd3c14ec32e9a34bb17dffeab61485b,
-        type: 3}
-    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
-        type: 3}
-      propertyPath: ammoNumber
-      value: 
-      objectReference: {fileID: 20289220}
-    - target: {fileID: 2112523359584729378, guid: 8bc4dc44ebc45d0408638807052809b2,
-        type: 3}
-      propertyPath: maxSpeed
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 2112523359584729378, guid: 8bc4dc44ebc45d0408638807052809b2,
-        type: 3}
-      propertyPath: gravity
-      value: 18
-      objectReference: {fileID: 0}
     - target: {fileID: 7463984335234867758, guid: 8bc4dc44ebc45d0408638807052809b2,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -14329,6 +14325,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 66fb7029fe633fe419672f0591631324, type: 2}
+    - target: {fileID: 2112523359584729378, guid: 8bc4dc44ebc45d0408638807052809b2,
+        type: 3}
+      propertyPath: maxSpeed
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2112523359584729378, guid: 8bc4dc44ebc45d0408638807052809b2,
+        type: 3}
+      propertyPath: gravity
+      value: 18
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bc4dc44ebc45d0408638807052809b2, type: 3}
 --- !u!114 &715534045 stripped

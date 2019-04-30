@@ -14,6 +14,7 @@ public class PlayerStateMachine : StateMachine
     public GameObject projectilePrefab;
     public float fireRate = 1.0f;
     public float fireCoolDown = 0.0f;
+    public float TimeSlowMultiplier;
 
     [HideInInspector]
     public float standardColliderHeight;
@@ -64,6 +65,8 @@ public class PlayerStateMachine : StateMachine
 
         pickups = FindObjectsOfType<AmmoPickup>();
         wallrunCooldown = wallrunCooldownAmount;
+
+        TimeSlowMultiplier = 1f;
     }
 
     protected override void Update()
@@ -115,6 +118,7 @@ public class PlayerStateMachine : StateMachine
             {
                 Time.timeScale = slowedWorldTimeScale;
                 playerTimeScale = slowedPlayerTimeScale;
+                TimeSlowMultiplier = 1.2f;
             }
         }
         else if(Mathf.Approximately(playerTimeScale, slowedPlayerTimeScale))
@@ -127,6 +131,7 @@ public class PlayerStateMachine : StateMachine
             {
                 Time.timeScale = 1.0f;
                 playerTimeScale = 1.0f;
+                TimeSlowMultiplier = 1;
             }
         }
         wallrunCooldown -= getPlayerDeltaTime();
