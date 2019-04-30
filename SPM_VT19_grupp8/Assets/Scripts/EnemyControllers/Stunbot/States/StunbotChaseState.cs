@@ -38,7 +38,7 @@ public class StunbotChaseState : StunbotBaseState
         //raycasta för att kolla om man behöver räkna ut en ny väg
         RaycastHit hit = new RaycastHit();
         LayerMask lm = owner.playerLayer | owner.EnviromentLayer;
-        if (Physics.SphereCast(owner.transform.position, owner.thisCollider.radius, (owner.playerTransform.position - ThisTransform.position).normalized, out hit, Mathf.Infinity, lm) && hit.transform.GetComponent<PlayerStateMachine>() == null && !foundPath)
+        if ((!foundPath) && Physics.SphereCast(owner.transform.position, owner.thisCollider.radius, (owner.playerTransform.position - ThisTransform.position).normalized, out hit, Mathf.Infinity, lm) && hit.transform.GetComponent<PlayerStateMachine>() == null)
         {
             foundPath = true;
             FindTarget();

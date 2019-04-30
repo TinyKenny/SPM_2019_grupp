@@ -30,6 +30,8 @@ public class StunbotFlightTest : MonoBehaviour
         myCollider = GetComponent<SphereCollider>();
 
         Debug.Log("Förutsäg rotationen den ska ha när den når sitt mål, så att den kan anpassa sin hastighet i förväg");
+
+        
     }
 
     // Update is called once per frame
@@ -41,12 +43,15 @@ public class StunbotFlightTest : MonoBehaviour
 
             Vector3 goalDirection = (goalPosition - transform.position).normalized;
 
-            Quaternion desiredRotation = Quaternion.LookRotation(goalDirection);
+            Quaternion desiredRotation = Quaternion.LookRotation(goalDirection, Vector3.up);
 
             transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRotation, turnSpeed * Time.deltaTime);
 
 
-            if(velocity > CurrentMaxSpeed + 0.01f)
+            CurrentMaxSpeed = CalculateMaxSpeed(transform.position, currentGoal, transform.rotation, 0.0f);
+
+
+            if (velocity > CurrentMaxSpeed + 0.01f)
             {
                 float ammountToDecel = Mathf.Min(velocity - CurrentMaxSpeed, deceleration * Time.deltaTime);
                 velocity -= ammountToDecel;
@@ -73,19 +78,13 @@ public class StunbotFlightTest : MonoBehaviour
         transform.position += transform.forward * velocity * Time.deltaTime;
 
 
-        if (Vector3.Distance(transform.position, goals[currentGoal].position) < velocity * Time.deltaTime /*hasHitSomething && rayHit.transform == goals[currentGoal]*/)
+        if (Vector3.Distance(transform.position, goals[currentGoal].position) < (myCollider.radius +  velocity * Time.deltaTime) /*hasHitSomething && rayHit.transform == goals[currentGoal]*/)
         {
             currentGoal = (currentGoal + 1) % goals.Length;
 
 
 
 
-
-
-            //Quaternion predictedRotation = new Quaternion();
-            //predictedRotation.SetFromToRotation(transform.forward, (goals[currentGoal].position - transform.position).normalized);
-            //predictedRotation = predictedRotation * predictedRotation;
-            //rotationPrediction.position = goals[currentGoal].position + predictedRotation * transform.forward;
 
 
 
@@ -105,7 +104,7 @@ public class StunbotFlightTest : MonoBehaviour
         //    rotationPrediction.position = goals[currentGoal].position + predictedRotation * transform.forward;
         //}
 
-        CurrentMaxSpeed = CalculateMaxSpeed(transform.position, currentGoal, transform.rotation, 0.0f);
+        
 
     }
 
@@ -118,10 +117,9 @@ public class StunbotFlightTest : MonoBehaviour
         float goFast = goalPositionDifference.magnitude * turnSpeed * Mathf.Deg2Rad / (2 * Mathf.Sin(Vector3.Angle(startRotation * Vector3.forward, goalPositionDifference.normalized) * Mathf.Deg2Rad));
 
         float newMaxSpeed = Mathf.Min(goFast, maxSpeed);
-        Debug.Log(newMaxSpeed);
+        
 
         #region prediction
-
 
         Quaternion predictedRotation = new Quaternion();
         predictedRotation.SetFromToRotation(startRotation * Vector3.forward, goalPositionDifference.normalized);
@@ -135,33 +133,64 @@ public class StunbotFlightTest : MonoBehaviour
             directionMarker.position = goalPosition + goalPositionDifference.normalized;
         }
 
+        float archLength = goalPositionDifference.magnitude * Vector3.Angle(startRotation * Vector3.forward, goalPositionDifference.normalized) * Mathf.Deg2Rad / Mathf.Sin(Vector3.Angle(startRotation * Vector3.forward, goalPositionDifference.normalized) * Mathf.Deg2Rad);
 
-        distanceSoFar += goalPositionDifference.magnitude;
+
+        distanceSoFar += archLength;
 
         
         if (distanceSoFar < (velocity * velocity / deceleration - velocity * velocity / (2 * deceleration)))
         {
+            Debug.Log("wha!");
+
             float otherMaxSpeed = CalculateMaxSpeed(goalPosition, (goalIndex + 1) % goals.Length, startRotation * predictedRotation, distanceSoFar);
+
+
+            float brakeTime = Mathf.Clamp((velocity - otherMaxSpeed) / deceleration, 0.0f, Mathf.Infinity);
+
+
+            float maxBreakTime = Mathf.Clamp((newMaxSpeed - otherMaxSpeed) / deceleration, 0.0f, Mathf.Infinity);
+
+
+
+            //float archLength = goalPositionDifference.magnitude * Vector3.Angle(startRotation * Vector3.forward, goalPositionDifference.normalized) * Mathf.Deg2Rad / Mathf.Sin(Vector3.Angle(startRotation * Vector3.forward, goalPositionDifference.normalized) * Mathf.Deg2Rad);
+
+
+            float distanceTraveledUnitllDesiredSpeed = velocity * brakeTime - deceleration * brakeTime * brakeTime / 2;
+
+
+
+
+
+            if (distanceTraveledUnitllDesiredSpeed * 1.1f > archLength)
+            {
+                if(otherMaxSpeed < newMaxSpeed)
+                {
+                    Debug.LogWarning("Prediction!");
+                }
+                newMaxSpeed = Mathf.Min(newMaxSpeed, otherMaxSpeed);
+                
+            }
+
+            // check if you need to start braking yet
 
 
             if (velocity > otherMaxSpeed)
             {
-                float brakeTime = (velocity - otherMaxSpeed) / deceleration;
-
-                float thing = velocity * brakeTime - deceleration * brakeTime * brakeTime / 2;
-
-                // check if you need to start braking yet
+                
 
 
             }
         }
 
-        
 
-        
+
+
 
         #endregion
 
+
+        Debug.Log(newMaxSpeed);
         return newMaxSpeed;
     }
 }
