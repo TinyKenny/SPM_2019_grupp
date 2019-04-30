@@ -11714,7 +11714,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 23552
   thirdPerson: 1
-  thirdPersonSafety: 0.5
   rotationX: 0
   rotationY: 0
   aimFOV: 30
@@ -26935,6 +26934,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1310916752}
   - component: {fileID: 1310916753}
+  - component: {fileID: 1310916754}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -26970,6 +26970,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeText: {fileID: 1982741935}
   player: {fileID: 138535159}
+--- !u!114 &1310916754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1310916751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 296ecc7708c8d874da9dab8bf833ec5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1311405527
 GameObject:
   m_ObjectHideFlags: 0
