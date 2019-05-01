@@ -21,6 +21,7 @@ public class StunbotFlightTest : MonoBehaviour
     private SphereCollider myCollider;
 
     public float CurrentMaxSpeed = 0.0f;
+    private float turningMaxMovementSpeed = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -31,19 +32,24 @@ public class StunbotFlightTest : MonoBehaviour
 
         Debug.Log("Förutsäg rotationen den ska ha när den når sitt mål, så att den kan anpassa sin hastighet i förväg");
 
-        
+
+        turningMaxMovementSpeed = myCollider.radius * 1.1f * turnSpeed * Mathf.Deg2Rad;
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.LogWarning("Update!");
+
         if (currentGoal < goals.Length)
         {
             Vector3 goalPosition = goals[currentGoal].position;
 
             Vector3 goalDirection = (goalPosition - transform.position).normalized;
 
-            Quaternion desiredRotation = Quaternion.LookRotation(goalDirection, Vector3.up);
+            Quaternion desiredRotation = Quaternion.LookRotation(goalDirection/*, Vector3.up*/);
 
             transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRotation, turnSpeed * Time.deltaTime);
 
@@ -108,6 +114,9 @@ public class StunbotFlightTest : MonoBehaviour
 
     }
 
+
+
+
     private float CalculateMaxSpeed(Vector3 startPosition, int goalIndex, Quaternion startRotation, float distanceSoFar, float currentVelocity = 0.0f)
     {
         Vector3 goalPosition = goals[goalIndex].position;
@@ -133,15 +142,38 @@ public class StunbotFlightTest : MonoBehaviour
             directionMarker.position = goalPosition + goalPositionDifference.normalized;
         }
 
-        float archLength = goalPositionDifference.magnitude * Vector3.Angle(startRotation * Vector3.forward, goalPositionDifference.normalized) * Mathf.Deg2Rad / Mathf.Sin(Vector3.Angle(startRotation * Vector3.forward, goalPositionDifference.normalized) * Mathf.Deg2Rad);
 
 
-        distanceSoFar += archLength;
 
-        
-        if (distanceSoFar < (velocity * velocity / deceleration - velocity * velocity / (2 * deceleration)))
+
+        float archHalfAngle = Vector3.Angle(startRotation * Vector3.forward, goalPositionDifference.normalized) * Mathf.Deg2Rad;
+        //float archLength = goalPositionDifference.magnitude * archHalfAngle / archHalfAngleSine;
+
+        //if (distanceSoFar < 0.001f)
+        //{
+        //    Debug.Log("ArchHalfAngle: " + archHalfAngle);
+        //    Debug.Log("Sine: " + archHalfAngleSine);
+        //    Debug.Log("ArchLength: " + archLength);
+        //}
+
+        //distanceSoFar += archLength;
+
+        float distanceToAdd = goalPositionDifference.magnitude;
+
+        if (!Mathf.Approximately(archHalfAngle, 0.0f))
         {
-            Debug.Log("wha!");
+            float archHalfAngleSine = Mathf.Sin(archHalfAngle);
+            distanceToAdd *= archHalfAngle / archHalfAngleSine;
+        }
+
+        distanceSoFar += distanceToAdd;
+
+        //Debug.Log("DistanceSoFar: " + distanceSoFar);
+
+
+        if (distanceSoFar < (maxSpeed * maxSpeed / deceleration - maxSpeed * maxSpeed / (2 * deceleration)) /*distanceSoFar < (velocity * velocity / deceleration - velocity * velocity / (2 * deceleration))*/)
+        {
+            Debug.LogWarning("wha!");
 
             float otherMaxSpeed = CalculateMaxSpeed(goalPosition, (goalIndex + 1) % goals.Length, startRotation * predictedRotation, distanceSoFar);
 
@@ -162,7 +194,7 @@ public class StunbotFlightTest : MonoBehaviour
 
 
 
-            if (distanceTraveledUnitllDesiredSpeed * 1.1f > archLength)
+            if (distanceTraveledUnitllDesiredSpeed * 1.1f > distanceToAdd)
             {
                 if(otherMaxSpeed < newMaxSpeed)
                 {
@@ -190,7 +222,9 @@ public class StunbotFlightTest : MonoBehaviour
         #endregion
 
 
-        Debug.Log(newMaxSpeed);
+        Debug.Log("NewMaxSpeed: " + newMaxSpeed);
         return newMaxSpeed;
     }
+
+
 }

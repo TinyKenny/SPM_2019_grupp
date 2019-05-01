@@ -17,7 +17,7 @@ public class StunbotIdleState : StunbotBaseState
         nextTargetPosition = owner.transform.position;
         NavBox end = new NavBox();
         Collider[] colls;
-        colls = Physics.OverlapBox(owner.patrolLocations[0].position, new Vector3(0.1f, 0.1f, 0.1f), Quaternion.identity, owner.NavLayer); //end
+        colls = Physics.OverlapBox(owner.patrolLocations[CurrentPatrolPointIndex].position, new Vector3(0.1f, 0.1f, 0.1f), Quaternion.identity, owner.NavLayer); //end
         if (colls.Length > 0)
             end = colls[0].GetComponent<NavBox>();
         BoxCompareNode bcnEnd = new BoxCompareNode(end, null);
@@ -28,11 +28,24 @@ public class StunbotIdleState : StunbotBaseState
         BoxCompareNode bcnStart = new BoxCompareNode(start, bcnEnd);
         if (start != null && end != null)
             owner.GetComponent<AStarPathfindning>().FindPath(bcnStart, ThisTransform.position, bcnEnd);
+        if (owner.GetComponent<AStarPathfindning>().Paths.Count > 0)
+        {
+            // this is copied from HandleUpdate()
+            float f = 0;
+            foreach (KeyValuePair<float, Vector3> pos in owner.GetComponent<AStarPathfindning>().Paths)
+            {
+                nextTargetPosition = pos.Value;
+                f = pos.Key;
+                break;
+            }
+
+            owner.GetComponent<AStarPathfindning>().Paths.Remove(f);
+        }
     }
 
     public override void HandleUpdate()
     {
-        if (Vector3.Distance(nextTargetPosition, owner.transform.position) < 0.1f && owner.GetComponent<AStarPathfindning>().Paths.Count > 0)
+        if (Vector3.Distance(nextTargetPosition, owner.transform.position) < Mathf.Max(Velocity.magnitude * 0.1f, 0.1f) && owner.GetComponent<AStarPathfindning>().Paths.Count > 0)
         {
             float f = 0;
             foreach (KeyValuePair<float, Vector3> pos in owner.GetComponent<AStarPathfindning>().Paths)
@@ -46,32 +59,61 @@ public class StunbotIdleState : StunbotBaseState
         }
         else if (owner.GetComponent<AStarPathfindning>().Paths.Count == 0)
         {
-            nextTargetPosition = owner.patrolLocations[0].position;
+
+            nextTargetPosition = owner.patrolLocations[CurrentPatrolPointIndex].position;
+
+            if(Vector3.Distance(nextTargetPosition, ThisTransform.position) < Mathf.Max(Velocity.magnitude * 0.1f, 0.1f))
+            {
+                if(owner.patrolLocations.Length == 1)
+                {
+                    if (Velocity.magnitude > 0.1f)
+                    {
+                        Velocity = Vector3.zero;
+                    }
+                }
+                else
+                {
+                    CurrentPatrolPointIndex = (CurrentPatrolPointIndex + 1) % owner.patrolLocations.Length;
+                    FindTarget();
+                }
+            }
         }
 
-        Velocity *= /*0.05f **/ Time.deltaTime;
+        Velocity *= Mathf.Pow(AirResistanceCoefficient, Time.deltaTime);
 
-        if (Vector3.Distance(owner.patrolLocations[0].position, ThisTransform.position) > MaxSpeed * 0.1f)
+        if (Vector3.Distance(nextTargetPosition, ThisTransform.position) > Velocity.magnitude *  0.1f)
         {
-            Vector3 direction = Vector3.ClampMagnitude(nextTargetPosition - ThisTransform.position, 1.0f) * Acceleration * Time.deltaTime;
+            Vector3 targetDirection = nextTargetPosition - ThisTransform.position;
 
-            owner.faceDirection += direction.normalized * 5.0f * Time.deltaTime;
-            if (owner.faceDirection.magnitude > 1.0f)
+            Quaternion desiredRotation = Quaternion.LookRotation(targetDirection.normalized);
+            ThisTransform.rotation = Quaternion.RotateTowards(ThisTransform.rotation, desiredRotation, 90.0f * Time.deltaTime);
+
+            Vector3 accelerationVector = targetDirection.normalized * Acceleration * Time.deltaTime;
+
+
+            if (Vector3.Dot(ThisTransform.forward, targetDirection.normalized) > 0.75f)
             {
-                owner.faceDirection = owner.faceDirection.normalized;
+                Velocity = Vector3.ClampMagnitude(Velocity + accelerationVector, MaxSpeed);
             }
-            ThisTransform.LookAt(ThisTransform.position + owner.faceDirection);
-
-            if (Vector3.Dot(ThisTransform.forward, direction.normalized) > 0.5f)
+            else if(Velocity.magnitude > 0.0f)
             {
-                Velocity += Vector3.ClampMagnitude(Velocity + direction, MaxSpeed);
+                Vector3 decelerationvector = Velocity.normalized * Deceleration * Time.deltaTime;
+
+                if(decelerationvector.magnitude > Velocity.magnitude)
+                {
+                    Velocity = Vector3.zero;
+                }
+                else
+                {
+                    Velocity -= decelerationvector;
+                }
             }
         }
 
         base.HandleUpdate();
 
-        if (CanSeePlayer(60.0f) &&
-            Vector3.Distance(ThisTransform.position, owner.patrolLocations[0].position) < MaxSpeed * 0.1f)
+        if (false && CanSeePlayer(60.0f) &&
+            Vector3.Distance(ThisTransform.position, owner.patrolLocations[CurrentPatrolPointIndex].position) < MaxSpeed * 0.1f)
             //Vector3.Distance(PlayerTransform.position, owner.patrolLocations[0].position) < owner.allowedOriginDistance)
         {
             Debug.Log("Idle -> Chase (player found)");
