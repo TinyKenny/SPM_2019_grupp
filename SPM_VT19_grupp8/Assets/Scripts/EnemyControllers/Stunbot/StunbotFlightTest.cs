@@ -27,11 +27,11 @@ public class StunbotFlightTest : MonoBehaviour
     void Start()
     {
         startPosition = transform.position;
-        CurrentMaxSpeed = CalculateMaxSpeed(transform.position, currentGoal, transform.rotation, 0.0f);
+        CurrentMaxSpeed = CalculateMaxSpeed(transform.position, currentGoal, transform.rotation, 0.0f, velocity);
         myCollider = GetComponent<SphereCollider>();
 
         Debug.Log("Förutsäg rotationen den ska ha när den når sitt mål, så att den kan anpassa sin hastighet i förväg");
-
+        //enhetscirkeln! allt jag behöver göra är att lista ut hur jag kan isolera bågen till att vara på i en 2d-rymd som jag kan konvertera punkter på till och fren en 3d-rymd.
 
         turningMaxMovementSpeed = myCollider.radius * 1.1f * turnSpeed * Mathf.Deg2Rad;
 
@@ -43,6 +43,17 @@ public class StunbotFlightTest : MonoBehaviour
     {
         Debug.LogWarning("Update!");
 
+        //test-zone
+
+        float angle = 0.0f;
+        Vector3 axis = Vector3.zero;
+
+        transform.rotation.ToAngleAxis(out angle, out axis);
+
+        //Debug.DrawRay(transform.position, axis * 5.0f, Color.green);
+
+        //test-zone end
+
         if (currentGoal < goals.Length)
         {
             Vector3 goalPosition = goals[currentGoal].position;
@@ -51,10 +62,16 @@ public class StunbotFlightTest : MonoBehaviour
 
             Quaternion desiredRotation = Quaternion.LookRotation(goalDirection/*, Vector3.up*/);
 
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRotation, turnSpeed * Time.deltaTime);
+            //transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRotation, turnSpeed * Time.deltaTime);
+            //transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, 0.95f * Time.deltaTime);
 
+            Debug.DrawRay(transform.position, Vector3.Cross(transform.forward, goalDirection).normalized * 5.0f, Color.green);
+            Debug.Log("cross-thing angle: " + Vector3.Angle(goalDirection, Vector3.Cross(transform.forward, goalDirection).normalized));
 
-            CurrentMaxSpeed = CalculateMaxSpeed(transform.position, currentGoal, transform.rotation, 0.0f);
+            Vector3 lookForward = Vector3.RotateTowards(transform.forward, goalDirection, turnSpeed * Mathf.Deg2Rad * Time.deltaTime, 0.0f);
+            transform.LookAt(transform.position + lookForward);
+
+            CurrentMaxSpeed = CalculateMaxSpeed(transform.position, currentGoal, transform.rotation, 0.0f, velocity);
 
 
             if (velocity > CurrentMaxSpeed + 0.01f)
@@ -68,8 +85,6 @@ public class StunbotFlightTest : MonoBehaviour
             }
 
 
-
-            
         }
 
         velocity *= Mathf.Pow(airResistance, Time.deltaTime);
@@ -117,7 +132,7 @@ public class StunbotFlightTest : MonoBehaviour
 
 
 
-    private float CalculateMaxSpeed(Vector3 startPosition, int goalIndex, Quaternion startRotation, float distanceSoFar, float currentVelocity = 0.0f)
+    private float CalculateMaxSpeed(Vector3 startPosition, int goalIndex, Quaternion startRotation, float distanceSoFar, float currentVelocity)
     {
         Vector3 goalPosition = goals[goalIndex].position;
 
@@ -175,7 +190,7 @@ public class StunbotFlightTest : MonoBehaviour
         {
             Debug.LogWarning("wha!");
 
-            float otherMaxSpeed = CalculateMaxSpeed(goalPosition, (goalIndex + 1) % goals.Length, startRotation * predictedRotation, distanceSoFar);
+            float otherMaxSpeed = CalculateMaxSpeed(goalPosition, (goalIndex + 1) % goals.Length, startRotation * predictedRotation, distanceSoFar, currentVelocity);
 
 
             float brakeTime = Mathf.Clamp((velocity - otherMaxSpeed) / deceleration, 0.0f, Mathf.Infinity);
@@ -222,7 +237,7 @@ public class StunbotFlightTest : MonoBehaviour
         #endregion
 
 
-        Debug.Log("NewMaxSpeed: " + newMaxSpeed);
+        //Debug.Log("NewMaxSpeed: " + newMaxSpeed);
         return newMaxSpeed;
     }
 
