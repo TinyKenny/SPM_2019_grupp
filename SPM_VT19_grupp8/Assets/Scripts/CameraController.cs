@@ -29,7 +29,6 @@ public class CameraController : MonoBehaviour
     {
         startingGamePadSensitivity = gamePadSensitivity;
         startingFOV = Camera.main.fieldOfView;
-        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerRespawnEventInfo>(OnPlayerRespawn);
         //playerTransform = transform.parent;
     }
 
@@ -110,18 +109,5 @@ public class CameraController : MonoBehaviour
     {
         Camera.main.fieldOfView = startingFOV;
         gamePadSensitivity = startingGamePadSensitivity;
-    }
-
-
-    public void OnPlayerRespawn(EventInfo eventInfo)
-    {
-        PlayerRespawnEventInfo PREI = (PlayerRespawnEventInfo)eventInfo;
-
-        //Vector3 playerRotation = PREI.GO.transform.rotation.eulerAngles;
-        transform.rotation = PREI.GO.transform.rotation;
-        rotationY = transform.rotation.eulerAngles.y;
-        rotationX = transform.rotation.eulerAngles.x;
-
-        
     }
 }

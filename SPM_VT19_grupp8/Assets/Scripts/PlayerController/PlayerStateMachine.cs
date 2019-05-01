@@ -55,8 +55,6 @@ public class PlayerStateMachine : StateMachine
         thisCollider = GetComponent<CapsuleCollider>();
         standardColliderHeight = thisCollider.height;
 
-        Respawn();
-
         playerTimeScale = 1.0f;
         slowedPlayerTimeScale = 0.5f;
         slowedWorldTimeScale = 0.2f;
@@ -67,6 +65,11 @@ public class PlayerStateMachine : StateMachine
         wallrunCooldown = wallrunCooldownAmount;
 
         TimeSlowMultiplier = 1f;
+    }
+
+    private void Start()
+    {
+        Respawn();
     }
 
     protected override void Update()

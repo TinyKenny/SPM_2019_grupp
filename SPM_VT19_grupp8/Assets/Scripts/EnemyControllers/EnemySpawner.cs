@@ -6,11 +6,13 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject enemy;
     private GameObject currentGO = null;
+    public Transform PlayerTransform;
+    public Transform[] PatrolLocations;
 
     void Start()
     {
-        SpawnEnemy();
-        RespawnEventListener.respawnListener.RegisterEnemy(new EnemyRespawnEventInfo(this));
+        EnemyRespawnEventInfo EREI = new EnemyRespawnEventInfo(this);
+        RespawnEventListener.respawnListener.RegisterEnemy(EREI);
     }
 
     public void SpawnEnemy()
@@ -20,6 +22,17 @@ public class EnemySpawner : MonoBehaviour
             Destroy(currentGO);
         }
 
-        currentGO = Instantiate(enemy);
+        currentGO = Instantiate(enemy, gameObject.transform);
+
+        if (currentGO.GetComponent<SoldierStateMachine>() != null)
+        {
+            currentGO.GetComponent<SoldierStateMachine>().playerTransform = PlayerTransform;
+            currentGO.GetComponent<SoldierStateMachine>().patrolLocations = PatrolLocations;
+        }
+        else if (currentGO.GetComponent<StunbotStateMachine>() != null)
+        {
+            currentGO.GetComponent<StunbotStateMachine>().playerTransform = PlayerTransform;
+            currentGO.GetComponent<StunbotStateMachine>().patrolLocations = PatrolLocations;
+        }
     }
 }

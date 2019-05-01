@@ -6,19 +6,41 @@ public class RespawnEventListener : MonoBehaviour
 {
     public static RespawnEventListener respawnListener;
     private List<EnemyRespawnEventInfo> spawnerList;
+    [SerializeField] private CameraController cameraMain;
 
     private void Start()
     {
-        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<EnemyRespawnEventInfo>(RespawnObjects);
+        respawnListener = this;
+        spawnerList = new List<EnemyRespawnEventInfo>();
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<EnemyRespawnEventInfo>(RespawnObject);
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerRespawnEventInfo>(OnPlayerRespawn);
     }
 
-    public void RespawnObjects(EventInfo ei)
+    public void RespawnObject(EventInfo ei)
     {
+        EnemyRespawnEventInfo EREI = (EnemyRespawnEventInfo)ei;
 
+        EREI.GetSpawner().SpawnEnemy();
     }
 
     public void RegisterEnemy(EnemyRespawnEventInfo erei)
     {
         spawnerList.Add(erei);
+    }
+
+    public void OnPlayerRespawn(EventInfo eventInfo)
+    {
+        PlayerRespawnEventInfo PREI = (PlayerRespawnEventInfo)eventInfo;
+
+        //Vector3 playerRotation = PREI.GO.transform.rotation.eulerAngles;
+        cameraMain.transform.rotation = PREI.GO.transform.rotation;
+        cameraMain.rotationY = transform.rotation.eulerAngles.y;
+        cameraMain.rotationX = transform.rotation.eulerAngles.x;
+
+        foreach (EnemyRespawnEventInfo EREI in spawnerList)
+        {
+            EREI.SetPlayer(PREI.GO.transform);
+            EventCoordinator.CurrentEventCoordinator.ActivateEvent(EREI);
+        }
     }
 }
