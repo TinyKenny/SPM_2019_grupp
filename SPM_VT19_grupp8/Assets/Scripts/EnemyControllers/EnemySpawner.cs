@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -9,7 +10,12 @@ public class EnemySpawner : MonoBehaviour
     public Transform PlayerTransform;
     public Transform[] PatrolLocations;
 
-    void Start()
+    private void Awake()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         EnemyRespawnEventInfo EREI = new EnemyRespawnEventInfo(this);
         RespawnEventListener.respawnListener.RegisterEnemy(EREI);
@@ -24,17 +30,17 @@ public class EnemySpawner : MonoBehaviour
 
         currentGO = Instantiate(enemy, gameObject.transform);
 
-        if (currentGO.GetComponent<SoldierStateMachine>() != null)
+        if (currentGO.GetComponent<EnemyStateMachine>() != null)
         {
-            currentGO.GetComponent<SoldierStateMachine>().playerTransform = PlayerTransform;
+            currentGO.GetComponent<EnemyStateMachine>().playerTransform = PlayerTransform;
             if (PatrolLocations.Length > 0)
-                currentGO.GetComponent<SoldierStateMachine>().patrolLocations = PatrolLocations;
+                currentGO.GetComponent<EnemyStateMachine>().patrolLocations = PatrolLocations;
         }
-        else if (currentGO.GetComponent<StunbotStateMachine>() != null)
-        {
-            currentGO.GetComponent<StunbotStateMachine>().playerTransform = PlayerTransform;
-            if (PatrolLocations.Length > 0)
-                currentGO.GetComponent<StunbotStateMachine>().patrolLocations = PatrolLocations;
-        }
+        //else if (currentGO.GetComponent<StunbotStateMachine>() != null)
+        //{
+        //    currentGO.GetComponent<StunbotStateMachine>().playerTransform = PlayerTransform;
+        //    if (PatrolLocations.Length > 0)
+        //        currentGO.GetComponent<StunbotStateMachine>().patrolLocations = PatrolLocations;
+        //}
     }
 }

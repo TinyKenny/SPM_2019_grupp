@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RespawnEventListener : MonoBehaviour
+public class RespawnEventListener : EventListenerInterface
 {
     public static RespawnEventListener respawnListener;
     private List<EnemyRespawnEventInfo> spawnerList = new List<EnemyRespawnEventInfo>();
     [SerializeField] private CameraController cameraMain;
 
-    private void Awake()
+    public override void Initialize()
     {
         respawnListener = this;
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<EnemyRespawnEventInfo>(RespawnObject);

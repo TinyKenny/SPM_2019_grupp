@@ -10,6 +10,10 @@ public class EventCoordinator : MonoBehaviour
     private void Awake()
     {
         CurrentEventCoordinator = this;
+        foreach (EventListenerInterface eL in GetComponents<EventListenerInterface>())
+        {
+            eL.Initialize();
+        }
     }
 
     public delegate void EventListener(EventInfo eventInfo);

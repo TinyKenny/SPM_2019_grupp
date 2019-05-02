@@ -13822,38 +13822,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
-        type: 3}
-      propertyPath: respawnPoint
-      value: 
-      objectReference: {fileID: 1570306221}
-    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
-        type: 3}
-      propertyPath: timeSlowEnergy
-      value: 
-      objectReference: {fileID: 2075612436}
-    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
-        type: 3}
-      propertyPath: shieldAmount
-      value: 
-      objectReference: {fileID: 1042235210}
-    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
-        type: 3}
-      propertyPath: projectilePrefab
-      value: 
-      objectReference: {fileID: 1468789670608892739, guid: 4bd3c14ec32e9a34bb17dffeab61485b,
-        type: 3}
-    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
-        type: 3}
-      propertyPath: ammoNumber
-      value: 
-      objectReference: {fileID: 20289220}
-    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
-        type: 3}
-      propertyPath: states.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: b412ca5ebfc280a4ea2515f844d61f92,
-        type: 2}
     - target: {fileID: 2112523359584729376, guid: 8bc4dc44ebc45d0408638807052809b2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -13909,6 +13877,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
+        type: 3}
+      propertyPath: respawnPoint
+      value: 
+      objectReference: {fileID: 1570306221}
+    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
+        type: 3}
+      propertyPath: timeSlowEnergy
+      value: 
+      objectReference: {fileID: 2075612436}
+    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
+        type: 3}
+      propertyPath: shieldAmount
+      value: 
+      objectReference: {fileID: 1042235210}
+    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
+        type: 3}
+      propertyPath: projectilePrefab
+      value: 
+      objectReference: {fileID: 1468789670608892739, guid: 4bd3c14ec32e9a34bb17dffeab61485b,
+        type: 3}
+    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
+        type: 3}
+      propertyPath: ammoNumber
+      value: 
+      objectReference: {fileID: 20289220}
+    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
+        type: 3}
+      propertyPath: states.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: b412ca5ebfc280a4ea2515f844d61f92,
+        type: 2}
     - target: {fileID: 2112523359584729378, guid: 8bc4dc44ebc45d0408638807052809b2,
         type: 3}
       propertyPath: maxSpeed
@@ -15395,6 +15395,11 @@ PrefabInstance:
       propertyPath: timeText
       value: 
       objectReference: {fileID: 75589736}
+    - target: {fileID: 3676504280766361458, guid: ce47cec0bcf85d84080755590ba14277,
+        type: 3}
+      propertyPath: cameraMain
+      value: 
+      objectReference: {fileID: 1407649118}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce47cec0bcf85d84080755590ba14277, type: 3}
 --- !u!1 &875888477
@@ -23066,25 +23071,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1530745264 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6429741282505538207, guid: ce47cec0bcf85d84080755590ba14277,
-    type: 3}
-  m_PrefabInstance: {fileID: 875764615}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1530745268
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1530745264}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc81d004e02a7d9418607b29356a2157, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraMain: {fileID: 1407649118}
 --- !u!1 &1545301023
 GameObject:
   m_ObjectHideFlags: 0
