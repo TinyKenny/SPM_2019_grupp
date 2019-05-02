@@ -219,8 +219,6 @@ public class PlayerBaseState : State
                     Debug.Log(rayHit.collider.name);
                 }
                 GameObject projectile = Instantiate(owner.projectilePrefab, Transform.position + (Camera.main.transform.rotation * Vector3.forward), Camera.main.transform.rotation);
-
-                GameObject projectile = Instantiate(owner.projectilePrefab, Transform.position + (Camera.main.transform.rotation * Vector3.forward), Camera.main.transform.rotation);
                 projectile.transform.LookAt(pointHit); // test-y stuff
                 projectile.GetComponent<ProjectileBehaviour>().SetInitialValues((1 << owner.gameObject.layer) | LayerMask.GetMask(ignoreLayers));
                 FireCoolDown = FireRate;
