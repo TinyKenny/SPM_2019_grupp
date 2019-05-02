@@ -5,13 +5,12 @@ using UnityEngine;
 public class RespawnEventListener : MonoBehaviour
 {
     public static RespawnEventListener respawnListener;
-    private List<EnemyRespawnEventInfo> spawnerList;
+    private List<EnemyRespawnEventInfo> spawnerList = new List<EnemyRespawnEventInfo>();
     [SerializeField] private CameraController cameraMain;
 
-    private void Start()
+    private void Awake()
     {
         respawnListener = this;
-        spawnerList = new List<EnemyRespawnEventInfo>();
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<EnemyRespawnEventInfo>(RespawnObject);
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerRespawnEventInfo>(OnPlayerRespawn);
     }

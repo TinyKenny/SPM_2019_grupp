@@ -27,12 +27,14 @@ public class EnemySpawner : MonoBehaviour
         if (currentGO.GetComponent<SoldierStateMachine>() != null)
         {
             currentGO.GetComponent<SoldierStateMachine>().playerTransform = PlayerTransform;
-            currentGO.GetComponent<SoldierStateMachine>().patrolLocations = PatrolLocations;
+            if (PatrolLocations.Length > 0)
+                currentGO.GetComponent<SoldierStateMachine>().patrolLocations = PatrolLocations;
         }
         else if (currentGO.GetComponent<StunbotStateMachine>() != null)
         {
             currentGO.GetComponent<StunbotStateMachine>().playerTransform = PlayerTransform;
-            currentGO.GetComponent<StunbotStateMachine>().patrolLocations = PatrolLocations;
+            if (PatrolLocations.Length > 0)
+                currentGO.GetComponent<StunbotStateMachine>().patrolLocations = PatrolLocations;
         }
     }
 }
