@@ -13,11 +13,11 @@ public class BoxCompareNode : IComparable<BoxCompareNode>
     public bool Known = false;
     public Vector3 position;
 
-    public BoxCompareNode (NavBox b, BoxCompareNode e, BoxCompareNode pre)
+    public BoxCompareNode (NavBox b, BoxCompareNode e)
     {
         box = b;
         end = e;
-        Previous = pre;
+        Previous = null;
     }
 
     public int CompareTo(BoxCompareNode box)

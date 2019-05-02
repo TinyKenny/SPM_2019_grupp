@@ -10,6 +10,7 @@ public class StunbotStateMachine : StateMachine
     public SphereCollider thisCollider;
     public float turningModifier = 1.0f;
     public Transform[] patrolLocations;
+    public int currentPatrolPointIndex;
     public Vector3 lastPlayerLocation;
 
     private PhysicsComponent physicsComponent;
@@ -24,6 +25,8 @@ public class StunbotStateMachine : StateMachine
     public float AirResistanceCoefficient { get { return physicsComponent.airResistanceCoefficient; } }
     public float SkinWidth { get { return physicsComponent.skinWidth; } }
     public Vector3 Velocity { get { return physicsComponent.velocity; } set { physicsComponent.velocity = value; } }
+    public LayerMask NavLayer;
+    public LayerMask EnviromentLayer;
     
 
     protected override void Awake()
@@ -32,6 +35,7 @@ public class StunbotStateMachine : StateMachine
         physicsComponent = GetComponent<PhysicsComponent>();
         thisCollider = GetComponent<SphereCollider>();
         faceDirection = transform.forward;
+        currentPatrolPointIndex = 0;
     }
 
     protected override void Update()

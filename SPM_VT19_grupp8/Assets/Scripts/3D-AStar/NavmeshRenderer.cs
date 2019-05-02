@@ -28,6 +28,7 @@ public class NavmeshRenderer : MonoBehaviour
         area.gameObject.AddComponent<NavBox>();
         area.gameObject.layer = 14;
         boxes.Add(area.GetComponent<NavBox>());
+        objects.Add(area);
         CheckCollision(area, precision);
 
         foreach (BoxCollider b in objects)
@@ -39,7 +40,7 @@ public class NavmeshRenderer : MonoBehaviour
 
     private BoxCollider CheckCollision(BoxCollider area, int recursion)
     {
-        if (Physics.CheckBox(area.center, area.size / 2, Quaternion.identity, colliders))
+        if (Physics.CheckBox(area.center, area.size / 2 + new Vector3(0.5f, 0.5f, 0.5f), Quaternion.identity, colliders))
         {
             if (recursion > 0)
             {
@@ -74,11 +75,11 @@ public class NavmeshRenderer : MonoBehaviour
 
     private void AddNeighbours(BoxCollider traversableBox)
     {
-        RaycastHit[] hitsRight = Physics.BoxCastAll(traversableBox.center, traversableBox.size / 2, Vector3.right, Quaternion.identity, MathHelper.floatEpsilon, navColl);
-        foreach (RaycastHit hit in hitsRight)
+        Collider[] colliders = Physics.OverlapBox(traversableBox.center, (traversableBox.size / 1.9f), Quaternion.identity, navColl);
+        foreach (Collider coll in colliders)
         {
-            if (!hit.transform.gameObject.Equals(traversableBox.gameObject))
-                traversableBox.GetComponent<NavBox>().Neighbours.Add(hit.transform.GetComponent<NavBox>());
+            if (!coll.transform.gameObject.Equals(traversableBox.gameObject))
+                traversableBox.GetComponent<NavBox>().Neighbours.Add(coll.transform.GetComponent<NavBox>());
         }
     }
 }

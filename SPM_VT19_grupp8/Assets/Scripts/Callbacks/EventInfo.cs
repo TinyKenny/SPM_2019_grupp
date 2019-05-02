@@ -22,3 +22,25 @@ public class PlayerRespawnEventInfo : EventInfo
 
     }
 }
+
+public class EnemyRespawnEventInfo : EventInfo
+{
+    public EnemyRespawnEventInfo(EnemySpawner gO, string desciption = "Enemy respawning") : base(gO.gameObject, desciption)
+    {
+    }
+
+    public EnemySpawner GetSpawner()
+    {
+        return GO.GetComponent<EnemySpawner>();
+    }
+
+    public void SetPlayer(Transform player)
+    {
+        GO.GetComponent<EnemySpawner>().PlayerTransform = player;
+    }
+
+    public Transform GetPlayer()
+    {
+        return GO.GetComponent<EnemySpawner>().PlayerTransform;
+    }
+}

@@ -5,8 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "States/Player/Wall run State")]
 public class PlayerWallRunState : PlayerAirState
 {
-    private float maxVerticalVelocity = 1.5f;
+    private float maxVerticalVelocity = 10f;
     private Vector3 wallNormal;
+    private float wallRunMultiplier = 2f;
 
     public override void Initialize(StateMachine owner)
     {
@@ -29,6 +30,9 @@ public class PlayerWallRunState : PlayerAirState
 
     public override void HandleUpdate()
     {
+        if (Velocity.y > maxVerticalVelocity)
+            Velocity = new Vector3(Velocity.x, maxVerticalVelocity, Velocity.z);
+
         Velocity += Vector3.down * (Gravity / 2) * PlayerDeltaTime;
 
         CheckCollision(Velocity * PlayerDeltaTime);
@@ -41,21 +45,20 @@ public class PlayerWallRunState : PlayerAirState
 
         if (grounded)
         {
-            owner.TransitionTo<PlayerWalkingState>();
+            TransitionToWalkingState();
         }
         else if (WallRun(out wall) && Velocity.y > MinimumYVelocity && Input.GetButton("Wallrun"))
         {
             //Velocity += Vector3.ClampMagnitude(new Vector3(Velocity.x, 0, Velocity.z).normalized, 1.0f) * Acceleration * PlayerDeltaTime;
 
-            if (Velocity.y > maxVerticalVelocity)
-                Velocity = new Vector3(Velocity.x, maxVerticalVelocity, Velocity.z);
+            
 
             if (Velocity.magnitude > MaxSpeed)
             {
                 Velocity = Velocity.normalized * MaxSpeed;
             }
 
-            Jump(wallNormal);
+            Jump(wall.normal);
         }
         else
         {
@@ -66,6 +69,9 @@ public class PlayerWallRunState : PlayerAirState
     private Vector3 ProjectSpeedOnSurface()
     {
         Vector3 projection = Vector3.Dot(Velocity, wallNormal) * wallNormal;
-        return Velocity - projection;
+        Vector3 tempVelocity = Velocity - projection;
+        Vector3 magnitude = projection.magnitude * tempVelocity.normalized;
+        magnitude.y = 1000f;
+        return ((tempVelocity + magnitude) *wallRunMultiplier);
     }
 }

@@ -31,7 +31,7 @@ public class EnemyHealthPOC : MonoBehaviour
     public void TakeDamage(float damage)
     {
         if (GetComponent<SoldierStateMachine>() != null)
-            GetComponent<SoldierStateMachine>().setAlerted(GameObject.Find("Player").transform.position);
+            GetComponent<SoldierStateMachine>().SetAlerted(GameObject.Find("Player").transform.position);
         currentHealth -= damage;
         if(currentHealth <= 0.0f)
         {

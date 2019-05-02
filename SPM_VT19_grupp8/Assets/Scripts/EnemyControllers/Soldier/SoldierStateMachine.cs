@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class SoldierStateMachine : StateMachine
+public class SoldierStateMachine : EnemyStateMachine
 {
-    public Transform playerTransform;
     public LayerMask visionMask;
     public LayerMask playerLayer;
     public CapsuleCollider thisCollider;
@@ -17,7 +16,6 @@ public class SoldierStateMachine : StateMachine
     public float maxCoolDown = 2;
     public float cooldownVarianceMax = 0.5f;
     public Vector3 playerLastLocation;
-    public Transform[] patrolLocations;
 
     private void Awake()
     {
@@ -37,7 +35,7 @@ public class SoldierStateMachine : StateMachine
         base.Update();
     }
 
-    public void setAlerted(Vector3 lastLocation)
+    public void SetAlerted(Vector3 lastLocation)
     {
         if (!(currentState is SoldierAttackState))
         {

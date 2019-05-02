@@ -13,6 +13,7 @@ public class StunbotBaseState : State
     protected Vector3 Velocity { get { return owner.Velocity; } set { owner.Velocity = value; } }
     protected SphereCollider ThisCollider { get { return owner.thisCollider; } }
     protected Transform ThisTransform { get { return owner.transform; } }
+    protected int CurrentPatrolPointIndex { get { return owner.currentPatrolPointIndex; } set { owner.currentPatrolPointIndex = value; } }
 
     protected StunbotStateMachine owner;
 
@@ -24,7 +25,7 @@ public class StunbotBaseState : State
     public override void HandleUpdate()
     {
         base.HandleUpdate();
-        ApplyMovement();
+        ApplyMovement(Velocity * Time.deltaTime);
         Velocity *= Mathf.Pow(AirResistanceCoefficient, Time.deltaTime);
     }
 
@@ -40,9 +41,8 @@ public class StunbotBaseState : State
             && Vector3.Distance(owner.transform.position, owner.patrolLocations[0].transform.position) < owner.allowedOriginDistance;
     }
 
-    protected void ApplyMovement()
+    protected void ApplyMovement(Vector3 movement)
     {
-        Vector3 movement = Velocity * Time.deltaTime;
         RaycastHit rayHit;
 
         bool rayHasHit = Physics.SphereCast(ThisTransform.position, ThisCollider.radius, movement.normalized, out rayHit, Mathf.Infinity, owner.visionMask);
@@ -55,17 +55,26 @@ public class StunbotBaseState : State
             float snapDistanceFromHit = SkinWidth / Mathf.Sin(angle);
 
             Vector3 snapMovement = movement.normalized * (rayHit.distance - snapDistanceFromHit);
-
-            if (movement.magnitude > snapMovement.magnitude)
-            {
-                Velocity = Vector3.zero;
-            }
-
             snapMovement = Vector3.ClampMagnitude(snapMovement, movement.magnitude);
 
-            movement = snapMovement;
-        }
+            movement -= snapMovement;
 
-        ThisTransform.position += movement;
+            ThisTransform.position += snapMovement;
+
+            if (movement.magnitude > 0.01f)
+            {
+
+                Vector3 reflectDirection = Vector3.Reflect(movement.normalized, hitNormal);
+
+                movement = reflectDirection * movement.magnitude;
+                Velocity = reflectDirection * Velocity.magnitude;
+
+                ApplyMovement(movement);
+            }
+        }
+        else
+        {
+            ThisTransform.position += movement;
+        }
     }
 }

@@ -24,8 +24,8 @@ public class DangerousObject : MonoBehaviour
         if (Physics.BoxCast(transform.position, coll.bounds.extents, (player.transform.position - transform.position).normalized, out hit, Quaternion.identity, player.skinWidth * 10, 1 << 10, QueryTriggerInteraction.Ignore) && cooldown < 0)
         {
             cooldown = cooldownAmount;
-            player.TakeDamage(damage);
             player.Velocity += (player.transform.position - transform.position).normalized * knockback * player.getPlayerDeltaTime();
+            player.TakeDamage(damage);
         }
     }
 }
