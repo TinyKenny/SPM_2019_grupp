@@ -15528,6 +15528,11 @@ PrefabInstance:
       propertyPath: timeText
       value: 
       objectReference: {fileID: 75589736}
+    - target: {fileID: 3676504280766361458, guid: ce47cec0bcf85d84080755590ba14277,
+        type: 3}
+      propertyPath: cameraMain
+      value: 
+      objectReference: {fileID: 1407649118}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce47cec0bcf85d84080755590ba14277, type: 3}
 --- !u!1 &875888477
@@ -38606,7 +38611,7 @@ PrefabInstance:
     - target: {fileID: 5909666597916428698, guid: cc03fd6b535ec1f43a36b04dee47abdf,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -57
+      value: -57.000122
       objectReference: {fileID: 0}
     - target: {fileID: 5301336622383288956, guid: cc03fd6b535ec1f43a36b04dee47abdf,
         type: 3}
