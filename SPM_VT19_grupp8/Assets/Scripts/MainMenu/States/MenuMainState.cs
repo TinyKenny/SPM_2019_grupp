@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 [CreateAssetMenu(menuName = "States/Menu/Main/Main State")]
 public class MenuMainState : MenuBaseState
@@ -18,6 +19,12 @@ public class MenuMainState : MenuBaseState
         GameObject.Find("QuitGame").GetComponent<Button>().onClick.AddListener(Quit);
 
         base.Initialize(owner);
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
+        EventSystem.current.SetSelectedGameObject(GameObject.Find("StartGame"));
     }
 
     public void StartGame()

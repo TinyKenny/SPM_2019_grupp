@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 [CreateAssetMenu(menuName = "States/Menu/Main/Level Select State")]
 public class MenuLevelSelectState : MenuBaseState
@@ -27,5 +28,11 @@ public class MenuLevelSelectState : MenuBaseState
     {
         owner.levelToLoad = 2;
         owner.TransitionTo<MenuSetPlayerNameState>();
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
+        EventSystem.current.SetSelectedGameObject(GameObject.Find("Level1"));
     }
 }

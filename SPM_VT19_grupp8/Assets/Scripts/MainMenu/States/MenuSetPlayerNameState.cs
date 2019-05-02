@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 [CreateAssetMenu(menuName = "States/Menu/Main/Set Player Name State")]
 public class MenuSetPlayerNameState : MenuBaseState
@@ -24,6 +25,13 @@ public class MenuSetPlayerNameState : MenuBaseState
     public override void HandleUpdate()
     {
         GameObject.Find("InputField").GetComponent<InputField>().onValueChanged.AddListener(SetName);
+
+        base.HandleUpdate();
+
+        if (EventSystem.current.currentSelectedGameObject == GameObject.Find("InputField") && Input.GetButtonDown("Submit"))
+        {
+            EventSystem.current.SetSelectedGameObject(GameObject.Find("Start"));
+        }
     }
 
     public void LoadScene()
@@ -37,5 +45,11 @@ public class MenuSetPlayerNameState : MenuBaseState
     public void SetName(string name)
     {
         this.playerName = name;
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
+        EventSystem.current.SetSelectedGameObject(GameObject.Find("InputField"));
     }
 }

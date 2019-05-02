@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MenuBaseState : State
 {
@@ -27,5 +26,14 @@ public class MenuBaseState : State
     public void Back()
     {
         owner.TransitionTo<MenuMainState>();
+    }
+
+    public override void HandleUpdate()
+    {
+        base.HandleUpdate();
+        if (Input.GetButtonDown("Cancel"))
+        {
+            Back();
+        }
     }
 }
