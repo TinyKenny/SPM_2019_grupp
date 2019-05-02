@@ -92,6 +92,11 @@ public class PlayerBaseState : State
 
         if (castHasHit)
         {
+            if (raycastHit.normal.y < -0.9f && raycastHit.distance < SkinWidth * 2 && Velocity.y > 0)
+            {
+                Velocity = new Vector3(Velocity.x, 0, Velocity.z);
+            }
+
             Debug.DrawLine(Transform.position, raycastHit.point, new Color(0.0f, 255.0f, 0.0f));
             Debug.DrawRay(Transform.position, Velocity, new Color(255.0f, 0.0f, 0.0f));
 

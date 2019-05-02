@@ -45,10 +45,10 @@ public class PlayerAirState : PlayerBaseState
         else if (WallRun(out wallRunCheck))
         {
             Jump(wallRunCheck.normal);
+            LedgeGrabCheck();
 
             if (Input.GetButton("Wallrun") && Velocity.y > MinimumYVelocity && wallRunCheck.normal.y > -0.5f && owner.WallrunAllowed() && Mathf.Abs(Vector3.Dot(wallRunCheck.normal, Vector3.up)) < MathHelper.floatEpsilon)
             {
-                LedgeGrabCheck();
                 if (Mathf.Abs(Vector3.Angle(Transform.forward, wallRunCheck.normal)) > 140)
                 {
                     owner.ResetWallrunCooldown();
@@ -68,7 +68,7 @@ public class PlayerAirState : PlayerBaseState
         RaycastHit wall;
         Vector3 topPoint = Transform.position + ThisCollider.center + Transform.up * (ThisCollider.height / 2 - ThisCollider.radius);
         bool b = Physics.BoxCast(topPoint, new Vector3(ThisCollider.radius / 2, ThisCollider.height / 4, ThisCollider.radius / 2), Transform.forward, out wall, Transform.rotation, ThisCollider.radius + SkinWidth * 10, CollisionLayers) && wall.transform.tag == "Grabable";
-        if (b && wall.transform.position.y + wall.collider.bounds.max.y < Transform.position.y + ThisCollider.bounds.max.y)
+        if (b && wall.collider.bounds.max.y < ThisCollider.bounds.max.y)
             owner.TransitionTo<PlayerLedgeGrabState>();
     }
 
