@@ -102,7 +102,7 @@ public class PlayerWalkingState : PlayerBaseState
 
         if (velocityOnGround.magnitude > MathHelper.floatEpsilon && turnDot < -0.5f)
         {
-            Velocity += Vector3.ClampMagnitude(direction, 1.0f) * TurnSpeedModifier * Acceleration * PlayerDeltaTime;
+            Velocity = Vector3.ClampMagnitude(direction, 1.0f) * TurnSpeedModifier * Velocity.magnitude * PlayerDeltaTime;
         }
         else
         {
