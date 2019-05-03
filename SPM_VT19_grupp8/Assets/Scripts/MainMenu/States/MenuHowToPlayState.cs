@@ -9,9 +9,14 @@ public class MenuHowToPlayState : MenuBaseState
 {
     public override void Initialize(StateMachine owner)
     {
-        menu = GameObject.Find("HowToPlayState");
+        menu = ((MainMenuStateMachine)owner).HowToPlayState;
 
-        GameObject.Find("HTPBack").GetComponent<Button>().onClick.AddListener(Back);
+        foreach (Button b in menu.GetComponentsInChildren<Button>())
+        {
+            buttons.Add(b.name, b);
+        }
+
+        buttons["HTPBack"].onClick.AddListener(Back);
 
         base.Initialize(owner);
     }
@@ -19,7 +24,7 @@ public class MenuHowToPlayState : MenuBaseState
     public override void Enter()
     {
         base.Enter();
-        EventSystem.current.SetSelectedGameObject(GameObject.Find("HTPBack"));
+        EventSystem.current.SetSelectedGameObject(buttons["HTPBack"].gameObject);
     }
 
 }

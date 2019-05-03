@@ -1,13 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MainMenuStateMachine : StateMachine
 {
     public int levelToLoad;
+    public GameObject previousSelected;
+    public GameObject MainState;
+    public GameObject CreditsState;
+    public GameObject HowToPlayState;
+    public GameObject LevelSelectState;
+    public GameObject SetNameState;
+    public GameObject TextField;
 
-    private void Awake()
+    public override void TransitionTask()
     {
-        base.Awake();
+        previousSelected = EventSystem.current.currentSelectedGameObject;
     }
 }

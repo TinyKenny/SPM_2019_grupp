@@ -9,13 +9,21 @@ using UnityEngine.EventSystems;
 public class MenuSetPlayerNameState : MenuBaseState
 {
     private string playerName;
+    private GameObject nameField;
 
     public override void Initialize(StateMachine owner)
     {
-        menu = GameObject.Find("SetPlayerName");
+        menu = ((MainMenuStateMachine)owner).SetNameState;
 
-        GameObject.Find("SPNBack").GetComponent<Button>().onClick.AddListener(Back);
-        GameObject.Find("Start").GetComponent<Button>().onClick.AddListener(LoadScene);
+        foreach (Button b in menu.GetComponentsInChildren<Button>())
+        {
+            buttons.Add(b.name, b);
+        }
+
+        buttons["SPNBack"].onClick.AddListener(Back);
+        buttons["Start"].onClick.AddListener(LoadScene);
+
+        nameField = ((MainMenuStateMachine)owner).TextField;
 
         base.Initialize(owner);
 
@@ -24,13 +32,13 @@ public class MenuSetPlayerNameState : MenuBaseState
 
     public override void HandleUpdate()
     {
-        GameObject.Find("InputField").GetComponent<InputField>().onValueChanged.AddListener(SetName);
+        nameField.GetComponent<InputField>().onValueChanged.AddListener(SetName);
 
         base.HandleUpdate();
 
-        if (EventSystem.current.currentSelectedGameObject == GameObject.Find("InputField") && Input.GetButtonDown("Submit"))
+        if (EventSystem.current.currentSelectedGameObject == nameField && Input.GetButtonDown("Submit"))
         {
-            EventSystem.current.SetSelectedGameObject(GameObject.Find("Start"));
+            EventSystem.current.SetSelectedGameObject(buttons["Start"].gameObject);
         }
     }
 
@@ -50,6 +58,6 @@ public class MenuSetPlayerNameState : MenuBaseState
     public override void Enter()
     {
         base.Enter();
-        EventSystem.current.SetSelectedGameObject(GameObject.Find("InputField"));
+        EventSystem.current.SetSelectedGameObject(nameField);
     }
 }

@@ -30,15 +30,20 @@ public class StateMachine : MonoBehaviour
     {
         if (typeof(T) != currentState.GetType() && stateDictionary.ContainsKey(typeof(T)))
         {
+            TransitionTask();
             currentState.Exit();
             currentState = stateDictionary[typeof(T)];
             currentState.Enter();
-            Debug.Log(currentState.GetType());
         }
     }
 
     protected virtual void Update()
     {
         currentState.HandleUpdate();
+    }
+
+    public virtual void TransitionTask()
+    {
+
     }
 }

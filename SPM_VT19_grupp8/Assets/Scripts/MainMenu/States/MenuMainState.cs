@@ -7,32 +7,46 @@ using UnityEngine.EventSystems;
 [CreateAssetMenu(menuName = "States/Menu/Main/Main State")]
 public class MenuMainState : MenuBaseState
 {
+
+    /// <summary>
+    /// Initializes the menu state and sets the functions for all buttons.
+    /// </summary>
+    /// <param name="owner">The statemachine that sets this state.</param>
     public override void Initialize(StateMachine owner)
     {
-        menu = GameObject.Find("MainState");
+        menu = ((MainMenuStateMachine)owner).MainState;
 
-        GameObject.Find("StartGame").GetComponent<Button>().onClick.AddListener(StartGame);
-        GameObject.Find("LevelSelect").GetComponent<Button>().onClick.AddListener(LevelSelect);
-        GameObject.Find("Options").GetComponent<Button>().onClick.AddListener(Options);
-        GameObject.Find("HowToPlay").GetComponent<Button>().onClick.AddListener(HowToPlay);
-        GameObject.Find("Credits").GetComponent<Button>().onClick.AddListener(Credits);
-        GameObject.Find("QuitGame").GetComponent<Button>().onClick.AddListener(Quit);
+        foreach (Button b in menu.GetComponentsInChildren<Button>())
+        {
+            buttons.Add(b.name, b);
+        }
+
+        buttons["StartGame"].onClick.AddListener(StartGame);
+        buttons["LevelSelect"].onClick.AddListener(LevelSelect);
+        buttons["Options"].onClick.AddListener(Options);
+        buttons["HowToPlay"].onClick.AddListener(HowToPlay);
+        buttons["Credits"].onClick.AddListener(Credits);
+        buttons["QuitGame"].onClick.AddListener(Quit);
 
         base.Initialize(owner);
     }
-
+    
     public override void Enter()
     {
         base.Enter();
-        EventSystem.current.SetSelectedGameObject(GameObject.Find("StartGame"));
+        if (owner.previousSelected == null || !buttons.ContainsKey(owner.previousSelected.name))
+        {
+            EventSystem.current.SetSelectedGameObject(buttons["StartGame"].gameObject);
+            Debug.Log("Setting to start game button selected " + EventSystem.current.currentSelectedGameObject);
+        }
     }
-
+    
     public void StartGame()
     {
         owner.levelToLoad = 1;
         owner.TransitionTo<MenuSetPlayerNameState>();
     }
-
+    
     public void LevelSelect()
     {
         owner.TransitionTo<MenuLevelSelectState>();
@@ -42,7 +56,7 @@ public class MenuMainState : MenuBaseState
     {
 
     }
-
+    
     public void HowToPlay()
     {
         owner.TransitionTo<MenuHowToPlayState>();

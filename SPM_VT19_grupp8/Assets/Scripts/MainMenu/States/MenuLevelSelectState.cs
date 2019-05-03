@@ -9,11 +9,16 @@ public class MenuLevelSelectState : MenuBaseState
 {
     public override void Initialize(StateMachine owner)
     {
-        menu = GameObject.Find("LevelSelectState");
+        menu = ((MainMenuStateMachine)owner).LevelSelectState;
 
-        GameObject.Find("LSBack").GetComponent<Button>().onClick.AddListener(Back);
-        GameObject.Find("Level1").GetComponent<Button>().onClick.AddListener(StartLevel1);
-        GameObject.Find("Level2").GetComponent<Button>().onClick.AddListener(StartLevel2);
+        foreach (Button b in menu.GetComponentsInChildren<Button>())
+        {
+            buttons.Add(b.name, b);
+        }
+
+        buttons["LSBack"].onClick.AddListener(Back);
+        buttons["Level1"].onClick.AddListener(StartLevel1);
+        buttons["Level2"].onClick.AddListener(StartLevel2);
 
         base.Initialize(owner);
     }
@@ -33,6 +38,6 @@ public class MenuLevelSelectState : MenuBaseState
     public override void Enter()
     {
         base.Enter();
-        EventSystem.current.SetSelectedGameObject(GameObject.Find("Level1"));
+        EventSystem.current.SetSelectedGameObject(buttons["Level1"].gameObject);
     }
 }
