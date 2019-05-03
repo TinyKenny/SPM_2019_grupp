@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerAirState : PlayerBaseState
 {
     private Vector3 direction;
-    protected float MinimumYVelocity = -4f;
+    protected float MinimumYVelocity = -10f;
     protected float maxYVelocity = 12.5f;
     private static float jumpPower = 12.5f;
 
@@ -20,7 +20,7 @@ public class PlayerAirState : PlayerBaseState
 
         MovementInput();
 
-        Velocity += (Vector3.down * Gravity + direction * Gravity / 2) * PlayerDeltaTime;
+        Velocity += (Vector3.down * Gravity + direction * Gravity) * PlayerDeltaTime;
 
         CheckCollision(Velocity * PlayerDeltaTime);
 
@@ -103,7 +103,7 @@ public class PlayerAirState : PlayerBaseState
         if (Input.GetButtonDown("Jump"))
         {
             Velocity += (normal + Vector3.up + direction).normalized * (jumpPower * owner.TimeSlowMultiplier);
-            jumpPower *= 0.75f;
+            jumpPower *= 0.5f;
         }
     }
 

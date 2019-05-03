@@ -39,7 +39,7 @@ public class PlayerWallRunState : PlayerAirState
 
         bool grounded = GroundCheck();
 
-        Velocity *= Mathf.Pow(AirResistanceCoefficient, PlayerDeltaTime);
+        Velocity *= Mathf.Pow(AirResistanceCoefficient, PlayerDeltaTime) * 2;
 
         RaycastHit wall = new RaycastHit();
 
@@ -71,7 +71,6 @@ public class PlayerWallRunState : PlayerAirState
         Vector3 projection = Vector3.Dot(Velocity, wallNormal) * wallNormal;
         Vector3 tempVelocity = Velocity - projection;
         Vector3 magnitude = projection.magnitude * tempVelocity.normalized;
-        magnitude.y = 1000f;
         return ((tempVelocity + magnitude) *wallRunMultiplier);
     }
 }
