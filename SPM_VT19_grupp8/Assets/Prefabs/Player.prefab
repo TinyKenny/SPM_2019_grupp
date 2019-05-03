@@ -282,7 +282,7 @@ MonoBehaviour:
   thisCollider: {fileID: 0}
   skinWidth: 0.05
   groundCheckDistance: 0.01
-  turnSpeedModifier: 0.1
+  turnSpeedModifier: 10
   projectilePrefab: {fileID: 1468789670608892739, guid: 4bd3c14ec32e9a34bb17dffeab61485b,
     type: 3}
   fireRate: 1
