@@ -8,6 +8,8 @@ public class PlayerWallRunState : PlayerAirState
     private float maxVerticalVelocity = 10f;
     private Vector3 wallNormal;
     private float wallRunMultiplier = 2f;
+    private float wallRunCooldown = 0.5f;
+    private float currentCooldown;
 
     public override void Initialize(StateMachine owner)
     {
@@ -26,12 +28,20 @@ public class PlayerWallRunState : PlayerAirState
         Velocity = ProjectSpeedOnSurface();
 
         Transform.LookAt(Transform.position + new Vector3(Velocity.x, 0.0f, Velocity.z).normalized);
+
+        currentCooldown = wallRunCooldown;
     }
 
     public override void HandleUpdate()
     {
         if (Velocity.y > maxVerticalVelocity)
             Velocity = new Vector3(Velocity.x, maxVerticalVelocity, Velocity.z);
+
+
+        if (Velocity.magnitude > MaxSpeed)
+        {
+            Velocity = Velocity.normalized * MaxSpeed;
+        }
 
         Velocity += Vector3.down * (Gravity / 2) * PlayerDeltaTime;
 
@@ -50,19 +60,15 @@ public class PlayerWallRunState : PlayerAirState
         else if (WallRun(out wall) && Velocity.y > MinimumYVelocity && Input.GetButton("Wallrun"))
         {
             //Velocity += Vector3.ClampMagnitude(new Vector3(Velocity.x, 0, Velocity.z).normalized, 1.0f) * Acceleration * PlayerDeltaTime;
-
-            
-
-            if (Velocity.magnitude > MaxSpeed)
-            {
-                Velocity = Velocity.normalized * MaxSpeed;
-            }
+            currentCooldown = wallRunCooldown;
 
             Jump(wall.normal);
         }
         else
         {
-            owner.TransitionTo<PlayerAirState>();
+            if (currentCooldown < 0)
+                owner.TransitionTo<PlayerAirState>();
+            currentCooldown -= owner.getPlayerDeltaTime();
         }
     }
 

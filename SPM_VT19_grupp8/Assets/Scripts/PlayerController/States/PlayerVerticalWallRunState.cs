@@ -29,6 +29,11 @@ public class PlayerVerticalWallRunState : PlayerAirState
     {
         Velocity += Vector3.down * Gravity * PlayerDeltaTime;
 
+        if (Velocity.magnitude > maxVerticalVelocity)
+        {
+            Velocity = Velocity.normalized * maxVerticalVelocity;
+        }
+
         CheckCollision(Velocity * PlayerDeltaTime);
 
         bool grounded = GroundCheck();
@@ -47,10 +52,6 @@ public class PlayerVerticalWallRunState : PlayerAirState
             //Velocity += Vector3.RotateTowards(MathHelper.NormalForce(Velocity, wallNormal), Vector3.up, 1, 1) * (Acceleration/5) /*Vector3.ClampMagnitude(new Vector3(0, Velocity.y, 0).normalized, 1.0f) * (Acceleration / 2)*/ * PlayerDeltaTime;
 
 
-            if (Velocity.magnitude > maxVerticalVelocity)
-            {
-                Velocity = Velocity.normalized * maxVerticalVelocity;
-            }
 
             Jump(wallNormal);
         }
@@ -64,6 +65,7 @@ public class PlayerVerticalWallRunState : PlayerAirState
     {
         Vector3 projection = Vector3.Dot(Velocity, wallNormal) * wallNormal;
         float magnitude = projection.magnitude * verticalSpeedMultiplier;
+        float velY = Mathf.Clamp(Velocity.y + magnitude, -20f, jumpPower);
         return new Vector3(Velocity.x, Velocity.y + magnitude, Velocity.z) - projection;
     }
 }

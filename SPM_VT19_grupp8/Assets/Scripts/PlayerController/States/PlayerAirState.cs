@@ -8,7 +8,7 @@ public class PlayerAirState : PlayerBaseState
     private Vector3 direction;
     protected float MinimumYVelocity = -10f;
     protected float maxYVelocity = 12.5f;
-    private static float jumpPower = 12.5f;
+    protected static float jumpPower = 12.5f;
 
     public override void HandleUpdate()
     {
@@ -33,10 +33,10 @@ public class PlayerAirState : PlayerBaseState
             Velocity = new Vector3(Velocity.x, maxYVelocity, Velocity.z);
         }
 
-        if (Velocity.magnitude > MaxSpeed * 2)
-        {
-            Velocity = Velocity.normalized * MaxSpeed;
-        }
+        //if (Velocity.magnitude > MaxSpeed * 2)
+        //{
+        //    Velocity = Velocity.normalized * MaxSpeed;
+        //}
 
         if (grounded)
         {
@@ -102,6 +102,7 @@ public class PlayerAirState : PlayerBaseState
 
         if (Input.GetButtonDown("Jump"))
         {
+            Debug.Log(jumpPower);
             Velocity += (normal + Vector3.up + direction).normalized * (jumpPower * owner.TimeSlowMultiplier);
             jumpPower *= 0.5f;
         }
