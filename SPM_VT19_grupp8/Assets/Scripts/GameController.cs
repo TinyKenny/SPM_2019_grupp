@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour
     
     void Update()
     {
-        levelTime += Time.unscaledDeltaTime;
+        levelTime += Time.deltaTime;
         timeText.text = "Time: " + (int)levelTime;
     }
 

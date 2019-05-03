@@ -47,6 +47,7 @@ public class PlayerStateMachine : StateMachine
     private float tempTimeScale;
     private float wallrunCooldown;
     [SerializeField] private float wallrunCooldownAmount = 0.5f;
+    private float timeScale = 1;
 
     protected override void Awake()
     {
@@ -169,15 +170,16 @@ public class PlayerStateMachine : StateMachine
 
     public void Pause()
     {
-        if (Input.GetButtonDown("Pause") && Time.timeScale == 1)
+        if (Input.GetButtonDown("Pause") && Time.timeScale > 0)
         {
             tempTimeScale = playerTimeScale;
+            timeScale = Time.timeScale;
             Time.timeScale = 0;
             playerTimeScale = 0;
         }
-        else if (Input.GetButtonDown("Pause"))
+        else if (Input.GetButtonDown("Pause") && Time.timeScale == 0)
         {
-            Time.timeScale = 1;
+            Time.timeScale = timeScale;
             playerTimeScale = tempTimeScale;
         }
     }
