@@ -184,6 +184,13 @@ public class PlayerStateMachine : StateMachine
         }
     }
 
+    public void UnPause()
+    {
+        Time.timeScale = timeScale;
+        playerTimeScale = tempTimeScale;
+        GameController.gameControllerInstance.PausePanel.SetActive(false);
+    }
+
     /// <summary>
     /// Transitions the player to PlayerAirState and sets the players position to the respawn point.
     /// Resets variables related to life, slow-mo, attacking, ect. (example: deactivating slow-mo and refilling shields)

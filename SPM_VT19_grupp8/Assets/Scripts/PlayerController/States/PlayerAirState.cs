@@ -109,12 +109,15 @@ public class PlayerAirState : PlayerBaseState
 
     protected override void UpdatePlayerRotation()
     {
-        Vector3 direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0.0f, Input.GetAxisRaw("Vertical"));
-        direction = Camera.main.transform.rotation * direction;
+        if (Time.timeScale > 0)
+        {
+            Vector3 direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0.0f, Input.GetAxisRaw("Vertical"));
+            direction = Camera.main.transform.rotation * direction;
 
-        // project on plane?
+            // project on plane?
 
-        Transform.LookAt(Transform.position + new Vector3(direction.x, 0.0f, direction.z).normalized);
+            Transform.LookAt(Transform.position + new Vector3(direction.x, 0.0f, direction.z).normalized);
+        }
     }
 
     protected void TransitionToWalkingState()
