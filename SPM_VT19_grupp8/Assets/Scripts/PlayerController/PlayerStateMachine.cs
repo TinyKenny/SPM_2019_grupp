@@ -51,10 +51,11 @@ public class PlayerStateMachine : StateMachine
 
     protected override void Awake()
     {
-        base.Awake();
         physicsComponent = GetComponent<PhysicsComponent>();
         thisCollider = GetComponent<CapsuleCollider>();
         standardColliderHeight = thisCollider.height;
+
+        base.Awake();
 
         playerTimeScale = 1.0f;
         slowedPlayerTimeScale = 0.5f;

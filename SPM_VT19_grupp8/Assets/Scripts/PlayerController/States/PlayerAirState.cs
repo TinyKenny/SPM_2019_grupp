@@ -20,7 +20,10 @@ public class PlayerAirState : PlayerBaseState
 
         MovementInput();
 
-        Velocity += (Vector3.down * Gravity + direction * Gravity) * PlayerDeltaTime;
+        Velocity += (Vector3.down * Gravity) * PlayerDeltaTime;
+
+        //Kolla om framåt för spelaren och direction från input är typ samma i så fall lägg till mindre fart så man inte superaccelererar i luften.
+        Velocity += (direction * Gravity) * PlayerDeltaTime;
 
         CheckCollision(Velocity * PlayerDeltaTime);
 
@@ -102,7 +105,6 @@ public class PlayerAirState : PlayerBaseState
 
         if (Input.GetButtonDown("Jump"))
         {
-            Debug.Log(jumpPower);
             Velocity += (normal + Vector3.up + direction).normalized * (jumpPower * owner.TimeSlowMultiplier);
             jumpPower *= 0.5f;
         }
