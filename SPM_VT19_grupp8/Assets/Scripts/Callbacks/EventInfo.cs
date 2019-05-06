@@ -44,3 +44,21 @@ public class EnemyRespawnEventInfo : EventInfo
         return GO.GetComponent<EnemySpawner>().PlayerTransform;
     }
 }
+
+public class PlayerSoundEventInfo : EventInfo
+{
+    public float Range;
+
+    public PlayerSoundEventInfo(GameObject gO, float range, string description = "Player sound event") : base(gO, description)
+    {
+    }
+}
+
+public class EnemySoundEventInfo : EventInfo
+{
+    public float Range;
+
+    public EnemySoundEventInfo(GameObject source, float range, string description = "Enemy sound event") : base(source, description)
+    {
+    }
+}
