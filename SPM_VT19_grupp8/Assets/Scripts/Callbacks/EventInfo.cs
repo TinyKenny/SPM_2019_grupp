@@ -45,12 +45,20 @@ public class EnemyRespawnEventInfo : EventInfo
     }
 }
 
-public class SoundEventInfo : EventInfo
+public class PlayerSoundEventInfo : EventInfo
 {
-    public Vector3 source;
-    
-    public SoundEventInfo(GameObject listener, Vector3 source, string description = "SoundEvent was generated") : base(listener, description)
+    public float Range;
+
+    public PlayerSoundEventInfo(GameObject gO, float range, string description = "Player sound event") : base(gO, description)
     {
-        this.source = source;
+    }
+}
+
+public class EnemySoundEventInfo : EventInfo
+{
+    public float Range;
+
+    public EnemySoundEventInfo(GameObject source, float range, string description = "Enemy sound event") : base(source, description)
+    {
     }
 }
