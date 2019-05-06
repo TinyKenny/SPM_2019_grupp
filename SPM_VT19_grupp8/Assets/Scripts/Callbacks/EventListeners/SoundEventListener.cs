@@ -9,6 +9,7 @@ public class SoundEventListener : EventListenerInterface
     public override void Initialize()
     {
         SoundListener = this;
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerSoundEventInfo>(PlayerSound);
     }
 
     public void PlayerSound(EventInfo eI)

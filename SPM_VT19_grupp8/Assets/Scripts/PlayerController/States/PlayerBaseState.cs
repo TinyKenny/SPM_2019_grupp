@@ -32,6 +32,8 @@ public class PlayerBaseState : State
     protected float PlayerDeltaTime { get { return owner.getPlayerDeltaTime(); } }
     protected int Ammo { get { return owner.ammo; } set { owner.ammo = value; } }
     private float FireCoolDown { get { return owner.fireCoolDown; } set { owner.fireCoolDown = value; } }
+    protected float movementSoundRange = 50;
+    protected float shootSoundRange = 100;
 
     public override void Initialize(StateMachine owner)
     {
@@ -232,6 +234,7 @@ public class PlayerBaseState : State
                 projectile.GetComponent<ProjectileBehaviour>().SetInitialValues((1 << owner.gameObject.layer) | LayerMask.GetMask(ignoreLayers));
                 FireCoolDown = FireRate;
                 owner.ammoNumber.text = Ammo.ToString();
+                EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(owner.gameObject, shootSoundRange));
             }
         }
         else
