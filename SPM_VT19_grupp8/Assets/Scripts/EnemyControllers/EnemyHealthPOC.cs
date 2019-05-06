@@ -9,6 +9,12 @@ public class EnemyHealthPOC : MonoBehaviour
 
     private Transform enemyObject;
 
+    public AudioSource ausEnemy;
+    public AudioClip soldierHurtSound;
+    public AudioClip soldierDeathSound;
+    public AudioClip stunbotHurtSound;
+    public AudioClip stunbotDeathSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,10 +37,26 @@ public class EnemyHealthPOC : MonoBehaviour
     public void TakeDamage(float damage)
     {
         if (GetComponent<SoldierStateMachine>() != null)
+        {
+            ausEnemy.PlayOneShot(soldierHurtSound);
+
             GetComponent<SoldierStateMachine>().SetAlerted(GameObject.Find("Player").transform.position);
+        }
+        else if (GetComponent<StunbotStateMachine>() != null)
+        {
+            ausEnemy.PlayOneShot(stunbotHurtSound);
+        }
         currentHealth -= damage;
         if(currentHealth <= 0.0f)
         {
+            if (GetComponent<SoldierStateMachine>() != null)
+            {
+                ausEnemy.PlayOneShot(soldierDeathSound);
+            }
+            else if (GetComponent<StunbotStateMachine>() != null)
+            {
+                ausEnemy.PlayOneShot(stunbotDeathSound);
+            }
             Debug.Log("enemy dead");
             Destroy(enemyObject.gameObject);
         }

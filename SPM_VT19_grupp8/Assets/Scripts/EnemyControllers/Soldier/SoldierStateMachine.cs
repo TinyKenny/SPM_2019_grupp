@@ -17,6 +17,9 @@ public class SoldierStateMachine : EnemyStateMachine
     public float cooldownVarianceMax = 0.5f;
     public Vector3 playerLastLocation;
 
+    public AudioSource ausSoldier;
+    public AudioClip soldierAlertSound;
+
     private void Awake()
     {
         thisCollider = GetComponent<CapsuleCollider>();
@@ -37,11 +40,13 @@ public class SoldierStateMachine : EnemyStateMachine
 
     public void SetAlerted(Vector3 lastLocation)
     {
+        ausSoldier.PlayOneShot(soldierAlertSound);  
         if (!(currentState is SoldierAttackState))
         {
             playerLastLocation = lastLocation;
             TransitionTo<SoldierAlertState>();
+
         }
-            
+          
     }
 }
