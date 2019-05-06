@@ -53,6 +53,8 @@ public class PlayerWallRunState : PlayerAirState
 
         RaycastHit wall = new RaycastHit();
 
+        Jump(wallNormal);
+
         if (grounded)
         {
             TransitionToWalkingState();
@@ -61,8 +63,6 @@ public class PlayerWallRunState : PlayerAirState
         {
             //Velocity += Vector3.ClampMagnitude(new Vector3(Velocity.x, 0, Velocity.z).normalized, 1.0f) * Acceleration * PlayerDeltaTime;
             currentCooldown = wallRunCooldown;
-
-            Jump(wall.normal);
         }
         else
         {
