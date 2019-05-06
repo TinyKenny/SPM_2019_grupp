@@ -55,6 +55,8 @@ public class PlayerStateMachine : StateMachine
     public AudioClip damageSound;
     public AudioClip deathSound;
 
+
+
     protected override void Awake()
     {
         physicsComponent = GetComponent<PhysicsComponent>();
@@ -192,6 +194,7 @@ public class PlayerStateMachine : StateMachine
         }
         else if (Input.GetButtonDown("Pause") && Time.timeScale == 0)
         {
+
             Time.timeScale = timeScale;
             playerTimeScale = tempTimeScale;
         }
