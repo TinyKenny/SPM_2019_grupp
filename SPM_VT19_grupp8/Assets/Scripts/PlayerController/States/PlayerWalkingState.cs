@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "States/Player/Walking State")]
 public class PlayerWalkingState : PlayerBaseState
 {
-    [SerializeField] protected float jumpPower = 10.0f;
+    [SerializeField] protected float jumpPower = 12.5f;
     
     protected bool jumpAllowed = true;
     protected bool grounded = true;
