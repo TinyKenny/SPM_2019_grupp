@@ -40,7 +40,8 @@ public class PlayerVerticalWallRunState : PlayerAirState
 
         Velocity *= Mathf.Pow(AirResistanceCoefficient, PlayerDeltaTime);
 
-        RaycastHit wall = new RaycastHit();
+        RaycastHit wall = new RaycastHit(); float soundDistance = (Velocity.magnitude / owner.MaxSpeed) * movementSoundRange;
+        EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(owner.gameObject, soundDistance));
 
         if (grounded)
         {
