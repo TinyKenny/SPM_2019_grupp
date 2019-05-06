@@ -33,8 +33,8 @@ public class RespawnEventListener : EventListenerInterface
 
         //Vector3 playerRotation = PREI.GO.transform.rotation.eulerAngles;
         cameraMain.transform.rotation = PREI.GO.transform.rotation;
-        cameraMain.rotationY = transform.rotation.eulerAngles.y;
-        cameraMain.rotationX = transform.rotation.eulerAngles.x;
+        cameraMain.rotationY = cameraMain.transform.rotation.eulerAngles.y;
+        cameraMain.rotationX = cameraMain.transform.rotation.eulerAngles.x;
 
         foreach (EnemyRespawnEventInfo EREI in spawnerList)
         {

@@ -21,10 +21,5 @@ public class SoundEventListener : EventListenerInterface
     {
         SoundEventInfo playerSound = (SoundEventInfo)eI;
 
-        foreach (SoundEventInfo sEI in enemyList)
-        {
-            EventCoordinator.CurrentEventCoordinator.ActivateEvent(sEI);
-        }
-
     }
 }
