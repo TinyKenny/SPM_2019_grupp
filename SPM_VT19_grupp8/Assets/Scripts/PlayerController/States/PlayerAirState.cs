@@ -22,8 +22,14 @@ public class PlayerAirState : PlayerBaseState
 
         Velocity += (Vector3.down * Gravity) * PlayerDeltaTime;
 
-        //Kolla om framåt för spelaren och direction från input är typ samma i så fall lägg till mindre fart så man inte superaccelererar i luften.
-        Velocity += (direction * Gravity) * PlayerDeltaTime;
+        //Sänk dot om man vill påverka mindre, kanske ha en koefficient som man gångrar med för att minska värdet på dot så man kan åka framåt mer?
+        float dot = Vector3.Dot(Velocity.normalized, direction);
+        float directionForce = Gravity - (Gravity * dot);
+
+        if (directionForce < 0)
+            directionForce = Gravity;
+
+        Velocity += (direction * directionForce) * PlayerDeltaTime;
 
         CheckCollision(Velocity * PlayerDeltaTime);
 
