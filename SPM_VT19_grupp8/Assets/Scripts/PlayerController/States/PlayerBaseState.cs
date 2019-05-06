@@ -42,6 +42,8 @@ public class PlayerBaseState : State
     {
         base.HandleUpdate();
         UpdatePlayerRotation();
+        owner.GetComponentInChildren<Animator>().SetFloat("Speed", new Vector3(Velocity.x, 0, Velocity.z).magnitude / MaxSpeed);
+        owner.GetComponentInChildren<Animator>().SetFloat("Direction", Vector3.Dot(owner.transform.right, Velocity.normalized));
     }
 
     protected bool FindCollision(Vector3 direction, float maxDistance)
@@ -81,7 +83,9 @@ public class PlayerBaseState : State
 
     protected bool GroundCheck(out RaycastHit raycastHit)
     {
-        return FindCollision(Vector3.down, out raycastHit, GroundCheckDistance + SkinWidth);
+        bool grounded = FindCollision(Vector3.down, out raycastHit, GroundCheckDistance + SkinWidth);
+        owner.GetComponentInChildren<Animator>().SetBool("GroundCheck", grounded);
+        return grounded;
     }
 
     protected void CheckCollision(Vector3 movement)
