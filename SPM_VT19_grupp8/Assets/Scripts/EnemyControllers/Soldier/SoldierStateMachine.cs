@@ -31,6 +31,8 @@ public class SoldierStateMachine : EnemyStateMachine
             patrolLocations = new Transform[1];
             patrolLocations[0] = transform;
         }
+
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<EnemySoundEventInfo>(PlayerSoundAlert);
     }
 
     private void Update()
@@ -48,5 +50,23 @@ public class SoldierStateMachine : EnemyStateMachine
 
         }
           
+    }
+
+    public void PlayerSoundAlert(EventInfo eI)
+    {
+        EnemySoundEventInfo enemyEvent = (EnemySoundEventInfo)eI;
+        if (currentState.GetType() == typeof(SoldierIdleState))
+        {
+            if (Vector3.Distance(transform.position, enemyEvent.GO.transform.position) < enemyEvent.Range)
+            {
+                Debug.Log("Heard player!");
+                SetAlerted(enemyEvent.GO.transform.position);
+            }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<EnemySoundEventInfo>(PlayerSoundAlert);
     }
 }
