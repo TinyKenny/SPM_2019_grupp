@@ -42,7 +42,6 @@ public class SoldierStateMachine : EnemyStateMachine
 
     public void SetAlerted(Vector3 lastLocation)
     {
-        ausSoldier.PlayOneShot(soldierAlertSound);  
         if (!(currentState is SoldierAttackState))
         {
             playerLastLocation = lastLocation;
@@ -61,6 +60,7 @@ public class SoldierStateMachine : EnemyStateMachine
             {
                 Debug.Log("Heard player!");
                 SetAlerted(enemyEvent.GO.transform.position);
+                ausSoldier.PlayOneShot(soldierAlertSound);
             }
         }
     }
