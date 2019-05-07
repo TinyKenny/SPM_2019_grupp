@@ -1030,7 +1030,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.06666667
+      value: 0.041666668
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -5060,7 +5060,7 @@ Transform:
   - {fileID: 261898463}
   - {fileID: 64552428}
   m_Father: {fileID: 0}
-  m_RootOrder: 33
+  m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &305905771
 GameObject:
