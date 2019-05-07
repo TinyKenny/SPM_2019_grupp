@@ -49,6 +49,14 @@ public class PlayerStateMachine : StateMachine
     [SerializeField] private float wallrunCooldownAmount = 0.5f;
     private float timeScale = 1;
 
+    public AudioSource aus;
+    public AudioClip slowSound;
+    public AudioClip ammoSound;
+    public AudioClip damageSound;
+    public AudioClip deathSound;
+
+
+
     protected override void Awake()
     {
         physicsComponent = GetComponent<PhysicsComponent>();
@@ -121,9 +129,13 @@ public class PlayerStateMachine : StateMachine
 
             if (Input.GetButtonDown("TimeSlowToggle") && currentSlowMotionEnergy >= 1.0f)
             {
+
+
                 Time.timeScale = slowedWorldTimeScale;
                 playerTimeScale = slowedPlayerTimeScale;
+                aus.PlayOneShot(slowSound);
                 TimeSlowMultiplier = 1.2f;
+
             }
         }
         else if(Mathf.Approximately(playerTimeScale, slowedPlayerTimeScale))
@@ -159,11 +171,13 @@ public class PlayerStateMachine : StateMachine
     {
         if (currentShields <= MathHelper.floatEpsilon)
         {
+            aus.PlayOneShot(deathSound);
             Debug.Log("Player took fatal damage");
             Respawn();
         }
         else
         {
+            aus.PlayOneShot(damageSound);
             currentShields = Mathf.Clamp(currentShields - damage, 0.0f, shieldsMax);
             shieldsRegenerationTimer = shieldsRegenerationCooldown;
         }
@@ -180,6 +194,7 @@ public class PlayerStateMachine : StateMachine
         }
         else if (Input.GetButtonDown("Pause") && Time.timeScale == 0)
         {
+
             Time.timeScale = timeScale;
             playerTimeScale = tempTimeScale;
         }
@@ -241,6 +256,7 @@ public class PlayerStateMachine : StateMachine
     {
         this.ammo += ammo;
         ammoNumber.text = this.ammo.ToString();
+        aus.PlayOneShot(ammoSound);
     }
 
     public void ResetWallrunCooldown()

@@ -17,6 +17,9 @@ public class SoldierStateMachine : EnemyStateMachine
     public float cooldownVarianceMax = 0.5f;
     public Vector3 playerLastLocation;
 
+    public AudioSource ausSoldier;
+    public AudioClip soldierAlertSound;
+
     private void Awake()
     {
         thisCollider = GetComponent<CapsuleCollider>();
@@ -28,6 +31,8 @@ public class SoldierStateMachine : EnemyStateMachine
             patrolLocations = new Transform[1];
             patrolLocations[0] = transform;
         }
+
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<EnemySoundEventInfo>(PlayerSoundAlert);
     }
 
     private void Update()
@@ -41,7 +46,27 @@ public class SoldierStateMachine : EnemyStateMachine
         {
             playerLastLocation = lastLocation;
             TransitionTo<SoldierAlertState>();
+
         }
-            
+          
+    }
+
+    public void PlayerSoundAlert(EventInfo eI)
+    {
+        EnemySoundEventInfo enemyEvent = (EnemySoundEventInfo)eI;
+        if (currentState.GetType() == typeof(SoldierIdleState))
+        {
+            if (Vector3.Distance(transform.position, enemyEvent.GO.transform.position) < enemyEvent.Range)
+            {
+                Debug.Log("Heard player!");
+                SetAlerted(enemyEvent.GO.transform.position);
+                ausSoldier.PlayOneShot(soldierAlertSound);
+            }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<EnemySoundEventInfo>(PlayerSoundAlert);
     }
 }

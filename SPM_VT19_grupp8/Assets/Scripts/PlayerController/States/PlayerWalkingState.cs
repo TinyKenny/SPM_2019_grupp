@@ -28,8 +28,11 @@ public class PlayerWalkingState : PlayerBaseState
         CheckCollision(Velocity * PlayerDeltaTime);
         Velocity *= Mathf.Pow(AirResistanceCoefficient, PlayerDeltaTime);
 
+        float soundDistance = (Velocity.magnitude / owner.MaxSpeed) * movementSoundRange;
+        EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(owner.gameObject, soundDistance));
+
         //if speed is high enough for running, and you are in walking state
-        if(Velocity.magnitude > (MaxSpeed / 2) && Mathf.Approximately(MaxSpeedMod, 1.0f))
+        if (Velocity.magnitude > (MaxSpeed / 2) && Mathf.Approximately(MaxSpeedMod, 1.0f))
         {
             //you are running, this is relevant because of reasons
         }

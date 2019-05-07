@@ -55,6 +55,9 @@ public class PlayerWallRunState : PlayerAirState
 
         Jump(wallNormal);
 
+        float soundDistance = (Velocity.magnitude / owner.MaxSpeed) * movementSoundRange;
+        EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(owner.gameObject, soundDistance));
+
         if (grounded)
         {
             TransitionToWalkingState();

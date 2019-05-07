@@ -32,6 +32,8 @@ public class PlayerBaseState : State
     protected float PlayerDeltaTime { get { return owner.getPlayerDeltaTime(); } }
     protected int Ammo { get { return owner.ammo; } set { owner.ammo = value; } }
     private float FireCoolDown { get { return owner.fireCoolDown; } set { owner.fireCoolDown = value; } }
+    protected float movementSoundRange = 50;
+    protected float shootSoundRange = 100;
 
     public override void Initialize(StateMachine owner)
     {
@@ -42,6 +44,8 @@ public class PlayerBaseState : State
     {
         base.HandleUpdate();
         UpdatePlayerRotation();
+        owner.GetComponentInChildren<Animator>().SetFloat("Speed", new Vector3(Velocity.x, 0, Velocity.z).magnitude / MaxSpeed);
+        owner.GetComponentInChildren<Animator>().SetFloat("Direction", Vector3.Dot(owner.transform.right, Velocity.normalized));
     }
 
     protected bool FindCollision(Vector3 direction, float maxDistance)
@@ -81,7 +85,9 @@ public class PlayerBaseState : State
 
     protected bool GroundCheck(out RaycastHit raycastHit)
     {
-        return FindCollision(Vector3.down, out raycastHit, GroundCheckDistance + SkinWidth);
+        bool grounded = FindCollision(Vector3.down, out raycastHit, GroundCheckDistance + SkinWidth);
+        owner.GetComponentInChildren<Animator>().SetBool("GroundCheck", grounded);
+        return grounded;
     }
 
     protected void CheckCollision(Vector3 movement)
@@ -228,6 +234,7 @@ public class PlayerBaseState : State
                 projectile.GetComponent<ProjectileBehaviour>().SetInitialValues((1 << owner.gameObject.layer) | LayerMask.GetMask(ignoreLayers));
                 FireCoolDown = FireRate;
                 owner.ammoNumber.text = Ammo.ToString();
+                EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(owner.gameObject, shootSoundRange));
             }
         }
         else

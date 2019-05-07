@@ -51,6 +51,7 @@ public class PlayerSoundEventInfo : EventInfo
 
     public PlayerSoundEventInfo(GameObject gO, float range, string description = "Player sound event") : base(gO, description)
     {
+        Range = range;
     }
 }
 
@@ -60,5 +61,6 @@ public class EnemySoundEventInfo : EventInfo
 
     public EnemySoundEventInfo(GameObject source, float range, string description = "Enemy sound event") : base(source, description)
     {
+        Range = range;
     }
 }
