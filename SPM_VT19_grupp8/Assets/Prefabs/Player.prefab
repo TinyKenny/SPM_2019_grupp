@@ -311,7 +311,7 @@ MonoBehaviour:
   ammoSound: {fileID: 8300000, guid: 1766c62fe813c2346b72aa62d7344b6e, type: 3}
   damageSound: {fileID: 8300000, guid: 5ff6e37f1aa565740a43dba0d6fbaaa6, type: 3}
   deathSound: {fileID: 8300000, guid: b8f00654f9b12424ea18d756cbaf0d0b, type: 3}
-  gunShotSound: {fileID: 0}
+  gunShotSound: {fileID: 8300000, guid: 383e9fc6797f9ca4f9c1f04ec5e96921, type: 3}
 --- !u!82 &7801506606482085374
 AudioSource:
   m_ObjectHideFlags: 0
