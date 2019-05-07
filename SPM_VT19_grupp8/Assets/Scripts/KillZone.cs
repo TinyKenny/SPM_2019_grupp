@@ -10,10 +10,10 @@ public class KillZone : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         PlayerStateMachine player = other.GetComponent<PlayerStateMachine>();
-
+            ausKillZone.PlayOneShot(killZoneSound);
         if (player != null)
         {
-            ausKillZone.PlayOneShot(killZoneSound);
+
             player.Respawn();
         }
     }
