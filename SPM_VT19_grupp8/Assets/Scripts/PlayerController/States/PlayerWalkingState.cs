@@ -50,7 +50,6 @@ public class PlayerWalkingState : PlayerBaseState
             {
                 owner.TransitionTo<PlayerCrouchState>();
             }
-            //Debug.Log("Wat");
         }
     }
 

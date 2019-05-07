@@ -34,13 +34,6 @@ public class CameraController : MonoBehaviour
 
     private void LateUpdate()
     {
-        /*
-        if (Input.GetButtonDown("PerspectiveSwitch"))
-        {
-            thirdPerson = !thirdPerson;
-        }
-        */
-
         Quaternion newRotation = UpdateRotation();
         transform.rotation = newRotation;
 
@@ -84,7 +77,6 @@ public class CameraController : MonoBehaviour
             rotationY += gamePadX * lookSensitivity;
             rotationX += gamePadY * lookSensitivity;
         }
-
         rotationX = Mathf.Clamp(rotationX, -85.0f, 85.0f);
 
         return Quaternion.Euler(rotationX, rotationY, 0.0f);
