@@ -34,6 +34,7 @@ public class PlayerBaseState : State
     private float FireCoolDown { get { return owner.fireCoolDown; } set { owner.fireCoolDown = value; } }
     protected float movementSoundRange = 50;
     protected float shootSoundRange = 100;
+    protected float JumpPower { get { return owner.JumpPower; } set { owner.JumpPower = value; } }
 
     public override void Initialize(StateMachine owner)
     {
