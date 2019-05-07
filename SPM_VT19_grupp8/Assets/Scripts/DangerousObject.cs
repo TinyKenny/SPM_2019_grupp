@@ -11,6 +11,8 @@ public class DangerousObject : MonoBehaviour
     private BoxCollider coll;
     private float cooldown = 0;
 
+    public AudioSource ausDanger;
+    public AudioClip dangerSound;
     private void Awake()
     {
         player = GameObject.Find("Player").GetComponent<PlayerStateMachine>();
@@ -26,6 +28,7 @@ public class DangerousObject : MonoBehaviour
             cooldown = cooldownAmount;
             player.Velocity += (player.transform.position - transform.position).normalized * knockback * player.getPlayerDeltaTime();
             player.TakeDamage(damage);
+            ausDanger.PlayOneShot(dangerSound);
         }
     }
 }
