@@ -234,7 +234,7 @@ public class PlayerBaseState : State
                 projectile.GetComponent<ProjectileBehaviour>().SetInitialValues((1 << owner.gameObject.layer) | LayerMask.GetMask(ignoreLayers));
                 FireCoolDown = FireRate;
                 owner.ammoNumber.text = Ammo.ToString();
-                EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(owner.gameObject, shootSoundRange));
+                EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(owner.gameObject, shootSoundRange, owner.gunShotSound));
             }
         }
         else

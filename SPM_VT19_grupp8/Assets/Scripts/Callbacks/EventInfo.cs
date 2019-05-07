@@ -48,10 +48,12 @@ public class EnemyRespawnEventInfo : EventInfo
 public class PlayerSoundEventInfo : EventInfo
 {
     public float Range;
+    public AudioClip AC;
 
-    public PlayerSoundEventInfo(GameObject gO, float range, string description = "Player sound event") : base(gO, description)
+    public PlayerSoundEventInfo(GameObject gO, float range, AudioClip ac = null, string description = "Player sound event") : base(gO, description)
     {
         Range = range;
+        AC = ac;
     }
 }
 

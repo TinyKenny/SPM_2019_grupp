@@ -16,6 +16,9 @@ public class SoundEventListener : EventListenerInterface
     {
         PlayerSoundEventInfo playerSound = (PlayerSoundEventInfo)eI;
 
+        if (playerSound.AC != null)
+            playerSound.GO.GetComponent<AudioSource>().PlayOneShot(playerSound.AC);
+
         EventCoordinator.CurrentEventCoordinator.ActivateEvent(new EnemySoundEventInfo(playerSound.GO, playerSound.Range));
     }
 }

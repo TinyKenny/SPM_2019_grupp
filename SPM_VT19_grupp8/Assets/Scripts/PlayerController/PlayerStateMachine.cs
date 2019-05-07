@@ -54,6 +54,7 @@ public class PlayerStateMachine : StateMachine
     public AudioClip ammoSound;
     public AudioClip damageSound;
     public AudioClip deathSound;
+    public AudioClip gunShotSound;
 
 
 
