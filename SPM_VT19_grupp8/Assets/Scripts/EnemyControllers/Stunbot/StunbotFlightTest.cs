@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class is only for testing, so you do not have to review this unless you absolutely want to.
+/// Warning: it may or may not contain a lot of shit-quality code.
+/// </summary>
 public class StunbotFlightTest : MonoBehaviour
 {
     public Transform rotationPrediction;
@@ -35,11 +39,19 @@ public class StunbotFlightTest : MonoBehaviour
 
         turningMaxMovementSpeed = myCollider.radius * 1.1f * turnSpeed * Mathf.Deg2Rad;
 
-
+        transform.LookAt(transform.position + (new Vector3(-1.0f, 0.0f, 1.0f).normalized));
+        float angle = 0.0f;
+        Vector3 axis = Vector3.zero;
+        transform.rotation.ToAngleAxis(out angle, out axis);
+        //Debug.Log("axis: " + axis);
+        //Debug.Log("angle: " + angle);
+        //Debug.Log("tan-test: " + Mathf.Tan(0.5f * Mathf.PI));
     }
 
+
+
     // Update is called once per frame
-    void Update()
+    void DontUpdate()
     {
         Debug.LogWarning("Update!");
 
