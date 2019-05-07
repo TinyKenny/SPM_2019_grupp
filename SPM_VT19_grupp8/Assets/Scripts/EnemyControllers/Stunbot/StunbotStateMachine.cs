@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StunbotStateMachine : StateMachine
+public class StunbotStateMachine : EnemyStateMachine
 {
-    public Transform playerTransform;
+    //public Transform playerTransform;
     public LayerMask visionMask;
     public LayerMask playerLayer;
     public SphereCollider thisCollider;
     public float turningModifier = 1.0f;
-    public Transform[] patrolLocations;
+    //public Transform[] patrolLocations;
     public int currentPatrolPointIndex;
     public Vector3 lastPlayerLocation;
 
@@ -36,6 +36,11 @@ public class StunbotStateMachine : StateMachine
         thisCollider = GetComponent<SphereCollider>();
         faceDirection = transform.forward;
         currentPatrolPointIndex = 0;
+        if(patrolLocations.Length == 0)
+        {
+            patrolLocations = new Transform[1];
+            patrolLocations[0] = transform;
+        }
     }
 
     protected override void Update()
