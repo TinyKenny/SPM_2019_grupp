@@ -80,6 +80,6 @@ public class PlayerWallRunState : PlayerAirState
         Vector3 projection = Vector3.Dot(Velocity, wallNormal) * wallNormal;
         Vector3 tempVelocity = Velocity - projection;
         Vector3 magnitude = projection.magnitude * tempVelocity.normalized;
-        return ((tempVelocity + magnitude) *wallRunMultiplier);
+        return  magnitude;
     }
 }

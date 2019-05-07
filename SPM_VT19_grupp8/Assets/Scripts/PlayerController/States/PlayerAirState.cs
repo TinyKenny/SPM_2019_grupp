@@ -113,7 +113,7 @@ public class PlayerAirState : PlayerBaseState
         {
             Velocity += (normal + Vector3.up).normalized * (jumpPower * owner.TimeSlowMultiplier);
             Velocity = Vector3.ClampMagnitude(Velocity, MaxSpeed + (jumpPower / 2));
-            jumpPower *= 0.5f;
+            jumpPower *= 0.7f;
             owner.TransitionTo<PlayerAirState>();
         }
     }
