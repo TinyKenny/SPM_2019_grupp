@@ -3,7 +3,17 @@ guid: cb943d91f310a1b47a7ac0ac0884e4c6
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - currentState: {instanceID: 0}
+  - previousSelected: {instanceID: 0}
+  - MainState: {instanceID: 0}
+  - CreditsState: {instanceID: 0}
+  - HowToPlayState: {instanceID: 0}
+  - LevelSelectState: {instanceID: 0}
+  - SetNameState: {instanceID: 0}
+  - TextField: {instanceID: 0}
+  - ausMenu: {instanceID: 0}
+  - buttonTransition: {fileID: 8300000, guid: dfe36944591103c4b8d1ee15ffb67ea6, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

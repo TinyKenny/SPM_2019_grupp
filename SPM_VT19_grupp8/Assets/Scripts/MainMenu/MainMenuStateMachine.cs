@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+
 public class MainMenuStateMachine : StateMachine
 {
     public int levelToLoad;
@@ -14,8 +15,12 @@ public class MainMenuStateMachine : StateMachine
     public GameObject SetNameState;
     public GameObject TextField;
 
+    public AudioSource ausMenu;
+    public AudioClip buttonTransition;
+
     public override void TransitionTask()
     {
+        ausMenu.PlayOneShot(buttonTransition);
         previousSelected = EventSystem.current.currentSelectedGameObject;
     }
 }
