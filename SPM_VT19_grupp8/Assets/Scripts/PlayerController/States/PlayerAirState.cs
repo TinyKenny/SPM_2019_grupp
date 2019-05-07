@@ -111,7 +111,8 @@ public class PlayerAirState : PlayerBaseState
 
         if (Input.GetButtonDown("Jump"))
         {
-            Velocity = (normal + Vector3.up + Velocity.normalized).normalized * (jumpPower * owner.TimeSlowMultiplier);
+            Velocity += (normal + Vector3.up).normalized * (jumpPower * owner.TimeSlowMultiplier);
+            Velocity = Vector3.ClampMagnitude(Velocity, MaxSpeed + (jumpPower / 2));
             jumpPower *= 0.5f;
             owner.TransitionTo<PlayerAirState>();
         }

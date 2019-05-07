@@ -146,10 +146,10 @@ MonoBehaviour:
   faceDirection: {x: 0, y: 0, z: 0}
   NavLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 16384
   EnviromentLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
 --- !u!1 &2074944539996330791
 GameObject:
   m_ObjectHideFlags: 0
