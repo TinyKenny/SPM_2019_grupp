@@ -49,6 +49,8 @@ public class PlayerStateMachine : StateMachine
     [SerializeField] private float wallrunCooldownAmount = 0.5f;
     private float timeScale = 1;
 
+    public float JumpPower = 12.5f;
+
     public AudioSource aus;
     public AudioClip slowSound;
     public AudioClip ammoSound;
