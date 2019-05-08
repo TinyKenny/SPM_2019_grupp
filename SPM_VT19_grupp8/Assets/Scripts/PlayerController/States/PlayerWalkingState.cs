@@ -74,6 +74,7 @@ public class PlayerWalkingState : PlayerBaseState
 
             if (Input.GetButtonDown("Jump") && jumpAllowed && Time.timeScale > 0)
             {
+                owner.GetComponentInChildren<Animator>().SetTrigger("Jump");
                 Velocity += Vector3.up * (JumpPower * owner.TimeSlowMultiplier);
             }
         }

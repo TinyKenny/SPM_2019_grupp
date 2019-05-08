@@ -58,6 +58,7 @@ public class PlayerAirState : PlayerBaseState
 
             if (Input.GetButton("Wallrun") && Velocity.y > MinimumYVelocity && wallRunCheck.normal.y > -0.5f && owner.WallrunAllowed() && Mathf.Abs(Vector3.Dot(wallRunCheck.normal, Vector3.up)) < MathHelper.floatEpsilon)
             {
+                owner.GetComponentInChildren<Animator>().SetBool("WallRunning", true);
                 if (Mathf.Abs(Vector3.Angle(Transform.forward, wallRunCheck.normal)) > 140)
                 {
                     owner.ResetWallrunCooldown();
@@ -117,6 +118,7 @@ public class PlayerAirState : PlayerBaseState
             horizontalVelocity.y = Velocity.y;
             Velocity = horizontalVelocity;
             jumpPower *= 0.7f;
+            owner.GetComponentInChildren<Animator>().SetTrigger("Jump");
             owner.TransitionTo<PlayerAirState>();
         }
     }

@@ -47,6 +47,7 @@ public class PlayerBaseState : State
         UpdatePlayerRotation();
         owner.GetComponentInChildren<Animator>().SetFloat("Speed", new Vector3(Velocity.x, 0, Velocity.z).magnitude / MaxSpeed);
         owner.GetComponentInChildren<Animator>().SetFloat("Direction", Vector3.Dot(owner.transform.right, Velocity.normalized));
+        owner.GetComponentInChildren<Animator>().SetFloat("HorizontalDirection", Velocity.y);
     }
 
     protected bool FindCollision(Vector3 direction, float maxDistance)

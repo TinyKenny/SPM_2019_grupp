@@ -45,7 +45,7 @@ public class StunbotBaseState : State
     {
         RaycastHit rayHit;
 
-        bool rayHasHit = Physics.SphereCast(ThisTransform.position, ThisCollider.radius, movement.normalized, out rayHit, Mathf.Infinity, owner.visionMask);
+        bool rayHasHit = Physics.SphereCast(ThisTransform.position, ThisCollider.radius, movement.normalized, out rayHit, Mathf.Infinity, (owner.visionMask | owner.playerLayer | (1 << owner.gameObject.layer)));
 
         if (rayHasHit)
         {
@@ -63,11 +63,24 @@ public class StunbotBaseState : State
 
             if (movement.magnitude > 0.01f)
             {
+                Vector3 VelocityDelta = Velocity;
+                PhysicsComponent otherPC = rayHit.transform.GetComponent<PhysicsComponent>();
+
+                if(otherPC != null)
+                {
+                    VelocityDelta -= otherPC.velocity;
+                }
+
+
+
+                //Vector3 reflectDirection = Vector3.Reflect(VelocityDelta)
 
                 Vector3 reflectDirection = Vector3.Reflect(movement.normalized, hitNormal);
 
+
                 movement = reflectDirection * movement.magnitude;
                 Velocity = reflectDirection * Velocity.magnitude;
+
 
                 ApplyMovement(movement);
             }
@@ -76,5 +89,44 @@ public class StunbotBaseState : State
         {
             ThisTransform.position += movement;
         }
+    }
+
+    protected void FlyToTarget(Vector3 targetPosition)
+    {
+        #region CopiedFromIdle
+        if (Vector3.Distance(targetPosition, ThisTransform.position) > Velocity.magnitude * 0.1f)
+        {
+            Vector3 targetDirection = targetPosition - ThisTransform.position;
+
+            Quaternion desiredRotation = Quaternion.LookRotation(targetDirection.normalized);
+            ThisTransform.rotation = Quaternion.RotateTowards(ThisTransform.rotation, desiredRotation, 90.0f * Time.deltaTime);
+
+            Vector3 accelerationVector = targetDirection.normalized * Acceleration * Time.deltaTime;
+
+
+            if (Vector3.Dot(ThisTransform.forward, targetDirection.normalized) > 0.75f)
+            {
+                Velocity = Vector3.ClampMagnitude(Velocity + accelerationVector, MaxSpeed);
+                if (Vector3.Dot(Velocity.normalized, targetDirection.normalized) > 0.0f)
+                {
+                    Vector3 testVector = targetDirection.normalized * Velocity.magnitude;
+                    Velocity = Vector3.Lerp(Velocity, testVector, 1.5f * Time.deltaTime);
+                }
+            }
+            else if (Velocity.magnitude > 0.0f)
+            {
+                Vector3 decelerationvector = Velocity.normalized * Deceleration * Time.deltaTime;
+
+                if (decelerationvector.magnitude > Velocity.magnitude)
+                {
+                    Velocity = Vector3.zero;
+                }
+                else
+                {
+                    Velocity -= decelerationvector;
+                }
+            }
+        }
+        #endregion
     }
 }
