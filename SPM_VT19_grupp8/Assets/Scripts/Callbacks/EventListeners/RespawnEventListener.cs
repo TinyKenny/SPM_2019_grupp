@@ -10,6 +10,7 @@ public class RespawnEventListener : EventListenerInterface
 
     public override void Initialize()
     {
+        spawnerList.Clear();
         respawnListener = this;
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<EnemyRespawnEventInfo>(RespawnObject);
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerRespawnEventInfo>(OnPlayerRespawn);

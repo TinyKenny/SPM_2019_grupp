@@ -17,8 +17,11 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        EnemyRespawnEventInfo EREI = new EnemyRespawnEventInfo(this);
-        RespawnEventListener.respawnListener.RegisterEnemy(EREI);
+        if (this != null)
+        {
+            EnemyRespawnEventInfo EREI = new EnemyRespawnEventInfo(this);
+            RespawnEventListener.respawnListener.RegisterEnemy(EREI);
+        }
     }
 
     public void SpawnEnemy()

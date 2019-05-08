@@ -206,7 +206,7 @@ MonoBehaviour:
   startPosition: {x: 0, y: 0, z: 0}
   agent: {fileID: 0}
   currentCoolDown: 0
-  maxCoolDown: 2
+  maxCoolDown: 0.7
   cooldownVarianceMax: 0.5
   playerLastLocation: {x: 0, y: 0, z: 0}
   ausSoldier: {fileID: 382478000250207047}
