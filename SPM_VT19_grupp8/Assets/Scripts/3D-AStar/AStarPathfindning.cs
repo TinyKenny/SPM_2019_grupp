@@ -51,8 +51,8 @@ public class AStarPathfindning : MonoBehaviour
 
                     if (!compBox.Known)
                     {
-                        Vector3 nextPosition = compBox.GetBox().Coll.ClosestPointOnBounds(currentPosition);
-                        //Vector3 nextPosition = compBox.GetBox().Coll.center + compBox.GetBox().transform.position;
+                        //Vector3 nextPosition = compBox.GetBox().Coll.ClosestPointOnBounds(currentPosition);
+                        Vector3 nextPosition = compBox.GetBox().Coll.center + compBox.GetBox().transform.position;
                         float distance = box.DistanceTraveled + Vector3.Distance(currentPosition, nextPosition);
                         if (distance < compBox.DistanceTraveled)
                         {
