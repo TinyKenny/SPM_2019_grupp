@@ -32,8 +32,8 @@ public class PlayerBaseState : State
     protected float PlayerDeltaTime { get { return owner.getPlayerDeltaTime(); } }
     protected int Ammo { get { return owner.ammo; } set { owner.ammo = value; } }
     private float FireCoolDown { get { return owner.fireCoolDown; } set { owner.fireCoolDown = value; } }
-    protected float movementSoundRange = 50;
-    protected float shootSoundRange = 100;
+    protected float movementSoundRange = 20;
+    protected float shootSoundRange = 50;
     protected float JumpPower { get { return owner.JumpPower; } set { owner.JumpPower = value; } }
 
     public override void Initialize(StateMachine owner)
