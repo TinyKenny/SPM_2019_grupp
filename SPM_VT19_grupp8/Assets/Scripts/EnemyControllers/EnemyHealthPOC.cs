@@ -39,7 +39,6 @@ public class EnemyHealthPOC : MonoBehaviour
         if (GetComponent<SoldierStateMachine>() != null)
         {
             ausEnemy.PlayOneShot(soldierHurtSound);
-
             GetComponent<SoldierStateMachine>().SetAlerted(GameObject.Find("Player").transform.position);
         }
         else if (GetComponent<StunbotStateMachine>() != null)
