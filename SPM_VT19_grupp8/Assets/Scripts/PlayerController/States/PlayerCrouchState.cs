@@ -17,6 +17,7 @@ public class PlayerCrouchState : PlayerWalkingState
         base.Enter();
         ThisCollider.height = ThisCollider.radius * 2;
         ThisCollider.center = new Vector3(0.0f, ThisCollider.radius - StandardColliderHeight / 2, 0.0f);
+        owner.GetComponentInChildren<Animator>().SetTrigger("Crouch");
     }
 
     public override void HandleUpdate()

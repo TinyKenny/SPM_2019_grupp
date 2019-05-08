@@ -45,7 +45,7 @@ public class PlayerBaseState : State
     {
         base.HandleUpdate();
         UpdatePlayerRotation();
-        owner.GetComponentInChildren<Animator>().SetFloat("Speed", new Vector3(Velocity.x, 0, Velocity.z).magnitude / MaxSpeed);
+        owner.GetComponentInChildren<Animator>().SetFloat("Speed", new Vector3(Velocity.x, 0, Velocity.z).magnitude / owner.MaxSpeed);
         owner.GetComponentInChildren<Animator>().SetFloat("Direction", Vector3.Dot(owner.transform.right, Velocity.normalized));
         owner.GetComponentInChildren<Animator>().SetFloat("HorizontalDirection", Velocity.y);
     }

@@ -7,13 +7,23 @@ public class PlayerLedgeGrabState : PlayerBaseState
 {
     private float jumpPower = 12.5f;
     private bool climbed;
+    private Vector3 wallNormal;
+    private Vector3 wallPoint;
 
     public override void Enter()
     {
         climbed = false;
         Camera.main.GetComponent<CameraController>().StopAiming();
         Velocity = Vector3.zero;
-        owner.GetComponentInChildren<Animator>().SetTrigger("LedgeGrab");
+        owner.GetComponentInChildren<Animator>().SetBool("LedgeGrab", true);
+
+        RaycastHit hit;
+
+        FindCollision(Transform.forward, out hit, SkinWidth * 5);
+
+        wallNormal = hit.normal;
+
+       // Transform.LookAt(hit.point);
     }
 
     public override void HandleUpdate()
@@ -30,9 +40,11 @@ public class PlayerLedgeGrabState : PlayerBaseState
         bool wallHit = FindCollision(Transform.forward, out wallCheckHit, SkinWidth * 5);
         if (wallHit && wallCheckHit.transform.tag == "Grabable")
         {
+            wallPoint = wallCheckHit.point;
+            
             if (Input.GetButtonDown("Jump"))
             {
-                Velocity = wallCheckHit.normal * jumpPower;
+                Velocity = wallNormal * jumpPower;
                 owner.TransitionTo<PlayerAirState>();
             }
 
@@ -68,18 +80,35 @@ public class PlayerLedgeGrabState : PlayerBaseState
         }
         else
         {
-            if (wallCheckHit.collider == null)
-                Transform.position += Transform.forward * 2 * PlayerDeltaTime;
+            Vector3 bottomPoint = Transform.position + ThisCollider.center - Transform.up * (ThisCollider.height / 2 - ThisCollider.radius);
+            if (!climbed)
+            {
+                Transform.position += Transform.up * 2 * owner.getPlayerDeltaTime();
+                if (wallPoint.y < bottomPoint.y)
+                    climbed = true;
+            }
             else
-                owner.TransitionTo<PlayerAirState>();
+            {
+                if (wallCheckHit.collider == null && (Vector3.Dot((wallPoint - Transform.position).normalized, Transform.forward) < 0 || wallPoint.y < bottomPoint.y))
+                    Transform.position += Transform.forward * 2 * PlayerDeltaTime;
+                else
+                    owner.TransitionTo<PlayerAirState>();
 
-            if (GroundCheck())
-                owner.TransitionTo<PlayerAirState>();
+                if (GroundCheck())
+                    owner.TransitionTo<PlayerAirState>();
+            }
         }
     }
 
     protected override void UpdatePlayerRotation()
     {
 
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+
+        owner.GetComponentInChildren<Animator>().SetBool("LedgeGrab", false);
     }
 }
