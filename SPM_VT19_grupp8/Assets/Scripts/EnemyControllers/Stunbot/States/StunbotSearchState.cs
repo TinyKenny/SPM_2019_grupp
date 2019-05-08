@@ -56,28 +56,22 @@ public class StunbotSearchState : StunbotBaseState
             direction = (nextTargetPosition - ThisTransform.position).normalized * Acceleration * Time.deltaTime;
         }
 
-        owner.faceDirection += direction.normalized * 5.0f * Time.deltaTime;
-        if(owner.faceDirection.magnitude > 1.0f)
-        {
-            owner.faceDirection = owner.faceDirection.normalized;
-        }
-        ThisTransform.LookAt(ThisTransform.position + owner.faceDirection);
-
-        if (Vector3.Dot(ThisTransform.forward, direction.normalized) > 0.5f)
-        {
-            Velocity = Vector3.ClampMagnitude(Velocity + direction, MaxSpeed);
-        }
-
-        //Vector3 plannedMovement = Velocity * Time.deltaTime;
-
-        //RaycastHit playerRayHit;
-
-        //bool hitPlayer = Physics.SphereCast(ThisTransform.position, ThisCollider.radius, plannedMovement.normalized, out playerRayHit, plannedMovement.magnitude, owner.playerLayer);
-
-        //if (hitPlayer)
+        #region Original
+        //owner.faceDirection += direction.normalized * 5.0f * Time.deltaTime;
+        //if(owner.faceDirection.magnitude > 1.0f)
         //{
-
+        //    owner.faceDirection = owner.faceDirection.normalized;
         //}
+        //ThisTransform.LookAt(ThisTransform.position + owner.faceDirection);
+
+        //if (Vector3.Dot(ThisTransform.forward, direction.normalized) > 0.5f)
+        //{
+        //    Velocity = Vector3.ClampMagnitude(Velocity + direction, MaxSpeed);
+        //}
+        #endregion
+
+        FlyToTarget(nextTargetPosition);
+
         Vector3 previousPosition = ThisTransform.position;
 
         base.HandleUpdate();

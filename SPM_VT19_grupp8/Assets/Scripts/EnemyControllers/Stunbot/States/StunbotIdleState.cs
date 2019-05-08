@@ -81,34 +81,7 @@ public class StunbotIdleState : StunbotBaseState
 
         Velocity *= Mathf.Pow(AirResistanceCoefficient, Time.deltaTime);
 
-        if (Vector3.Distance(nextTargetPosition, ThisTransform.position) > Velocity.magnitude *  0.1f)
-        {
-            Vector3 targetDirection = nextTargetPosition - ThisTransform.position;
-
-            Quaternion desiredRotation = Quaternion.LookRotation(targetDirection.normalized);
-            ThisTransform.rotation = Quaternion.RotateTowards(ThisTransform.rotation, desiredRotation, 90.0f * Time.deltaTime);
-
-            Vector3 accelerationVector = targetDirection.normalized * Acceleration * Time.deltaTime;
-
-
-            if (Vector3.Dot(ThisTransform.forward, targetDirection.normalized) > 0.75f)
-            {
-                Velocity = Vector3.ClampMagnitude(Velocity + accelerationVector, MaxSpeed);
-            }
-            else if(Velocity.magnitude > 0.0f)
-            {
-                Vector3 decelerationvector = Velocity.normalized * Deceleration * Time.deltaTime;
-
-                if(decelerationvector.magnitude > Velocity.magnitude)
-                {
-                    Velocity = Vector3.zero;
-                }
-                else
-                {
-                    Velocity -= decelerationvector;
-                }
-            }
-        }
+        FlyToTarget(nextTargetPosition);
 
         base.HandleUpdate();
 

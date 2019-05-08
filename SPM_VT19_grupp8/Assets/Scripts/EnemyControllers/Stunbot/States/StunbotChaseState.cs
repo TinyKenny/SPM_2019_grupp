@@ -61,23 +61,28 @@ public class StunbotChaseState : StunbotBaseState
             foundPath = false;
         }
 
-        Vector3 direction = (nextTargetPosition - ThisTransform.position).normalized * Acceleration * Time.deltaTime;
 
-        // (start) rotate toward direction
-        owner.faceDirection += direction.normalized * 5.0f * Time.deltaTime;
-        if (owner.faceDirection.magnitude > 1.0f)
-        {
-            owner.faceDirection = owner.faceDirection.normalized;
-        }
-        ThisTransform.LookAt(ThisTransform.position + owner.faceDirection);
-        // (end) rotate toward direction
+        #region Original
+        //Vector3 direction = (nextTargetPosition - ThisTransform.position).normalized * Acceleration * Time.deltaTime;
+
+        //// (start) rotate toward direction
+        //owner.faceDirection += direction.normalized * 5.0f * Time.deltaTime;
+        //if (owner.faceDirection.magnitude > 1.0f)
+        //{
+        //    owner.faceDirection = owner.faceDirection.normalized;
+        //}
+        //ThisTransform.LookAt(ThisTransform.position + owner.faceDirection);
+        //// (end) rotate toward direction
 
 
-        if (Vector3.Dot(ThisTransform.forward, direction.normalized) > 0.5f)
-        {
-            Accelerate(direction);
-        }
-        
+        //if (Vector3.Dot(ThisTransform.forward, direction.normalized) > 0.5f)
+        //{
+        //    Accelerate(direction);
+        //}
+        #endregion
+
+        FlyToTarget(nextTargetPosition);
+
         Vector3 plannedMovement = Velocity * Time.deltaTime;
 
         RaycastHit playerRayHit;
@@ -87,7 +92,8 @@ public class StunbotChaseState : StunbotBaseState
         if (hitPlayer)
         {
             PlayerTransform.GetComponent<PlayerStateMachine>().TakeDamage(3.0f);
-            Accelerate(-direction.normalized * MaxSpeed * 2);
+            //Accelerate(-direction.normalized * MaxSpeed * 2); // replace this with the bounce from base state
+            Velocity = Velocity.normalized * MaxSpeed;
         }
 
         base.HandleUpdate();
