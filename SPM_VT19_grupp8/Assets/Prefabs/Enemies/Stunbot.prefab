@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2074944538921330597}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.4935045, y: 5.974957, z: -3.8327608}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2074944539996330790}
@@ -151,6 +151,7 @@ MonoBehaviour:
   EnviromentLayer:
     serializedVersion: 2
     m_Bits: 512
+  PathFinder: {fileID: 0}
 --- !u!114 &8340632382355158521
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -8,8 +8,7 @@ public class AStarPathfindning : MonoBehaviour
     private Dictionary<NavBox, BoxCompareNode> list;
 
     public SortedList<float, Vector3> Paths = new SortedList<float, Vector3>();
-    public GameObject NavmeshRender;
-    
+
     public void FindPath(BoxCompareNode start, Vector3 startPosition, BoxCompareNode end)
     {
         Paths.Clear();
