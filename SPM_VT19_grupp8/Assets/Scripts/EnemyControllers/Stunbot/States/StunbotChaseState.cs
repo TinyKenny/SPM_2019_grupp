@@ -43,7 +43,7 @@ public class StunbotChaseState : StunbotBaseState
             foundPath = true;
             FindTarget();
         }
-        if (Vector3.Distance(nextTargetPosition, owner.transform.position) < 0.1f && owner.GetComponent<AStarPathfindning>().Paths.Count > 0)
+        if (Vector3.Distance(nextTargetPosition, owner.transform.position) < Mathf.Max(Velocity.magnitude * 0.1f, 0.1f) && owner.GetComponent<AStarPathfindning>().Paths.Count > 0)
         {
             float f = 0;
             foreach (KeyValuePair<float, Vector3> pos in owner.GetComponent<AStarPathfindning>().Paths)
@@ -98,7 +98,7 @@ public class StunbotChaseState : StunbotBaseState
 
         base.HandleUpdate();
 
-        if (!CanSeeOrigin())
+        if (!CanFindOrigin())
         {
             Debug.Log("Chase -> Idle (can't see origin)");
             owner.TransitionTo<StunbotIdleState>();

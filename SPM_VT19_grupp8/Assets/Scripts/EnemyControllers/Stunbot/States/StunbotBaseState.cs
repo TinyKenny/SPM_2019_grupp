@@ -22,6 +22,21 @@ public class StunbotBaseState : State
         this.owner = (StunbotStateMachine)owner;
     }
 
+    public override void Enter()
+    {
+        base.Enter();
+        //for(int i = 0; i < owner.patrolLocations.Length; i++)
+        //{
+        //    if(i != CurrentPatrolPointIndex)
+        //    {
+        //        if(Vector3.Distance(ThisTransform.position, owner.patrolLocations[i].position) < Vector3.Distance(ThisTransform.position, owner.patrolLocations[CurrentPatrolPointIndex].position))
+        //        {
+        //            CurrentPatrolPointIndex = i;
+        //        }
+        //    }
+        //}
+    }
+
     public override void HandleUpdate()
     {
         base.HandleUpdate();
@@ -31,14 +46,15 @@ public class StunbotBaseState : State
 
     protected bool CanSeePlayer(float alertDistance)
     {
-        return !Physics.Linecast(owner.transform.position, PlayerTransform.position, owner.visionMask)
-            && Vector3.Distance(owner.transform.position, PlayerTransform.position) < alertDistance;
+        return Vector3.Distance(owner.transform.position, PlayerTransform.position) < alertDistance
+            && Vector3.Distance(PlayerTransform.position, owner.patrolLocations[CurrentPatrolPointIndex].position) < owner.allowedOriginDistance
+            && !Physics.Linecast(owner.transform.position, PlayerTransform.position, owner.visionMask);
     }
 
-    protected bool CanSeeOrigin()
+    protected bool CanFindOrigin()
     {
-        return !Physics.Linecast(owner.transform.position, owner.patrolLocations[0].transform.position, owner.visionMask)
-            && Vector3.Distance(owner.transform.position, owner.patrolLocations[0].transform.position) < owner.allowedOriginDistance;
+        return Vector3.Distance(owner.transform.position, owner.patrolLocations[CurrentPatrolPointIndex].position) < owner.allowedOriginDistance
+            /*&& !Physics.Linecast(owner.transform.position, owner.patrolLocations[CurrentPatrolPointIndex].position, owner.visionMask)*/;
     }
 
     protected void ApplyMovement(Vector3 movement)
@@ -63,24 +79,19 @@ public class StunbotBaseState : State
 
             if (movement.magnitude > 0.01f)
             {
-                Vector3 VelocityDelta = Velocity;
-                PhysicsComponent otherPC = rayHit.transform.GetComponent<PhysicsComponent>();
-
-                if(otherPC != null)
-                {
-                    VelocityDelta -= otherPC.velocity;
-                }
-
-
-
-                //Vector3 reflectDirection = Vector3.Reflect(VelocityDelta)
-
-                Vector3 reflectDirection = Vector3.Reflect(movement.normalized, hitNormal);
-
+                Vector3 reflectDirection = Vector3.Reflect(Velocity.normalized, hitNormal);
 
                 movement = reflectDirection * movement.magnitude;
                 Velocity = reflectDirection * Velocity.magnitude;
 
+                StunbotStateMachine otherPC = rayHit.transform.GetComponent<StunbotStateMachine>();
+
+                if (otherPC != null)
+                {
+                    Vector3 otherReflectDirection = Vector3.Reflect(otherPC.Velocity.normalized, -hitNormal);
+
+                    otherPC.Velocity = otherReflectDirection * otherPC.Velocity.magnitude;
+                }
 
                 ApplyMovement(movement);
             }

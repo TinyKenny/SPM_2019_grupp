@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2074944538921330596}
   - component: {fileID: 2074944538921330607}
   - component: {fileID: 2074944538921330592}
+  - component: {fileID: 8340632382355158521}
   m_Layer: 13
   m_Name: Stunbot
   m_TagString: Untagged
@@ -106,8 +107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9814585b4d8cf6149974468c6cdb7f20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 15
-  deceleration: 0
+  acceleration: 5
+  deceleration: 5
   maxSpeed: 10
   frictionCoefficient: 0.4
   airResistanceCoefficient: 0.9
@@ -132,6 +133,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 79d0ede46bd873348a7105878e14a5b2, type: 2}
   currentState: {fileID: 0}
   playerTransform: {fileID: 0}
+  patrolLocations: []
   visionMask:
     serializedVersion: 2
     m_Bits: 512
@@ -140,7 +142,6 @@ MonoBehaviour:
     m_Bits: 1024
   thisCollider: {fileID: 0}
   turningModifier: 1
-  patrolLocations: []
   currentPatrolPointIndex: 0
   lastPlayerLocation: {x: 0, y: 0, z: 0}
   faceDirection: {x: 0, y: 0, z: 0}
@@ -150,6 +151,19 @@ MonoBehaviour:
   EnviromentLayer:
     serializedVersion: 2
     m_Bits: 512
+--- !u!114 &8340632382355158521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2074944538921330597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80485c22c5703694a8fe8b494f2dba0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NavmeshRender: {fileID: 0}
 --- !u!1 &2074944539996330791
 GameObject:
   m_ObjectHideFlags: 0

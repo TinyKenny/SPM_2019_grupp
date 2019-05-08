@@ -40,7 +40,7 @@ public class StunbotSearchState : StunbotBaseState
 
         if (owner.GetComponent<AStarPathfindning>().Paths.Count > 0)
         {
-            if (Vector3.Distance(nextTargetPosition, owner.transform.position) < 0.1f)
+            if (Vector3.Distance(nextTargetPosition, owner.transform.position) < Mathf.Max(Velocity.magnitude * 0.1f, 0.1f))
             {
                 float f = 0;
                 foreach (KeyValuePair<float, Vector3> pos in owner.GetComponent<AStarPathfindning>().Paths)
@@ -53,7 +53,7 @@ public class StunbotSearchState : StunbotBaseState
                 owner.GetComponent<AStarPathfindning>().Paths.Remove(f);
             }
 
-            direction = (nextTargetPosition - ThisTransform.position).normalized * Acceleration * Time.deltaTime;
+            //direction = (nextTargetPosition - ThisTransform.position).normalized * Acceleration * Time.deltaTime;
         }
 
         #region Original
@@ -81,7 +81,7 @@ public class StunbotSearchState : StunbotBaseState
             searchTimer -= Time.deltaTime;
         }
 
-        if (CanSeePlayer(60.0f))
+        if (CanSeePlayer(55.0f))
         {
             Debug.Log("Search -> Chase (found player)");
             owner.TransitionTo<StunbotChaseState>();
@@ -91,7 +91,7 @@ public class StunbotSearchState : StunbotBaseState
             Debug.Log("Search -> Idle (player not found)");
             owner.TransitionTo<StunbotIdleState>();
         }
-        if (!CanSeeOrigin())
+        if (!CanFindOrigin())
         {
             Debug.Log("Search -> Idle (can't see origin)");
             ThisTransform.position = previousPosition;

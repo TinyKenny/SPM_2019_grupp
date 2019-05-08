@@ -17,7 +17,7 @@ public class StunbotStateMachine : EnemyStateMachine
     [HideInInspector]
     public Vector3 faceDirection;
     [HideInInspector]
-    public readonly float allowedOriginDistance = 400.0f;
+    public readonly float allowedOriginDistance = 40.0f;
 
     public float Acceleration { get { return physicsComponent.acceleration; } }
     public float Deceleration { get { return physicsComponent.deceleration; } }
@@ -46,19 +46,5 @@ public class StunbotStateMachine : EnemyStateMachine
     protected override void Update()
     {
         base.Update();
-
-        /*
-        if (Velocity.magnitude > MathHelper.floatEpsilon)
-        {
-            faceDirection += Velocity.normalized * Time.deltaTime * 5.0f;
-            if(faceDirection.magnitude > 1)
-            {
-                faceDirection = faceDirection.normalized;
-            }
-
-
-            transform.LookAt(transform.position + faceDirection);
-        }
-        */
     }
 }

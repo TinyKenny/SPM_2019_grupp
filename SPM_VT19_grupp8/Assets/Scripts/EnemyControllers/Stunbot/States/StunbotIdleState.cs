@@ -9,6 +9,7 @@ public class StunbotIdleState : StunbotBaseState
 
     public override void Enter()
     {
+        base.Enter();
         FindTarget();
     }
 
@@ -85,9 +86,9 @@ public class StunbotIdleState : StunbotBaseState
 
         base.HandleUpdate();
 
-        if (CanSeePlayer(60.0f) &&
-            Vector3.Distance(ThisTransform.position, owner.patrolLocations[CurrentPatrolPointIndex].position) < MaxSpeed * 0.1f)
-            //Vector3.Distance(PlayerTransform.position, owner.patrolLocations[0].position) < owner.allowedOriginDistance)
+        if (CanSeePlayer(60.0f)
+            /*&& Vector3.Distance(ThisTransform.position, owner.patrolLocations[CurrentPatrolPointIndex].position) < MaxSpeed * 0.1f*/
+            /*&& Vector3.Distance(PlayerTransform.position, owner.patrolLocations[0].position) < owner.allowedOriginDistance*/)
         {
             Debug.Log("Idle -> Chase (player found)");
             owner.TransitionTo<StunbotChaseState>();
