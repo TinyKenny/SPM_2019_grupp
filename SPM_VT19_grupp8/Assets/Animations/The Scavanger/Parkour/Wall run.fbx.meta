@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 42a8bcc52dacd2b4a957303a1a26c912
+guid: 8e0b1879bb2f21544ab09e1da77d2dcd
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable:
@@ -35,11 +35,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Ledge Grab
+      name: Wall run
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 40
+      lastFrame: 10
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
