@@ -38,7 +38,7 @@ public class MenuSetPlayerNameState : MenuBaseState
 
         if (EventSystem.current.currentSelectedGameObject == nameField && Input.GetButtonDown("Submit"))
         {
-            EventSystem.current.SetSelectedGameObject(buttons["Start"].gameObject);
+            EventSystem.current.SetSelectedGameObject(buttons["QButton"].gameObject);
         }
     }
 

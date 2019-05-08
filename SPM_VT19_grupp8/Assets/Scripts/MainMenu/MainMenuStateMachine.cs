@@ -23,4 +23,10 @@ public class MainMenuStateMachine : StateMachine
         ausMenu.PlayOneShot(buttonTransition);
         previousSelected = EventSystem.current.currentSelectedGameObject;
     }
+
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
 }
