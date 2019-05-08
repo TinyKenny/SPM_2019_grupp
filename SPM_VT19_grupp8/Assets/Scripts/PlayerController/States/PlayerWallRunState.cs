@@ -82,4 +82,10 @@ public class PlayerWallRunState : PlayerAirState
         Vector3 magnitude = projection.magnitude * tempVelocity.normalized;
         return  magnitude;
     }
+
+    public override void Exit()
+    {
+        base.Exit();
+        owner.GetComponentInChildren<Animator>().SetBool("WallRunning", false);
+    }
 }

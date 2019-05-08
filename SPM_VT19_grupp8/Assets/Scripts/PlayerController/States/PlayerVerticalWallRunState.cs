@@ -69,4 +69,10 @@ public class PlayerVerticalWallRunState : PlayerAirState
         float velY = Mathf.Clamp(Velocity.y + magnitude, -20f, jumpPower);
         return new Vector3(Velocity.x, Velocity.y + magnitude, Velocity.z) - projection;
     }
+
+    public override void Exit()
+    {
+        base.Exit();
+        owner.GetComponentInChildren<Animator>().SetBool("WallRunning", false);
+    }
 }

@@ -13,6 +13,7 @@ public class PlayerLedgeGrabState : PlayerBaseState
         climbed = false;
         Camera.main.GetComponent<CameraController>().StopAiming();
         Velocity = Vector3.zero;
+        owner.GetComponentInChildren<Animator>().SetTrigger("LedgeGrab");
     }
 
     public override void HandleUpdate()
@@ -27,7 +28,7 @@ public class PlayerLedgeGrabState : PlayerBaseState
         RaycastHit wallCheckHit;
 
         bool wallHit = FindCollision(Transform.forward, out wallCheckHit, SkinWidth * 5);
-        if (wallHit)
+        if (wallHit && wallCheckHit.transform.tag == "Grabable")
         {
             if (Input.GetButtonDown("Jump"))
             {
@@ -47,7 +48,7 @@ public class PlayerLedgeGrabState : PlayerBaseState
                 //Transform.position += Transform.up * 1 * PlayerDeltaTime;
                 else
                 {
-                    Velocity += (Transform.up + Transform.forward).normalized * MaxSpeed * PlayerDeltaTime;
+                    Transform.position += (Transform.up + Transform.forward).normalized * MaxSpeed * PlayerDeltaTime;
                 }
             }
             else if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.1)
@@ -67,12 +68,10 @@ public class PlayerLedgeGrabState : PlayerBaseState
         }
         else
         {
-            if (!climbed)
-            {
-                climbed = true;
-                Transform.position += Transform.up * 2* owner.getPlayerDeltaTime();
-            }
-            Transform.position += Transform.forward * 2 * PlayerDeltaTime;
+            if (wallCheckHit.collider == null)
+                Transform.position += Transform.forward * 2 * PlayerDeltaTime;
+            else
+                owner.TransitionTo<PlayerAirState>();
 
             if (GroundCheck())
                 owner.TransitionTo<PlayerAirState>();
