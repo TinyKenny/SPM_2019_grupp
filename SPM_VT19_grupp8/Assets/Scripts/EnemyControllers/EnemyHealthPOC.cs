@@ -49,11 +49,11 @@ public class EnemyHealthPOC : MonoBehaviour
         currentHealth -= damage;
         if(currentHealth <= 0.0f)
         {
-            if (GetComponent<SoldierStateMachine>() != null)
+            if (enemyObject.gameObject.GetComponent<SoldierStateMachine>() != null)
             {
                 ausEnemy.PlayOneShot(soldierDeathSound);
             }
-            else if (GetComponent<StunbotStateMachine>() != null)
+            else if (enemyObject.gameObject.GetComponent<StunbotStateMachine>() != null)
             {
                 ausEnemy.PlayOneShot(stunbotDeathSound);
             }
