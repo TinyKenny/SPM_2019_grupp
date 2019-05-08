@@ -36,7 +36,7 @@ public class BoxCompareNode : IComparable<BoxCompareNode>
 
         if (Previous != null)
         {
-            previousDistance += (box.GetComponent<BoxCollider>().bounds.max - Previous.box.GetComponent<BoxCollider>().bounds.max).magnitude + Previous.PreviousDistance();
+            previousDistance += (box.Coll.bounds.max - Previous.box.Coll.bounds.max).magnitude + Previous.PreviousDistance();
         }
 
         return previousDistance;

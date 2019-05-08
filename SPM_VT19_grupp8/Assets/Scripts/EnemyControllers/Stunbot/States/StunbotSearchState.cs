@@ -32,43 +32,27 @@ public class StunbotSearchState : StunbotBaseState
             start = colls[0].GetComponent<NavBox>();
         BoxCompareNode bcnStart = new BoxCompareNode(start, bcnEnd);
         if (start != null && end != null)
-            owner.GetComponent<AStarPathfindning>().FindPath(bcnStart, ThisTransform.position, bcnEnd);
+            owner.PathFinder.FindPath(bcnStart, ThisTransform.position, bcnEnd);
     }
 
     public override void HandleUpdate()
     {
 
-        if (owner.GetComponent<AStarPathfindning>().Paths.Count > 0)
+        if (owner.PathFinder.Paths.Count > 0)
         {
             if (Vector3.Distance(nextTargetPosition, owner.transform.position) < Mathf.Max(Velocity.magnitude * 0.1f, 0.1f))
             {
                 float f = 0;
-                foreach (KeyValuePair<float, Vector3> pos in owner.GetComponent<AStarPathfindning>().Paths)
+                foreach (KeyValuePair<float, Vector3> pos in owner.PathFinder.Paths)
                 {
                     nextTargetPosition = pos.Value;
                     f = pos.Key;
                     break;
                 }
 
-                owner.GetComponent<AStarPathfindning>().Paths.Remove(f);
+                owner.PathFinder.Paths.Remove(f);
             }
-
-            //direction = (nextTargetPosition - ThisTransform.position).normalized * Acceleration * Time.deltaTime;
         }
-
-        #region Original
-        //owner.faceDirection += direction.normalized * 5.0f * Time.deltaTime;
-        //if(owner.faceDirection.magnitude > 1.0f)
-        //{
-        //    owner.faceDirection = owner.faceDirection.normalized;
-        //}
-        //ThisTransform.LookAt(ThisTransform.position + owner.faceDirection);
-
-        //if (Vector3.Dot(ThisTransform.forward, direction.normalized) > 0.5f)
-        //{
-        //    Velocity = Vector3.ClampMagnitude(Velocity + direction, MaxSpeed);
-        //}
-        #endregion
 
         FlyToTarget(nextTargetPosition);
 

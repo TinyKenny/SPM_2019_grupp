@@ -30,7 +30,7 @@ public class StunbotChaseState : StunbotBaseState
             start = colls[0].GetComponent<NavBox>();
         BoxCompareNode bcnStart = new BoxCompareNode(start, bcnEnd);
         if (start != null && end != null)
-            owner.GetComponent<AStarPathfindning>().FindPath(bcnStart, ThisTransform.position, bcnEnd);
+            owner.PathFinder.FindPath(bcnStart, ThisTransform.position, bcnEnd);
     }
 
     public override void HandleUpdate()
@@ -43,43 +43,23 @@ public class StunbotChaseState : StunbotBaseState
             foundPath = true;
             FindTarget();
         }
-        if (Vector3.Distance(nextTargetPosition, owner.transform.position) < Mathf.Max(Velocity.magnitude * 0.1f, 0.1f) && owner.GetComponent<AStarPathfindning>().Paths.Count > 0)
+        if (Vector3.Distance(nextTargetPosition, owner.transform.position) < Mathf.Max(Velocity.magnitude * 0.1f, 0.1f) && owner.PathFinder.Paths.Count > 0)
         {
             float f = 0;
-            foreach (KeyValuePair<float, Vector3> pos in owner.GetComponent<AStarPathfindning>().Paths)
+            foreach (KeyValuePair<float, Vector3> pos in owner.PathFinder.Paths)
             {
                 nextTargetPosition = pos.Value;
                 f = pos.Key;
                 break;
             }
 
-            owner.GetComponent<AStarPathfindning>().Paths.Remove(f);
+            owner.PathFinder.Paths.Remove(f);
         }
-        else if (owner.GetComponent<AStarPathfindning>().Paths.Count == 0)
+        else if (owner.PathFinder.Paths.Count == 0)
         {
             nextTargetPosition = owner.playerTransform.position;
             foundPath = false;
         }
-
-
-        #region Original
-        //Vector3 direction = (nextTargetPosition - ThisTransform.position).normalized * Acceleration * Time.deltaTime;
-
-        //// (start) rotate toward direction
-        //owner.faceDirection += direction.normalized * 5.0f * Time.deltaTime;
-        //if (owner.faceDirection.magnitude > 1.0f)
-        //{
-        //    owner.faceDirection = owner.faceDirection.normalized;
-        //}
-        //ThisTransform.LookAt(ThisTransform.position + owner.faceDirection);
-        //// (end) rotate toward direction
-
-
-        //if (Vector3.Dot(ThisTransform.forward, direction.normalized) > 0.5f)
-        //{
-        //    Accelerate(direction);
-        //}
-        #endregion
 
         FlyToTarget(nextTargetPosition);
 

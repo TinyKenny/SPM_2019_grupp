@@ -27,13 +27,15 @@ public class StunbotStateMachine : EnemyStateMachine
     public Vector3 Velocity { get { return physicsComponent.velocity; } set { physicsComponent.velocity = value; } }
     public LayerMask NavLayer;
     public LayerMask EnviromentLayer;
+    [HideInInspector]
+    public AStarPathfindning PathFinder;
     
 
     protected override void Awake()
     {
-        base.Awake();
         physicsComponent = GetComponent<PhysicsComponent>();
         thisCollider = GetComponent<SphereCollider>();
+        PathFinder = GetComponent<AStarPathfindning>();
         faceDirection = transform.forward;
         currentPatrolPointIndex = 0;
         if(patrolLocations.Length == 0)
@@ -41,6 +43,7 @@ public class StunbotStateMachine : EnemyStateMachine
             patrolLocations = new Transform[1];
             patrolLocations[0] = transform;
         }
+        base.Awake();
     }
 
     protected override void Update()

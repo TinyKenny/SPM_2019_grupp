@@ -6,7 +6,14 @@ using System;
 public class NavBox : MonoBehaviour, IEquatable<NavBox>
 {
     public List<NavBox> Neighbours = new List<NavBox>();
-    
+    public BoxCollider Coll { get; private set; }
+
+
+    private void Awake()
+    {
+        Coll = GetComponent<BoxCollider>();
+    }
+
     public bool Equals(NavBox obj)
     {
 
