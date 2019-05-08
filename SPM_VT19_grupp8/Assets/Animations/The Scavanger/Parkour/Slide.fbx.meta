@@ -4,8 +4,8 @@ ModelImporter:
   serializedVersion: 25
   internalIDToNameTable:
   - first:
-      74: -203655887218126122
-    second: mixamo.com
+      74: 1827226128182048838
+    second: Slide
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -36,10 +36,10 @@ ModelImporter:
     clipAnimations:
     - serializedVersion: 16
       name: Slide
-      takeName: mixamo.com
-      internalID: -203655887218126122
+      takeName: Take 001
+      internalID: 1827226128182048838
       firstFrame: 0
-      lastFrame: 37
+      lastFrame: 74
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
