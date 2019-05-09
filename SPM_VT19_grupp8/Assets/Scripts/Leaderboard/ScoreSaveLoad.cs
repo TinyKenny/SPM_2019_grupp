@@ -14,7 +14,7 @@ public static class ScoreSaveLoad
             scores[playerName] = playerScore;
 
             BinaryFormatter formatter = new BinaryFormatter();
-            string path = "Assets/highscores.bin";
+            string path = Application.persistentDataPath + "/highscores.bin";
             FileStream stream = new FileStream(path, FileMode.Create);
 
             formatter.Serialize(stream, scores);
@@ -24,7 +24,7 @@ public static class ScoreSaveLoad
 
     public static Dictionary<string, float> LoadScores()
     {
-        string path = "Assets/highscores.bin";
+        string path = Application.persistentDataPath + "/highscores.bin";
         Dictionary<string, float> scores = new Dictionary<string, float>();
         if (File.Exists(path))
         {

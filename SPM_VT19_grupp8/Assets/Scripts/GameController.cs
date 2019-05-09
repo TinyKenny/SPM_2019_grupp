@@ -42,7 +42,7 @@ public class GameController : MonoBehaviour
 
     public void LoadLevel(int sceneIndex)
     {
-        if(SceneManager.GetActiveScene().buildIndex == 7)
+        if(SceneManager.GetActiveScene().buildIndex == 2)
         {
             ScoreSaveLoad.SaveScore(PlayerPrefs.GetString("playerName"), levelTime);
         }
