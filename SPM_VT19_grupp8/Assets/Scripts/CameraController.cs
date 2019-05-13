@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public float lookSensitivity = 10.0f;
-    public float gamePadSensitivity = 15.0f;
-    public float mouseSensitivity = 1.0f;
-    public Transform playerTransform;
+    private float gamePadSensitivity = 150.0f;
+    [SerializeField] private float mouseSensitivity = 1.0f;
+    [SerializeField] private Transform playerTransform;
     [SerializeField] private LayerMask ignoreLayer;
 
     [Header("Perspective (first/third person)")]
@@ -34,10 +33,21 @@ public class CameraController : MonoBehaviour
 
     private void LateUpdate()
     {
-        Quaternion newRotation = UpdateRotation();
-        transform.rotation = newRotation;
+        transform.rotation = UpdateRotation();
 
         transform.position = playerTransform.position + firstPersonOffset; // make the camera first person
+
+        Vector3 newRelativePosition = transform.rotation * thirdPersonOffset;
+
+        RaycastHit rayHit;
+
+        if (Physics.SphereCast(transform.position, thirdPersonSafety, newRelativePosition.normalized, out rayHit, newRelativePosition.magnitude + thirdPersonSafety, ~ignoreLayer))
+        {
+            newRelativePosition = newRelativePosition.normalized * rayHit.distance;
+        }
+
+        transform.position = transform.position + newRelativePosition;
+
 
         if (thirdPerson)
         {
@@ -45,38 +55,15 @@ public class CameraController : MonoBehaviour
              * When setting the position of the third person camera,
              * we want to use the position of the first person camera as our pivot.
              */
-            Vector3 newRelativePosition = newRotation * thirdPersonOffset;
-
-            RaycastHit rayHit;
-
-            if (Physics.SphereCast(transform.position, thirdPersonSafety, newRelativePosition.normalized, out rayHit, newRelativePosition.magnitude + thirdPersonSafety, ~ignoreLayer))
-            {
-                newRelativePosition = newRelativePosition.normalized * rayHit.distance;
-            }
-
-            transform.position = transform.position + newRelativePosition;
+            
         }
     }
 
     private Quaternion UpdateRotation()
     {
-        // Multiply these two by 0.0f if you want to do anything in the inspector while the editor is in "Play"-mode.
-        float mouseX = Input.GetAxisRaw("Mouse X") * mouseSensitivity * 0.0f;
-        float mouseY = Input.GetAxisRaw("Mouse Y") * mouseSensitivity * 0.0f;
+        rotationY += Input.GetAxisRaw("GP Look X") * gamePadSensitivity * Time.unscaledDeltaTime;
+        rotationX += Input.GetAxisRaw("GP Look Y") * gamePadSensitivity * Time.unscaledDeltaTime;
 
-        float gamePadX = Input.GetAxisRaw("GP Look X") * gamePadSensitivity * Time.unscaledDeltaTime;
-        float gamePadY = Input.GetAxisRaw("GP Look Y") * gamePadSensitivity * Time.unscaledDeltaTime;
-
-        if (new Vector2(mouseX, mouseY).magnitude > new Vector2(gamePadX, gamePadY).magnitude)
-        {
-            rotationY += mouseX * lookSensitivity;
-            rotationX -= mouseY * lookSensitivity;
-        }
-        else
-        {
-            rotationY += gamePadX * lookSensitivity;
-            rotationX += gamePadY * lookSensitivity;
-        }
         rotationX = Mathf.Clamp(rotationX, -85.0f, 85.0f);
 
         return Quaternion.Euler(rotationX, rotationY, 0.0f);
