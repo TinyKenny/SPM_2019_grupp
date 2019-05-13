@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 3D AStarPathfinding for flying enemies. This is the class used on every instance of a flying enemies to find 
+/// paths between start and end. Requires a <see cref="NavmeshRenderer"/> that has generated a 3D NavMesh in 
+/// order to function. Every flying enemy needs its own <see cref="AStarPathfindning"/> to be able to find paths.
+/// </summary>
 public class AStarPathfindning : MonoBehaviour
 {
     private PriorityQueue pq;

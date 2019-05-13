@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+/// <summary>
+/// Nodes that <see cref="AStarPathfindning"/> creates when it is finding the shortest path to allow all 
+/// different instances of <see cref="AStarPathfindning"/> to be able to keep different values on their 
+/// traversed boxes/nodes.
+/// </summary>
 public class BoxCompareNode : IComparable<BoxCompareNode>
 {
     private NavBox box;

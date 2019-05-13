@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+/// <summary>
+/// Navigation box class for 3D pathfinding navmesh. <see cref="NavmeshRenderer"/> automatically assigns this to all
+/// boxes generated.
+/// </summary>
 public class NavBox : MonoBehaviour, IEquatable<NavBox>
 {
     public List<NavBox> Neighbours { get; set; } = new List<NavBox>();

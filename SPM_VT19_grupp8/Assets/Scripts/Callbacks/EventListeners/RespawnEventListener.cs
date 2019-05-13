@@ -7,7 +7,7 @@ public class RespawnEventListener : EventListenerInterface
     public static RespawnEventListener respawnListener;
     private List<EnemyRespawnEventInfo> spawnerList = new List<EnemyRespawnEventInfo>();
     [SerializeField] private CameraController cameraMain;
-
+    
     public override void Initialize()
     {
         spawnerList.Clear();

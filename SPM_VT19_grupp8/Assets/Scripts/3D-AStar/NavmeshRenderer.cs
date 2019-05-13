@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Used to generate a 3D navmesh used for <see cref="AStarPathfindning"/> to navigate where stunbot can move.
+/// Needs to be used and generated outside of runtime to make stunbots and 3D pathfinding work.
+/// </summary>
 public class NavmeshRenderer : MonoBehaviour
 {
     [SerializeField] private BoxCollider renderArea;

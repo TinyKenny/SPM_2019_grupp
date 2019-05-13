@@ -1,4 +1,7 @@
-﻿public class PriorityQueue
+﻿/// <summary>
+/// A priority queue for <see cref="BoxCompareNode"/> used by the 3D AStar pathfinding algorithm.
+/// </summary>
+public class PriorityQueue
 {
     private const int DEFAULT_CAPACITY = 11;
 
