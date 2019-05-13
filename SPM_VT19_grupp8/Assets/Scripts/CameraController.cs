@@ -5,18 +5,14 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     private float gamePadSensitivity = 150.0f;
-    [SerializeField] private float mouseSensitivity = 1.0f;
     [SerializeField] private Transform playerTransform;
     [SerializeField] private LayerMask ignoreLayer;
 
-    [Header("Perspective (first/third person)")]
-    public bool thirdPerson = false;
-
     private Vector3 thirdPersonOffset = new Vector3(0.0f, 0.9f, -4.4f);
-    private float thirdPersonSafety = 0.3f; // shortest allowed distance from a collider
+    private float thirdPersonSafety; // shortest allowed distance from a collider
     private Vector3 firstPersonOffset = new Vector3(0.0f, 0.5f, 0.0f);
-    public float rotationX = 0.0f; // make this private
-    public float rotationY = 0.0f; // make this private
+    public float rotationX = 0.0f; // we want this private, but respawns affects this. make a respawn-listener in this script?
+    public float rotationY = 0.0f; // we want this private, but respawns affects this. make a respawn-listener in this script?
 
     [SerializeField] private float aimFOV = 30;
     [SerializeField] private float aimSensitivityMultiplier = 0.1f;
@@ -26,16 +22,17 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
+        thirdPersonSafety = GetComponent<Camera>().nearClipPlane;
         startingGamePadSensitivity = gamePadSensitivity;
         startingFOV = Camera.main.fieldOfView;
-        //playerTransform = transform.parent;
+        //EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerRespawnEventInfo>(OnPlayerRespawn);
     }
 
     private void LateUpdate()
     {
         transform.rotation = UpdateRotation();
 
-        transform.position = playerTransform.position + firstPersonOffset; // make the camera first person
+        transform.position = playerTransform.position + firstPersonOffset;
 
         Vector3 newRelativePosition = transform.rotation * thirdPersonOffset;
 
@@ -47,16 +44,6 @@ public class CameraController : MonoBehaviour
         }
 
         transform.position = transform.position + newRelativePosition;
-
-
-        if (thirdPerson)
-        {
-            /*
-             * When setting the position of the third person camera,
-             * we want to use the position of the first person camera as our pivot.
-             */
-            
-        }
     }
 
     private Quaternion UpdateRotation()
@@ -88,5 +75,15 @@ public class CameraController : MonoBehaviour
     {
         Camera.main.fieldOfView = startingFOV;
         gamePadSensitivity = startingGamePadSensitivity;
+    }
+
+    public void OnPlayerRespawn(EventInfo EI)
+    {
+        //add this as a listener
+        PlayerRespawnEventInfo PREI = (PlayerRespawnEventInfo)EI;
+
+        transform.rotation = PREI.GO.transform.rotation;
+        rotationY = transform.rotation.eulerAngles.y;
+        rotationX = transform.rotation.eulerAngles.x;
     }
 }
