@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "States/Enemies/Stunbot/Chase State")]
 public class StunbotChaseState : StunbotBaseState
 {
-    Vector3 nextTargetPosition;
     private bool foundPath = false;
 
     public override void Enter()
@@ -13,24 +12,6 @@ public class StunbotChaseState : StunbotBaseState
         base.Enter();
         FindTarget();
         foundPath = true;
-    }
-
-    private void FindTarget()
-    {
-        nextTargetPosition = owner.transform.position;
-        NavBox end = new NavBox();
-        Collider[] colls;
-        colls = Physics.OverlapBox(PlayerTransform.position, new Vector3(0.1f, 0.1f, 0.1f), Quaternion.identity, owner.NavLayer);
-        if (colls.Length > 0)
-            end = colls[0].GetComponent<NavBox>();
-        BoxCompareNode bcnEnd = new BoxCompareNode(end, null);
-        NavBox start = new NavBox();
-        colls = Physics.OverlapBox(owner.transform.position, new Vector3(0.1f, 0.1f, 0.1f), Quaternion.identity, owner.NavLayer);
-        if (colls.Length > 0)
-            start = colls[0].GetComponent<NavBox>();
-        BoxCompareNode bcnStart = new BoxCompareNode(start, bcnEnd);
-        if (start != null && end != null)
-            owner.PathFinder.FindPath(bcnStart, ThisTransform.position, bcnEnd);
     }
 
     public override void HandleUpdate()
@@ -43,25 +24,8 @@ public class StunbotChaseState : StunbotBaseState
             foundPath = true;
             FindTarget();
         }
-        if (Vector3.Distance(nextTargetPosition, owner.transform.position) < Mathf.Max(Velocity.magnitude * 0.1f, 0.1f) && owner.PathFinder.Paths.Count > 0)
-        {
-            float f = 0;
-            foreach (KeyValuePair<float, Vector3> pos in owner.PathFinder.Paths)
-            {
-                nextTargetPosition = pos.Value;
-                f = pos.Key;
-                break;
-            }
 
-            owner.PathFinder.Paths.Remove(f);
-        }
-        else if (owner.PathFinder.Paths.Count == 0)
-        {
-            nextTargetPosition = owner.playerTransform.position;
-            foundPath = false;
-        }
-
-        FlyToTarget(nextTargetPosition);
+        FlyToTarget(NextTargetPosition);
 
         Vector3 plannedMovement = Velocity * Time.deltaTime;
 
@@ -108,5 +72,11 @@ public class StunbotChaseState : StunbotBaseState
         Velocity += accelerationVector;
         */
         Velocity = Vector3.ClampMagnitude(Velocity + accelerationVector, MaxSpeed);
+    }
+
+    protected override void NoTargetAvailable()
+    {
+        NextTargetPosition = owner.playerTransform.position;
+        foundPath = false;
     }
 }

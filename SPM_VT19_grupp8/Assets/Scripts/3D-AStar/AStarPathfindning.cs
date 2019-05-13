@@ -7,28 +7,53 @@ public class AStarPathfindning : MonoBehaviour
     private PriorityQueue pq;
     private Dictionary<NavBox, BoxCompareNode> list;
 
-    public SortedList<float, Vector3> Paths = new SortedList<float, Vector3>();
-
-    public void FindPath(BoxCompareNode start, Vector3 startPosition, BoxCompareNode end)
+    /// <summary>
+    /// Calculates the shortest path from start to end on a pregenerated 3D navmesh. Saves all nodes that should be 
+    /// traveresed to take the shortest path in a sorted list. The list is sorted on its keys which 
+    /// is how long away from start they are with a value that is their position.
+    /// </summary>
+    /// <param name="start">The start position of the path.</param>
+    /// <param name="end">The end position of the path.</param>
+    /// <returns>Returns a sorted list of all paths that need to be traversed to reach destination. The key is the distance from start, the value is the position to go to. If any end of the path is outside the navmesh null is returned.</returns>
+    public SortedList<float, Vector3> FindPath(Vector3 start, Vector3 end)
     {
-        Paths.Clear();
+        BoxCompareNode bcnEnd;
+        BoxCompareNode bcnStart;
+
+        try
+        {
+            Collider[] colls;
+            colls = Physics.OverlapBox(end, new Vector3(0.1f, 0.1f, 0.1f), Quaternion.identity, 1 << 14); //end
+            colls = Physics.OverlapBox(start, new Vector3(0.1f, 0.1f, 0.1f), Quaternion.identity, 1 << 14); //start
+
+            NavBox endBox = colls[0].GetComponent<NavBox>();
+            NavBox startBox = colls[0].GetComponent<NavBox>();
+
+            bcnEnd = new BoxCompareNode(endBox, null);
+            bcnStart = new BoxCompareNode(startBox, bcnEnd);
+        }
+        catch (System.IndexOutOfRangeException e)
+        {
+            return null;
+        }
+        
         list = new Dictionary<NavBox, BoxCompareNode>();
         pq = new PriorityQueue();
 
-        start.Known = false;
-        start.DistanceTraveled = 0;
-        list[start.GetBox()] = start;
-        start.position = startPosition;
+        bcnStart.Known = false;
+        bcnStart.DistanceTraveled = 0;
+        list[bcnStart.GetBox()] = bcnStart;
+        bcnStart.position = start;
 
-        pq.Insert(start);
-        Vector3 currentPosition = startPosition;
+        pq.Insert(bcnStart);
+        Vector3 currentPosition = start;
 
-        while (!end.Known && !(pq.Size() == 0))
+        while (!bcnEnd.Known && !(pq.Size() == 0))
         {
             BoxCompareNode box = pq.DeleteMin();
             currentPosition = box.position;
 
-            if(box.GetBox() == end.GetBox())
+            if(box.GetBox() == bcnEnd.GetBox())
             {
                 break;
             }
@@ -39,7 +64,7 @@ public class AStarPathfindning : MonoBehaviour
 
                 foreach (NavBox aBox in box.Neighbours)
                 {
-                    BoxCompareNode compBox = new BoxCompareNode(aBox, end);
+                    BoxCompareNode compBox = new BoxCompareNode(aBox, bcnEnd);
                     if (list.ContainsKey(aBox))
                     {
                         compBox = list[aBox];
@@ -66,10 +91,13 @@ public class AStarPathfindning : MonoBehaviour
             }
         }
 
+        SortedList<float, Vector3> paths = new SortedList<float, Vector3>();
 
-        for (BoxCompareNode b = list[end.GetBox()]; b != null; b = list[b.GetBox()].Previous)
+        for (BoxCompareNode b = list[bcnEnd.GetBox()]; b != null; b = list[b.GetBox()].Previous)
         {
-            Paths.Add(b.DistanceTraveled, b.position);
+            paths.Add(b.DistanceTraveled, b.position);
         }
+
+        return paths;
     }
 }

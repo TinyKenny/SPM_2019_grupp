@@ -14,6 +14,8 @@ public class StunbotBaseState : State
     protected SphereCollider ThisCollider { get { return owner.thisCollider; } }
     protected Transform ThisTransform { get { return owner.transform; } }
     protected int CurrentPatrolPointIndex { get { return owner.currentPatrolPointIndex; } set { owner.currentPatrolPointIndex = value; } }
+    protected Vector3 NextTargetPosition { get; set; }
+    protected SortedList<float, Vector3> Paths { get; private set; } = new SortedList<float, Vector3>();
 
     protected StunbotStateMachine owner;
 
@@ -22,26 +24,31 @@ public class StunbotBaseState : State
         this.owner = (StunbotStateMachine)owner;
     }
 
-    public override void Enter()
-    {
-        base.Enter();
-        //for(int i = 0; i < owner.patrolLocations.Length; i++)
-        //{
-        //    if(i != CurrentPatrolPointIndex)
-        //    {
-        //        if(Vector3.Distance(ThisTransform.position, owner.patrolLocations[i].position) < Vector3.Distance(ThisTransform.position, owner.patrolLocations[CurrentPatrolPointIndex].position))
-        //        {
-        //            CurrentPatrolPointIndex = i;
-        //        }
-        //    }
-        //}
-    }
-
     public override void HandleUpdate()
     {
         base.HandleUpdate();
         ApplyMovement(Velocity * Time.deltaTime);
         Velocity *= Mathf.Pow(AirResistanceCoefficient, Time.deltaTime);
+
+        if (Paths.Count > 0)
+        {
+            if (Vector3.Distance(NextTargetPosition, owner.transform.position) < Mathf.Max(Velocity.magnitude * 0.1f, 0.1f))
+            {
+                float f = 0;
+                foreach (KeyValuePair<float, Vector3> pos in Paths)
+                {
+                    NextTargetPosition = pos.Value;
+                    f = pos.Key;
+                    break;
+                }
+
+                Paths.Remove(f);
+            }
+        }
+        else if (Paths.Count == 0)
+        {
+            NoTargetAvailable();
+        }
     }
 
     protected bool CanSeePlayer(float alertDistance)
@@ -139,5 +146,24 @@ public class StunbotBaseState : State
             }
         }
         #endregion
+    }
+
+    protected virtual void FindTarget()
+    {
+        if (PlayerTransform is null)
+        {
+            NextTargetPosition = owner.transform.position;
+            Paths = owner.PathFinder.FindPath(owner.transform.position, PlayerTransform.position);
+
+            if (Paths == null)
+            {
+                NextTargetPosition = owner.patrolLocations[CurrentPatrolPointIndex].position;
+            }
+        }
+    }
+
+    protected virtual void NoTargetAvailable()
+    {
+
     }
 }

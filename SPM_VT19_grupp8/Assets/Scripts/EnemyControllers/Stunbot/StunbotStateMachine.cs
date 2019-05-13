@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class StunbotStateMachine : EnemyStateMachine
 {
-    //public Transform playerTransform;
     public LayerMask visionMask;
     public LayerMask playerLayer;
     public SphereCollider thisCollider;
     public float turningModifier = 1.0f;
-    //public Transform[] patrolLocations;
     public int currentPatrolPointIndex;
     public Vector3 lastPlayerLocation;
 
