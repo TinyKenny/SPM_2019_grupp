@@ -8,7 +8,7 @@ public class CameraController : MonoBehaviour
     public float gamePadSensitivity = 15.0f;
     public float mouseSensitivity = 1.0f;
     public Transform playerTransform;
-    public LayerMask playerLayer;
+    [SerializeField] private LayerMask ignoreLayer;
 
     [Header("Perspective (first/third person)")]
     public bool thirdPerson = false;
@@ -49,7 +49,7 @@ public class CameraController : MonoBehaviour
 
             RaycastHit rayHit;
 
-            if (Physics.SphereCast(transform.position, thirdPersonSafety, newRelativePosition.normalized, out rayHit, newRelativePosition.magnitude + thirdPersonSafety, ~playerLayer))
+            if (Physics.SphereCast(transform.position, thirdPersonSafety, newRelativePosition.normalized, out rayHit, newRelativePosition.magnitude + thirdPersonSafety, ~ignoreLayer))
             {
                 newRelativePosition = newRelativePosition.normalized * rayHit.distance;
             }
