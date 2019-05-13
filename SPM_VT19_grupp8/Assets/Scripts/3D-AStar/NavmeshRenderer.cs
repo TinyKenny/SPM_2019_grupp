@@ -9,14 +9,14 @@ public class NavmeshRenderer : MonoBehaviour
     [SerializeField] private LayerMask colliders;
     private LayerMask navColl = 1 << 14;
     private List<BoxCollider> objects = new List<BoxCollider>();
+    private List<NavBox> boxes = new List<NavBox>();
 
-    public List<NavBox> boxes = new List<NavBox>();
-
-    private void Awake()
-    {
-        boxes.ToString();
-    }
-
+    /// <summary>
+    /// Generates an area of boxcolliders on a layer that is only used for 3D PathFinding.
+    /// The end result will be an area of boxcolliders inside the renderArea where no collider will overlap with anything
+    /// on the colliders layermask. How small the boxcolliders generated can be is set by the precision variable, which
+    /// also means higher precision can generate colliders closer to objects on the colliders layer.
+    /// </summary>
     [ContextMenu("Render a 3D-Navigational mesh for stunbot.")]
     public void Generate3DNavmesh()
     {
@@ -38,6 +38,14 @@ public class NavmeshRenderer : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks whetever the area parameter overlaps with any objects on the colliders layer set in the inspector, if it does
+    /// overlap it will generate 8 new boxcolliders, if not it will just return area. For every new collider created the 
+    /// same procedure will be done with creating more boxes unless it has run more than precision amount of times.
+    /// </summary>
+    /// <param name="area">The area to check if it overlaps with colliders.</param>
+    /// <param name="recursion">How many more iterations in the recursion it is allowed to make.</param>
+    /// <returns></returns>
     private BoxCollider CheckCollision(BoxCollider area, int recursion)
     {
         if (Physics.CheckBox(area.center, area.size / 2 + new Vector3(0.5f, 0.5f, 0.5f), Quaternion.identity, colliders))
@@ -72,7 +80,7 @@ public class NavmeshRenderer : MonoBehaviour
         }
         return area;
     }
-
+    
     private void AddNeighbours(BoxCollider traversableBox)
     {
         Collider[] colliders = Physics.OverlapBox(traversableBox.center, (traversableBox.size / 1.9f), Quaternion.identity, navColl);

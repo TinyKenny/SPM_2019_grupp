@@ -5,7 +5,7 @@ using System;
 
 public class NavBox : MonoBehaviour, IEquatable<NavBox>
 {
-    public List<NavBox> Neighbours = new List<NavBox>();
+    public List<NavBox> Neighbours { get; set; } = new List<NavBox>();
     public BoxCollider Coll { get; private set; }
 
 

@@ -43,7 +43,7 @@ public class AStarPathfindning : MonoBehaviour
         bcnStart.Known = false;
         bcnStart.DistanceTraveled = 0;
         list[bcnStart.GetBox()] = bcnStart;
-        bcnStart.position = start;
+        bcnStart.Position = start;
 
         pq.Insert(bcnStart);
         Vector3 currentPosition = start;
@@ -51,7 +51,7 @@ public class AStarPathfindning : MonoBehaviour
         while (!bcnEnd.Known && !(pq.Size() == 0))
         {
             BoxCompareNode box = pq.DeleteMin();
-            currentPosition = box.position;
+            currentPosition = box.Position;
 
             if(box.GetBox() == bcnEnd.GetBox())
             {
@@ -83,7 +83,7 @@ public class AStarPathfindning : MonoBehaviour
                         {
                             compBox.DistanceTraveled = distance;
                             compBox.Previous = box;
-                            compBox.position = nextPosition;
+                            compBox.Position = nextPosition;
                             pq.Insert(compBox);
                         }
                     }
@@ -95,7 +95,7 @@ public class AStarPathfindning : MonoBehaviour
 
         for (BoxCompareNode b = list[bcnEnd.GetBox()]; b != null; b = list[b.GetBox()].Previous)
         {
-            paths.Add(b.DistanceTraveled, b.position);
+            paths.Add(b.DistanceTraveled, b.Position);
         }
 
         return paths;
