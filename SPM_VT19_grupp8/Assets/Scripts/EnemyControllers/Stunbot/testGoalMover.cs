@@ -9,7 +9,7 @@ using UnityEngine;
 public class testGoalMover : MonoBehaviour
 {
     private float movementSpeed = 1.0f;
-    private float rotationSpeed = 45.0f;
+    ///private float rotationSpeed = 45.0f;
 
     // Start is called before the first frame update
     void Start()

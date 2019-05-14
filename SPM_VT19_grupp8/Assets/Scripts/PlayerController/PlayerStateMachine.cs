@@ -35,9 +35,9 @@ public class PlayerStateMachine : StateMachine
     #endregion
 
     #region inspector-variables
-    [SerializeField] private LayerMask collisionLayers;
-    [SerializeField] private float turnSpeedModifier;
-    [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private LayerMask collisionLayers = 0;
+    [SerializeField] private float turnSpeedModifier = 0;
+    [SerializeField] private GameObject projectilePrefab = null;
     [SerializeField] private float fireRate = 1.0f;
     [SerializeField] private float slowedPlayerTimeScale = 0.5f;
     [SerializeField] private float slowedWorldTimeScale = 0.2f;
@@ -47,15 +47,15 @@ public class PlayerStateMachine : StateMachine
     [SerializeField] private float shieldsRegeneration = 1.0f;
     [SerializeField] private float shieldsRegenerationCooldown = 4.0f;
     [SerializeField] private Slider timeSlowEnergy;
-    [SerializeField] private Slider shieldAmount;
+    [SerializeField] private Slider shieldAmount = null;
     [SerializeField] private float wallrunCooldownAmount = 0.5f;
     [SerializeField] private float jumpPower = 12.5f;
-    [SerializeField] private AudioSource aus;
-    [SerializeField] private AudioClip slowSound;
-    [SerializeField] private AudioClip ammoSound;
-    [SerializeField] private AudioClip damageSound;
-    [SerializeField] private AudioClip deathSound;
-    [SerializeField] private AudioClip gunShotSound;
+    [SerializeField] private AudioSource aus = null;
+    [SerializeField] private AudioClip slowSound = null;
+    [SerializeField] private AudioClip ammoSound = null;
+    [SerializeField] private AudioClip damageSound = null;
+    [SerializeField] private AudioClip deathSound = null;
+    [SerializeField] private AudioClip gunShotSound = null;
     #endregion
 
     #region readonly values
@@ -90,21 +90,20 @@ public class PlayerStateMachine : StateMachine
         PhysicsComponent = GetComponent<PhysicsComponent>();
         ThisCollider = GetComponent<CapsuleCollider>();
         StandardColliderHeight = ThisCollider.height;
+        TimeSlowMultiplier = 1.0f;
 
         base.Awake();
 
         timeSlowEnergy.maxValue = slowMotionEnergyMax;
         shieldAmount.maxValue = shieldsMax;
-
-        pickups = FindObjectsOfType<AmmoPickup>(); // use event-listeners instead
         wallrunCooldown = wallrunCooldownAmount;
 
-        TimeSlowMultiplier = 1.0f; // get rid of this?
+        pickups = FindObjectsOfType<AmmoPickup>(); // use event-listeners instead
     }
     
     private void Start()
     {
-        Respawn();
+        ResetValues();
     }
 
     protected override void Update()
@@ -129,18 +128,7 @@ public class PlayerStateMachine : StateMachine
         #endregion
 
         Pause();
-
-
-        if (shieldsRegenerationTimer <= 0.0f)
-        {
-            currentShields = Mathf.Clamp(currentShields + shieldsRegeneration * Time.deltaTime, 0.0f, shieldsMax);
-        }
-        else
-        {
-            shieldsRegenerationTimer -= Time.deltaTime;
-        }
-
-        shieldAmount.value = currentShields;
+        RegenerateShields();
 
         if (Mathf.Approximately(playerTimeScale, 1.0f))
         {
@@ -217,37 +205,39 @@ public class PlayerStateMachine : StateMachine
         }
     }
 
-    public void UnPause()
-    {
-        Time.timeScale = timeScale;
-        playerTimeScale = tempTimeScale;
-        GameController.gameControllerInstance.PausePanel.SetActive(false);
-    }
+    //public void UnPause()
+    //{
+    //    Time.timeScale = timeScale;
+    //    playerTimeScale = tempTimeScale;
+    //    GameController.gameControllerInstance.PausePanel.SetActive(false);
+    //}
 
     /// <summary>
+    /// needs re-writing
+    /// 
     /// Transitions the player to PlayerAirState and sets the players position to the respawn point.
     /// Resets variables related to life, slow-mo, attacking, ect. (example: deactivating slow-mo and refilling shields)
     /// </summary>
     public void Respawn()
     {
-        Quaternion q = respawnPoint.rotation;
-        q.x = 0;
-        q.z = 0;
-        TransitionTo<PlayerAirState>();
-        transform.position = respawnPoint.position;
-        transform.rotation = q;
-        Velocity = Vector3.zero;
-        Time.timeScale = 1.0f;
-        playerTimeScale = 1.0f;
-        shieldsRegenerationTimer = 0.0f;
-        currentShields = shieldsMax;
-        currentSlowMotionEnergy = slowMotionEnergyMax;
-        fireCoolDown = 0.0f;
+        //Quaternion q = respawnPoint.rotation;
+        //q.x = 0;
+        //q.z = 0;
+        //TransitionTo<PlayerAirState>();
+        //transform.position = respawnPoint.position;
+        //transform.rotation = q;
+        //Velocity = Vector3.zero;
+        //Time.timeScale = 1.0f;
+        //playerTimeScale = 1.0f;
+        //shieldsRegenerationTimer = 0.0f;
+        //currentShields = shieldsMax;
+        //currentSlowMotionEnergy = slowMotionEnergyMax;
+        //fireCoolDown = 0.0f;
 
-        ammo = 0;
-        ammoNumber.text = ammo.ToString();
+        //ammo = 0;
+        //ammoNumber.text = ammo.ToString();
 
-        Debug.Log("Reset pickups and enemies when respawning!");
+        ResetValues();
 
 
         PlayerRespawnEventInfo PREI = new PlayerRespawnEventInfo(gameObject);
@@ -260,6 +250,20 @@ public class PlayerStateMachine : StateMachine
             pickup.gameObject.SetActive(true);
     }
 
+    private void ResetValues()
+    {
+        Velocity = Vector3.zero;
+        TransitionTo<PlayerAirState>();
+        transform.position = respawnPoint.position;
+        transform.rotation = Quaternion.Euler(0.0f, respawnPoint.rotation.eulerAngles.y, 0.0f);
+        Time.timeScale = 1.0f; // create stop-slow method?
+        playerTimeScale = 1.0f;
+        currentShields = shieldsMax;
+        currentSlowMotionEnergy = slowMotionEnergyMax;
+        fireCoolDown = 0.0f;
+        ammo = 0;
+        ammoNumber.text = ammo.ToString();
+    }
 
     public void AddAmmo(int ammo)
     {
@@ -276,5 +280,19 @@ public class PlayerStateMachine : StateMachine
     public bool WallrunAllowed()
     {
         return wallrunCooldown < 0f;
+    }
+
+    private void RegenerateShields()
+    {
+        if (shieldsRegenerationTimer <= 0.0f)
+        {
+            currentShields = Mathf.Clamp(currentShields + shieldsRegeneration * Time.deltaTime, 0.0f, shieldsMax);
+        }
+        else
+        {
+            shieldsRegenerationTimer -= Time.deltaTime;
+        }
+
+        shieldAmount.value = currentShields;
     }
 }
