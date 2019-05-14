@@ -16,9 +16,7 @@ public class SoldierStateMachine : EnemyStateMachine
     public float maxCoolDown = 2;
     public float cooldownVarianceMax = 0.5f;
     public Vector3 playerLastLocation;
-
-    public AudioSource ausSoldier;
-    public AudioClip soldierAlertSound;
+    
 
     private void Awake()
     {
@@ -26,13 +24,11 @@ public class SoldierStateMachine : EnemyStateMachine
         startPosition = transform.position;
         agent = GetComponent<NavMeshAgent>();
         base.Awake();
-        if (patrolLocations.Length == 0)
+        if (PatrolLocations.Length == 0)
         {
-            patrolLocations = new Transform[1];
-            patrolLocations[0] = transform;
+            PatrolLocations = new Transform[1];
+            PatrolLocations[0] = transform;
         }
-
-        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<EnemySoundEventInfo>(PlayerSoundAlert);
     }
 
     private void Update()
@@ -40,7 +36,7 @@ public class SoldierStateMachine : EnemyStateMachine
         base.Update();
     }
 
-    public void SetAlerted(Vector3 lastLocation)
+    public override void SetAlerted(Vector3 lastLocation)
     {
         if (!(currentState is SoldierAttackState))
         {
@@ -49,20 +45,6 @@ public class SoldierStateMachine : EnemyStateMachine
 
         }
           
-    }
-
-    public void PlayerSoundAlert(EventInfo eI)
-    {
-        EnemySoundEventInfo enemyEvent = (EnemySoundEventInfo)eI;
-        if (currentState.GetType() == typeof(SoldierIdleState))
-        {
-            if (Vector3.Distance(transform.position, enemyEvent.GO.transform.position) < enemyEvent.Range)
-            {
-                Debug.Log("Heard player!");
-                SetAlerted(enemyEvent.GO.transform.position);
-                ausSoldier.PlayOneShot(soldierAlertSound);
-            }
-        }
     }
 
     private void OnDestroy()

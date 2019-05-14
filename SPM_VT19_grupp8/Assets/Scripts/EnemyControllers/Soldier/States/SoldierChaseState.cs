@@ -8,11 +8,10 @@ public class SoldierChaseState : SoldierBaseState
 {
     public override void HandleUpdate()
     {
-        owner.agent.SetDestination(owner.playerTransform.position);
-        if(owner.agent.pathStatus.Equals(UnityEngine.AI.NavMeshPathStatus.PathPartial))
+        owner.agent.SetDestination(PlayerTransform.position);
+        if(owner.agent.pathStatus.Equals(NavMeshPathStatus.PathPartial))
         {
-            NavMeshHit closestEdge;
-            NavMesh.SamplePosition(owner.transform.position, out closestEdge, 40, owner.visionMask);
+            NavMesh.SamplePosition(owner.transform.position, out NavMeshHit closestEdge, 40, owner.visionMask);
             owner.agent.SetDestination(closestEdge.position);
         }
 

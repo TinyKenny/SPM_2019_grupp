@@ -12,11 +12,11 @@ public class SoldierIdleState : SoldierBaseState
     {
         closestPoint = Vector3.positiveInfinity;
 
-        for (int i = 0; i < owner.patrolLocations.Length; i++)
+        for (int i = 0; i < PatrolLocations.Length; i++)
         {  
-            if (Vector3.Distance(closestPoint, owner.transform.position) > Vector3.Distance(owner.patrolLocations[i].position, owner.transform.position))
+            if (Vector3.Distance(closestPoint, owner.transform.position) > Vector3.Distance(PatrolLocations[i].position, owner.transform.position))
             {
-                closestPoint = owner.patrolLocations[i].position;
+                closestPoint = PatrolLocations[i].position;
                 index = i;
             }
         } 
@@ -27,15 +27,15 @@ public class SoldierIdleState : SoldierBaseState
     {
         if (Vector3.Distance(owner.transform.position, closestPoint) < 1f)
         {
-            if (index < owner.patrolLocations.Length - 1)
+            if (index < PatrolLocations.Length - 1)
             {
-                closestPoint = owner.patrolLocations[++index].position;
+                closestPoint = PatrolLocations[++index].position;
                 owner.agent.SetDestination(closestPoint);
             }
             else
             {
                 index = 0;
-                closestPoint = owner.patrolLocations[index].position;
+                closestPoint = PatrolLocations[index].position;
                 owner.agent.SetDestination(closestPoint);
             }
         }

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class StunbotBaseState : State
 {
-    protected Transform PlayerTransform { get { return owner.playerTransform; } }
+    protected Transform PlayerTransform { get { return owner.PlayerTransform; } }
+    protected Transform[] PatrolLocations { get { return owner.PatrolLocations; } }
     protected float Acceleration { get { return owner.Acceleration; } }
     protected float Deceleration { get { return owner.Deceleration; } }
     protected float MaxSpeed { get { return owner.MaxSpeed; } }
@@ -54,13 +55,13 @@ public class StunbotBaseState : State
     protected bool CanSeePlayer(float alertDistance)
     {
         return Vector3.Distance(owner.transform.position, PlayerTransform.position) < alertDistance
-            && Vector3.Distance(PlayerTransform.position, owner.patrolLocations[CurrentPatrolPointIndex].position) < owner.allowedOriginDistance
+            && Vector3.Distance(PlayerTransform.position, PatrolLocations[CurrentPatrolPointIndex].position) < owner.allowedOriginDistance
             && !Physics.Linecast(owner.transform.position, PlayerTransform.position, owner.visionMask);
     }
 
     protected bool CanFindOrigin()
     {
-        return Vector3.Distance(owner.transform.position, owner.patrolLocations[CurrentPatrolPointIndex].position) < owner.allowedOriginDistance
+        return Vector3.Distance(owner.transform.position, PatrolLocations[CurrentPatrolPointIndex].position) < owner.allowedOriginDistance
             /*&& !Physics.Linecast(owner.transform.position, owner.patrolLocations[CurrentPatrolPointIndex].position, owner.visionMask)*/;
     }
 
@@ -157,7 +158,7 @@ public class StunbotBaseState : State
 
             if (Paths == null)
             {
-                NextTargetPosition = owner.patrolLocations[CurrentPatrolPointIndex].position;
+                NextTargetPosition = PatrolLocations[CurrentPatrolPointIndex].position;
             }
         }
     }

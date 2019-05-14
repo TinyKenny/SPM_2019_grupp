@@ -38,9 +38,9 @@ public class EnemySpawner : MonoBehaviour
 
         if (currentGO.GetComponent<EnemyStateMachine>() != null)
         {
-            currentGO.GetComponent<EnemyStateMachine>().playerTransform = PlayerTransform;
+            currentGO.GetComponent<EnemyStateMachine>().PlayerTransform = PlayerTransform;
             if (PatrolLocations.Length > 0)
-                currentGO.GetComponent<EnemyStateMachine>().patrolLocations = PatrolLocations;
+                currentGO.GetComponent<EnemyStateMachine>().PatrolLocations = PatrolLocations;
         }
     }
 }

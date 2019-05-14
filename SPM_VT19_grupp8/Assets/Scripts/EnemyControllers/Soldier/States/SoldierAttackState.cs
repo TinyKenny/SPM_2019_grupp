@@ -25,7 +25,7 @@ public class SoldierAttackState : SoldierBaseState
                 owner.TransitionTo<SoldierChaseState>();
             else
             {
-                owner.playerLastLocation = owner.playerTransform.position;
+                owner.playerLastLocation = PlayerTransform.position;
                 owner.TransitionTo<SoldierAlertState>();
             }
 
@@ -36,9 +36,9 @@ public class SoldierAttackState : SoldierBaseState
     {
         float inaccuracy = 4.0f;
 
-        Vector3 playerPosition = owner.playerTransform.position /*+ new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0)*/;
+        Vector3 playerPosition = PlayerTransform.position /*+ new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0)*/;
         GameObject projectile = Instantiate(owner.projectilePrefab, owner.transform.position, Quaternion.identity);
-        owner.transform.LookAt(owner.playerTransform.position);
+        owner.transform.LookAt(PlayerTransform.position);
         projectile.transform.LookAt(projectile.transform.position + (Quaternion.Euler(Random.Range(0.0f, inaccuracy), Random.Range(-inaccuracy, inaccuracy), 0.0f) * owner.transform.forward));
         projectile.GetComponent<ProjectileBehaviour>().SetInitialValues(1 << owner.gameObject.layer);
         owner.currentCoolDown = owner.maxCoolDown + Random.Range(0.0f, owner.cooldownVarianceMax);

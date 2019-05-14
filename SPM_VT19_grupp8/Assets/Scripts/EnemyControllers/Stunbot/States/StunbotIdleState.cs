@@ -50,11 +50,11 @@ public class StunbotIdleState : StunbotBaseState
 
     protected override void NoTargetAvailable()
     {
-        NextTargetPosition = owner.patrolLocations[CurrentPatrolPointIndex].position;
+        NextTargetPosition = PatrolLocations[CurrentPatrolPointIndex].position;
 
         if (Vector3.Distance(NextTargetPosition, ThisTransform.position) < Mathf.Max(Velocity.magnitude * 0.1f, 0.1f))
         {
-            if (owner.patrolLocations.Length == 1)
+            if (PatrolLocations.Length == 1)
             {
                 if (Velocity.magnitude > 0.1f)
                 {
@@ -63,7 +63,7 @@ public class StunbotIdleState : StunbotBaseState
             }
             else
             {
-                CurrentPatrolPointIndex = (CurrentPatrolPointIndex + 1) % owner.patrolLocations.Length;
+                CurrentPatrolPointIndex = (CurrentPatrolPointIndex + 1) % PatrolLocations.Length;
                 FindTarget();
             }
         }

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Eventlistener for handling events triggered by sounds like the playersounds, for example that enemies should investigate if they hear the player.
+/// </summary>
 public class SoundEventListener : EventListenerInterface
 {
     public static SoundEventListener SoundListener;
@@ -12,6 +15,10 @@ public class SoundEventListener : EventListenerInterface
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerSoundEventInfo>(PlayerSound);
     }
 
+    /// <summary>
+    /// Plays a one shot playersound on the player and checks if any enemies are within range to hear it.
+    /// </summary>
+    /// <param name="eI"><see cref="PlayerSoundEventInfo"/> representing the player, also needs an audioclip. If the range is more than zero enemies might hear the player.</param>
     public void PlayerSound(EventInfo eI)
     {
         PlayerSoundEventInfo playerSound = (PlayerSoundEventInfo)eI;
@@ -19,6 +26,7 @@ public class SoundEventListener : EventListenerInterface
         if (playerSound.AC != null)
             playerSound.GO.GetComponent<AudioSource>().PlayOneShot(playerSound.AC);
 
-        EventCoordinator.CurrentEventCoordinator.ActivateEvent(new EnemySoundEventInfo(playerSound.GO, playerSound.Range));
+        if (playerSound.Range > 0)
+            EventCoordinator.CurrentEventCoordinator.ActivateEvent(new EnemySoundEventInfo(playerSound.GO, playerSound.Range));
     }
 }

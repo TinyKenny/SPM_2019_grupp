@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Eventlistener for handling events triggered by the player respawn like enemy respawns.
+/// </summary>
 public class RespawnEventListener : EventListenerInterface
 {
     public static RespawnEventListener respawnListener;

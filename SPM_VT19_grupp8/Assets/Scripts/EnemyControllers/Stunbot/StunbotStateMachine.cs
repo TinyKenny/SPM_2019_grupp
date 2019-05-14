@@ -36,10 +36,10 @@ public class StunbotStateMachine : EnemyStateMachine
         PathFinder = GetComponent<AStarPathfindning>();
         faceDirection = transform.forward;
         currentPatrolPointIndex = 0;
-        if(patrolLocations.Length == 0)
+        if(PatrolLocations.Length == 0)
         {
-            patrolLocations = new Transform[1];
-            patrolLocations[0] = transform;
+            PatrolLocations = new Transform[1];
+            PatrolLocations[0] = transform;
         }
         base.Awake();
     }

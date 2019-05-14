@@ -5,6 +5,8 @@ using UnityEngine;
 public class SoldierBaseState : State
 {
     protected SoldierStateMachine owner;
+    protected Transform PlayerTransform { get { return owner.PlayerTransform; } }
+    protected Transform[] PatrolLocations { get { return owner.PatrolLocations; } }
 
     private void Awake()
     {
@@ -18,6 +20,6 @@ public class SoldierBaseState : State
 
     protected bool PlayerVisionCheck(float alertDistance)
     {
-        return !(Physics.Linecast(owner.transform.position, owner.playerTransform.position, owner.visionMask)) && Vector3.Distance(owner.transform.position, owner.playerTransform.position) < alertDistance && Vector3.Dot(owner.transform.forward, (owner.playerTransform.position - owner.transform.position)) > 0.3f;
+        return !(Physics.Linecast(owner.transform.position, PlayerTransform.position, owner.visionMask)) && Vector3.Distance(owner.transform.position, PlayerTransform.position) < alertDistance && Vector3.Dot(owner.transform.forward, (PlayerTransform.position - owner.transform.position)) > 0.3f;
     }
 }
