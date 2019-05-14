@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Instantiates an enemy and sets their patrollocations as well as playerTransform after players respawn. Should be
+/// placed instead of enemies in the levels otherwise they will not respawn.
+/// </summary>
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject enemy;
@@ -12,20 +16,19 @@ public class EnemySpawner : MonoBehaviour
 
     private void Awake()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<EnemyRespawnEventInfo>(SpawnEnemy);
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    /// <summary>
+    /// Removes enemy if they have not already been removed then instantiates a new enemy.
+    /// Automatically sets the playertransform and the patrollocations set on the <see cref="EnemySpawner"/> object.
+    /// </summary>
+    /// <param name="EI">A <see cref="EnemyRespawnEventInfo"/> where the player is the gameobject.</param>
+    public void SpawnEnemy(EventInfo EI)
     {
-        if (this != null)
-        {
-            EnemyRespawnEventInfo EREI = new EnemyRespawnEventInfo(this);
-            RespawnEventListener.respawnListener.RegisterEnemy(EREI);
-        }
-    }
+        EnemyRespawnEventInfo EREI = (EnemyRespawnEventInfo)EI;
+        PlayerTransform = EREI.GO.transform;
 
-    public void SpawnEnemy()
-    {
         if (currentGO != null)
         {
             Destroy(currentGO);
@@ -39,11 +42,5 @@ public class EnemySpawner : MonoBehaviour
             if (PatrolLocations.Length > 0)
                 currentGO.GetComponent<EnemyStateMachine>().patrolLocations = PatrolLocations;
         }
-        //else if (currentGO.GetComponent<StunbotStateMachine>() != null)
-        //{
-        //    currentGO.GetComponent<StunbotStateMachine>().playerTransform = PlayerTransform;
-        //    if (PatrolLocations.Length > 0)
-        //        currentGO.GetComponent<StunbotStateMachine>().patrolLocations = PatrolLocations;
-        //}
     }
 }

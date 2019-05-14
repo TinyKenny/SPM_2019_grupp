@@ -216,9 +216,12 @@ public class PlayerStateMachine : StateMachine
     /// </summary>
     public void Respawn()
     {
+        Quaternion q = respawnPoint.rotation;
+        q.x = 0;
+        q.z = 0;
         TransitionTo<PlayerAirState>();
         transform.position = respawnPoint.position;
-        transform.rotation = Quaternion.Euler(0.0f, respawnPoint.rotation.y, 0.0f);
+        transform.rotation = q;
         Velocity = Vector3.zero;
         Time.timeScale = 1.0f;
         playerTimeScale = 1.0f;

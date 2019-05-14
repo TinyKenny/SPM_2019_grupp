@@ -25,7 +25,7 @@ public class PlayerRespawnEventInfo : EventInfo
 
 public class EnemyRespawnEventInfo : EventInfo
 {
-    public EnemyRespawnEventInfo(EnemySpawner gO, string desciption = "Enemy respawning") : base(gO.gameObject, desciption)
+    public EnemyRespawnEventInfo(GameObject player, string desciption = "Enemy respawning") : base(player, desciption)
     {
     }
 
