@@ -33,6 +33,9 @@ public class NavmeshRenderer : MonoBehaviour
         area.gameObject.layer = 14;
         boxes.Add(area.GetComponent<NavBox>());
         objects.Add(area);
+
+        Create3DNavigationBox(renderArea, renderArea.center, "NavBox 0", renderArea.size);
+
         CheckCollision(area, precision);
 
         foreach (BoxCollider b in objects)
@@ -56,21 +59,11 @@ public class NavmeshRenderer : MonoBehaviour
         {
             if (recursion > 0)
             {
-                Vector3 offset = area.size / 4;
-                Vector3[] boxPlacing = { area.center - offset, area.center + new Vector3(-offset.x, -offset.y, offset.z), area.center + new Vector3(offset.x, -offset.y, offset.z), area.center + new Vector3(offset.x, -offset.y, -offset.z), area.center + offset, area.center + new Vector3(offset.x, offset.y, -offset.z), area.center + new Vector3(-offset.x, offset.y, -offset.z), area.center + new Vector3(-offset.x, offset.y, offset.z) };
+                Vector3[] boxPlacing = CalculateBoxWorldPlacing(area);
+
                 for (int i = 0; i < 8; i++)
                 {
-                    BoxCollider traversableBox = (BoxCollider)GameObject.CreatePrimitive(PrimitiveType.Cube).GetComponent<BoxCollider>();
-                    traversableBox.gameObject.name = "NavBox" + (precision + 1 - recursion);
-                    traversableBox.transform.SetParent(transform, true);
-                    traversableBox.size = area.size / 2;
-                    traversableBox.center = area.transform.position + boxPlacing[i];
-                    DestroyImmediate(traversableBox.GetComponent<MeshRenderer>());
-                    DestroyImmediate(traversableBox.GetComponent<MeshFilter>());
-                    traversableBox.gameObject.AddComponent<NavBox>();
-                    traversableBox.gameObject.layer = 14;
-                    objects.Add(traversableBox);
-                    boxes.Add(traversableBox.GetComponent<NavBox>());
+                    BoxCollider traversableBox = Create3DNavigationBox(area, boxPlacing[i], "NavBox" + (precision + 1 - recursion), area.size / 2);
                     traversableBox = CheckCollision(traversableBox, recursion - 1);
                 }
             }
@@ -84,7 +77,59 @@ public class NavmeshRenderer : MonoBehaviour
         }
         return area;
     }
-    
+
+    /// <summary>
+    /// Calculates world coordinates for 8 sub boxes that were the result from dividing one box.
+    /// </summary>
+    /// <param name="area">The box that needs to be divided.</param>
+    /// <returns></returns>
+    private Vector3[] CalculateBoxWorldPlacing(BoxCollider area)
+    {
+        Vector3 offset = area.size / 4;
+
+        Vector3 botLeftFront = area.center - offset;
+        Vector3 botLeftBack = area.center + new Vector3(-offset.x, -offset.y, offset.z);
+        Vector3 botRightBack = area.center + new Vector3(offset.x, -offset.y, offset.z);
+        Vector3 botRightFront = area.center + new Vector3(offset.x, -offset.y, -offset.z);
+        Vector3 topRightBack = area.center + offset;
+        Vector3 topRightFront = area.center + new Vector3(offset.x, offset.y, -offset.z);
+        Vector3 topLeftFront = area.center + new Vector3(-offset.x, offset.y, -offset.z);
+        Vector3 topLeftBack = area.center + new Vector3(-offset.x, offset.y, offset.z);
+
+        Vector3[] boxPlacing = { botLeftFront, botLeftBack, botRightBack, botRightFront, topRightBack, topRightFront, topLeftFront, topLeftBack };
+
+        return boxPlacing;
+    }
+
+    /// <summary>
+    /// Create a new box for 3D navigation.
+    /// </summary>
+    /// <param name="area">The area where this box is created.</param>
+    /// <param name="position">The world position for the new box.</param>
+    /// <param name="name">The name of the new box.</param>
+    /// <param name="size">The size of the box. The first box created from <see cref="renderArea"/> should be the same as renderarea. All subsequent boxes should be half the size of the area they are created from.</param>
+    /// <returns>A reference to the <see cref="BoxCollider"/> that was created.</returns>
+    private BoxCollider Create3DNavigationBox(BoxCollider area, Vector3 position, string name, Vector3 size)
+    {
+        BoxCollider traversableBox = GameObject.CreatePrimitive(PrimitiveType.Cube).GetComponent<BoxCollider>();
+        traversableBox.gameObject.name = name;
+        traversableBox.transform.SetParent(transform, true);
+        traversableBox.size = size;
+        traversableBox.center = area.transform.position + position;
+        DestroyImmediate(traversableBox.GetComponent<MeshRenderer>());
+        DestroyImmediate(traversableBox.GetComponent<MeshFilter>());
+        traversableBox.gameObject.AddComponent<NavBox>();
+        traversableBox.gameObject.layer = 14;
+        objects.Add(traversableBox);
+        boxes.Add(traversableBox.GetComponent<NavBox>());
+
+        return traversableBox;
+    }
+
+    /// <summary>
+    /// Checks how many other 3DNavMesh boxes that is next to the box and adds its list of neighbhours. Needed for AStar to function as intended.
+    /// </summary>
+    /// <param name="traversableBox">A box without neighbours that needs neighbhouring boxes checked.</param>
     private void AddNeighbours(BoxCollider traversableBox)
     {
         Collider[] colliders = Physics.OverlapBox(traversableBox.center, (traversableBox.size / 1.9f), Quaternion.identity, navColl);
