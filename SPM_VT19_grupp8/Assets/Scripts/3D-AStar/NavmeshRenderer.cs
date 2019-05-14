@@ -24,17 +24,7 @@ public class NavmeshRenderer : MonoBehaviour
     [ContextMenu("Render a 3D-Navigational mesh for stunbot.")]
     public void Generate3DNavmesh()
     {
-        BoxCollider area = (BoxCollider)GameObject.CreatePrimitive(PrimitiveType.Cube).GetComponent<BoxCollider>();
-        area.gameObject.name = "NavBox 0";
-        area.transform.SetParent(transform, true);
-        area.size = renderArea.size;
-        area.center = renderArea.transform.position + renderArea.center;
-        area.gameObject.AddComponent<NavBox>();
-        area.gameObject.layer = 14;
-        boxes.Add(area.GetComponent<NavBox>());
-        objects.Add(area);
-
-        Create3DNavigationBox(renderArea, renderArea.center, "NavBox 0", renderArea.size);
+        BoxCollider area = Create3DNavigationBox(renderArea, renderArea.center, "NavBox 0", renderArea.size);
 
         CheckCollision(area, precision);
 
