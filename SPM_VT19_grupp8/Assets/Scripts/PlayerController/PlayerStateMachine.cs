@@ -6,6 +6,7 @@ using UnityEngine.UI;
 /// <summary>
 /// This class is a statemachine that (together with its states) acts as the controller for the player character.
 /// This class holds several variables whose values are not meant to be stored in the states themselves.
+/// It also contains some behaviours that do not depend on which state the player is in, such as the slowmotion-ability.
 /// </summary>
 public class PlayerStateMachine : StateMachine
 {
@@ -50,6 +51,7 @@ public class PlayerStateMachine : StateMachine
     [SerializeField] private Slider shieldAmount = null;
     [SerializeField] private float wallrunCooldownAmount = 0.5f;
     [SerializeField] private float jumpPower = 12.5f;
+    [SerializeField] private float slowMotionCooldown = 1.0f;
     [SerializeField] private AudioSource aus = null;
     [SerializeField] private AudioClip slowSound = null;
     [SerializeField] private AudioClip ammoSound = null;
@@ -72,6 +74,7 @@ public class PlayerStateMachine : StateMachine
     private float tempTimeScale;
     private float wallrunCooldown;
     private float timeScale = 1;
+    private float slowMotionCooldownTimer = 0.0f;
     #endregion
 
 
@@ -129,7 +132,17 @@ public class PlayerStateMachine : StateMachine
 
         Pause();
         RegenerateShields();
+        wallrunCooldown -= getPlayerDeltaTime();
 
+
+        #region the new slowMotion
+
+        //commented out because it has not been tested yet, and will probably require a bit of fixing.
+        //SlowMotion();
+
+        #endregion
+
+        #region the old timeslow
         if (Mathf.Approximately(playerTimeScale, 1.0f))
         {
             currentSlowMotionEnergy = Mathf.Clamp(currentSlowMotionEnergy + slowMotionEnergyRegeneration * Time.deltaTime, 0.0f, slowMotionEnergyMax);
@@ -156,7 +169,7 @@ public class PlayerStateMachine : StateMachine
                 TimeSlowMultiplier = 1;
             }
         }
-        wallrunCooldown -= getPlayerDeltaTime();
+        #endregion
     }
 
     /// <summary>
@@ -172,6 +185,11 @@ public class PlayerStateMachine : StateMachine
         return Time.unscaledDeltaTime * playerTimeScale;
     }
 
+    /// <summary>
+    /// Reduces the players current "shields" by a specified ammount.
+    /// If the players current "shields" are lower than <see cref="MathHelper.floatEpsilon"/> when this method is called, the player dies and respawns.
+    /// </summary>
+    /// <param name="damage">The ammount to be subtracted from the players shields.</param>
     public void TakeDamage(float damage)
     {
         if (currentShields <= MathHelper.floatEpsilon)
@@ -188,6 +206,9 @@ public class PlayerStateMachine : StateMachine
         }
     }
 
+    /// <summary>
+    /// If the player gives the specified input, pauses or unpauses the game, depending on whether the game is paused or not.
+    /// </summary>
     public void Pause()
     {
         if (Input.GetButtonDown("Pause") && Time.timeScale > 0)
@@ -205,18 +226,10 @@ public class PlayerStateMachine : StateMachine
         }
     }
 
-    //public void UnPause()
-    //{
-    //    Time.timeScale = timeScale;
-    //    playerTimeScale = tempTimeScale;
-    //    GameController.gameControllerInstance.PausePanel.SetActive(false);
-    //}
-
     /// <summary>
-    /// needs re-writing
+    /// needs testing.
     /// 
-    /// Transitions the player to PlayerAirState and sets the players position to the respawn point.
-    /// Resets variables related to life, slow-mo, attacking, ect. (example: deactivating slow-mo and refilling shields)
+    /// Calls <see cref="ResetValues"/> and then triggers a "player respawn"-event.
     /// </summary>
     public void Respawn()
     {
@@ -250,6 +263,12 @@ public class PlayerStateMachine : StateMachine
             pickup.gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// Needs testing.
+    /// 
+    /// Transitions the player to PlayerAirState and sets the players position to the respawn point.
+    /// Resets variables related to shields, slow-mo, attacking, ect. (example: refilling slow-mo energy and shields)
+    /// </summary>
     private void ResetValues()
     {
         Velocity = Vector3.zero;
@@ -265,6 +284,10 @@ public class PlayerStateMachine : StateMachine
         ammoNumber.text = ammo.ToString();
     }
 
+    /// <summary>
+    /// Adds the specified ammount of ammunition to the players reserves.
+    /// </summary>
+    /// <param name="ammo"></param>
     public void AddAmmo(int ammo)
     {
         this.ammo += ammo;
@@ -282,6 +305,9 @@ public class PlayerStateMachine : StateMachine
         return wallrunCooldown < 0f;
     }
 
+    /// <summary>
+    /// If the players shields are not full, and shield regeneration is not on cooldown, regenerates the players shields.
+    /// </summary>
     private void RegenerateShields()
     {
         if (shieldsRegenerationTimer <= 0.0f)
@@ -294,5 +320,32 @@ public class PlayerStateMachine : StateMachine
         }
 
         shieldAmount.value = currentShields;
+    }
+
+    /// <summary>
+    /// Slows down time, based on how much the player is holding down the "designated" trigger.
+    /// This is currently not really compatible with the current implementation of the pause feature.
+    /// </summary>
+    private void SlowMotion()
+    {
+        float timeLerpValue = Input.GetAxisRaw("Shoot");
+        if (timeLerpValue > 0.0f && slowMotionCooldownTimer <= MathHelper.floatEpsilon)
+        {
+            playerTimeScale = Mathf.Lerp(1.0f, slowedPlayerTimeScale, timeLerpValue);
+            Time.timeScale = Mathf.Lerp(1.0f, slowedWorldTimeScale, timeLerpValue);
+            TimeSlowMultiplier = Mathf.Lerp(1.0f, 1.2f, timeLerpValue);
+
+            currentSlowMotionEnergy = Mathf.Clamp(currentSlowMotionEnergy - (Time.deltaTime / Time.timeScale), 0.0f, slowMotionEnergyMax);
+
+            if (currentSlowMotionEnergy <= MathHelper.floatEpsilon)
+            {
+                slowMotionCooldownTimer = slowMotionCooldown;
+            }
+        }
+        else
+        {
+            slowMotionCooldownTimer -= Time.deltaTime;
+            currentSlowMotionEnergy = Mathf.Clamp(currentSlowMotionEnergy + slowMotionEnergyRegeneration * Time.deltaTime, 0.0f, slowMotionEnergyMax);
+        }
     }
 }
