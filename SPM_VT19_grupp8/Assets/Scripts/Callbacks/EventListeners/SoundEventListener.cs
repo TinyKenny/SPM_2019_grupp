@@ -7,11 +7,8 @@ using UnityEngine;
 /// </summary>
 public class SoundEventListener : EventListenerInterface
 {
-    public static SoundEventListener SoundListener;
-
-    public override void Initialize()
+    void Awake()
     {
-        SoundListener = this;
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerSoundEventInfo>(PlayerSound);
     }
 

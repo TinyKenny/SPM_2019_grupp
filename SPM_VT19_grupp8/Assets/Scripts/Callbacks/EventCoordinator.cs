@@ -3,18 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class EventCoordinator : MonoBehaviour
+public class EventCoordinator
 {
-    public static EventCoordinator CurrentEventCoordinator;
-
-    private void Awake()
-    {
-        CurrentEventCoordinator = this;
-        foreach (EventListenerInterface eL in GetComponents<EventListenerInterface>())
-        {
-            eL.Initialize();
+    private static EventCoordinator currentEventCoordinator = null;
+    public static EventCoordinator CurrentEventCoordinator {
+        get {
+            if (currentEventCoordinator == null) {
+                currentEventCoordinator = new EventCoordinator();
+            }
+            return currentEventCoordinator;
         }
     }
+
+
+
+    //private void Awake()
+    //{
+    //    CurrentEventCoordinator = this;
+    //    foreach (EventListenerInterface eL in GetComponents<EventListenerInterface>())
+    //    {
+    //        eL.Initialize();
+    //    }
+    //}
 
     public delegate void EventListener(EventInfo eventInfo);
     public Dictionary<Type, EventListener> EventListeners;

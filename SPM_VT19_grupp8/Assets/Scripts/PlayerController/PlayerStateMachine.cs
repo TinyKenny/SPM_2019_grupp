@@ -3,81 +3,103 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// This class is a statemachine that (together with its states) acts as the controller for the player character.
+/// This class holds several variables whose values are not meant to be stored in the states themselves.
+/// </summary>
 public class PlayerStateMachine : StateMachine
 {
-    public LayerMask collisionLayers;
-    public PhysicsComponent physicsComponent;
-    public CapsuleCollider thisCollider;
-    public float skinWidth = 0.51f;
-    public float groundCheckDistance = 0.01f;
-    public float turnSpeedModifier = 2.5f;
-    public GameObject projectilePrefab;
-    public float fireRate = 1.0f;
-    public float fireCoolDown = 0.0f;
-    public float TimeSlowMultiplier;
+    #region "chaining" properties
+    public float Acceleration { get { return PhysicsComponent.acceleration; } }
+    public float Deceleration { get { return PhysicsComponent.deceleration; } }
+    public float MaxSpeed { get { return PhysicsComponent.maxSpeed; } }
+    public float AirResistanceCoefficient { get { return PhysicsComponent.airResistanceCoefficient; } }
+    public float Gravity { get { return PhysicsComponent.gravity; } }
+    public Vector3 Velocity { get { return PhysicsComponent.velocity; } set { PhysicsComponent.velocity = value; } }
+    #endregion
 
-    [HideInInspector]
-    public float standardColliderHeight;
+    #region "plain" properties
+    public PhysicsComponent PhysicsComponent { get; private set; }
+    public CapsuleCollider ThisCollider { get; private set; }
+    public float TimeSlowMultiplier  { get; private set; }
+    public float StandardColliderHeight { get; private set; }
+    #endregion
 
-    public float Acceleration { get { return physicsComponent.acceleration; } set { physicsComponent.acceleration = value; } }
-    public float Deceleration { get { return physicsComponent.deceleration; } set { physicsComponent.deceleration = value; } }
-    public float MaxSpeed { get { return physicsComponent.maxSpeed; } set { physicsComponent.maxSpeed = value; } }
-    public float FrictionCoefficient { get { return physicsComponent.frictionCoefficient; } set { physicsComponent.frictionCoefficient = value; } }
-    public float AirResistanceCoefficient { get { return physicsComponent.airResistanceCoefficient; } set { physicsComponent.airResistanceCoefficient = value; } }
-    public float Gravity { get { return physicsComponent.gravity; } set { physicsComponent.gravity = value; } }
-    public Vector3 Velocity { get { return physicsComponent.velocity; } set { physicsComponent.velocity = value; } }
+    #region properties for getting inspector-variables
+    public LayerMask CollisionLayers { get { return collisionLayers; } }
+    public float TurnSpeedModifier { get { return turnSpeedModifier; } }
+    public GameObject ProjectilePrefab { get { return projectilePrefab; } }
+    public float FireRate { get { return fireRate; } }
+    public float JumpPower { get { return jumpPower; } }
+    public AudioClip GunShotSound { get { return gunShotSound; } }
+    #endregion
 
-    private float playerTimeScale;
-    private float slowedPlayerTimeScale;
-    private float slowedWorldTimeScale;
-    public float currentSlowMotionEnergy = 5.0f; // make this private
-    public float slowMotionEnergyMax = 5.0f; // make this private
-    public float slowMotionEnergyRegeneration = 1.0f; // make this private
-    public float currentShields = 10.0f; // make this private
-    public float shieldsMax = 10.0f; // make this private
-    public float shieldsRegeneration = 1.0f; // make this private
-    public float shieldsRegenerationCooldown = 4.0f; // make this private
-    public float shieldsRegenerationTimer = 0.0f;
-    public int ammo = 0;
-    public Text ammoNumber;
-    public Slider timeSlowEnergy;
-    public Slider shieldAmount;
-    public Transform respawnPoint;
-    public AmmoPickup[] pickups;
+    #region inspector-variables
+    [SerializeField] private LayerMask collisionLayers;
+    [SerializeField] private float turnSpeedModifier;
+    [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private float fireRate = 1.0f;
+    [SerializeField] private float slowedPlayerTimeScale = 0.5f;
+    [SerializeField] private float slowedWorldTimeScale = 0.2f;
+    [SerializeField] private float slowMotionEnergyMax = 5.0f;
+    [SerializeField] private float slowMotionEnergyRegeneration = 1.0f;
+    [SerializeField] private float shieldsMax = 10.0f;
+    [SerializeField] private float shieldsRegeneration = 1.0f;
+    [SerializeField] private float shieldsRegenerationCooldown = 4.0f;
+    [SerializeField] private Slider timeSlowEnergy;
+    [SerializeField] private Slider shieldAmount;
+    [SerializeField] private float wallrunCooldownAmount = 0.5f;
+    [SerializeField] private float jumpPower = 12.5f;
+    [SerializeField] private AudioSource aus;
+    [SerializeField] private AudioClip slowSound;
+    [SerializeField] private AudioClip ammoSound;
+    [SerializeField] private AudioClip damageSound;
+    [SerializeField] private AudioClip deathSound;
+    [SerializeField] private AudioClip gunShotSound;
+    #endregion
+
+    #region readonly values
+    public readonly float skinWidth = 0.01f;
+    public readonly float groundCheckDistance = 0.01f;
+    #endregion
+
+    #region private variables
+    private AmmoPickup[] pickups; // get rid of this, use events and event listeners in the AmmoPickup-script instead
+    private float playerTimeScale = 1.0f;
+    private float currentSlowMotionEnergy = 5.0f;
+    private float currentShields = 10.0f;
+    private float shieldsRegenerationTimer = 0.0f;
     private float tempTimeScale;
     private float wallrunCooldown;
-    [SerializeField] private float wallrunCooldownAmount = 0.5f;
     private float timeScale = 1;
+    #endregion
 
-    public float JumpPower = 12.5f;
 
-    public AudioSource aus;
-    public AudioClip slowSound;
-    public AudioClip ammoSound;
-    public AudioClip damageSound;
-    public AudioClip deathSound;
-    public AudioClip gunShotSound;
+
+    public float fireCoolDown = 0.0f; // what to do about this one?
+
+    public int ammo = 0; // make this private
+    public Text ammoNumber; // make this private
+    public Transform respawnPoint; // make this private, create a new event type ("CheckpointReachedEventInfo", maybe?) and make a listener for that event type in PlayerStateMachine
+
 
 
 
     protected override void Awake()
     {
-        physicsComponent = GetComponent<PhysicsComponent>();
-        thisCollider = GetComponent<CapsuleCollider>();
-        standardColliderHeight = thisCollider.height;
+        PhysicsComponent = GetComponent<PhysicsComponent>();
+        ThisCollider = GetComponent<CapsuleCollider>();
+        StandardColliderHeight = ThisCollider.height;
 
         base.Awake();
 
-        playerTimeScale = 1.0f;
-        slowedPlayerTimeScale = 0.5f;
-        slowedWorldTimeScale = 0.2f;
         timeSlowEnergy.maxValue = slowMotionEnergyMax;
         shieldAmount.maxValue = shieldsMax;
 
-        pickups = FindObjectsOfType<AmmoPickup>();
+        pickups = FindObjectsOfType<AmmoPickup>(); // use event-listeners instead
         wallrunCooldown = wallrunCooldownAmount;
 
-        TimeSlowMultiplier = 1f;
+        TimeSlowMultiplier = 1.0f; // get rid of this?
     }
     
     private void Start()
@@ -88,10 +110,8 @@ public class PlayerStateMachine : StateMachine
     protected override void Update()
     {
         base.Update();
-        //UpdatePlayerRotation();
 
-        // developer cheats start here
-
+        #region developer cheats
         if (Input.GetKeyDown(KeyCode.Keypad0))
         {
             Respawn();
@@ -106,17 +126,13 @@ public class PlayerStateMachine : StateMachine
             currentShields = shieldsMax;
             shieldsRegenerationTimer = 0.0f;
         }
-
-
-        // developer cheats end here
+        #endregion
 
         Pause();
 
-        shieldAmount.value = currentShields;
 
         if (shieldsRegenerationTimer <= 0.0f)
         {
-            //currentShields += shieldsRegeneration * Time.deltaTime;
             currentShields = Mathf.Clamp(currentShields + shieldsRegeneration * Time.deltaTime, 0.0f, shieldsMax);
         }
         else
@@ -124,16 +140,15 @@ public class PlayerStateMachine : StateMachine
             shieldsRegenerationTimer -= Time.deltaTime;
         }
 
+        shieldAmount.value = currentShields;
+
         if (Mathf.Approximately(playerTimeScale, 1.0f))
         {
-            //currentSlowMotionEnergy += slowMotionEnergyRegeneration * Time.deltaTime;
             currentSlowMotionEnergy = Mathf.Clamp(currentSlowMotionEnergy + slowMotionEnergyRegeneration * Time.deltaTime, 0.0f, slowMotionEnergyMax);
             timeSlowEnergy.value = currentSlowMotionEnergy;
 
             if (Input.GetButtonDown("TimeSlowToggle") && currentSlowMotionEnergy >= 1.0f)
             {
-
-
                 Time.timeScale = slowedWorldTimeScale;
                 playerTimeScale = slowedPlayerTimeScale;
                 aus.PlayOneShot(slowSound);
@@ -143,7 +158,6 @@ public class PlayerStateMachine : StateMachine
         }
         else if(Mathf.Approximately(playerTimeScale, slowedPlayerTimeScale))
         {
-            //currentSlowMotionEnergy -= Time.unscaledDeltaTime;
             currentSlowMotionEnergy = Mathf.Clamp(currentSlowMotionEnergy - Time.unscaledDeltaTime, 0.0f, slowMotionEnergyMax);
             timeSlowEnergy.value = currentSlowMotionEnergy;
 
@@ -246,17 +260,6 @@ public class PlayerStateMachine : StateMachine
             pickup.gameObject.SetActive(true);
     }
 
-    /*
-    /// <summary>
-    /// Rotates the player-GameObject so that its Z-axis (also known as "forward", example: transform.forward)
-    /// to be pointing in the direction of Velocity.
-    /// </summary>
-    private void UpdatePlayerRotation()
-    {
-        // make this better later
-        transform.LookAt(transform.position + new Vector3(Velocity.x, 0.0f, Velocity.z).normalized);
-    }
-    */
 
     public void AddAmmo(int ammo)
     {
@@ -274,5 +277,4 @@ public class PlayerStateMachine : StateMachine
     {
         return wallrunCooldown < 0f;
     }
-
 }

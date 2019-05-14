@@ -5,6 +5,25 @@ using UnityEngine;
 
 public class PlayerBaseState : State
 {
+
+
+    #region "chaining" properties
+    protected Vector3 Velocity { get { return owner.Velocity; } set { owner.Velocity = value; } }
+    protected float Acceleration { get { return owner.Acceleration; } }
+    protected float Deceleration { get { return owner.Deceleration; } }
+    protected float MaxSpeed { get { return owner.MaxSpeed * MaxSpeedMod; } }
+    protected float AirResistanceCoefficient { get { return owner.AirResistanceCoefficient; } }
+    protected float Gravity { get { return owner.Gravity; } }
+    protected Transform Transform { get { return owner.transform; } }
+    protected LayerMask CollisionLayers { get { return owner.CollisionLayers; } }
+    protected CapsuleCollider ThisCollider { get { return owner.ThisCollider; } }
+    protected float SkinWidth { get { return owner.skinWidth; } }
+    private float FireRate { get { return owner.FireRate; } }
+    #endregion
+
+
+
+
     protected PlayerStateMachine owner;
 
     [Header("Leave at 1 in WalkingState")] //för att skrämma iväg designers
@@ -12,29 +31,18 @@ public class PlayerBaseState : State
     public float MaxSpeedMod = 1.0f;
 
 
-    public float Acceleration { get { return owner.Acceleration; } set { owner.Acceleration = value; } }
-    public float Deceleration { get { return owner.Deceleration; } set { owner.Deceleration = value; } }
-    public float MaxSpeed { get { return owner.MaxSpeed * MaxSpeedMod; } /*set { owner.MaxSpeed = value; } */}
-    public float FrictionCoefficient { get { return owner.FrictionCoefficient; } set { owner.FrictionCoefficient = value; } }
-    public float AirResistanceCoefficient { get { return owner.AirResistanceCoefficient; } set { owner.AirResistanceCoefficient = value; } }
-    public float Gravity { get { return owner.Gravity; } set { owner.Gravity = value; } }
-    private float FireRate { get { return owner.fireRate; } }
     
-    public Vector3 Velocity { get { return owner.Velocity; } set { owner.Velocity = value; } }
 
-    protected Transform Transform { get { return owner.transform; } }
-    protected LayerMask CollisionLayers { get { return owner.collisionLayers; } }
-    protected CapsuleCollider ThisCollider { get { return owner.thisCollider; } }
-    protected float SkinWidth { get { return owner.skinWidth; } }
     protected float GroundCheckDistance { get { return owner.groundCheckDistance; } }
-    protected float TurnSpeedModifier { get { return owner.turnSpeedModifier; } }
-    protected float StandardColliderHeight { get { return owner.standardColliderHeight; } }
+    protected float TurnSpeedModifier { get { return owner.TurnSpeedModifier; } }
+    protected float StandardColliderHeight { get { return owner.StandardColliderHeight; } }
     protected float PlayerDeltaTime { get { return owner.getPlayerDeltaTime(); } }
     protected int Ammo { get { return owner.ammo; } set { owner.ammo = value; } }
     private float FireCoolDown { get { return owner.fireCoolDown; } set { owner.fireCoolDown = value; } }
     protected float movementSoundRange = 20;
     protected float shootSoundRange = 50;
-    protected float JumpPower { get { return owner.JumpPower; } set { owner.JumpPower = value; } }
+    protected float JumpPower { get { return owner.JumpPower; } }
+    private GameObject ProjectilePrefab { get { return owner.ProjectilePrefab; } }
 
     public override void Initialize(StateMachine owner)
     {
@@ -215,7 +223,7 @@ public class PlayerBaseState : State
 
                 string[] ignoreLayers = new string[] { "3DNavMesh" };
                 RaycastHit rayHit;
-                bool rayHasHit = Physics.Raycast(aimRay, out rayHit, owner.projectilePrefab.GetComponent<ProjectileBehaviour>().distanceToTravel, ~((1 << owner.gameObject.layer) | (LayerMask.GetMask(ignoreLayers))));
+                bool rayHasHit = Physics.Raycast(aimRay, out rayHit, ProjectilePrefab.GetComponent<ProjectileBehaviour>().distanceToTravel, ~((1 << owner.gameObject.layer) | (LayerMask.GetMask(ignoreLayers))));
 
                 Debug.Log(aimRay.origin);
                 Debug.Log("Aim hit: " + rayHit.collider.name);
@@ -224,19 +232,19 @@ public class PlayerBaseState : State
                 Vector3 pointHit = rayHit.point;
                 if (!rayHasHit)
                 {
-                    pointHit = aimRay.GetPoint(owner.projectilePrefab.GetComponent<ProjectileBehaviour>().distanceToTravel);
+                    pointHit = aimRay.GetPoint(ProjectilePrefab.GetComponent<ProjectileBehaviour>().distanceToTravel);
                 }
                 else
                 {
                     Debug.Log("aim hit! " + rayHit.point);
                     Debug.Log(rayHit.collider.name);
                 }
-                GameObject projectile = Instantiate(owner.projectilePrefab, Transform.position + (Camera.main.transform.rotation * Vector3.forward), Camera.main.transform.rotation);
+                GameObject projectile = Instantiate(ProjectilePrefab, Transform.position + (Camera.main.transform.rotation * Vector3.forward), Camera.main.transform.rotation);
                 projectile.transform.LookAt(pointHit); // test-y stuff
                 projectile.GetComponent<ProjectileBehaviour>().SetInitialValues((1 << owner.gameObject.layer) | LayerMask.GetMask(ignoreLayers));
                 FireCoolDown = FireRate;
                 owner.ammoNumber.text = Ammo.ToString();
-                EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(owner.gameObject, shootSoundRange, owner.gunShotSound));
+                EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(owner.gameObject, shootSoundRange, owner.GunShotSound));
             }
         }
         else

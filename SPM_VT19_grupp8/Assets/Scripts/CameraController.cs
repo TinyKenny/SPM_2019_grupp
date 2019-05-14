@@ -61,7 +61,7 @@ public class CameraController : MonoBehaviour
         gamePadSensitivity = startingGamePadSensitivity * aimSensitivityMultiplier;
 
         RaycastHit hit;
-        if (Physics.Linecast(transform.position, transform.forward * 100f, out hit, playerTransform.GetComponent<PlayerStateMachine>().collisionLayers))
+        if (Physics.Linecast(transform.position, transform.forward * 100f, out hit, playerTransform.GetComponent<PlayerStateMachine>().CollisionLayers))
         {
             if (hit.transform.gameObject.layer == 13)
                 gamePadSensitivity = (startingGamePadSensitivity * aimSensitivityMultiplier) / 2;

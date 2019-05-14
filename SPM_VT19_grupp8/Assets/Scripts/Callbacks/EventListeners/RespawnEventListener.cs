@@ -7,14 +7,12 @@ using UnityEngine;
 /// </summary>
 public class RespawnEventListener : EventListenerInterface
 {
-    public static RespawnEventListener respawnListener;
     [SerializeField] private CameraController cameraMain;
     
-    public override void Initialize()
+    void Awake()
     {
-        respawnListener = this;
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerRespawnEventInfo>(OnPlayerRespawn);
-        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerRespawnEventInfo>(cameraMain.GetComponent<CameraController>().OnPlayerRespawn);
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerRespawnEventInfo>(cameraMain.GetComponent<CameraController>().OnPlayerRespawn); // remove this line
     }
 
     /// <summary>
@@ -24,11 +22,6 @@ public class RespawnEventListener : EventListenerInterface
     public void OnPlayerRespawn(EventInfo eventInfo)
     {
         PlayerRespawnEventInfo PREI = (PlayerRespawnEventInfo)eventInfo;
-
-        //Vector3 playerRotation = PREI.GO.transform.rotation.eulerAngles;
-        //cameraMain.transform.rotation = PREI.GO.transform.rotation;
-        //cameraMain.rotationY = playerRotation.y;
-        //cameraMain.rotationX = playerRotation.x;
 
         EventCoordinator.CurrentEventCoordinator.ActivateEvent(new EnemyRespawnEventInfo(PREI.GO));
 

@@ -89,15 +89,15 @@ public class ArcCalcTest : MonoBehaviour
 
         //float maxAccelPortion = acceleration / (acceleration + deceleration);
 
-        float topSpeed;
+        ///float topSpeed;
 
-        float timeAccelerating;
-        float timeAtMaxSpeed;
-        float timeDecelerating;
+        ///float timeAccelerating;
+        ///float timeAtMaxSpeed;
+        ///float timeDecelerating;
 
-        float distanceAccelerating;
-        float distanceAtMaxSpeed;
-        float distanceDecelerating;
+        ///float distanceAccelerating;
+        ///float distanceAtMaxSpeed;
+        ///float distanceDecelerating;
 
 
 
