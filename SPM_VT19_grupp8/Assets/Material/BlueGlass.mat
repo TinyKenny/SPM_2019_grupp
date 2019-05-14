@@ -8,7 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BlueGlass
-  m_Shader: {fileID: 4800000, guid: 5c81372d981403744adbdda4433c9c11, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 38f4c08e9d86f794eb71d021fe63524d,
+    type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,6 +20,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_2F9F8373:
+        m_Texture: {fileID: 2800000, guid: 71075458e1c6dbd459a9a80bbac59151, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -64,6 +69,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_52B54324: 0.6
+    - Vector1_5BD72BF9: 0.4
+    - Vector1_5E36D832: 0.02
+    - Vector1_636D5FFA: 5
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -94,6 +103,7 @@ Material:
     - _UseRoughnessMap: 0
     - _ZWrite: 1
     m_Colors:
+    - Color_A4282D9B: {r: 0.8108268, g: 5.045145, b: 5.735849, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 0.5707547, g: 0.87439895, b: 1, a: 0.07058824}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
