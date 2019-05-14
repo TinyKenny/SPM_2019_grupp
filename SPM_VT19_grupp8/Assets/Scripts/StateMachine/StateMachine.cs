@@ -5,7 +5,7 @@ using System;
 
 public class StateMachine : MonoBehaviour
 {
-    [SerializeField] private State[] states;
+    [SerializeField] private State[] states = null;
 
     private Dictionary<Type, State> stateDictionary = new Dictionary<Type, State>();
     public State currentState;

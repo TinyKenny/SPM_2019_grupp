@@ -8,9 +8,9 @@ using UnityEngine;
 /// </summary>
 public class NavmeshRenderer : MonoBehaviour
 {
-    [SerializeField] private BoxCollider renderArea;
+    [SerializeField] private BoxCollider renderArea = null;
     [SerializeField] private int precision = 2;
-    [SerializeField] private LayerMask colliders;
+    [SerializeField] private LayerMask colliders = 0;
     private LayerMask navColl = 1 << 14;
     private List<BoxCollider> objects = new List<BoxCollider>();
     private List<NavBox> boxes = new List<NavBox>();

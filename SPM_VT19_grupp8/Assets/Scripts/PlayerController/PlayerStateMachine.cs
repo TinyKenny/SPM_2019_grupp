@@ -79,7 +79,7 @@ public class PlayerStateMachine : StateMachine
 
         TimeSlowMultiplier = 1f;
     }
-
+    
     private void Start()
     {
         Respawn();

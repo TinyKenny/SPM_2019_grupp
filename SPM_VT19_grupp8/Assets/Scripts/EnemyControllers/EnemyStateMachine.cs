@@ -11,10 +11,10 @@ public class EnemyStateMachine : StateMachine
     [SerializeField] private Transform[] patrolLocations;
 
     private AudioSource aus;
-    [SerializeField] private AudioClip alertSound;
+    [SerializeField] private AudioClip alertSound = null;
     private float wallSoundAbsorbation = 0.8f;
 
-    private void Awake()
+    private new void Awake()
     {
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<EnemySoundEventInfo>(PlayerSoundAlert);
         aus = GetComponent<AudioSource>();

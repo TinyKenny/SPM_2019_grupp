@@ -7,7 +7,7 @@ public class PlayerWallRunState : PlayerAirState
 {
     private float maxVerticalVelocity = 10f;
     private Vector3 wallNormal;
-    private float wallRunMultiplier = 2f;
+    //private float wallRunMultiplier = 2f;
     private float wallRunCooldown = 0.5f;
     private float currentCooldown;
 

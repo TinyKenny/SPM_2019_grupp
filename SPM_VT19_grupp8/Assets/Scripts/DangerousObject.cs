@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class DangerousObject : MonoBehaviour
 {
-    [SerializeField] private float damage;
-    [SerializeField] private float knockback;
+    [SerializeField] private float damage = 0;
+    [SerializeField] private float knockback = 0;
     [SerializeField] private float cooldownAmount = 1;
     private PlayerStateMachine player;
     private BoxCollider coll;

@@ -14,6 +14,7 @@ public class RespawnEventListener : EventListenerInterface
     {
         respawnListener = this;
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerRespawnEventInfo>(OnPlayerRespawn);
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerRespawnEventInfo>(cameraMain.GetComponent<CameraController>().OnPlayerRespawn);
     }
 
     /// <summary>

@@ -37,7 +37,7 @@ public class AStarPathfindning : MonoBehaviour
             bcnEnd = new BoxCompareNode(endBox, null);
             bcnStart = new BoxCompareNode(startBox, bcnEnd);
         }
-        catch (System.IndexOutOfRangeException e)
+        catch (System.IndexOutOfRangeException)
         {
             return null;
         }

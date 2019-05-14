@@ -18,7 +18,7 @@ public class SoldierStateMachine : EnemyStateMachine
     public Vector3 playerLastLocation;
     
 
-    private void Awake()
+    private new void Awake()
     {
         thisCollider = GetComponent<CapsuleCollider>();
         startPosition = transform.position;
@@ -29,11 +29,6 @@ public class SoldierStateMachine : EnemyStateMachine
             PatrolLocations = new Transform[1];
             PatrolLocations[0] = transform;
         }
-    }
-
-    private void Update()
-    {
-        base.Update();
     }
 
     public override void SetAlerted(Vector3 lastLocation)

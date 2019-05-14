@@ -5,8 +5,8 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     private float gamePadSensitivity = 150.0f;
-    [SerializeField] private Transform playerTransform;
-    [SerializeField] private LayerMask ignoreLayer;
+    [SerializeField] private Transform playerTransform = null;
+    [SerializeField] private LayerMask ignoreLayer = 0;
 
     private Vector3 thirdPersonOffset = new Vector3(0.0f, 0.9f, -4.4f);
     private float thirdPersonSafety; // shortest allowed distance from a collider
@@ -25,7 +25,6 @@ public class CameraController : MonoBehaviour
         thirdPersonSafety = GetComponent<Camera>().nearClipPlane;
         startingGamePadSensitivity = gamePadSensitivity;
         startingFOV = Camera.main.fieldOfView;
-        //EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerRespawnEventInfo>(OnPlayerRespawn);
     }
 
     private void LateUpdate()
@@ -79,7 +78,6 @@ public class CameraController : MonoBehaviour
 
     public void OnPlayerRespawn(EventInfo EI)
     {
-        //add this as a listener
         PlayerRespawnEventInfo PREI = (PlayerRespawnEventInfo)EI;
 
         transform.rotation = PREI.GO.transform.rotation;
