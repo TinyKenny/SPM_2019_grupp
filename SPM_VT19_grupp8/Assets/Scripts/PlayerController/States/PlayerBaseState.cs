@@ -5,44 +5,37 @@ using UnityEngine;
 
 public class PlayerBaseState : State
 {
-
-
-    #region "chaining" properties
+    #region owner properties
+    private float FireCoolDown { get { return owner.FireCoolDown; } set { owner.FireCoolDown = value; } }
+    protected int Ammo { get { return owner.ammo; } set { owner.ammo = value; } }
     protected Vector3 Velocity { get { return owner.Velocity; } set { owner.Velocity = value; } }
+    protected Transform Transform { get { return owner.transform; } }
+    protected CapsuleCollider ThisCollider { get { return owner.ThisCollider; } }
+    protected LayerMask CollisionLayers { get { return owner.CollisionLayers; } }
+    protected Animator Animator { get { return owner.Animator; } }
+    protected CameraController MainCameraController { get { return owner.MainCameraController; } } // make this private?
     protected float Acceleration { get { return owner.Acceleration; } }
     protected float Deceleration { get { return owner.Deceleration; } }
     protected float MaxSpeed { get { return owner.MaxSpeed * MaxSpeedMod; } }
     protected float AirResistanceCoefficient { get { return owner.AirResistanceCoefficient; } }
     protected float Gravity { get { return owner.Gravity; } }
-    protected Transform Transform { get { return owner.transform; } }
-    protected LayerMask CollisionLayers { get { return owner.CollisionLayers; } }
-    protected CapsuleCollider ThisCollider { get { return owner.ThisCollider; } }
     protected float SkinWidth { get { return owner.skinWidth; } }
-    private float FireRate { get { return owner.FireRate; } }
-    #endregion
-
-
-
-
-    protected PlayerStateMachine owner;
-
-    [Header("Leave at 1 in WalkingState")] //för att skrämma iväg designers
-    //[Range(0.0f, 1.0f)]
-    public float MaxSpeedMod = 1.0f;
-
-
-    
-
     protected float GroundCheckDistance { get { return owner.groundCheckDistance; } }
     protected float TurnSpeedModifier { get { return owner.TurnSpeedModifier; } }
     protected float StandardColliderHeight { get { return owner.StandardColliderHeight; } }
     protected float PlayerDeltaTime { get { return owner.getPlayerDeltaTime(); } }
-    protected int Ammo { get { return owner.ammo; } set { owner.ammo = value; } }
-    private float FireCoolDown { get { return owner.fireCoolDown; } set { owner.fireCoolDown = value; } }
-    protected float movementSoundRange = 20;
-    protected float shootSoundRange = 50;
+    protected float MovementSoundRange { get { return owner.MovementSoundRange; } }
+    protected float ShootSoundRange { get { return owner.ShootSoundRange; } }
     protected float JumpPower { get { return owner.JumpPower; } }
+    private float FireRate { get { return owner.FireRate; } }
     private GameObject ProjectilePrefab { get { return owner.ProjectilePrefab; } }
+    #endregion
+
+    protected PlayerStateMachine owner;
+    [Header("Leave at 1 in WalkingState")]
+    [SerializeField] protected float MaxSpeedMod = 1.0f;
+
+
 
     public override void Initialize(StateMachine owner)
     {
@@ -53,58 +46,39 @@ public class PlayerBaseState : State
     {
         base.HandleUpdate();
         UpdatePlayerRotation();
-        owner.GetComponentInChildren<Animator>().SetFloat("Speed", new Vector3(Velocity.x, 0, Velocity.z).magnitude / owner.MaxSpeed);
-        owner.GetComponentInChildren<Animator>().SetFloat("Direction", Vector3.Dot(owner.transform.right, Velocity.normalized));
-        owner.GetComponentInChildren<Animator>().SetFloat("HorizontalDirection", Velocity.y);
+        owner.Animator.SetFloat("Speed", new Vector3(Velocity.x, 0, Velocity.z).magnitude / owner.MaxSpeed);
+        owner.Animator.SetFloat("Direction", Vector3.Dot(owner.transform.right, Velocity.normalized));
+        owner.Animator.SetFloat("HorizontalDirection", Velocity.y);
     }
 
     protected bool FindCollision(Vector3 direction, float maxDistance)
     {
-        RaycastHit raycastHit;
-        return FindCollision(direction, out raycastHit, maxDistance);
+        return FindCollision(direction, out RaycastHit raycastHit, maxDistance);
     }
 
     protected bool FindCollision(Vector3 direction, out RaycastHit raycastHit, float maxDistance)
     {
-        Vector3 colliderDirection = Vector3.zero;
-
-        switch (ThisCollider.direction)
-        {
-            case (0): // X-axis
-                colliderDirection = Transform.right;
-                break;
-            case (1): // Y-axis
-                colliderDirection = Transform.up;
-                break;
-            case (2): // Z-axis
-                colliderDirection = Transform.forward;
-                break;
-        }
-
-        Vector3 topPoint = Transform.position + ThisCollider.center + colliderDirection * (ThisCollider.height / 2 - ThisCollider.radius);
-        Vector3 bottomPoint = Transform.position + ThisCollider.center - colliderDirection * (ThisCollider.height / 2 - ThisCollider.radius);
+        Vector3 topPoint = Transform.position + ThisCollider.center + Transform.up * (ThisCollider.height / 2 - ThisCollider.radius);
+        Vector3 bottomPoint = Transform.position + ThisCollider.center - Transform.up * (ThisCollider.height / 2 - ThisCollider.radius);
 
         return Physics.CapsuleCast(topPoint, bottomPoint, ThisCollider.radius, direction.normalized, out raycastHit, maxDistance, CollisionLayers, QueryTriggerInteraction.Ignore);
     }
 
     protected bool GroundCheck()
     {
-        RaycastHit raycastHit;
-        return GroundCheck(out raycastHit);
+        return GroundCheck(out RaycastHit raycastHit);
     }
 
     protected bool GroundCheck(out RaycastHit raycastHit)
     {
         bool grounded = FindCollision(Vector3.down, out raycastHit, GroundCheckDistance + SkinWidth);
-        owner.GetComponentInChildren<Animator>().SetBool("GroundCheck", grounded);
+        owner.Animator.SetBool("GroundCheck", grounded);
         return grounded;
     }
 
     protected void CheckCollision(Vector3 movement)
     {
-        RaycastHit raycastHit;
-
-        bool castHasHit = FindCollision(movement.normalized, out raycastHit, Mathf.Infinity);
+        bool castHasHit = FindCollision(movement.normalized, out RaycastHit raycastHit, Mathf.Infinity);
 
         if (castHasHit)
         {
@@ -112,6 +86,7 @@ public class PlayerBaseState : State
             {
                 Velocity = new Vector3(Velocity.x, 0, Velocity.z);
             }
+
 
             Debug.DrawLine(Transform.position, raycastHit.point, new Color(0.0f, 255.0f, 0.0f));
             Debug.DrawRay(Transform.position, Velocity, new Color(255.0f, 0.0f, 0.0f));
@@ -151,66 +126,23 @@ public class PlayerBaseState : State
 
         else if (movement.magnitude > MathHelper.floatEpsilon)
         {
-            castHasHit = FindCollision(Vector3.down, out raycastHit, SkinWidth + GroundCheckDistance);
-
-            if (castHasHit)
-            {
-                PhysicsComponent otherPhysicsComponent = raycastHit.collider.GetComponent<PhysicsComponent>();
-                //CalculateFriction(Gravity * PlayerDeltaTime * PlayerDeltaTime, otherPhysicsComponent); // remove this if we dont need friction
-            }
-
             Transform.position += movement;
         }
     }
-
-    /*
-    protected void CalculateFriction(float normalForceMagnitude, PhysicsComponent otherPhysicsComponent)
-    {
-        float realFrictionCoefficient = FrictionCoefficient;
-        Vector3 velocityDelta = Velocity;
-
-        if (otherPhysicsComponent != null)
-        {
-            realFrictionCoefficient = (realFrictionCoefficient + otherPhysicsComponent.frictionCoefficient) / 2;
-            velocityDelta -= otherPhysicsComponent.velocity;
-        }
-
-        float frictionForceMagnitude = realFrictionCoefficient * normalForceMagnitude;
-
-        if (velocityDelta.magnitude < frictionForceMagnitude)
-        {
-            if (otherPhysicsComponent != null)
-            {
-                Velocity = otherPhysicsComponent.velocity;
-            }
-            else
-            {
-                Velocity = Vector3.zero;
-            }
-        }
-        else
-        {
-            frictionForceMagnitude *= 0.7f;
-            Vector3 frictionForce = velocityDelta.normalized * frictionForceMagnitude;
-            Velocity -= frictionForce;
-        }
-    }
-    */
+    
 
     protected virtual void HandleCollition(Vector3 hitNormal, RaycastHit raycastHit)
     {
         Vector3 hitNormalForce = MathHelper.NormalForce(Velocity, hitNormal);
-        PhysicsComponent otherPhysicsComponent = raycastHit.collider.GetComponent<PhysicsComponent>();
 
         Velocity += hitNormalForce;
-        //CalculateFriction(hitNormalForce.magnitude, otherPhysicsComponent); // remove this if we dont need friction
     }
 
     protected void Shoot()
     {
         if (Input.GetAxisRaw("Aim") == 1f)
         {
-            Camera.main.GetComponent<CameraController>().Aiming();
+            MainCameraController.Aiming();
 
             if (Input.GetAxisRaw("Shoot") == 1f && FireCoolDown < 0 && Ammo > 0 && Time.timeScale > 0)
             {
@@ -218,38 +150,29 @@ public class PlayerBaseState : State
 
                 Vector3 reticleLocation = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0.0f);
 
-                Ray aimRay = Camera.main.ScreenPointToRay(reticleLocation);
+                Ray aimRay = Camera.main.ScreenPointToRay(reticleLocation); // make it so that CameraController has a reference to its camera
 
+                float projectileRange = ProjectilePrefab.GetComponent<ProjectileBehaviour>().distanceToTravel;
 
-                string[] ignoreLayers = new string[] { "3DNavMesh" };
-                RaycastHit rayHit;
-                bool rayHasHit = Physics.Raycast(aimRay, out rayHit, ProjectilePrefab.GetComponent<ProjectileBehaviour>().distanceToTravel, ~((1 << owner.gameObject.layer) | (LayerMask.GetMask(ignoreLayers))));
-
-                Debug.Log(aimRay.origin);
-                Debug.Log("Aim hit: " + rayHit.collider.name);
-                Debug.DrawRay(aimRay.origin, aimRay.direction * rayHit.distance, new Color(255.0f, 0.0f, 0.0f), 1.5f);
+                bool rayHasHit = Physics.Raycast(aimRay, out RaycastHit rayHit, projectileRange, ~(1 << owner.gameObject.layer));
 
                 Vector3 pointHit = rayHit.point;
                 if (!rayHasHit)
                 {
-                    pointHit = aimRay.GetPoint(ProjectilePrefab.GetComponent<ProjectileBehaviour>().distanceToTravel);
+                    pointHit = aimRay.GetPoint(projectileRange);
                 }
-                else
-                {
-                    Debug.Log("aim hit! " + rayHit.point);
-                    Debug.Log(rayHit.collider.name);
-                }
+                
                 GameObject projectile = Instantiate(ProjectilePrefab, Transform.position + (Camera.main.transform.rotation * Vector3.forward), Camera.main.transform.rotation);
-                projectile.transform.LookAt(pointHit); // test-y stuff
-                projectile.GetComponent<ProjectileBehaviour>().SetInitialValues((1 << owner.gameObject.layer) | LayerMask.GetMask(ignoreLayers));
+                projectile.transform.LookAt(pointHit);
+                projectile.GetComponent<ProjectileBehaviour>().SetInitialValues(1 << owner.gameObject.layer);
                 FireCoolDown = FireRate;
                 owner.ammoNumber.text = Ammo.ToString();
-                EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(owner.gameObject, shootSoundRange, owner.GunShotSound));
+                EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(owner.gameObject, ShootSoundRange, owner.GunShotSound));
             }
         }
         else
         {
-            Camera.main.GetComponent<CameraController>().StopAiming();
+            MainCameraController.StopAiming();
         }
         
         FireCoolDown -= PlayerDeltaTime;

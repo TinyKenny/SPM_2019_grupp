@@ -6,8 +6,9 @@ using UnityEngine;
 public class PlayerWalkingState : PlayerBaseState
 {
     
-    protected bool jumpAllowed = true;
+    protected bool jumpAllowed = true; //replace this with something better
     protected bool grounded = true;
+    protected RaycastHit groundCheckHit;
 
     public override void Initialize(StateMachine owner)
     {
@@ -18,28 +19,25 @@ public class PlayerWalkingState : PlayerBaseState
     {
         base.HandleUpdate();
 
+        grounded = GroundCheck(out groundCheckHit);
+
         MovementInput();
 
         Shoot();
 
-        Velocity += Vector3.down * Gravity * PlayerDeltaTime; // because slopes are a thing
+        Velocity += Vector3.down * Gravity * PlayerDeltaTime;
 
         CheckCollision(Velocity * PlayerDeltaTime);
         Velocity *= Mathf.Pow(AirResistanceCoefficient, PlayerDeltaTime);
 
-        float soundDistance = (Velocity.magnitude / owner.MaxSpeed) * movementSoundRange;
+        float soundDistance = (Velocity.magnitude / owner.MaxSpeed) * MovementSoundRange;
         EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(owner.gameObject, soundDistance));
-
-        //if speed is high enough for running, and you are in walking state
-        if (Velocity.magnitude > (MaxSpeed / 2) && Mathf.Approximately(MaxSpeedMod, 1.0f))
-        {
-            //you are running, this is relevant because of reasons
-        }
+        
         if (!grounded)
         {
             owner.TransitionTo<PlayerAirState>();
         }
-        else if(grounded && Input.GetButton("Crouch"))
+        else if(Input.GetButton("Crouch"))
         {
             if (Velocity.magnitude > (MaxSpeed / 2) && Mathf.Approximately(MaxSpeedMod, 1.0f))
             {
@@ -54,39 +52,36 @@ public class PlayerWalkingState : PlayerBaseState
 
     private void MovementInput()
     {
-        RaycastHit groundCheckHit;
-
-        grounded = GroundCheck(out groundCheckHit);
         if(grounded)
         {
             Vector3 direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0.0f, Input.GetAxisRaw("Vertical"));
-            direction = Camera.main.transform.rotation * direction;
+            direction = MainCameraController.transform.rotation * direction;
             direction = Vector3.ProjectOnPlane(direction, groundCheckHit.normal).normalized * direction.magnitude;
 
             if (direction.magnitude < MathHelper.floatEpsilon)
             {
-                Decelerate(groundCheckHit);
+                Decelerate();
             }
             else
             {
-                Accelerate(groundCheckHit, direction);
+                Accelerate(direction);
             }
 
             if (Input.GetButtonDown("Jump") && jumpAllowed && Time.timeScale > 0)
             {
-                owner.GetComponentInChildren<Animator>().SetTrigger("Jump");
-                Velocity += Vector3.up * (JumpPower * owner.TimeSlowMultiplier);
+                Animator.SetTrigger("Jump");
+                Velocity += Vector3.up * (JumpPower * owner.TimeSlowMultiplier); // replace timwslowmultiplier with gravity reduction
             }
         }
     }
 
-    private void Decelerate(RaycastHit groundCheckHit)
+    private void Decelerate()
     {
         Vector3 velocityOnGround = Vector3.ProjectOnPlane(Velocity, groundCheckHit.normal);
 
         Vector3 decelerationVector = velocityOnGround.normalized * Deceleration * PlayerDeltaTime;
 
-        if (decelerationVector.magnitude > velocityOnGround.magnitude)
+        if (decelerationVector.sqrMagnitude > velocityOnGround.sqrMagnitude)
         {
             Velocity = Vector3.zero;
         }
@@ -96,7 +91,7 @@ public class PlayerWalkingState : PlayerBaseState
         }
     }
 
-    private void Accelerate(RaycastHit groundCheckHit, Vector3 direction)
+    private void Accelerate(Vector3 direction)
     {
         Vector3 velocityOnGround = Vector3.ProjectOnPlane(Velocity, groundCheckHit.normal);
 
@@ -111,8 +106,7 @@ public class PlayerWalkingState : PlayerBaseState
             Velocity += Vector3.ClampMagnitude(direction, 1.0f) * Acceleration * PlayerDeltaTime;
         }
 
-
-        if (Velocity.magnitude > MaxSpeed)
+        if (Velocity.sqrMagnitude > MaxSpeed * MaxSpeed)
         {
             Velocity = Velocity.normalized * MaxSpeed;
         }

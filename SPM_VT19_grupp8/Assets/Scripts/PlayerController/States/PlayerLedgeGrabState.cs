@@ -13,17 +13,15 @@ public class PlayerLedgeGrabState : PlayerBaseState
     public override void Enter()
     {
         climbed = false;
-        Camera.main.GetComponent<CameraController>().StopAiming();
+        MainCameraController.StopAiming();
         Velocity = Vector3.zero;
-        owner.GetComponentInChildren<Animator>().SetBool("LedgeGrab", true);
+        Animator.SetBool("LedgeGrab", true);
 
         RaycastHit hit;
 
         FindCollision(Transform.forward, out hit, SkinWidth * 5);
 
         wallNormal = hit.normal;
-
-       // Transform.LookAt(hit.point);
     }
 
     public override void HandleUpdate()
@@ -54,10 +52,8 @@ public class PlayerLedgeGrabState : PlayerBaseState
                 Vector3 bottomPoint = Transform.position + ThisCollider.center - Transform.up * (ThisCollider.height / 2 + ThisCollider.radius);
                 if (bottomPoint.y < (wallCheckHit.collider.bounds.max.y + SkinWidth))
                 {
-                    //Transform.position += Transform.forward * 2 + Vector3.up * (wallCheckHit.collider.bounds.max.y - (Transform.position.y - ThisCollider.bounds.extents.y) + SkinWidth);
                     Transform.position += Transform.up * 2 * owner.getPlayerDeltaTime();
                 }
-                //Transform.position += Transform.up * 1 * PlayerDeltaTime;
                 else
                 {
                     Transform.position += (Transform.up + Transform.forward).normalized * MaxSpeed * PlayerDeltaTime;
@@ -73,7 +69,6 @@ public class PlayerLedgeGrabState : PlayerBaseState
                 Vector3 topPoint = Transform.position + ThisCollider.center + Transform.up * (ThisCollider.height / 2 + ThisCollider.radius);
                 if (bottomPoint.y < (wallCheckHit.collider.bounds.max.y + SkinWidth) && topPoint.y > (wallCheckHit.collider.bounds.max.y + SkinWidth))
                 {
-                    //Transform.position += Transform.forward * 2 + Vector3.up * (wallCheckHit.collider.bounds.max.y - (Transform.position.y - ThisCollider.bounds.extents.y) + SkinWidth);
                     Transform.position -= Transform.up * 2 * owner.getPlayerDeltaTime();
                 }
             }
@@ -108,7 +103,6 @@ public class PlayerLedgeGrabState : PlayerBaseState
     public override void Exit()
     {
         base.Exit();
-
-        owner.GetComponentInChildren<Animator>().SetBool("LedgeGrab", false);
+        Animator.SetBool("LedgeGrab", false);
     }
 }

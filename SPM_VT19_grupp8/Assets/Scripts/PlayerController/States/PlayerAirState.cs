@@ -8,7 +8,7 @@ public class PlayerAirState : PlayerBaseState
     private Vector3 direction;
     protected float MinimumYVelocity = -10f;
     protected float maxYVelocity = 12.5f;
-    protected static float jumpPower = 12.5f;
+    protected static float jumpPower = 12.5f; // get rid of this somehow?
 
     public override void HandleUpdate()
     {
@@ -33,7 +33,7 @@ public class PlayerAirState : PlayerBaseState
 
         CheckCollision(Velocity * PlayerDeltaTime);
 
-        bool grounded = FindCollision(Vector3.down, GroundCheckDistance + SkinWidth);
+        bool grounded = GroundCheck();
 
         Velocity *= Mathf.Pow(AirResistanceCoefficient, PlayerDeltaTime);
 
@@ -41,11 +41,6 @@ public class PlayerAirState : PlayerBaseState
         {
             Velocity = new Vector3(Velocity.x, maxYVelocity, Velocity.z);
         }
-
-        //if (Velocity.magnitude > MaxSpeed * 2)
-        //{
-        //    Velocity = Velocity.normalized * MaxSpeed;
-        //}
 
         if (grounded)
         {
@@ -58,7 +53,7 @@ public class PlayerAirState : PlayerBaseState
 
             if (Input.GetButton("Wallrun") && Velocity.y > MinimumYVelocity && wallRunCheck.normal.y > -0.5f && owner.WallrunAllowed() && Mathf.Abs(Vector3.Dot(wallRunCheck.normal, Vector3.up)) < MathHelper.floatEpsilon)
             {
-                owner.GetComponentInChildren<Animator>().SetBool("WallRunning", true);
+                Animator.SetBool("WallRunning", true);
                 if (Mathf.Abs(Vector3.Angle(Transform.forward, wallRunCheck.normal)) > 140)
                 {
                     owner.ResetWallrunCooldown();
@@ -101,9 +96,7 @@ public class PlayerAirState : PlayerBaseState
     private void MovementInput()
     {
         direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0.0f, Input.GetAxisRaw("Vertical"));
-
-        direction = Camera.main.transform.rotation * direction;
-
+        direction = MainCameraController.transform.rotation * direction;
         direction = Vector3.ProjectOnPlane(direction, Vector3.up);
     }
 
@@ -118,7 +111,7 @@ public class PlayerAirState : PlayerBaseState
             horizontalVelocity.y = Velocity.y;
             Velocity = horizontalVelocity;
             jumpPower *= 0.7f;
-            owner.GetComponentInChildren<Animator>().SetTrigger("Jump");
+            Animator.SetTrigger("Jump");
             owner.TransitionTo<PlayerAirState>();
         }
     }
@@ -128,9 +121,7 @@ public class PlayerAirState : PlayerBaseState
         if (Time.timeScale > 0)
         {
             Vector3 direction = new Vector3(Input.GetAxisRaw("Horizontal"), 0.0f, Input.GetAxisRaw("Vertical"));
-            direction = Camera.main.transform.rotation * direction;
-
-            // project on plane?
+            direction = MainCameraController.transform.rotation * direction;
 
             Transform.LookAt(Transform.position + new Vector3(direction.x, 0.0f, direction.z).normalized);
         }

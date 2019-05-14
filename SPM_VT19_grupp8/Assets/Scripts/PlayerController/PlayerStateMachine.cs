@@ -24,18 +24,23 @@ public class PlayerStateMachine : StateMachine
     public CapsuleCollider ThisCollider { get; private set; }
     public float TimeSlowMultiplier  { get; private set; }
     public float StandardColliderHeight { get; private set; }
+    public Animator Animator { get; private set; }
+    public CameraController MainCameraController { get; private set; }
     #endregion
 
-    #region properties for getting inspector-variables
+    #region properties for getting (and maybe setting) private variables
+    public float FireCoolDown { get { return fireCoolDown; } set { fireCoolDown = value; } }
     public LayerMask CollisionLayers { get { return collisionLayers; } }
-    public float TurnSpeedModifier { get { return turnSpeedModifier; } }
     public GameObject ProjectilePrefab { get { return projectilePrefab; } }
+    public AudioClip GunShotSound { get { return gunShotSound; } }
+    public float TurnSpeedModifier { get { return turnSpeedModifier; } }
     public float FireRate { get { return fireRate; } }
     public float JumpPower { get { return jumpPower; } }
-    public AudioClip GunShotSound { get { return gunShotSound; } }
+    public float MovementSoundRange { get { return movementSoundRange; } }
+    public float ShootSoundRange { get { return shootSoundRange; } }
     #endregion
 
-    #region inspector-variables
+    #region serialized private variables
     [SerializeField] private LayerMask collisionLayers = 0;
     [SerializeField] private float turnSpeedModifier = 0;
     [SerializeField] private GameObject projectilePrefab = null;
@@ -52,6 +57,8 @@ public class PlayerStateMachine : StateMachine
     [SerializeField] private float wallrunCooldownAmount = 0.5f;
     [SerializeField] private float jumpPower = 12.5f;
     [SerializeField] private float slowMotionCooldown = 1.0f;
+    [SerializeField] private float movementSoundRange = 20.0f;
+    [SerializeField] private float shootSoundRange = 50;
     [SerializeField] private AudioSource aus = null;
     [SerializeField] private AudioClip slowSound = null;
     [SerializeField] private AudioClip ammoSound = null;
@@ -60,12 +67,7 @@ public class PlayerStateMachine : StateMachine
     [SerializeField] private AudioClip gunShotSound = null;
     #endregion
 
-    #region readonly values
-    public readonly float skinWidth = 0.01f;
-    public readonly float groundCheckDistance = 0.01f;
-    #endregion
-
-    #region private variables
+    #region non-serialized private variables
     private AmmoPickup[] pickups; // get rid of this, use events and event listeners in the AmmoPickup-script instead
     private float playerTimeScale = 1.0f;
     private float currentSlowMotionEnergy = 5.0f;
@@ -75,11 +77,17 @@ public class PlayerStateMachine : StateMachine
     private float wallrunCooldown;
     private float timeScale = 1;
     private float slowMotionCooldownTimer = 0.0f;
+    private float fireCoolDown = 0.0f; // currently has a public property with both get and set, do something about that
+    #endregion
+
+    #region readonly values
+    public readonly float skinWidth = 0.01f;
+    public readonly float groundCheckDistance = 0.01f;
     #endregion
 
 
 
-    public float fireCoolDown = 0.0f; // what to do about this one?
+
 
     public int ammo = 0; // make this private
     public Text ammoNumber; // make this private
@@ -92,6 +100,8 @@ public class PlayerStateMachine : StateMachine
     {
         PhysicsComponent = GetComponent<PhysicsComponent>();
         ThisCollider = GetComponent<CapsuleCollider>();
+        Animator = GetComponentInChildren<Animator>();
+        MainCameraController = Camera.main.GetComponent<CameraController>();
         StandardColliderHeight = ThisCollider.height;
         TimeSlowMultiplier = 1.0f;
 
@@ -134,15 +144,14 @@ public class PlayerStateMachine : StateMachine
         RegenerateShields();
         wallrunCooldown -= getPlayerDeltaTime();
 
-
-        #region the new slowMotion
-
+        #region the new slowmotion
         //commented out because it has not been tested yet, and will probably require a bit of fixing.
         //SlowMotion();
-
         #endregion
 
-        #region the old timeslow
+
+        #region the old slowmotion
+        // when the pause-functionality and the new slowmotion have been made compatible with eachother (and the new slowmo has been properly tested), the code in this region can be removed
         if (Mathf.Approximately(playerTimeScale, 1.0f))
         {
             currentSlowMotionEnergy = Mathf.Clamp(currentSlowMotionEnergy + slowMotionEnergyRegeneration * Time.deltaTime, 0.0f, slowMotionEnergyMax);

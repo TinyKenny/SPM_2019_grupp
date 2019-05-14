@@ -7,7 +7,6 @@ public class PlayerWallRunState : PlayerAirState
 {
     private float maxVerticalVelocity = 10f;
     private Vector3 wallNormal;
-    //private float wallRunMultiplier = 2f;
     private float wallRunCooldown = 0.5f;
     private float currentCooldown;
 
@@ -19,9 +18,7 @@ public class PlayerWallRunState : PlayerAirState
 
     public override void Enter()
     {
-        RaycastHit wall = new RaycastHit();
-
-        WallRun(out wall);
+        WallRun(out RaycastHit wall);
 
         wallNormal = wall.normal;
 
@@ -55,7 +52,7 @@ public class PlayerWallRunState : PlayerAirState
 
         Jump(wallNormal);
 
-        float soundDistance = (Velocity.magnitude / owner.MaxSpeed) * movementSoundRange;
+        float soundDistance = (Velocity.magnitude / owner.MaxSpeed) * MovementSoundRange;
         EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(owner.gameObject, soundDistance));
 
         if (grounded)
@@ -64,7 +61,6 @@ public class PlayerWallRunState : PlayerAirState
         }
         else if (WallRun(out wall) && Velocity.y > MinimumYVelocity && Input.GetButton("Wallrun"))
         {
-            //Velocity += Vector3.ClampMagnitude(new Vector3(Velocity.x, 0, Velocity.z).normalized, 1.0f) * Acceleration * PlayerDeltaTime;
             currentCooldown = wallRunCooldown;
         }
         else
@@ -86,6 +82,6 @@ public class PlayerWallRunState : PlayerAirState
     public override void Exit()
     {
         base.Exit();
-        owner.GetComponentInChildren<Animator>().SetBool("WallRunning", false);
+        Animator.SetBool("WallRunning", false);
     }
 }
