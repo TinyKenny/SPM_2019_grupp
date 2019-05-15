@@ -44998,6 +44998,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5504036232725367530, guid: 8bc4dc44ebc45d0408638807052809b2,
+        type: 3}
+      propertyPath: timeSlowEnergySlider
+      value: 
+      objectReference: {fileID: 1652334677}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bc4dc44ebc45d0408638807052809b2, type: 3}
 --- !u!114 &841307161 stripped

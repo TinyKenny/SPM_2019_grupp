@@ -11,4 +11,9 @@ public class TimeControllerBaseState : State
     {
         Owner = (TimeController)owner;
     }
+
+    public virtual float GetPlayerDeltaTime()
+    {
+        return 0.0f;
+    }
 }

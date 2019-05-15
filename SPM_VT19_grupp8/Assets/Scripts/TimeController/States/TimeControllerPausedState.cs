@@ -11,13 +11,15 @@ public class TimeControllerPausedState : TimeControllerBaseState
     public override void Enter()
     {
         base.Enter();
+
+        Time.timeScale = 0;
     }
 
     public override void HandleUpdate()
     {
         base.HandleUpdate();
 
-        if (Input.GetButton("Pause"))
+        if (Input.GetButtonDown("Pause"))
         {
             Owner.TransitionTo<TimeControllerUnpausedState>();
         }

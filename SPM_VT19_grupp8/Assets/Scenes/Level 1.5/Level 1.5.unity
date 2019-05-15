@@ -36148,6 +36148,11 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5504036232725367530, guid: 8bc4dc44ebc45d0408638807052809b2,
+        type: 3}
+      propertyPath: timeSlowEnergySlider
+      value: 
+      objectReference: {fileID: 2075612436}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bc4dc44ebc45d0408638807052809b2, type: 3}
 --- !u!114 &715534045 stripped
@@ -101786,16 +101791,6 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6971312965273874850, guid: cc03fd6b535ec1f43a36b04dee47abdf,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7255556500318650732, guid: cc03fd6b535ec1f43a36b04dee47abdf,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5301336622810333607, guid: cc03fd6b535ec1f43a36b04dee47abdf,
         type: 3}
       propertyPath: m_AnchorMin.x
@@ -102025,6 +102020,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7255556500318650732, guid: cc03fd6b535ec1f43a36b04dee47abdf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6971312965273874850, guid: cc03fd6b535ec1f43a36b04dee47abdf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5301336622610287363, guid: cc03fd6b535ec1f43a36b04dee47abdf,
         type: 3}

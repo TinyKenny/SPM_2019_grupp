@@ -1,28 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(menuName = "States/Time Controller/Unpaused State")]
 public class TimeControllerUnpausedState : TimeControllerBaseState
 {
 
-    private float slowMotionCooldownTimer { get; set; }
-    private float currentSlowMotionEnergy { get; set; }
+    private float SlowMotionCooldownTimer { get; set; }
+    private float CurrentSlowMotionEnergy { get; set; }
+    private float PlayerTimeScale { get; set; }
 
-    private float playerTimeScale { get { return Owner.playerTimeScale; } set { Owner.playerTimeScale = value; } }
-    private float TimeSlowMultiplier { get { return Owner.TimeSlowMultiplier; } set { Owner.TimeSlowMultiplier = value; } }
+    private float TimeSlowMultiplier { get { return Owner.TimeSlowMultiplier; } set { Owner.TimeSlowMultiplier = value; } } // do something with this
 
     private float slowedPlayerTimeScale { get { return Owner.slowedPlayerTimeScale; } }
     private float slowedWorldTimeScale { get { return Owner.slowedWorldTimeScale; } }
     private float slowMotionEnergyMax { get { return Owner.slowMotionEnergyMax; } }
     private float slowMotionCooldown { get { return Owner.slowMotionCooldown; } }
     private float slowMotionEnergyRegeneration { get { return Owner.slowMotionEnergyRegeneration; } }
+    private Slider timeSlowEnergySlider { get { return Owner.timeSlowEnergySlider; } }
 
     public override void Initialize(StateMachine owner)
     {
         base.Initialize(owner);
-        slowMotionCooldownTimer = 0.0f;
-        currentSlowMotionEnergy = slowMotionEnergyMax;
+        PlayerTimeScale = 1.0f;
+        SlowMotionCooldownTimer = 0.0f;
+        CurrentSlowMotionEnergy = slowMotionEnergyMax;
+        timeSlowEnergySlider.maxValue = slowMotionEnergyMax;
     }
 
     public override void Enter()
@@ -35,7 +39,7 @@ public class TimeControllerUnpausedState : TimeControllerBaseState
     {
         base.HandleUpdate();
 
-        //SlowMotion();
+        SlowMotion();
 
         if (Input.GetButtonDown("Pause"))
         {
@@ -46,27 +50,33 @@ public class TimeControllerUnpausedState : TimeControllerBaseState
     private void SlowMotion()
     {
         float timeLerpValue = Input.GetAxisRaw("Shoot");
-        if (timeLerpValue > 0.0f && slowMotionCooldownTimer <= MathHelper.floatEpsilon)
+        if (timeLerpValue > 0.0f && SlowMotionCooldownTimer <= MathHelper.floatEpsilon)
         {
-            playerTimeScale = Mathf.Lerp(1.0f, slowedPlayerTimeScale, timeLerpValue);
+            PlayerTimeScale = Mathf.Lerp(1.0f, slowedPlayerTimeScale, timeLerpValue);
             Time.timeScale = Mathf.Lerp(1.0f, slowedWorldTimeScale, timeLerpValue);
             TimeSlowMultiplier = Mathf.Lerp(1.0f, 1.2f, timeLerpValue);
 
-            currentSlowMotionEnergy = Mathf.Clamp(currentSlowMotionEnergy - (timeLerpValue * Time.deltaTime / Time.timeScale), 0.0f, slowMotionEnergyMax);
+            CurrentSlowMotionEnergy = Mathf.Clamp(CurrentSlowMotionEnergy - (timeLerpValue * Time.deltaTime / Time.timeScale), 0.0f, slowMotionEnergyMax);
 
-            if (currentSlowMotionEnergy <= MathHelper.floatEpsilon)
+            if (CurrentSlowMotionEnergy <= MathHelper.floatEpsilon)
             {
-                slowMotionCooldownTimer = slowMotionCooldown;
+                SlowMotionCooldownTimer = slowMotionCooldown;
             }
         }
         else
         {
-            playerTimeScale = 1.0f;
+            PlayerTimeScale = 1.0f;
             Time.timeScale = 1.0f;
             TimeSlowMultiplier = 1.0f;
 
-            slowMotionCooldownTimer -= Time.deltaTime;
-            currentSlowMotionEnergy = Mathf.Clamp(currentSlowMotionEnergy + slowMotionEnergyRegeneration * Time.deltaTime, 0.0f, slowMotionEnergyMax);
+            SlowMotionCooldownTimer -= Time.deltaTime;
+            CurrentSlowMotionEnergy = Mathf.Clamp(CurrentSlowMotionEnergy + slowMotionEnergyRegeneration * Time.deltaTime, 0.0f, slowMotionEnergyMax);
         }
+        timeSlowEnergySlider.value = CurrentSlowMotionEnergy;
+    }
+
+    public override float GetPlayerDeltaTime()
+    {
+        return PlayerTimeScale * Time.deltaTime / Time.timeScale;
     }
 }

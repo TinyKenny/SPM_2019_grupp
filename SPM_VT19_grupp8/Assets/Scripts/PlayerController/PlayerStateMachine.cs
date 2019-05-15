@@ -114,7 +114,7 @@ public class PlayerStateMachine : StateMachine
 
         base.Awake();
 
-        timeSlowEnergy.maxValue = slowMotionEnergyMax;
+        ///timeSlowEnergy.maxValue = slowMotionEnergyMax;
         shieldAmount.maxValue = shieldsMax;
         wallrunCooldown = wallrunCooldownAmount;
     }
@@ -145,7 +145,7 @@ public class PlayerStateMachine : StateMachine
         }
         #endregion
 
-        Pause();
+        ///Pause();
         RegenerateShields();
         wallrunCooldown -= getPlayerDeltaTime();
 
@@ -157,32 +157,32 @@ public class PlayerStateMachine : StateMachine
 
         #region the old slowmotion
         // when the pause-functionality and the new slowmotion have been made compatible with eachother (and the new slowmo has been properly tested), the code in this region can be removed
-        if (Mathf.Approximately(playerTimeScale, 1.0f))
-        {
-            currentSlowMotionEnergy = Mathf.Clamp(currentSlowMotionEnergy + slowMotionEnergyRegeneration * Time.deltaTime, 0.0f, slowMotionEnergyMax);
-            timeSlowEnergy.value = currentSlowMotionEnergy;
+        ////if (Mathf.Approximately(playerTimeScale, 1.0f))
+        ////{
+        ////    currentSlowMotionEnergy = Mathf.Clamp(currentSlowMotionEnergy + slowMotionEnergyRegeneration * Time.deltaTime, 0.0f, slowMotionEnergyMax);
+        ////    timeSlowEnergy.value = currentSlowMotionEnergy;
 
-            if (Input.GetButtonDown("TimeSlowToggle") && currentSlowMotionEnergy >= 1.0f)
-            {
-                Time.timeScale = slowedWorldTimeScale;
-                playerTimeScale = slowedPlayerTimeScale;
-                aus.PlayOneShot(slowSound);
-                TimeSlowMultiplier = 1.2f;
+        ////    if (Input.GetButtonDown("TimeSlowToggle") && currentSlowMotionEnergy >= 1.0f)
+        ////    {
+        ////        Time.timeScale = slowedWorldTimeScale;
+        ////        playerTimeScale = slowedPlayerTimeScale;
+        ////        aus.PlayOneShot(slowSound);
+        ////        TimeSlowMultiplier = 1.2f;
 
-            }
-        }
-        else if(Mathf.Approximately(playerTimeScale, slowedPlayerTimeScale))
-        {
-            currentSlowMotionEnergy = Mathf.Clamp(currentSlowMotionEnergy - Time.unscaledDeltaTime, 0.0f, slowMotionEnergyMax);
-            timeSlowEnergy.value = currentSlowMotionEnergy;
+        ////    }
+        ////}
+        ////else if(Mathf.Approximately(playerTimeScale, slowedPlayerTimeScale))
+        ////{
+        ////    currentSlowMotionEnergy = Mathf.Clamp(currentSlowMotionEnergy - Time.unscaledDeltaTime, 0.0f, slowMotionEnergyMax);
+        ////    timeSlowEnergy.value = currentSlowMotionEnergy;
 
-            if (Input.GetButtonDown("TimeSlowToggle") || currentSlowMotionEnergy <= MathHelper.floatEpsilon)
-            {
-                Time.timeScale = 1.0f;
-                playerTimeScale = 1.0f;
-                TimeSlowMultiplier = 1;
-            }
-        }
+        ////    if (Input.GetButtonDown("TimeSlowToggle") || currentSlowMotionEnergy <= MathHelper.floatEpsilon)
+        ////    {
+        ////        Time.timeScale = 1.0f;
+        ////        playerTimeScale = 1.0f;
+        ////        TimeSlowMultiplier = 1;
+        ////    }
+        ////}
         #endregion
     }
 
