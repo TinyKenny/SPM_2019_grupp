@@ -2,22 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Attackstate for the soldier or guard enemy. Shoots the player when within range and transits back to either alert or chase state depending on if it can still see the player within chase distance or not.
+/// </summary>
 [CreateAssetMenu(menuName = "States/Enemies/Soldier/Attack State")]
 public class SoldierAttackState : SoldierBaseState
 {
+    private float fireRate;
+    private float fireRateCurrentCooldown;
+    private float fireRateCooldownVarianceMax;
+    private GameObject projectilePrefab;
 
     public override void Enter()
     {
-        owner.agent.SetDestination(owner.transform.position);
+        Agent.SetDestination(Position);
+        fireRate = owner.FireRate;
+        fireRateCurrentCooldown = fireRate;
+        fireRateCooldownVarianceMax = owner.FireRateCooldownVarianceMax;
+        projectilePrefab = owner.ProjectilePrefab;
     }
 
+    /// <summary>
+    /// Runs during update to check if it is allowed to shoot and shoots if the weapon is not on cooldown then fires <see cref="Shoot"/>. Transits to <see cref="SoldierChaseState"/> when player is not close enough, transits to <see cref="SoldierAlertState"/> if player is not visisble.
+    /// </summary>
     public override void HandleUpdate()
     {
-        if (owner.currentCoolDown < 0)
+        if (fireRateCurrentCooldown < 0)
         {
             Shoot();
         }
-        owner.currentCoolDown -= Time.deltaTime;
+        fireRateCurrentCooldown -= Time.deltaTime;
 
         if (!PlayerVisionCheck(38))
         {
@@ -25,22 +39,27 @@ public class SoldierAttackState : SoldierBaseState
                 owner.TransitionTo<SoldierChaseState>();
             else
             {
-                owner.playerLastLocation = PlayerTransform.position;
+                PlayerLastLocation = PlayerTransform.position;
                 owner.TransitionTo<SoldierAlertState>();
             }
 
         }
     }
 
+    /// <summary>
+    /// Changes facing to look at the player, then shoots a projectile at the player that will damage on impact. After shooting it resets the cooldown between shots.
+    /// </summary>
     private void Shoot()
     {
         float inaccuracy = 4.0f;
 
-        Vector3 playerPosition = PlayerTransform.position /*+ new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0)*/;
-        GameObject projectile = Instantiate(owner.projectilePrefab, owner.transform.position, Quaternion.identity);
+        Vector3 playerPosition = PlayerTransform.position;
         owner.transform.LookAt(PlayerTransform.position);
+
+        GameObject projectile = Instantiate(projectilePrefab, owner.transform.position, Quaternion.identity);
         projectile.transform.LookAt(projectile.transform.position + (Quaternion.Euler(Random.Range(0.0f, inaccuracy), Random.Range(-inaccuracy, inaccuracy), 0.0f) * owner.transform.forward));
         projectile.GetComponent<ProjectileBehaviour>().SetInitialValues(1 << owner.gameObject.layer);
-        owner.currentCoolDown = owner.maxCoolDown + Random.Range(0.0f, owner.cooldownVarianceMax);
+
+        fireRateCurrentCooldown = fireRate + Random.Range(0.0f, fireRateCooldownVarianceMax);
     }
 }

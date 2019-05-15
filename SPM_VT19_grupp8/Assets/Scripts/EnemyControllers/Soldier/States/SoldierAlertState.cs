@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// Alertstate for Soldier or guard type of enemy. When entered the enemy will go to its last known playerlocation, 
+/// if it cant go there it will instead go to the closest edge. If it finds the player within chase range it will 
+/// go to <see cref="SoldierChaseState"/> otherwise it will go back to <see cref="SoldierIdleState"/> when it has 
+/// reached its destination and if it cant see the player.
+/// </summary>
 [CreateAssetMenu(menuName = "States/Enemies/Soldier/Alert State")]
 public class SoldierAlertState : SoldierBaseState
 {
@@ -12,20 +18,19 @@ public class SoldierAlertState : SoldierBaseState
     public override void Enter()
     {
         coolDown = 2;
-        destination = owner.playerLastLocation;
-        owner.agent.SetDestination(destination);
-        if (owner.agent.pathStatus.Equals(UnityEngine.AI.NavMeshPathStatus.PathPartial))
+        Agent.SetDestination(PlayerLastLocation);
+        if (Agent.pathStatus.Equals(NavMeshPathStatus.PathPartial))
         {
             NavMeshHit closestEdge;
-            NavMesh.SamplePosition(owner.transform.position, out closestEdge, 60, owner.visionMask);
+            NavMesh.SamplePosition(Position, out closestEdge, 60, VisionMask);
             destination = closestEdge.position;
-            owner.agent.SetDestination(destination);
+            Agent.SetDestination(destination);
         }
     }
 
     public override void HandleUpdate()
     {
-        if (Vector3.Distance(owner.transform.position, destination) < 2.0f || owner.agent.velocity.magnitude < MathHelper.floatEpsilon)
+        if (Vector3.Distance(Position, destination) < 2.0f || Agent.velocity.magnitude < MathHelper.floatEpsilon)
         {
             coolDown -= Time.deltaTime;
             if (coolDown < 0)

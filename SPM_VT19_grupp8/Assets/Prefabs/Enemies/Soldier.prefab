@@ -198,18 +198,10 @@ MonoBehaviour:
   visionMask:
     serializedVersion: 2
     m_Bits: 512
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 1024
-  thisCollider: {fileID: 0}
   projectilePrefab: {fileID: 1468789670608892739, guid: 4bd3c14ec32e9a34bb17dffeab61485b,
     type: 3}
-  startPosition: {x: 0, y: 0, z: 0}
-  agent: {fileID: 0}
-  currentCoolDown: 0
-  maxCoolDown: 0.7
-  cooldownVarianceMax: 0.5
-  playerLastLocation: {x: 0, y: 0, z: 0}
+  fireRate: 0.7
+  fireRateCooldownVarianceMax: 0.5
 --- !u!195 &2606758103786762027
 NavMeshAgent:
   m_ObjectHideFlags: 0

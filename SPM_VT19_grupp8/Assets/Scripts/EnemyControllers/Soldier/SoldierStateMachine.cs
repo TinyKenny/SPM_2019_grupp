@@ -3,39 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// Class for a soldier or guard type of enemy that will shoot at the player when within range, chase when withing enough distance and go alert when it notices the player but cant see. If it does not have an enemy it will patrol.
+/// </summary>
+[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(CapsuleCollider))]
+[RequireComponent(typeof(AudioSource))]
 public class SoldierStateMachine : EnemyStateMachine
 {
-    public LayerMask visionMask;
-    public LayerMask playerLayer;
-    public CapsuleCollider thisCollider;
-    public GameObject projectilePrefab;
+    public LayerMask VisionMask { get { return visionMask; } }
+    public float FireRate { get { return fireRate; } }
+    public float FireRateCooldownVarianceMax { get { return fireRateCooldownVarianceMax; } }
+    public GameObject ProjectilePrefab { get { return projectilePrefab; } }
+    public Vector3 PlayerLastLocation { get; set; }
+    public NavMeshAgent Agent { get; private set; }
 
-    public Vector3 startPosition;
-    public NavMeshAgent agent;
-    public float currentCoolDown = 0;
-    public float maxCoolDown = 2;
-    public float cooldownVarianceMax = 0.5f;
-    public Vector3 playerLastLocation;
-    
+    [Header("Vision obstruction layers")]
+    [SerializeField] private LayerMask visionMask = 0;
+    [SerializeField] private GameObject projectilePrefab = null;
+    [Header("Shooting rate of fire")]
+    [SerializeField] private float fireRate = 2;
+    [Header("Random variance max in rate of fire")]
+    [SerializeField] private float fireRateCooldownVarianceMax = 0.5f;
 
     protected override void Awake()
     {
-        thisCollider = GetComponent<CapsuleCollider>();
-        startPosition = transform.position;
-        agent = GetComponent<NavMeshAgent>();
+        Agent = GetComponent<NavMeshAgent>();
         base.Awake();
-        if (PatrolLocations.Length == 0)
-        {
-            PatrolLocations = new Transform[1];
-            PatrolLocations[0] = transform;
-        }
     }
 
     public override void SetAlerted(Vector3 lastLocation)
     {
-        if (!(currentState is SoldierAttackState))
+        if (currentState is SoldierAttackState == false)
         {
-            playerLastLocation = lastLocation;
+            PlayerLastLocation = lastLocation;
             TransitionTo<SoldierAlertState>();
         }
           

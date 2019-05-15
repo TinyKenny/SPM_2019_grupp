@@ -9,9 +9,9 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject enemy = null;
+    [SerializeField] private Transform[] PatrolLocations = null;
+    private Transform PlayerTransform;
     private GameObject currentGO = null;
-    public Transform PlayerTransform;
-    public Transform[] PatrolLocations;
 
     private void Awake()
     {
@@ -23,7 +23,7 @@ public class EnemySpawner : MonoBehaviour
     /// Automatically sets the <see cref="PlayerTransform"/> and the <see cref="PatrolLocations"/> set on <see cref="currentGO"/>.
     /// </summary>
     /// <param name="EI">A <see cref="PlayerRespawnEventInfo"/> where the player is the gameobject.</param>
-    public void SpawnEnemy(EventInfo EI)
+    private void SpawnEnemy(EventInfo EI)
     {
         PlayerRespawnEventInfo PREI = (PlayerRespawnEventInfo)EI;
         PlayerTransform = PREI.GO.transform;
@@ -39,8 +39,12 @@ public class EnemySpawner : MonoBehaviour
         {
             currentGO.GetComponent<EnemyStateMachine>().PlayerTransform = PlayerTransform;
 
-            if (PatrolLocations.Length > 0)
-                currentGO.GetComponent<EnemyStateMachine>().PatrolLocations = PatrolLocations;
+            if (PatrolLocations.Length == 0)
+            {
+                PatrolLocations = new Transform[1];
+                PatrolLocations[0] = transform;
+            }
+            currentGO.GetComponent<EnemyStateMachine>().PatrolLocations = PatrolLocations;
         }
     }
 }

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Superclass for all enemy statemachines. Used for general variables all enemies should have and functions.
+/// </summary>
 public class EnemyStateMachine : StateMachine
 {
-    public Transform[] PatrolLocations { get { return patrolLocations; } set { patrolLocations = value; } }
-    public Transform PlayerTransform { get { return playerTransform; } set { playerTransform = value; } }
-
-    [SerializeField] private Transform playerTransform;
-    [SerializeField] private Transform[] patrolLocations;
+    public Transform[] PatrolLocations { get; set; }
+    public Transform PlayerTransform { get; set; }
 
     private AudioSource aus;
     [SerializeField] private AudioClip alertSound = null;
@@ -16,12 +16,16 @@ public class EnemyStateMachine : StateMachine
 
     protected override void Awake()
     {
-        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerDiegeticSoundEventInfo>(PlayerSoundAlert);
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerDiegeticSoundEventInfo>(PlayerSoundAlertCheck);
         aus = GetComponent<AudioSource>();
         base.Awake();
     }
 
-    public void PlayerSoundAlert(EventInfo eI)
+    /// <summary>
+    /// Checks if a sound generated is within hearing range and sets enemy as alerted.
+    /// </summary>
+    /// <param name="eI"><see cref="PlayerDiegeticSoundEventInfo"/> representing the player and a diegetic sound with range it caused.</param>
+    public void PlayerSoundAlertCheck(EventInfo eI)
     {
         PlayerDiegeticSoundEventInfo enemyEvent = (PlayerDiegeticSoundEventInfo)eI;
         if (currentState.GetType() == typeof(SoldierIdleState) || currentState.GetType() == typeof(StunbotIdleState))
@@ -29,7 +33,7 @@ public class EnemyStateMachine : StateMachine
             if (Vector3.Distance(transform.position, enemyEvent.GO.transform.position) < enemyEvent.Range)
             {
                 RaycastHit hit;
-                if (Physics.Linecast(transform.position, playerTransform.position, out hit, 1 << 9))
+                if (Physics.Linecast(transform.position, PlayerTransform.position, out hit, 1 << 9))
                 {
                     if (Vector3.Distance(transform.position, enemyEvent.GO.transform.position) < (enemyEvent.Range - hit.distance) * wallSoundAbsorbation + hit.distance)
                         HeardPlayer(enemyEvent.GO);
@@ -40,6 +44,10 @@ public class EnemyStateMachine : StateMachine
         }
     }
 
+    /// <summary>
+    /// Plays an alertsound and sets alerted with the last know position of the parameter gameobject.
+    /// </summary>
+    /// <param name="player">Gameobject that should always be the player.</param>
     private void HeardPlayer(GameObject player)
     {
         Debug.Log("Heard player!");
@@ -47,6 +55,10 @@ public class EnemyStateMachine : StateMachine
         aus.PlayOneShot(alertSound);
     }
 
+    /// <summary>
+    /// Sets alerted, needs to be ovverided by sub classes.
+    /// </summary>
+    /// <param name="position">Last known position of the player.</param>
     public virtual void SetAlerted(Vector3 position)
     {
 
@@ -54,6 +66,6 @@ public class EnemyStateMachine : StateMachine
 
     private void OnDestroy()
     {
-        EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<PlayerDiegeticSoundEventInfo>(PlayerSoundAlert);
+        EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<PlayerDiegeticSoundEventInfo>(PlayerSoundAlertCheck);
     }
 }
