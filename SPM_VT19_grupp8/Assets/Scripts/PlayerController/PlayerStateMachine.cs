@@ -113,7 +113,7 @@ public class PlayerStateMachine : StateMachine
     
     private void Start()
     {
-        ResetValues();
+        Respawn();
     }
 
     protected override void Update()
