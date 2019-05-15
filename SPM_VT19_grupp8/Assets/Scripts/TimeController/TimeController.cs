@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class TimeController : StateMachine
 {
-
     public float SlowedPlayerTimeScale { get { return slowedPlayerTimeScale; } }
     public float SlowedWorldTimeScale { get { return slowedWorldTimeScale; } }
     public float SlowMotionEnergyMax { get { return slowMotionEnergyMax; } }
@@ -20,12 +19,7 @@ public class TimeController : StateMachine
     [SerializeField] private float slowMotionCooldown = 1.0f;
     [SerializeField] private Slider slowMotionEnergySlider = null;
 
-
-    #region time-stuff
-    public float TimeSlowMultiplier { get; set; } // do something with this
-    #endregion
-
-
+    public float TimeSlowMultiplier { get; set; } // do something about this
 
     protected override void Awake()
     {
@@ -33,14 +27,6 @@ public class TimeController : StateMachine
         TransitionTo<TimeControllerUnpausedState>();
     }
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     protected override void Update()
     {
         base.Update();
@@ -49,7 +35,12 @@ public class TimeController : StateMachine
     public float GetPlayerDeltaTime()
     {
         TimeControllerBaseState timeControllerState = (TimeControllerBaseState)currentState;
-
         return timeControllerState.GetPlayerDeltaTime();
+    }
+
+    public void ResetValues()
+    {
+        TransitionTo<TimeControllerUnpausedState>();
+        currentState.Initialize(this); // ful lösning, men det nollställer värdena
     }
 }

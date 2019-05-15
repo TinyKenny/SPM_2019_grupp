@@ -5,9 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "States/Time Controller/Paused State")]
 public class TimeControllerPausedState : TimeControllerBaseState
 {
-
-
-
     public override void Enter()
     {
         base.Enter();
@@ -24,6 +21,4 @@ public class TimeControllerPausedState : TimeControllerBaseState
             Owner.TransitionTo<TimeControllerUnpausedState>();
         }
     }
-
-
 }

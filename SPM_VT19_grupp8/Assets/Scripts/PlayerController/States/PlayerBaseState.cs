@@ -11,7 +11,7 @@ public class PlayerBaseState : State
     protected CapsuleCollider ThisCollider { get { return Owner.ThisCollider; } }
     protected LayerMask CollisionLayers { get { return Owner.CollisionLayers; } }
     protected Animator Animator { get { return Owner.Animator; } }
-    protected CameraController MainCameraController { get { return Owner.MainCameraController; } } // make this private?
+    protected CameraController MainCameraController { get { return Owner.MainCameraController; } }
     protected float Acceleration { get { return Owner.Acceleration; } }
     protected float Deceleration { get { return Owner.Deceleration; } }
     protected float MaxSpeed { get { return Owner.MaxSpeed * MaxSpeedMod; } }

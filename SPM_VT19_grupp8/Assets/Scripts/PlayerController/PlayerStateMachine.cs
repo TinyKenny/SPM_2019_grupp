@@ -19,6 +19,7 @@ public class PlayerStateMachine : StateMachine
     public float AirResistanceCoefficient { get { return physicsComponent.airResistanceCoefficient; } }
     public float Gravity { get { return physicsComponent.gravity; } }
     public float PlayerDeltaTime { get { return timeController.GetPlayerDeltaTime(); } } // optimize this?
+    public float TimeSlowMultiplier { get { return timeController.TimeSlowMultiplier; } } // change this to be gravity reduction?
     #endregion
 
     #region "plain" properties
@@ -57,7 +58,7 @@ public class PlayerStateMachine : StateMachine
     [SerializeField] private float shootSoundRange = 50;
     [SerializeField] private Text ammoNumber = null;
     [SerializeField] private AudioSource aus = null;
-    [SerializeField] private AudioClip slowSound = null;
+    [SerializeField] private AudioClip slowSound = null; // this is no longer played when time is slowed down
     [SerializeField] private AudioClip ammoSound = null;
     [SerializeField] private AudioClip damageSound = null;
     [SerializeField] private AudioClip deathSound = null;
@@ -80,24 +81,6 @@ public class PlayerStateMachine : StateMachine
 
 
 
-
-    #region time-stuff
-    public float TimeSlowMultiplier  { get; private set; }
-    [SerializeField] private float slowedPlayerTimeScale = 0.5f;
-    [SerializeField] private float slowedWorldTimeScale = 0.2f;
-    [SerializeField] private float slowMotionEnergyMax = 5.0f;
-    [SerializeField] private float slowMotionEnergyRegeneration = 1.0f;
-    [SerializeField] private Slider timeSlowEnergy = null;
-    [SerializeField] private float slowMotionCooldown = 1.0f;
-    private float playerTimeScale = 1.0f;
-    private float currentSlowMotionEnergy = 5.0f;
-    private float tempTimeScale;
-    private float timeScale = 1;
-    private float slowMotionCooldownTimer = 0.0f;
-    #endregion
-
-
-
     public Transform respawnPoint; // make this private, create a new event type ("CheckpointReachedEventInfo", maybe?) and make a listener for that event type in PlayerStateMachine
 
 
@@ -111,14 +94,12 @@ public class PlayerStateMachine : StateMachine
         Animator = GetComponentInChildren<Animator>();
         MainCameraController = Camera.main.GetComponent<CameraController>();
         StandardColliderHeight = ThisCollider.height;
-        TimeSlowMultiplier = 1.0f;
 
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<AmmoPickupEventInfo>(AddAmmo);
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerDiegeticSoundEventInfo>(PlayerDiegeticSound);
 
         base.Awake();
 
-        ///timeSlowEnergy.maxValue = slowMotionEnergyMax;
         shieldAmount.maxValue = shieldsMax;
         wallrunCooldown = wallrunCooldownAmount;
     }
@@ -149,59 +130,9 @@ public class PlayerStateMachine : StateMachine
         }
         #endregion
 
-        ///Pause();
         RegenerateShields();
         wallrunCooldown -= PlayerDeltaTime;
-
-        #region the new slowmotion
-        //commented out because it has not been tested yet, and will probably require a bit of fixing.
-        //SlowMotion();
-        #endregion
-
-
-        #region the old slowmotion
-        // when the pause-functionality and the new slowmotion have been made compatible with eachother (and the new slowmo has been properly tested), the code in this region can be removed
-        ////if (Mathf.Approximately(playerTimeScale, 1.0f))
-        ////{
-        ////    currentSlowMotionEnergy = Mathf.Clamp(currentSlowMotionEnergy + slowMotionEnergyRegeneration * Time.deltaTime, 0.0f, slowMotionEnergyMax);
-        ////    timeSlowEnergy.value = currentSlowMotionEnergy;
-
-        ////    if (Input.GetButtonDown("TimeSlowToggle") && currentSlowMotionEnergy >= 1.0f)
-        ////    {
-        ////        Time.timeScale = slowedWorldTimeScale;
-        ////        playerTimeScale = slowedPlayerTimeScale;
-        ////        aus.PlayOneShot(slowSound);
-        ////        TimeSlowMultiplier = 1.2f;
-
-        ////    }
-        ////}
-        ////else if(Mathf.Approximately(playerTimeScale, slowedPlayerTimeScale))
-        ////{
-        ////    currentSlowMotionEnergy = Mathf.Clamp(currentSlowMotionEnergy - Time.unscaledDeltaTime, 0.0f, slowMotionEnergyMax);
-        ////    timeSlowEnergy.value = currentSlowMotionEnergy;
-
-        ////    if (Input.GetButtonDown("TimeSlowToggle") || currentSlowMotionEnergy <= MathHelper.floatEpsilon)
-        ////    {
-        ////        Time.timeScale = 1.0f;
-        ////        playerTimeScale = 1.0f;
-        ////        TimeSlowMultiplier = 1;
-        ////    }
-        ////}
-        #endregion
     }
-
-    /// <summary>
-    /// Returns Time.unscaledDeltaTime multiplied by the players personal timescale.
-    /// </summary>
-    /// <returns>The players deltaTime</returns>
-    //public float getPlayerDeltaTime()
-    //{
-    //    if (Mathf.Approximately(playerTimeScale, 1.0f)) // make this prettier
-    //    {
-    //        return Time.deltaTime;
-    //    }
-    //    return Time.unscaledDeltaTime * playerTimeScale;
-    //}
 
     /// <summary>
     /// Reduces the players current "shields" by a specified ammount.
@@ -225,58 +156,20 @@ public class PlayerStateMachine : StateMachine
     }
 
     /// <summary>
-    /// If the player gives the specified input, pauses or unpauses the game, depending on whether the game is paused or not.
-    /// </summary>
-    public void Pause()
-    {
-        if (Input.GetButtonDown("Pause") && Time.timeScale > 0)
-        {
-            tempTimeScale = playerTimeScale;
-            timeScale = Time.timeScale;
-            Time.timeScale = 0;
-            playerTimeScale = 0;
-        }
-        else if (Input.GetButtonDown("Pause") && Time.timeScale == 0)
-        {
-
-            Time.timeScale = timeScale;
-            playerTimeScale = tempTimeScale;
-        }
-    }
-
-    /// <summary>
     /// needs testing.
     /// 
     /// Calls <see cref="ResetValues"/> and then triggers a "player respawn"-event.
     /// </summary>
     public void Respawn()
     {
-        //Quaternion q = respawnPoint.rotation;
-        //q.x = 0;
-        //q.z = 0;
-        //TransitionTo<PlayerAirState>();
-        //transform.position = respawnPoint.position;
-        //transform.rotation = q;
-        //Velocity = Vector3.zero;
-        //Time.timeScale = 1.0f;
-        //playerTimeScale = 1.0f;
-        //shieldsRegenerationTimer = 0.0f;
-        //currentShields = shieldsMax;
-        //currentSlowMotionEnergy = slowMotionEnergyMax;
-        //fireCoolDown = 0.0f;
-
-        //ammo = 0;
-        //ammoNumber.text = ammo.ToString();
-
         ResetValues();
-
 
         PlayerRespawnEventInfo PREI = new PlayerRespawnEventInfo(gameObject);
         EventCoordinator.CurrentEventCoordinator.ActivateEvent(PREI);
     }
 
     /// <summary>
-    /// Needs testing.
+    /// Needs testing, make this compatible with TimeController
     /// 
     /// Transitions the player to PlayerAirState and sets the players position to the respawn point.
     /// Resets variables related to shields, slow-mo, attacking, ect. (example: refilling slow-mo energy and shields)
@@ -288,12 +181,11 @@ public class PlayerStateMachine : StateMachine
         transform.position = respawnPoint.position;
         transform.rotation = Quaternion.Euler(0.0f, respawnPoint.rotation.eulerAngles.y, 0.0f);
         Time.timeScale = 1.0f; // create stop-slow method?
-        playerTimeScale = 1.0f;
         currentShields = shieldsMax;
-        currentSlowMotionEnergy = slowMotionEnergyMax;
         fireCoolDown = 0.0f;
         Ammo = 0;
         ammoNumber.text = Ammo.ToString();
+        timeController.ResetValues();
     }
 
     /// <summary>
@@ -334,33 +226,6 @@ public class PlayerStateMachine : StateMachine
         }
 
         shieldAmount.value = currentShields;
-    }
-
-    /// <summary>
-    /// Slows down time, based on how much the player is holding down the "designated" trigger.
-    /// This is currently not really compatible with the current implementation of the pause feature.
-    /// </summary>
-    private void SlowMotion()
-    {
-        float timeLerpValue = Input.GetAxisRaw("Shoot");
-        if (timeLerpValue > 0.0f && slowMotionCooldownTimer <= MathHelper.floatEpsilon)
-        {
-            playerTimeScale = Mathf.Lerp(1.0f, slowedPlayerTimeScale, timeLerpValue);
-            Time.timeScale = Mathf.Lerp(1.0f, slowedWorldTimeScale, timeLerpValue);
-            TimeSlowMultiplier = Mathf.Lerp(1.0f, 1.2f, timeLerpValue);
-
-            currentSlowMotionEnergy = Mathf.Clamp(currentSlowMotionEnergy - (Time.deltaTime / Time.timeScale), 0.0f, slowMotionEnergyMax);
-
-            if (currentSlowMotionEnergy <= MathHelper.floatEpsilon)
-            {
-                slowMotionCooldownTimer = slowMotionCooldown;
-            }
-        }
-        else
-        {
-            slowMotionCooldownTimer -= Time.deltaTime;
-            currentSlowMotionEnergy = Mathf.Clamp(currentSlowMotionEnergy + slowMotionEnergyRegeneration * Time.deltaTime, 0.0f, slowMotionEnergyMax);
-        }
     }
 
     public void Shoot()
