@@ -23,7 +23,7 @@ public class AmmoPickup : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void EnablePickup(EventInfo eI)
+    private void EnablePickup(EventInfo eI)
     {
         gameObject.SetActive(true);
         EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<PlayerRespawnEventInfo>(EnablePickup);

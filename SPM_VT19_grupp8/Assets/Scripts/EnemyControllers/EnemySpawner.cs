@@ -13,7 +13,7 @@ public class EnemySpawner : MonoBehaviour
     public Transform PlayerTransform;
     public Transform[] PatrolLocations;
 
-    private void Start()
+    private void Awake()
     {
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerRespawnEventInfo>(SpawnEnemy);
     }
