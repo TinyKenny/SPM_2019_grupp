@@ -4,21 +4,28 @@ using UnityEngine;
 
 public class AmmoPickup : MonoBehaviour
 {
-    public int ammoAmount = 5;
+    [Range(0, 100)]
+    [SerializeField] private int ammoAmount = 5;
 
-    private GameObject player;
-
-    private void Awake()
+    private void OnTriggerEnter(Collider other)
     {
-        player = GameObject.Find("Player");
+        if (other.gameObject.CompareTag("Player"))
+        {
+            PickupAmmo(other.gameObject);
+        }
     }
 
-    private void Update()
+    private void PickupAmmo(GameObject player)
     {
-        if (Vector3.Distance(player.transform.position, transform.position) < 2.0f)
-        {
-            player.GetComponent<PlayerStateMachine>().AddAmmo(ammoAmount);
-            gameObject.SetActive(false);
-        }
+        EventCoordinator.CurrentEventCoordinator.ActivateEvent(new AmmoPickupEventInfo(player, ammoAmount));
+
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerRespawnEventInfo>(EnablePickup);
+        gameObject.SetActive(false);
+    }
+
+    public void EnablePickup(EventInfo eI)
+    {
+        gameObject.SetActive(true);
+        EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<PlayerRespawnEventInfo>(EnablePickup);
     }
 }

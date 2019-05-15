@@ -23,28 +23,6 @@ public class PlayerRespawnEventInfo : EventInfo
     }
 }
 
-public class EnemyRespawnEventInfo : EventInfo
-{
-    public EnemyRespawnEventInfo(GameObject player, string desciption = "Enemy respawning") : base(player, desciption)
-    {
-    }
-
-    public EnemySpawner GetSpawner()
-    {
-        return GO.GetComponent<EnemySpawner>();
-    }
-
-    public void SetPlayer(Transform player)
-    {
-        GO.GetComponent<EnemySpawner>().PlayerTransform = player;
-    }
-
-    public Transform GetPlayer()
-    {
-        return GO.GetComponent<EnemySpawner>().PlayerTransform;
-    }
-}
-
 public class PlayerSoundEventInfo : EventInfo
 {
     public float Range;
@@ -64,5 +42,15 @@ public class EnemySoundEventInfo : EventInfo
     public EnemySoundEventInfo(GameObject source, float range, string description = "Enemy sound event") : base(source, description)
     {
         Range = range;
+    }
+}
+
+public class AmmoPickupEventInfo : EventInfo
+{
+    private int ammoAmount;
+
+    public AmmoPickupEventInfo(GameObject gO, int amount, string description = "Player picked up ammo") : base(gO, description)
+    {
+        ammoAmount = amount;
     }
 }
