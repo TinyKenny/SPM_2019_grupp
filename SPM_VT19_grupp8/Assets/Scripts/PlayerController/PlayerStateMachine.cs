@@ -11,25 +11,23 @@ using UnityEngine.UI;
 public class PlayerStateMachine : StateMachine
 {
     #region "chaining" properties
-    public float Acceleration { get { return PhysicsComponent.acceleration; } }
-    public float Deceleration { get { return PhysicsComponent.deceleration; } }
-    public float MaxSpeed { get { return PhysicsComponent.maxSpeed; } }
-    public float AirResistanceCoefficient { get { return PhysicsComponent.airResistanceCoefficient; } }
-    public float Gravity { get { return PhysicsComponent.gravity; } }
-    public Vector3 Velocity { get { return PhysicsComponent.velocity; } set { PhysicsComponent.velocity = value; } }
+    public Vector3 Velocity { get { return physicsComponent.velocity; } set { physicsComponent.velocity = value; } }
+    public float Acceleration { get { return physicsComponent.acceleration; } }
+    public float Deceleration { get { return physicsComponent.deceleration; } }
+    public float MaxSpeed { get { return physicsComponent.maxSpeed; } }
+    public float AirResistanceCoefficient { get { return physicsComponent.airResistanceCoefficient; } }
+    public float Gravity { get { return physicsComponent.gravity; } }
     #endregion
 
     #region "plain" properties
-    public PhysicsComponent PhysicsComponent { get; private set; }
     public CapsuleCollider ThisCollider { get; private set; }
+    public CameraController MainCameraController { get; private set; }
+    public Animator Animator { get; private set; }
     public float TimeSlowMultiplier  { get; private set; }
     public float StandardColliderHeight { get; private set; }
-    public Animator Animator { get; private set; }
-    public CameraController MainCameraController { get; private set; }
     #endregion
 
-    #region properties for getting (and maybe setting) private variables
-    public float FireCoolDown { get { return fireCoolDown; } set { fireCoolDown = value; } } // do something about this one
+    #region properties for getting private variables
     public LayerMask CollisionLayers { get { return collisionLayers; } }
     public GameObject ProjectilePrefab { get { return projectilePrefab; } }
     public AudioClip GunShotSound { get { return gunShotSound; } }
@@ -68,7 +66,7 @@ public class PlayerStateMachine : StateMachine
     #endregion
 
     #region non-serialized private variables
-    private AmmoPickup[] pickups; // get rid of this, use events and event listeners in the AmmoPickup-script instead
+    private PhysicsComponent physicsComponent = null;
     private float playerTimeScale = 1.0f;
     private float currentSlowMotionEnergy = 5.0f;
     private float currentShields = 10.0f;
@@ -98,20 +96,19 @@ public class PlayerStateMachine : StateMachine
 
     protected override void Awake()
     {
-        PhysicsComponent = GetComponent<PhysicsComponent>();
+        physicsComponent = GetComponent<PhysicsComponent>();
         ThisCollider = GetComponent<CapsuleCollider>();
         Animator = GetComponentInChildren<Animator>();
         MainCameraController = Camera.main.GetComponent<CameraController>();
         StandardColliderHeight = ThisCollider.height;
         TimeSlowMultiplier = 1.0f;
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<AmmoPickupEventInfo>(AddAmmo);
 
         base.Awake();
 
         timeSlowEnergy.maxValue = slowMotionEnergyMax;
         shieldAmount.maxValue = shieldsMax;
         wallrunCooldown = wallrunCooldownAmount;
-
-        pickups = FindObjectsOfType<AmmoPickup>(); // use event-listeners instead
     }
     
     private void Start()
@@ -264,12 +261,6 @@ public class PlayerStateMachine : StateMachine
 
         PlayerRespawnEventInfo PREI = new PlayerRespawnEventInfo(gameObject);
         EventCoordinator.CurrentEventCoordinator.ActivateEvent(PREI);
-
-
-        //replace the stuff below, to be triggered by events
-
-        foreach (AmmoPickup pickup in pickups)
-            pickup.gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -297,10 +288,12 @@ public class PlayerStateMachine : StateMachine
     /// Adds the specified ammount of ammunition to the players reserves.
     /// </summary>
     /// <param name="ammo"></param>
-    public void AddAmmo(int ammo)
+    public void AddAmmo(EventInfo eI)
     {
-        this.ammo += ammo;
-        ammoNumber.text = this.ammo.ToString();
+        AmmoPickupEventInfo aPEI = (AmmoPickupEventInfo)eI;
+
+        ammo += aPEI.AmmoAmount;
+        ammoNumber.text = ammo.ToString();
         aus.PlayOneShot(ammoSound);
     }
 
@@ -356,5 +349,45 @@ public class PlayerStateMachine : StateMachine
             slowMotionCooldownTimer -= Time.deltaTime;
             currentSlowMotionEnergy = Mathf.Clamp(currentSlowMotionEnergy + slowMotionEnergyRegeneration * Time.deltaTime, 0.0f, slowMotionEnergyMax);
         }
+    }
+
+    public void Shoot()
+    {
+        if (Input.GetAxisRaw("Aim") == 1f)
+        {
+            MainCameraController.Aiming();
+
+            if (Input.GetAxisRaw("Shoot") == 1f && fireCoolDown < 0 && ammo > 0 && Time.timeScale > 0)
+            {
+                ammo--;
+
+                Vector3 reticleLocation = new Vector3(MainCameraController.MainCamera.pixelWidth / 2, MainCameraController.MainCamera.pixelHeight / 2, 0.0f);
+
+                Ray aimRay = MainCameraController.MainCamera.ScreenPointToRay(reticleLocation); // make it so that CameraController has a reference to its camera
+
+                float projectileRange = ProjectilePrefab.GetComponent<ProjectileBehaviour>().distanceToTravel;
+
+                bool rayHasHit = Physics.Raycast(aimRay, out RaycastHit rayHit, projectileRange, ~(1 << gameObject.layer));
+
+                Vector3 pointHit = rayHit.point;
+                if (!rayHasHit)
+                {
+                    pointHit = aimRay.GetPoint(projectileRange);
+                }
+
+                GameObject projectile = Instantiate(ProjectilePrefab, transform.position + (MainCameraController.MainCamera.transform.rotation * Vector3.forward), MainCameraController.MainCamera.transform.rotation);
+                projectile.transform.LookAt(pointHit);
+                projectile.GetComponent<ProjectileBehaviour>().SetInitialValues(1 << gameObject.layer);
+                fireCoolDown = FireRate;
+                ammoNumber.text = ammo.ToString();
+                EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(gameObject, ShootSoundRange, GunShotSound));
+            }
+        }
+        else
+        {
+            MainCameraController.StopAiming();
+        }
+
+        fireCoolDown -= getPlayerDeltaTime();
     }
 }

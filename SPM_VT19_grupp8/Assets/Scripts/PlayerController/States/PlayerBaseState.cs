@@ -6,9 +6,6 @@ using UnityEngine.UI;
 public class PlayerBaseState : State
 {
     #region owner properties
-    private Text AmmoNumber { get { return owner.ammoNumber; } set { owner.ammoNumber = value; } } // change this somehow?
-    private float FireCoolDown { get { return owner.FireCoolDown; } set { owner.FireCoolDown = value; } } // change this somehow?
-    protected int Ammo { get { return owner.ammo; } set { owner.ammo = value; } } // change this somehow?
     protected Vector3 Velocity { get { return owner.Velocity; } set { owner.Velocity = value; } }
     protected Transform Transform { get { return owner.transform; } }
     protected CapsuleCollider ThisCollider { get { return owner.ThisCollider; } }
@@ -142,42 +139,7 @@ public class PlayerBaseState : State
 
     protected void Shoot()
     {
-        if (Input.GetAxisRaw("Aim") == 1f)
-        {
-            MainCameraController.Aiming();
-
-            if (Input.GetAxisRaw("Shoot") == 1f && FireCoolDown < 0 && Ammo > 0 && Time.timeScale > 0)
-            {
-                Ammo--;
-
-                Vector3 reticleLocation = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0.0f);
-
-                Ray aimRay = Camera.main.ScreenPointToRay(reticleLocation); // make it so that CameraController has a reference to its camera
-
-                float projectileRange = ProjectilePrefab.GetComponent<ProjectileBehaviour>().distanceToTravel;
-
-                bool rayHasHit = Physics.Raycast(aimRay, out RaycastHit rayHit, projectileRange, ~(1 << Transform.gameObject.layer));
-
-                Vector3 pointHit = rayHit.point;
-                if (!rayHasHit)
-                {
-                    pointHit = aimRay.GetPoint(projectileRange);
-                }
-                
-                GameObject projectile = Instantiate(ProjectilePrefab, Transform.position + (Camera.main.transform.rotation * Vector3.forward), Camera.main.transform.rotation);
-                projectile.transform.LookAt(pointHit);
-                projectile.GetComponent<ProjectileBehaviour>().SetInitialValues(1 << Transform.gameObject.layer);
-                FireCoolDown = FireRate;
-                AmmoNumber.text = Ammo.ToString();
-                EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(Transform.gameObject, ShootSoundRange, GunShotSound));
-            }
-        }
-        else
-        {
-            MainCameraController.StopAiming();
-        }
-        
-        FireCoolDown -= PlayerDeltaTime;
+        owner.Shoot();
     }
 
     protected virtual void UpdatePlayerRotation()

@@ -47,10 +47,10 @@ public class EnemySoundEventInfo : EventInfo
 
 public class AmmoPickupEventInfo : EventInfo
 {
-    private int ammoAmount;
+    public int AmmoAmount { get; private set; }
 
     public AmmoPickupEventInfo(GameObject gO, int amount, string description = "Player picked up ammo") : base(gO, description)
     {
-        ammoAmount = amount;
+        AmmoAmount = amount;
     }
 }

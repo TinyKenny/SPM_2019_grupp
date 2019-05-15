@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public Camera MainCamera { get; private set; }
+
+
     private float gamePadSensitivity = 150.0f;
     [SerializeField] private Transform playerTransform = null;
     [SerializeField] private LayerMask ignoreLayer = 0;
@@ -22,14 +25,15 @@ public class CameraController : MonoBehaviour
 
     private void Awake()
     {
+        MainCamera = GetComponent<Camera>();
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerRespawnEventInfo>(OnPlayerRespawn);
     }
 
     private void Start()
     {
-        thirdPersonSafety = GetComponent<Camera>().nearClipPlane;
+        thirdPersonSafety = MainCamera.nearClipPlane;
+        startingFOV = MainCamera.fieldOfView;
         startingGamePadSensitivity = gamePadSensitivity;
-        startingFOV = Camera.main.fieldOfView;
     }
 
     private void LateUpdate()

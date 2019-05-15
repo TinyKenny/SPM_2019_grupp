@@ -36,7 +36,7 @@ public class PlayerLedgeGrabState : PlayerBaseState
         RaycastHit wallCheckHit;
 
         bool wallHit = FindCollision(Transform.forward, out wallCheckHit, SkinWidth * 5);
-        if (wallHit && wallCheckHit.transform.tag == "Grabable")
+        if (wallHit && wallCheckHit.transform.CompareTag("Grabable"))
         {
             wallPoint = wallCheckHit.point;
             
