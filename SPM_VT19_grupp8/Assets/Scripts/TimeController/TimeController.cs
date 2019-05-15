@@ -19,10 +19,8 @@ public class TimeController : StateMachine
     [SerializeField] public Slider timeSlowEnergySlider = null;
     [SerializeField] public float slowMotionCooldown = 1.0f;
     public float playerTimeScale = 1.0f;
-    public float currentSlowMotionEnergy = 5.0f;
     public float tempTimeScale;
     public float timeScale = 1;
-    public float slowMotionCooldownTimer = 0.0f;
     #endregion
 
 
@@ -30,7 +28,7 @@ public class TimeController : StateMachine
     protected override void Awake()
     {
         base.Awake();
-
+        TransitionTo<TimeControllerUnpausedState>();
     }
 
 

@@ -8,17 +8,20 @@ public class TimeControllerPausedState : TimeControllerBaseState
 
 
 
-
-
-    // Start is called before the first frame update
-    void Start()
+    public override void Enter()
     {
-        
+        base.Enter();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void HandleUpdate()
     {
-        
+        base.HandleUpdate();
+
+        if (Input.GetButton("Pause"))
+        {
+            Owner.TransitionTo<TimeControllerUnpausedState>();
+        }
     }
+
+
 }
