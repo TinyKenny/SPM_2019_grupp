@@ -6,31 +6,32 @@ using UnityEngine.UI;
 public class PlayerBaseState : State
 {
     #region owner properties
-    protected Vector3 Velocity { get { return owner.Velocity; } set { owner.Velocity = value; } }
-    protected Transform Transform { get { return owner.transform; } }
-    protected CapsuleCollider ThisCollider { get { return owner.ThisCollider; } }
-    protected LayerMask CollisionLayers { get { return owner.CollisionLayers; } }
-    protected Animator Animator { get { return owner.Animator; } }
-    protected CameraController MainCameraController { get { return owner.MainCameraController; } } // make this private?
-    protected float Acceleration { get { return owner.Acceleration; } }
-    protected float Deceleration { get { return owner.Deceleration; } }
-    protected float MaxSpeed { get { return owner.MaxSpeed * MaxSpeedMod; } }
-    protected float AirResistanceCoefficient { get { return owner.AirResistanceCoefficient; } }
-    protected float Gravity { get { return owner.Gravity; } }
-    protected float SkinWidth { get { return owner.skinWidth; } }
-    protected float GroundCheckDistance { get { return owner.groundCheckDistance; } }
-    protected float TurnSpeedModifier { get { return owner.TurnSpeedModifier; } }
-    protected float StandardColliderHeight { get { return owner.StandardColliderHeight; } }
-    protected float PlayerDeltaTime { get { return owner.getPlayerDeltaTime(); } }
-    protected float MovementSoundRange { get { return owner.MovementSoundRange; } }
-    protected float ShootSoundRange { get { return owner.ShootSoundRange; } }
-    protected float JumpPower { get { return owner.JumpPower; } }
-    private float FireRate { get { return owner.FireRate; } }
-    private GameObject ProjectilePrefab { get { return owner.ProjectilePrefab; } }
-    private AudioClip GunShotSound { get { return owner.GunShotSound; } }
+    protected Vector3 Velocity { get { return Owner.Velocity; } set { Owner.Velocity = value; } }
+    protected Transform Transform { get { return Owner.transform; } }
+    protected CapsuleCollider ThisCollider { get { return Owner.ThisCollider; } }
+    protected LayerMask CollisionLayers { get { return Owner.CollisionLayers; } }
+    protected Animator Animator { get { return Owner.Animator; } }
+    protected CameraController MainCameraController { get { return Owner.MainCameraController; } } // make this private?
+    protected float Acceleration { get { return Owner.Acceleration; } }
+    protected float Deceleration { get { return Owner.Deceleration; } }
+    protected float MaxSpeed { get { return Owner.MaxSpeed * MaxSpeedMod; } }
+    protected float AirResistanceCoefficient { get { return Owner.AirResistanceCoefficient; } }
+    protected float Gravity { get { return Owner.Gravity; } }
+    protected float SkinWidth { get { return Owner.skinWidth; } }
+    protected float GroundCheckDistance { get { return Owner.groundCheckDistance; } }
+    protected float TurnSpeedModifier { get { return Owner.TurnSpeedModifier; } }
+    protected float StandardColliderHeight { get { return Owner.StandardColliderHeight; } }
+    protected float PlayerDeltaTime { get { return Owner.getPlayerDeltaTime(); } }
+    protected float MovementSoundRange { get { return Owner.MovementSoundRange; } }
+    protected float ShootSoundRange { get { return Owner.ShootSoundRange; } }
+    protected float JumpPower { get { return Owner.JumpPower; } }
+    private float FireRate { get { return Owner.FireRate; } }
+    private GameObject ProjectilePrefab { get { return Owner.ProjectilePrefab; } }
+    private AudioClip GunShotSound { get { return Owner.GunShotSound; } }
     #endregion
 
-    protected PlayerStateMachine owner;
+    protected PlayerStateMachine Owner { get; private set; }
+
     [Header("Leave at 1 in WalkingState")]
     [SerializeField] protected float MaxSpeedMod = 1.0f;
 
@@ -38,14 +39,14 @@ public class PlayerBaseState : State
 
     public override void Initialize(StateMachine owner)
     {
-        this.owner = (PlayerStateMachine)owner;
+        this.Owner = (PlayerStateMachine)owner;
     }
 
     public override void HandleUpdate()
     {
         base.HandleUpdate();
         UpdatePlayerRotation();
-        Animator.SetFloat("Speed", new Vector3(Velocity.x, 0, Velocity.z).magnitude / owner.MaxSpeed);
+        Animator.SetFloat("Speed", new Vector3(Velocity.x, 0, Velocity.z).magnitude / Owner.MaxSpeed);
         Animator.SetFloat("Direction", Vector3.Dot(Transform.right, Velocity.normalized));
         Animator.SetFloat("HorizontalDirection", Velocity.y);
     }
@@ -139,7 +140,7 @@ public class PlayerBaseState : State
 
     protected void Shoot()
     {
-        owner.Shoot();
+        Owner.Shoot();
     }
 
     protected virtual void UpdatePlayerRotation()

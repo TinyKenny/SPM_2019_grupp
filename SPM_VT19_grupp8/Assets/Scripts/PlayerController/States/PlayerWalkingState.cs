@@ -30,22 +30,22 @@ public class PlayerWalkingState : PlayerBaseState
         CheckCollision(Velocity * PlayerDeltaTime);
         Velocity *= Mathf.Pow(AirResistanceCoefficient, PlayerDeltaTime);
 
-        float soundDistance = (Velocity.magnitude / owner.MaxSpeed) * MovementSoundRange;
+        float soundDistance = (Velocity.magnitude / Owner.MaxSpeed) * MovementSoundRange;
         EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(Transform.gameObject, soundDistance));
         
         if (!grounded)
         {
-            owner.TransitionTo<PlayerAirState>();
+            Owner.TransitionTo<PlayerAirState>();
         }
         else if(Input.GetButton("Crouch"))
         {
             if (Velocity.magnitude > (MaxSpeed / 2) && Mathf.Approximately(MaxSpeedMod, 1.0f))
             {
-                owner.TransitionTo<PlayerSlideState>();
+                Owner.TransitionTo<PlayerSlideState>();
             }
             else
             {
-                owner.TransitionTo<PlayerCrouchState>();
+                Owner.TransitionTo<PlayerCrouchState>();
             }
         }
     }
@@ -70,7 +70,7 @@ public class PlayerWalkingState : PlayerBaseState
             if (Input.GetButtonDown("Jump") && jumpAllowed && Time.timeScale > 0)
             {
                 Animator.SetTrigger("Jump");
-                Velocity += Vector3.up * (JumpPower * owner.TimeSlowMultiplier); // replace timwslowmultiplier with gravity reduction
+                Velocity += Vector3.up * (JumpPower * Owner.TimeSlowMultiplier); // replace timwslowmultiplier with gravity reduction
             }
         }
     }

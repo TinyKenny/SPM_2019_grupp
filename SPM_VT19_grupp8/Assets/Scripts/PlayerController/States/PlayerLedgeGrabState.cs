@@ -43,7 +43,7 @@ public class PlayerLedgeGrabState : PlayerBaseState
             if (Input.GetButtonDown("Jump"))
             {
                 Velocity = wallNormal * jumpPower;
-                owner.TransitionTo<PlayerAirState>();
+                Owner.TransitionTo<PlayerAirState>();
             }
 
             if (Input.GetAxisRaw("Vertical") > 0.9)
@@ -87,10 +87,10 @@ public class PlayerLedgeGrabState : PlayerBaseState
                 if (wallCheckHit.collider == null && (Vector3.Dot((wallPoint - Transform.position).normalized, Transform.forward) < 0 || wallPoint.y < bottomPoint.y))
                     Transform.position += Transform.forward * 2 * PlayerDeltaTime;
                 else
-                    owner.TransitionTo<PlayerAirState>();
+                    Owner.TransitionTo<PlayerAirState>();
 
                 if (GroundCheck())
-                    owner.TransitionTo<PlayerAirState>();
+                    Owner.TransitionTo<PlayerAirState>();
             }
         }
     }

@@ -23,8 +23,8 @@ public class PlayerStateMachine : StateMachine
     public CapsuleCollider ThisCollider { get; private set; }
     public CameraController MainCameraController { get; private set; }
     public Animator Animator { get; private set; }
-    public float TimeSlowMultiplier  { get; private set; }
     public float StandardColliderHeight { get; private set; }
+    public int Ammo { get; private set; }
     #endregion
 
     #region properties for getting private variables
@@ -43,20 +43,15 @@ public class PlayerStateMachine : StateMachine
     [SerializeField] private float turnSpeedModifier = 0;
     [SerializeField] private GameObject projectilePrefab = null;
     [SerializeField] private float fireRate = 1.0f;
-    [SerializeField] private float slowedPlayerTimeScale = 0.5f;
-    [SerializeField] private float slowedWorldTimeScale = 0.2f;
-    [SerializeField] private float slowMotionEnergyMax = 5.0f;
-    [SerializeField] private float slowMotionEnergyRegeneration = 1.0f;
     [SerializeField] private float shieldsMax = 10.0f;
     [SerializeField] private float shieldsRegeneration = 1.0f;
     [SerializeField] private float shieldsRegenerationCooldown = 4.0f;
-    [SerializeField] private Slider timeSlowEnergy = null;
     [SerializeField] private Slider shieldAmount = null;
     [SerializeField] private float wallrunCooldownAmount = 0.5f;
     [SerializeField] private float jumpPower = 12.5f;
-    [SerializeField] private float slowMotionCooldown = 1.0f;
     [SerializeField] private float movementSoundRange = 20.0f;
     [SerializeField] private float shootSoundRange = 50;
+    [SerializeField] private Text ammoNumber = null;
     [SerializeField] private AudioSource aus = null;
     [SerializeField] private AudioClip slowSound = null;
     [SerializeField] private AudioClip ammoSound = null;
@@ -67,14 +62,9 @@ public class PlayerStateMachine : StateMachine
 
     #region non-serialized private variables
     private PhysicsComponent physicsComponent = null;
-    private float playerTimeScale = 1.0f;
-    private float currentSlowMotionEnergy = 5.0f;
     private float currentShields = 10.0f;
     private float shieldsRegenerationTimer = 0.0f;
-    private float tempTimeScale;
     private float wallrunCooldown;
-    private float timeScale = 1;
-    private float slowMotionCooldownTimer = 0.0f;
     private float fireCoolDown = 0.0f; // currently has a public property with both get and set, do something about that
     #endregion
 
@@ -86,9 +76,23 @@ public class PlayerStateMachine : StateMachine
 
 
 
+    #region time-stuff
+    public float TimeSlowMultiplier  { get; private set; }
+    [SerializeField] private float slowedPlayerTimeScale = 0.5f;
+    [SerializeField] private float slowedWorldTimeScale = 0.2f;
+    [SerializeField] private float slowMotionEnergyMax = 5.0f;
+    [SerializeField] private float slowMotionEnergyRegeneration = 1.0f;
+    [SerializeField] private Slider timeSlowEnergy = null;
+    [SerializeField] private float slowMotionCooldown = 1.0f;
+    private float playerTimeScale = 1.0f;
+    private float currentSlowMotionEnergy = 5.0f;
+    private float tempTimeScale;
+    private float timeScale = 1;
+    private float slowMotionCooldownTimer = 0.0f;
+    #endregion
 
-    public int ammo = 0; // make this private
-    public Text ammoNumber; // make this private
+
+
     public Transform respawnPoint; // make this private, create a new event type ("CheckpointReachedEventInfo", maybe?) and make a listener for that event type in PlayerStateMachine
 
 
@@ -127,8 +131,8 @@ public class PlayerStateMachine : StateMachine
         }
         if (Input.GetKeyDown(KeyCode.Keypad1))
         {
-            ammo = 999;
-            ammoNumber.text = ammo.ToString();
+            Ammo = 999;
+            ammoNumber.text = Ammo.ToString();
         }
         if (Input.GetKeyDown(KeyCode.Keypad2))
         {
@@ -280,8 +284,8 @@ public class PlayerStateMachine : StateMachine
         currentShields = shieldsMax;
         currentSlowMotionEnergy = slowMotionEnergyMax;
         fireCoolDown = 0.0f;
-        ammo = 0;
-        ammoNumber.text = ammo.ToString();
+        Ammo = 0;
+        ammoNumber.text = Ammo.ToString();
     }
 
     /// <summary>
@@ -292,8 +296,8 @@ public class PlayerStateMachine : StateMachine
     {
         AmmoPickupEventInfo aPEI = (AmmoPickupEventInfo)eI;
 
-        ammo += aPEI.AmmoAmount;
-        ammoNumber.text = ammo.ToString();
+        Ammo += aPEI.AmmoAmount;
+        ammoNumber.text = Ammo.ToString();
         aus.PlayOneShot(ammoSound);
     }
 
@@ -357,9 +361,9 @@ public class PlayerStateMachine : StateMachine
         {
             MainCameraController.Aiming();
 
-            if (Input.GetAxisRaw("Shoot") == 1f && fireCoolDown < 0 && ammo > 0 && Time.timeScale > 0)
+            if (Input.GetAxisRaw("Shoot") == 1f && fireCoolDown < 0 && Ammo > 0 && Time.timeScale > 0)
             {
-                ammo--;
+                Ammo--;
 
                 Vector3 reticleLocation = new Vector3(MainCameraController.MainCamera.pixelWidth / 2, MainCameraController.MainCamera.pixelHeight / 2, 0.0f);
 
@@ -379,7 +383,7 @@ public class PlayerStateMachine : StateMachine
                 projectile.transform.LookAt(pointHit);
                 projectile.GetComponent<ProjectileBehaviour>().SetInitialValues(1 << gameObject.layer);
                 fireCoolDown = FireRate;
-                ammoNumber.text = ammo.ToString();
+                ammoNumber.text = Ammo.ToString();
                 EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(gameObject, ShootSoundRange, GunShotSound));
             }
         }

@@ -49,7 +49,7 @@ public class GameController : MonoBehaviour
         else
         {
             PlayerPrefs.SetFloat("playerTime", levelTime);
-            PlayerPrefs.SetInt("playerAmmo", player.ammo);
+            PlayerPrefs.SetInt("playerAmmo", player.Ammo);
         }
 
         SceneManager.LoadScene(sceneIndex);

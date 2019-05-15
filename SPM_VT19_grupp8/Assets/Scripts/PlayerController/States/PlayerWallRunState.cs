@@ -52,8 +52,8 @@ public class PlayerWallRunState : PlayerAirState
 
         Jump(wallNormal);
 
-        float soundDistance = (Velocity.magnitude / owner.MaxSpeed) * MovementSoundRange;
-        EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(owner.gameObject, soundDistance));
+        float soundDistance = (Velocity.magnitude / Owner.MaxSpeed) * MovementSoundRange;
+        EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(Owner.gameObject, soundDistance));
 
         if (grounded)
         {
@@ -66,7 +66,7 @@ public class PlayerWallRunState : PlayerAirState
         else
         {
             if (currentCooldown < 0)
-                owner.TransitionTo<PlayerAirState>();
+                Owner.TransitionTo<PlayerAirState>();
             currentCooldown -= PlayerDeltaTime;
         }
     }

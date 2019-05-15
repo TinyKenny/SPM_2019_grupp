@@ -51,18 +51,18 @@ public class PlayerAirState : PlayerBaseState
             Jump(wallRunCheck.normal);
             LedgeGrabCheck();
 
-            if (Input.GetButton("Wallrun") && Velocity.y > MinimumYVelocity && wallRunCheck.normal.y > -0.5f && owner.WallrunAllowed() && Mathf.Abs(Vector3.Dot(wallRunCheck.normal, Vector3.up)) < MathHelper.floatEpsilon)
+            if (Input.GetButton("Wallrun") && Velocity.y > MinimumYVelocity && wallRunCheck.normal.y > -0.5f && Owner.WallrunAllowed() && Mathf.Abs(Vector3.Dot(wallRunCheck.normal, Vector3.up)) < MathHelper.floatEpsilon)
             {
                 Animator.SetBool("WallRunning", true);
                 if (Mathf.Abs(Vector3.Angle(Transform.forward, wallRunCheck.normal)) > 140)
                 {
-                    owner.ResetWallrunCooldown();
-                    owner.TransitionTo<PlayerVerticalWallRunState>();
+                    Owner.ResetWallrunCooldown();
+                    Owner.TransitionTo<PlayerVerticalWallRunState>();
                 }
                 else
                 {
-                    owner.ResetWallrunCooldown();
-                    owner.TransitionTo<PlayerWallRunState>();
+                    Owner.ResetWallrunCooldown();
+                    Owner.TransitionTo<PlayerWallRunState>();
                 }
             }
         }
@@ -74,7 +74,7 @@ public class PlayerAirState : PlayerBaseState
         Vector3 topPoint = Transform.position + ThisCollider.center + Transform.up * (ThisCollider.height / 2 - ThisCollider.radius);
         bool b = Physics.BoxCast(topPoint, new Vector3(ThisCollider.radius / 2, ThisCollider.height / 4, ThisCollider.radius / 2), Transform.forward, out wall, Transform.rotation, ThisCollider.radius + SkinWidth * 10, CollisionLayers) && wall.transform.tag == "Grabable";
         if (b && wall.collider.bounds.max.y < ThisCollider.bounds.max.y)
-            owner.TransitionTo<PlayerLedgeGrabState>();
+            Owner.TransitionTo<PlayerLedgeGrabState>();
     }
 
     protected bool WallRun()
@@ -105,14 +105,14 @@ public class PlayerAirState : PlayerBaseState
 
         if (Input.GetButtonDown("Jump"))
         {
-            Velocity += (normal + Vector3.up).normalized * (jumpPower * owner.TimeSlowMultiplier);
+            Velocity += (normal + Vector3.up).normalized * (jumpPower * Owner.TimeSlowMultiplier);
             Vector3 horizontalVelocity = new Vector3(Velocity.x, 0, Velocity.z);
             horizontalVelocity = Vector3.ClampMagnitude(horizontalVelocity, MaxSpeed);
             horizontalVelocity.y = Velocity.y;
             Velocity = horizontalVelocity;
             jumpPower *= 0.7f;
             Animator.SetTrigger("Jump");
-            owner.TransitionTo<PlayerAirState>();
+            Owner.TransitionTo<PlayerAirState>();
         }
     }
 
@@ -130,6 +130,6 @@ public class PlayerAirState : PlayerBaseState
     protected void TransitionToWalkingState()
     {
         jumpPower = 12.5f;
-        owner.TransitionTo<PlayerWalkingState>();
+        Owner.TransitionTo<PlayerWalkingState>();
     }
 }

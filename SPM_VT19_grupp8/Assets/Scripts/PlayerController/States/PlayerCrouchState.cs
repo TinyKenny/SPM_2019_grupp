@@ -27,7 +27,7 @@ public class PlayerCrouchState : PlayerWalkingState
         if (grounded && !Input.GetButton("Crouch") && 
             !FindCollision(Vector3.up, Mathf.Clamp(StandardColliderHeight, SkinWidth + ThisCollider.radius * 2, Mathf.Infinity) - ThisCollider.radius * 2))
         {
-            owner.TransitionTo<PlayerWalkingState>();
+            Owner.TransitionTo<PlayerWalkingState>();
         }
     }
 

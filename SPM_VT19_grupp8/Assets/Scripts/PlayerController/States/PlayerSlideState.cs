@@ -37,21 +37,21 @@ public class PlayerSlideState : PlayerBaseState
 
         if (!GroundCheck())
         {
-            owner.TransitionTo<PlayerAirState>();
+            Owner.TransitionTo<PlayerAirState>();
         }
         else if (Velocity.magnitude < MathHelper.floatEpsilon)
         {
-            owner.TransitionTo<PlayerCrouchState>();
+            Owner.TransitionTo<PlayerCrouchState>();
         }
         else if (!Input.GetButton("Crouch"))
         {
             if (FindCollision(Vector3.up, Mathf.Clamp(StandardColliderHeight, SkinWidth + ThisCollider.radius * 2, Mathf.Infinity) - ThisCollider.radius * 2))
             {
-                owner.TransitionTo<PlayerCrouchState>();
+                Owner.TransitionTo<PlayerCrouchState>();
             }
             else
             {
-                owner.TransitionTo<PlayerWalkingState>();
+                Owner.TransitionTo<PlayerWalkingState>();
             }
         }
     }
