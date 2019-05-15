@@ -12,28 +12,30 @@ public class EnemyStateMachine : StateMachine
 
     private AudioSource aus;
     [SerializeField] private AudioClip alertSound = null;
-    private float wallSoundAbsorbation = 0.8f;
+    private float wallSoundAbsorbation = 0.5f;
 
-    private new void Awake()
+    protected override void Awake()
     {
-        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<EnemySoundEventInfo>(PlayerSoundAlert);
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerDiegeticSoundEventInfo>(PlayerSoundAlert);
         aus = GetComponent<AudioSource>();
+        base.Awake();
     }
 
     public void PlayerSoundAlert(EventInfo eI)
     {
-        EnemySoundEventInfo enemyEvent = (EnemySoundEventInfo)eI;
+        PlayerDiegeticSoundEventInfo enemyEvent = (PlayerDiegeticSoundEventInfo)eI;
         if (currentState.GetType() == typeof(SoldierIdleState) || currentState.GetType() == typeof(StunbotIdleState))
         {
-            RaycastHit hit;
-            if (Physics.Linecast(transform.position, playerTransform.position, out hit, 1 << 9))
+            if (Vector3.Distance(transform.position, enemyEvent.GO.transform.position) < enemyEvent.Range)
             {
-                if (Vector3.Distance(transform.position, enemyEvent.GO.transform.position) < (enemyEvent.Range - hit.distance) * wallSoundAbsorbation + hit.distance)
+                RaycastHit hit;
+                if (Physics.Linecast(transform.position, playerTransform.position, out hit, 1 << 9))
+                {
+                    if (Vector3.Distance(transform.position, enemyEvent.GO.transform.position) < (enemyEvent.Range - hit.distance) * wallSoundAbsorbation + hit.distance)
+                        HeardPlayer(enemyEvent.GO);
+                }
+                else
                     HeardPlayer(enemyEvent.GO);
-            }
-            else if (Vector3.Distance(transform.position, enemyEvent.GO.transform.position) < enemyEvent.Range)
-            {
-                HeardPlayer(enemyEvent.GO);
             }
         }
     }
@@ -48,5 +50,10 @@ public class EnemyStateMachine : StateMachine
     public virtual void SetAlerted(Vector3 position)
     {
 
+    }
+
+    private void OnDestroy()
+    {
+        EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<PlayerDiegeticSoundEventInfo>(PlayerSoundAlert);
     }
 }

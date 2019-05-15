@@ -49,7 +49,9 @@ public class PlayerStateMachine : StateMachine
     [SerializeField] private Slider shieldAmount = null;
     [SerializeField] private float wallrunCooldownAmount = 0.5f;
     [SerializeField] private float jumpPower = 12.5f;
+    [Range(0, 100)]
     [SerializeField] private float movementSoundRange = 20.0f;
+    [Range(0, 100)]
     [SerializeField] private float shootSoundRange = 50;
     [SerializeField] private Text ammoNumber = null;
     [SerializeField] private AudioSource aus = null;
@@ -106,7 +108,9 @@ public class PlayerStateMachine : StateMachine
         MainCameraController = Camera.main.GetComponent<CameraController>();
         StandardColliderHeight = ThisCollider.height;
         TimeSlowMultiplier = 1.0f;
+
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<AmmoPickupEventInfo>(AddAmmo);
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerDiegeticSoundEventInfo>(PlayerDiegeticSound);
 
         base.Awake();
 
@@ -384,7 +388,7 @@ public class PlayerStateMachine : StateMachine
                 projectile.GetComponent<ProjectileBehaviour>().SetInitialValues(1 << gameObject.layer);
                 fireCoolDown = FireRate;
                 ammoNumber.text = Ammo.ToString();
-                EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(gameObject, ShootSoundRange, GunShotSound));
+                EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerDiegeticSoundEventInfo(gameObject, ShootSoundRange, GunShotSound));
             }
         }
         else
@@ -393,5 +397,17 @@ public class PlayerStateMachine : StateMachine
         }
 
         fireCoolDown -= getPlayerDeltaTime();
+    }
+
+    /// <summary>
+    /// Plays a one shot diegetic playersound and checks if any enemies are within range to hear it.
+    /// </summary>
+    /// <param name="eI"><see cref="PlayerDiegeticSoundEventInfo"/> representing the player, also needs an audioclip. If the range is more than zero enemies might hear the player.</param>
+    public void PlayerDiegeticSound(EventInfo eI)
+    {
+        PlayerDiegeticSoundEventInfo playerSound = (PlayerDiegeticSoundEventInfo)eI;
+
+        if (playerSound.AC != null)
+            playerSound.GO.GetComponent<AudioSource>().PlayOneShot(playerSound.AC);
     }
 }

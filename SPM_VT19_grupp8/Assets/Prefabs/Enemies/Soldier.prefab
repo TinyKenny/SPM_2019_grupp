@@ -194,6 +194,7 @@ MonoBehaviour:
   currentState: {fileID: 0}
   playerTransform: {fileID: 0}
   patrolLocations: []
+  alertSound: {fileID: 8300000, guid: b524df5afe3c8d2448b2b818bf351b9b, type: 3}
   visionMask:
     serializedVersion: 2
     m_Bits: 512
@@ -209,8 +210,6 @@ MonoBehaviour:
   maxCoolDown: 0.7
   cooldownVarianceMax: 0.5
   playerLastLocation: {x: 0, y: 0, z: 0}
-  ausSoldier: {fileID: 382478000250207047}
-  soldierAlertSound: {fileID: 8300000, guid: b524df5afe3c8d2448b2b818bf351b9b, type: 3}
 --- !u!195 &2606758103786762027
 NavMeshAgent:
   m_ObjectHideFlags: 0

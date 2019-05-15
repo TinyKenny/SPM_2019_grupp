@@ -53,7 +53,7 @@ public class PlayerWallRunState : PlayerAirState
         Jump(wallNormal);
 
         float soundDistance = (Velocity.magnitude / Owner.MaxSpeed) * MovementSoundRange;
-        EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(Owner.gameObject, soundDistance));
+        EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerDiegeticSoundEventInfo(Owner.gameObject, soundDistance));
 
         if (grounded)
         {

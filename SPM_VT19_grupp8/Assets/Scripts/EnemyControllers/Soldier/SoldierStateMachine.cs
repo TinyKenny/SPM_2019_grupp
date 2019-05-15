@@ -18,7 +18,7 @@ public class SoldierStateMachine : EnemyStateMachine
     public Vector3 playerLastLocation;
     
 
-    private new void Awake()
+    protected override void Awake()
     {
         thisCollider = GetComponent<CapsuleCollider>();
         startPosition = transform.position;
@@ -37,13 +37,7 @@ public class SoldierStateMachine : EnemyStateMachine
         {
             playerLastLocation = lastLocation;
             TransitionTo<SoldierAlertState>();
-
         }
           
-    }
-
-    private void OnDestroy()
-    {
-        EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<EnemySoundEventInfo>(PlayerSoundAlert);
     }
 }

@@ -29,25 +29,15 @@ public class PlayerRespawnEventInfo : EventInfo
     }
 }
 
-public class PlayerSoundEventInfo : EventInfo
+public class PlayerDiegeticSoundEventInfo : EventInfo
 {
     public float Range;
     public AudioClip AC;
 
-    public PlayerSoundEventInfo(GameObject gO, float range, AudioClip ac = null, string description = "Player sound event") : base(gO, description)
+    public PlayerDiegeticSoundEventInfo(GameObject gO, float range, AudioClip ac = null, string description = "Player sound event") : base(gO, description)
     {
         Range = range;
         AC = ac;
-    }
-}
-
-public class EnemySoundEventInfo : EventInfo
-{
-    public float Range;
-
-    public EnemySoundEventInfo(GameObject source, float range, string description = "Enemy sound event") : base(source, description)
-    {
-        Range = range;
     }
 }
 
