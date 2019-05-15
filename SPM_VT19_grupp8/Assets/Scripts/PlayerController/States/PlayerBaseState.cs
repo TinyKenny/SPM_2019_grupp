@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class PlayerBaseState : State
 {
     #region owner properties
-    private float FireCoolDown { get { return owner.FireCoolDown; } set { owner.FireCoolDown = value; } }
-    protected int Ammo { get { return owner.ammo; } set { owner.ammo = value; } }
+    private Text AmmoNumber { get { return owner.ammoNumber; } set { owner.ammoNumber = value; } } // change this somehow?
+    private float FireCoolDown { get { return owner.FireCoolDown; } set { owner.FireCoolDown = value; } } // change this somehow?
+    protected int Ammo { get { return owner.ammo; } set { owner.ammo = value; } } // change this somehow?
     protected Vector3 Velocity { get { return owner.Velocity; } set { owner.Velocity = value; } }
     protected Transform Transform { get { return owner.transform; } }
     protected CapsuleCollider ThisCollider { get { return owner.ThisCollider; } }
@@ -29,6 +30,7 @@ public class PlayerBaseState : State
     protected float JumpPower { get { return owner.JumpPower; } }
     private float FireRate { get { return owner.FireRate; } }
     private GameObject ProjectilePrefab { get { return owner.ProjectilePrefab; } }
+    private AudioClip GunShotSound { get { return owner.GunShotSound; } }
     #endregion
 
     protected PlayerStateMachine owner;
@@ -46,9 +48,9 @@ public class PlayerBaseState : State
     {
         base.HandleUpdate();
         UpdatePlayerRotation();
-        owner.Animator.SetFloat("Speed", new Vector3(Velocity.x, 0, Velocity.z).magnitude / owner.MaxSpeed);
-        owner.Animator.SetFloat("Direction", Vector3.Dot(owner.transform.right, Velocity.normalized));
-        owner.Animator.SetFloat("HorizontalDirection", Velocity.y);
+        Animator.SetFloat("Speed", new Vector3(Velocity.x, 0, Velocity.z).magnitude / owner.MaxSpeed);
+        Animator.SetFloat("Direction", Vector3.Dot(Transform.right, Velocity.normalized));
+        Animator.SetFloat("HorizontalDirection", Velocity.y);
     }
 
     protected bool FindCollision(Vector3 direction, float maxDistance)
@@ -72,7 +74,7 @@ public class PlayerBaseState : State
     protected bool GroundCheck(out RaycastHit raycastHit)
     {
         bool grounded = FindCollision(Vector3.down, out raycastHit, GroundCheckDistance + SkinWidth);
-        owner.Animator.SetBool("GroundCheck", grounded);
+        Animator.SetBool("GroundCheck", grounded);
         return grounded;
     }
 
@@ -154,7 +156,7 @@ public class PlayerBaseState : State
 
                 float projectileRange = ProjectilePrefab.GetComponent<ProjectileBehaviour>().distanceToTravel;
 
-                bool rayHasHit = Physics.Raycast(aimRay, out RaycastHit rayHit, projectileRange, ~(1 << owner.gameObject.layer));
+                bool rayHasHit = Physics.Raycast(aimRay, out RaycastHit rayHit, projectileRange, ~(1 << Transform.gameObject.layer));
 
                 Vector3 pointHit = rayHit.point;
                 if (!rayHasHit)
@@ -164,10 +166,10 @@ public class PlayerBaseState : State
                 
                 GameObject projectile = Instantiate(ProjectilePrefab, Transform.position + (Camera.main.transform.rotation * Vector3.forward), Camera.main.transform.rotation);
                 projectile.transform.LookAt(pointHit);
-                projectile.GetComponent<ProjectileBehaviour>().SetInitialValues(1 << owner.gameObject.layer);
+                projectile.GetComponent<ProjectileBehaviour>().SetInitialValues(1 << Transform.gameObject.layer);
                 FireCoolDown = FireRate;
-                owner.ammoNumber.text = Ammo.ToString();
-                EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(owner.gameObject, ShootSoundRange, owner.GunShotSound));
+                AmmoNumber.text = Ammo.ToString();
+                EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(Transform.gameObject, ShootSoundRange, GunShotSound));
             }
         }
         else

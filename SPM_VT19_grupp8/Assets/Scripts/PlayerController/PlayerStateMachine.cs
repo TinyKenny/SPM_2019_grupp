@@ -29,7 +29,7 @@ public class PlayerStateMachine : StateMachine
     #endregion
 
     #region properties for getting (and maybe setting) private variables
-    public float FireCoolDown { get { return fireCoolDown; } set { fireCoolDown = value; } }
+    public float FireCoolDown { get { return fireCoolDown; } set { fireCoolDown = value; } } // do something about this one
     public LayerMask CollisionLayers { get { return collisionLayers; } }
     public GameObject ProjectilePrefab { get { return projectilePrefab; } }
     public AudioClip GunShotSound { get { return gunShotSound; } }
@@ -52,7 +52,7 @@ public class PlayerStateMachine : StateMachine
     [SerializeField] private float shieldsMax = 10.0f;
     [SerializeField] private float shieldsRegeneration = 1.0f;
     [SerializeField] private float shieldsRegenerationCooldown = 4.0f;
-    [SerializeField] private Slider timeSlowEnergy;
+    [SerializeField] private Slider timeSlowEnergy = null;
     [SerializeField] private Slider shieldAmount = null;
     [SerializeField] private float wallrunCooldownAmount = 0.5f;
     [SerializeField] private float jumpPower = 12.5f;

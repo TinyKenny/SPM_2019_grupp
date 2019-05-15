@@ -67,7 +67,7 @@ public class PlayerWallRunState : PlayerAirState
         {
             if (currentCooldown < 0)
                 owner.TransitionTo<PlayerAirState>();
-            currentCooldown -= owner.getPlayerDeltaTime();
+            currentCooldown -= PlayerDeltaTime;
         }
     }
 

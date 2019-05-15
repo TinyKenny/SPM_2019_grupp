@@ -52,7 +52,7 @@ public class PlayerLedgeGrabState : PlayerBaseState
                 Vector3 bottomPoint = Transform.position + ThisCollider.center - Transform.up * (ThisCollider.height / 2 + ThisCollider.radius);
                 if (bottomPoint.y < (wallCheckHit.collider.bounds.max.y + SkinWidth))
                 {
-                    Transform.position += Transform.up * 2 * owner.getPlayerDeltaTime();
+                    Transform.position += Transform.up * 2 * PlayerDeltaTime;
                 }
                 else
                 {
@@ -69,7 +69,7 @@ public class PlayerLedgeGrabState : PlayerBaseState
                 Vector3 topPoint = Transform.position + ThisCollider.center + Transform.up * (ThisCollider.height / 2 + ThisCollider.radius);
                 if (bottomPoint.y < (wallCheckHit.collider.bounds.max.y + SkinWidth) && topPoint.y > (wallCheckHit.collider.bounds.max.y + SkinWidth))
                 {
-                    Transform.position -= Transform.up * 2 * owner.getPlayerDeltaTime();
+                    Transform.position -= Transform.up * 2 * PlayerDeltaTime;
                 }
             }
         }
@@ -78,7 +78,7 @@ public class PlayerLedgeGrabState : PlayerBaseState
             Vector3 bottomPoint = Transform.position + ThisCollider.center - Transform.up * (ThisCollider.height / 2 - ThisCollider.radius);
             if (!climbed)
             {
-                Transform.position += Transform.up * 2 * owner.getPlayerDeltaTime();
+                Transform.position += Transform.up * 2 * PlayerDeltaTime;
                 if (wallPoint.y < bottomPoint.y)
                     climbed = true;
             }

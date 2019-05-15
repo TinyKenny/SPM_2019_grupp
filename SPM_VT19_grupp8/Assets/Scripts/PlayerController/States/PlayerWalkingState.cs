@@ -31,7 +31,7 @@ public class PlayerWalkingState : PlayerBaseState
         Velocity *= Mathf.Pow(AirResistanceCoefficient, PlayerDeltaTime);
 
         float soundDistance = (Velocity.magnitude / owner.MaxSpeed) * MovementSoundRange;
-        EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(owner.gameObject, soundDistance));
+        EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerSoundEventInfo(Transform.gameObject, soundDistance));
         
         if (!grounded)
         {
