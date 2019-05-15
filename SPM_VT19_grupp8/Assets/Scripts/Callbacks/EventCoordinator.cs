@@ -15,17 +15,6 @@ public class EventCoordinator
         }
     }
 
-
-
-    //private void Awake()
-    //{
-    //    CurrentEventCoordinator = this;
-    //    foreach (EventListenerInterface eL in GetComponents<EventListenerInterface>())
-    //    {
-    //        eL.Initialize();
-    //    }
-    //}
-
     public delegate void EventListener(EventInfo eventInfo);
     public Dictionary<Type, EventListener> EventListeners;
 

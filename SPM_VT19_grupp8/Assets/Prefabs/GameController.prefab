@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6429741282505538176}
   - component: {fileID: 6429741282505538177}
-  - component: {fileID: 3676504280766361458}
   - component: {fileID: 8048321879669261540}
   m_Layer: 0
   m_Name: GameController
@@ -49,19 +48,6 @@ MonoBehaviour:
   player: {fileID: 0}
   PausePanel: {fileID: 0}
   SelectedPauseButton: {fileID: 0}
---- !u!114 &3676504280766361458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6429741282505538207}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc81d004e02a7d9418607b29356a2157, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraMain: {fileID: 0}
 --- !u!114 &8048321879669261540
 MonoBehaviour:
   m_ObjectHideFlags: 0

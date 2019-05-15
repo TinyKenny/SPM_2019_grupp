@@ -20,6 +20,11 @@ public class CameraController : MonoBehaviour
     private float startingFOV;
 
 
+    private void Awake()
+    {
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerRespawnEventInfo>(OnPlayerRespawn);
+    }
+
     private void Start()
     {
         thirdPersonSafety = GetComponent<Camera>().nearClipPlane;

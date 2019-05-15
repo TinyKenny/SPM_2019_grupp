@@ -15,18 +15,18 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
-        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<EnemyRespawnEventInfo>(SpawnEnemy);
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerRespawnEventInfo>(SpawnEnemy);
     }
 
     /// <summary>
     /// Removes enemy if they have not already been removed then instantiates a new <see cref="enemy"/>.
     /// Automatically sets the <see cref="PlayerTransform"/> and the <see cref="PatrolLocations"/> set on <see cref="currentGO"/>.
     /// </summary>
-    /// <param name="EI">A <see cref="EnemyRespawnEventInfo"/> where the player is the gameobject.</param>
+    /// <param name="EI">A <see cref="PlayerRespawnEventInfo"/> where the player is the gameobject.</param>
     public void SpawnEnemy(EventInfo EI)
     {
-        EnemyRespawnEventInfo EREI = (EnemyRespawnEventInfo)EI;
-        PlayerTransform = EREI.GO.transform;
+        PlayerRespawnEventInfo PREI = (PlayerRespawnEventInfo)EI;
+        PlayerTransform = PREI.GO.transform;
 
         if (currentGO != null)
         {
