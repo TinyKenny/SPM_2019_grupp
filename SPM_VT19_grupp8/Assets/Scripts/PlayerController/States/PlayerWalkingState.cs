@@ -70,7 +70,7 @@ public class PlayerWalkingState : PlayerBaseState
             if (Input.GetButtonDown("Jump") && jumpAllowed && Time.timeScale > 0)
             {
                 Animator.SetTrigger("Jump");
-                Velocity += Vector3.up * (JumpPower * Owner.TimeSlowMultiplier); // replace timwslowmultiplier with gravity reduction
+                Velocity += Vector3.up * (JumpPower/* * Owner.TimeSlowMultiplier*/); // replace timwslowmultiplier with gravity reduction
             }
         }
     }

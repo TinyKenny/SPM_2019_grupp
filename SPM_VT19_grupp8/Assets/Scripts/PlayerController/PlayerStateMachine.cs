@@ -17,9 +17,9 @@ public class PlayerStateMachine : StateMachine
     public float Deceleration { get { return physicsComponent.deceleration; } }
     public float MaxSpeed { get { return physicsComponent.maxSpeed; } }
     public float AirResistanceCoefficient { get { return physicsComponent.airResistanceCoefficient; } }
-    public float Gravity { get { return physicsComponent.gravity; } }
+    public float Gravity { get { return physicsComponent.gravity / timeController.TimeSlowMultiplier; } }
     public float PlayerDeltaTime { get { return timeController.GetPlayerDeltaTime(); } } // optimize this?
-    public float TimeSlowMultiplier { get { return timeController.TimeSlowMultiplier; } } // change this to be gravity reduction?
+    //public float TimeSlowMultiplier { get { return timeController.TimeSlowMultiplier; } } // change this to be gravity reduction?
     #endregion
 
     #region "plain" properties
@@ -51,6 +51,7 @@ public class PlayerStateMachine : StateMachine
     [SerializeField] private float shieldsRegenerationCooldown = 4.0f;
     [SerializeField] private Slider shieldAmount = null;
     [SerializeField] private float wallrunCooldownAmount = 0.5f;
+
     [SerializeField] private float jumpPower = 12.5f;
     [Range(0, 100)]
     [SerializeField] private float movementSoundRange = 20.0f;

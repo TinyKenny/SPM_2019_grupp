@@ -10,7 +10,7 @@ public class TimeControllerUnpausedState : TimeControllerBaseState
     private float SlowMotionCooldownTimer { get; set; }
     private float CurrentSlowMotionEnergy { get; set; }
 
-    private float TimeSlowMultiplier { get { return Owner.TimeSlowMultiplier; } set { Owner.TimeSlowMultiplier = value; } } // do something with this
+    private float TimeSlowMultiplier { get { return Owner.TimeSlowMultiplier; } set { Owner.TimeSlowMultiplier = value; } }
 
     private float SlowedPlayerTimeScale { get { return Owner.SlowedPlayerTimeScale; } }
     private float SlowedWorldTimeScale { get { return Owner.SlowedWorldTimeScale; } }
@@ -37,7 +37,6 @@ public class TimeControllerUnpausedState : TimeControllerBaseState
     public override void HandleUpdate()
     {
         base.HandleUpdate();
-
         SlowMotion();
 
         if (Input.GetButtonDown("Pause"))
