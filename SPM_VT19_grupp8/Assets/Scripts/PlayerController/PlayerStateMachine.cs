@@ -17,6 +17,7 @@ public class PlayerStateMachine : StateMachine
     public float Deceleration { get { return physicsComponent.deceleration; } }
     public float MaxSpeed { get { return physicsComponent.maxSpeed; } }
     public float AirResistanceCoefficient { get { return physicsComponent.airResistanceCoefficient; } }
+    public float SkinWidth { get { return physicsComponent.skinWidth; } }
     public float Gravity { get { return physicsComponent.gravity / timeController.TimeSlowMultiplier; } }
     public float PlayerDeltaTime { get { return timeController.GetPlayerDeltaTime(); } } // optimize this?
     //public float TimeSlowMultiplier { get { return timeController.TimeSlowMultiplier; } } // change this to be gravity reduction?
@@ -76,7 +77,7 @@ public class PlayerStateMachine : StateMachine
     #endregion
 
     #region readonly values
-    public readonly float skinWidth = 0.01f;
+    //public readonly float skinWidth = 0.01f;
     public readonly float groundCheckDistance = 0.01f;
     #endregion
 

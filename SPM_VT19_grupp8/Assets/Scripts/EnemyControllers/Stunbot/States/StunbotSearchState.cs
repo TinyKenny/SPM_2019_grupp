@@ -31,19 +31,11 @@ public class StunbotSearchState : StunbotBaseState
 
         if (CanSeePlayer(55.0f))
         {
-            Debug.Log("Search -> Chase (found player)");
-            owner.TransitionTo<StunbotChaseState>();
+            Owner.TransitionTo<StunbotChaseState>();
         }
-        if (Vector3.Distance(owner.lastPlayerLocation, ThisTransform.position) < 1.0f || searchTimer <= 0.0f)
+        if ((LastPlayerLocation - ThisTransform.position).sqrMagnitude < 1.0f || searchTimer <= 0.0f || !CanFindOrigin())
         {
-            Debug.Log("Search -> Idle (player not found)");
-            owner.TransitionTo<StunbotIdleState>();
-        }
-        if (!CanFindOrigin())
-        {
-            Debug.Log("Search -> Idle (can't see origin)");
-            ThisTransform.position = previousPosition;
-            owner.TransitionTo<StunbotIdleState>();
+            Owner.TransitionTo<StunbotIdleState>();
         }
     }
 }

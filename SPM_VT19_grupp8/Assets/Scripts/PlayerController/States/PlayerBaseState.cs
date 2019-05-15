@@ -17,7 +17,7 @@ public class PlayerBaseState : State
     protected float MaxSpeed { get { return Owner.MaxSpeed * MaxSpeedMod; } }
     protected float AirResistanceCoefficient { get { return Owner.AirResistanceCoefficient; } }
     protected float Gravity { get { return Owner.Gravity; } }
-    protected float SkinWidth { get { return Owner.skinWidth; } }
+    protected float SkinWidth { get { return Owner.SkinWidth; } }
     protected float GroundCheckDistance { get { return Owner.groundCheckDistance; } }
     protected float TurnSpeedModifier { get { return Owner.TurnSpeedModifier; } }
     protected float StandardColliderHeight { get { return Owner.StandardColliderHeight; } }

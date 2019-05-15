@@ -23,7 +23,7 @@ public class DangerousObject : MonoBehaviour
     {
         cooldown -= Time.deltaTime;
         RaycastHit hit;
-        if (Physics.BoxCast(transform.position, coll.bounds.extents, (player.transform.position - transform.position).normalized, out hit, Quaternion.identity, player.skinWidth * 10, 1 << 10, QueryTriggerInteraction.Ignore) && cooldown < 0)
+        if (Physics.BoxCast(transform.position, coll.bounds.extents, (player.transform.position - transform.position).normalized, out hit, Quaternion.identity, player.SkinWidth * 10, 1 << 10, QueryTriggerInteraction.Ignore) && cooldown < 0)
         {
             cooldown = cooldownAmount;
             player.Velocity += (player.transform.position - transform.position).normalized * knockback * player.PlayerDeltaTime;

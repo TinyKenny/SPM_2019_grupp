@@ -2,40 +2,49 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SphereCollider), typeof(PhysicsComponent), typeof(AStarPathfindning))]
 public class StunbotStateMachine : EnemyStateMachine
 {
-    public LayerMask visionMask;
-    public LayerMask playerLayer;
-    public SphereCollider thisCollider;
-    public float turningModifier = 1.0f;
-    public int currentPatrolPointIndex;
-    public Vector3 lastPlayerLocation;
-
-    private PhysicsComponent physicsComponent;
-    [HideInInspector]
-    public Vector3 faceDirection;
-    [HideInInspector]
-    public readonly float allowedOriginDistance = 40.0f;
-
+    #region "chaining" properties
+    public Vector3 Velocity { get { return physicsComponent.velocity; } set { physicsComponent.velocity = value; } }
     public float Acceleration { get { return physicsComponent.acceleration; } }
     public float Deceleration { get { return physicsComponent.deceleration; } }
     public float MaxSpeed { get { return physicsComponent.maxSpeed; } }
     public float AirResistanceCoefficient { get { return physicsComponent.airResistanceCoefficient; } }
     public float SkinWidth { get { return physicsComponent.skinWidth; } }
-    public Vector3 Velocity { get { return physicsComponent.velocity; } set { physicsComponent.velocity = value; } }
-    public LayerMask NavLayer;
-    public LayerMask EnviromentLayer;
-    [HideInInspector]
-    public AStarPathfindning PathFinder;
-    
+    #endregion
+
+    #region "plain" properties
+    public int CurrentPatrolPointIndex { get; set; } // do something about this?
+    public Vector3 LastPlayerLocation { get; set; } // do something about this?
+    public SphereCollider ThisCollider { get; private set; }
+    public AStarPathfindning PathFinder { get; private set; }
+    #endregion
+
+    #region properties for getting private variables
+    public LayerMask VisionMask { get { return visionMask; } }
+    public LayerMask PlayerLayer { get { return playerLayer; } }
+    #endregion
+
+    #region serialized private variables
+    [SerializeField] private LayerMask visionMask;
+    [SerializeField] private LayerMask playerLayer;
+    #endregion
+
+    #region non-serialized private variables
+    private PhysicsComponent physicsComponent;
+    #endregion
+
+    #region readonly values
+    public readonly float allowedOriginDistance = 100.0f;
+    #endregion
 
     protected override void Awake()
     {
         physicsComponent = GetComponent<PhysicsComponent>();
-        thisCollider = GetComponent<SphereCollider>();
+        ThisCollider = GetComponent<SphereCollider>();
         PathFinder = GetComponent<AStarPathfindning>();
-        faceDirection = transform.forward;
-        currentPatrolPointIndex = 0;
+        CurrentPatrolPointIndex = 0;
         if(PatrolLocations.Length == 0)
         {
             PatrolLocations = new Transform[1];

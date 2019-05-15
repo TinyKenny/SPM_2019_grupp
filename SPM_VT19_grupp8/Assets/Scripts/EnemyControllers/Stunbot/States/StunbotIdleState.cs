@@ -12,25 +12,6 @@ public class StunbotIdleState : StunbotBaseState
         FindTarget();
     }
 
-    //protected override void FindTarget()
-    //{
-    //    NextTargetPosition = owner.transform.position;
-    //    owner.PathFinder.FindPath(ThisTransform.position, owner.patrolLocations[CurrentPatrolPointIndex].position);
-    //    if (owner.PathFinder.Paths.Count > 0)
-    //    {
-    //        // this is copied from HandleUpdate()
-    //        float f = 0;
-    //        foreach (KeyValuePair<float, Vector3> pos in owner.PathFinder.Paths)
-    //        {
-    //            NextTargetPosition = pos.Value;
-    //            f = pos.Key;
-    //            break;
-    //        }
-
-    //        owner.PathFinder.Paths.Remove(f);
-    //    }
-    //}
-
     public override void HandleUpdate()
     {
         Velocity *= Mathf.Pow(AirResistanceCoefficient, Time.deltaTime);
@@ -39,12 +20,9 @@ public class StunbotIdleState : StunbotBaseState
 
         base.HandleUpdate();
 
-        if (CanSeePlayer(60.0f)
-            /*&& Vector3.Distance(ThisTransform.position, owner.patrolLocations[CurrentPatrolPointIndex].position) < MaxSpeed * 0.1f*/
-            /*&& Vector3.Distance(PlayerTransform.position, owner.patrolLocations[0].position) < owner.allowedOriginDistance*/)
+        if (CanSeePlayer(60.0f))
         {
-            Debug.Log("Idle -> Chase (player found)");
-            owner.TransitionTo<StunbotChaseState>();
+            Owner.TransitionTo<StunbotChaseState>();
         }
     }
 
