@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Base class for alll types of events or <see cref="EventInfo"/>. All events needs to use an EventInfo class that inherits from this class.
+/// </summary>
 public abstract class EventInfo
 {
     public readonly GameObject GO;
@@ -14,6 +17,9 @@ public abstract class EventInfo
     }
 }
 
+/// <summary>
+/// <see cref="EventInfo"/> class for when a player respawns. Used to reset all objects in levels and the player.
+/// </summary>
 public class PlayerRespawnEventInfo : EventInfo
 {
 
@@ -45,6 +51,9 @@ public class EnemySoundEventInfo : EventInfo
     }
 }
 
+/// <summary>
+/// <see cref="EventInfo"/> class for when an ammopickup is picked up. Triggers events related to ammopickups like update player ammo.
+/// </summary>
 public class AmmoPickupEventInfo : EventInfo
 {
     public int AmmoAmount { get; private set; }

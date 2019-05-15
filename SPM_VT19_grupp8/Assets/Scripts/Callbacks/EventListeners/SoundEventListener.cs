@@ -9,14 +9,14 @@ public class SoundEventListener : EventListenerInterface
 {
     void Awake()
     {
-        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerSoundEventInfo>(PlayerSound);
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerSoundEventInfo>(PlayerDiegeticSound);
     }
 
     /// <summary>
-    /// Plays a one shot playersound on the player and checks if any enemies are within range to hear it.
+    /// Plays a one shot diegetic playersound and checks if any enemies are within range to hear it.
     /// </summary>
     /// <param name="eI"><see cref="PlayerSoundEventInfo"/> representing the player, also needs an audioclip. If the range is more than zero enemies might hear the player.</param>
-    public void PlayerSound(EventInfo eI)
+    public void PlayerDiegeticSound(EventInfo eI)
     {
         PlayerSoundEventInfo playerSound = (PlayerSoundEventInfo)eI;
 
