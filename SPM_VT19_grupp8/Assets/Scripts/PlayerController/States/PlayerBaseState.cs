@@ -21,7 +21,7 @@ public class PlayerBaseState : State
     protected float GroundCheckDistance { get { return Owner.groundCheckDistance; } }
     protected float TurnSpeedModifier { get { return Owner.TurnSpeedModifier; } }
     protected float StandardColliderHeight { get { return Owner.StandardColliderHeight; } }
-    protected float PlayerDeltaTime { get { return Owner.getPlayerDeltaTime(); } }
+    protected float PlayerDeltaTime { get { return Owner.PlayerDeltaTime; } }
     protected float MovementSoundRange { get { return Owner.MovementSoundRange; } }
     protected float ShootSoundRange { get { return Owner.ShootSoundRange; } }
     protected float JumpPower { get { return Owner.JumpPower; } }

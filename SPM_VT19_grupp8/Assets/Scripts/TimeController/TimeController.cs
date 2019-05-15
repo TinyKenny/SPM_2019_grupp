@@ -6,19 +6,23 @@ using UnityEngine.UI;
 public class TimeController : StateMachine
 {
 
+    public float SlowedPlayerTimeScale { get { return slowedPlayerTimeScale; } }
+    public float SlowedWorldTimeScale { get { return slowedWorldTimeScale; } }
+    public float SlowMotionEnergyMax { get { return slowMotionEnergyMax; } }
+    public float SlowMotionEnergyRegeneration { get { return slowMotionEnergyRegeneration; } }
+    public float SlowMotionCooldown { get { return slowMotionCooldown; } }
+    public Slider SlowMotionEnergySlider { get { return slowMotionEnergySlider; } }
 
-    //make it so that the player actually gets its deltatime from this script
-    // this script *should* be on the player
+    [SerializeField] private float slowedPlayerTimeScale = 0.5f;
+    [SerializeField] private float slowedWorldTimeScale = 0.2f;
+    [SerializeField] private float slowMotionEnergyMax = 5.0f;
+    [SerializeField] private float slowMotionEnergyRegeneration = 1.0f;
+    [SerializeField] private float slowMotionCooldown = 1.0f;
+    [SerializeField] private Slider slowMotionEnergySlider = null;
 
 
     #region time-stuff
     public float TimeSlowMultiplier { get; set; } // do something with this
-    [SerializeField] public float slowedPlayerTimeScale = 0.5f;
-    [SerializeField] public float slowedWorldTimeScale = 0.2f;
-    [SerializeField] public float slowMotionEnergyMax = 5.0f;
-    [SerializeField] public float slowMotionEnergyRegeneration = 1.0f;
-    [SerializeField] public Slider timeSlowEnergySlider = null;
-    [SerializeField] public float slowMotionCooldown = 1.0f;
     #endregion
 
 

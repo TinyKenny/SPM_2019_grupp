@@ -13,12 +13,12 @@ public class TimeControllerUnpausedState : TimeControllerBaseState
 
     private float TimeSlowMultiplier { get { return Owner.TimeSlowMultiplier; } set { Owner.TimeSlowMultiplier = value; } } // do something with this
 
-    private float slowedPlayerTimeScale { get { return Owner.slowedPlayerTimeScale; } }
-    private float slowedWorldTimeScale { get { return Owner.slowedWorldTimeScale; } }
-    private float slowMotionEnergyMax { get { return Owner.slowMotionEnergyMax; } }
-    private float slowMotionCooldown { get { return Owner.slowMotionCooldown; } }
-    private float slowMotionEnergyRegeneration { get { return Owner.slowMotionEnergyRegeneration; } }
-    private Slider timeSlowEnergySlider { get { return Owner.timeSlowEnergySlider; } }
+    private float slowedPlayerTimeScale { get { return Owner.SlowedPlayerTimeScale; } }
+    private float slowedWorldTimeScale { get { return Owner.SlowedWorldTimeScale; } }
+    private float slowMotionEnergyMax { get { return Owner.SlowMotionEnergyMax; } }
+    private float slowMotionCooldown { get { return Owner.SlowMotionCooldown; } }
+    private float slowMotionEnergyRegeneration { get { return Owner.SlowMotionEnergyRegeneration; } }
+    private Slider timeSlowEnergySlider { get { return Owner.SlowMotionEnergySlider; } }
 
     public override void Initialize(StateMachine owner)
     {

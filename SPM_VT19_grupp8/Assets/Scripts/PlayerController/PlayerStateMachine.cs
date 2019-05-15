@@ -8,6 +8,7 @@ using UnityEngine.UI;
 /// This class holds several variables whose values are not meant to be stored in the states themselves.
 /// It also contains some behaviours that do not depend on which state the player is in, such as the slowmotion-ability.
 /// </summary>
+[RequireComponent(typeof(TimeController), typeof(PhysicsComponent), typeof(CapsuleCollider))]
 public class PlayerStateMachine : StateMachine
 {
     #region "chaining" properties
@@ -17,6 +18,7 @@ public class PlayerStateMachine : StateMachine
     public float MaxSpeed { get { return physicsComponent.maxSpeed; } }
     public float AirResistanceCoefficient { get { return physicsComponent.airResistanceCoefficient; } }
     public float Gravity { get { return physicsComponent.gravity; } }
+    public float PlayerDeltaTime { get { return timeController.GetPlayerDeltaTime(); } } // optimize this?
     #endregion
 
     #region "plain" properties
@@ -64,6 +66,7 @@ public class PlayerStateMachine : StateMachine
 
     #region non-serialized private variables
     private PhysicsComponent physicsComponent = null;
+    private TimeController timeController = null;
     private float currentShields = 10.0f;
     private float shieldsRegenerationTimer = 0.0f;
     private float wallrunCooldown;
@@ -103,6 +106,7 @@ public class PlayerStateMachine : StateMachine
     protected override void Awake()
     {
         physicsComponent = GetComponent<PhysicsComponent>();
+        timeController = GetComponent<TimeController>();
         ThisCollider = GetComponent<CapsuleCollider>();
         Animator = GetComponentInChildren<Animator>();
         MainCameraController = Camera.main.GetComponent<CameraController>();
@@ -147,7 +151,7 @@ public class PlayerStateMachine : StateMachine
 
         ///Pause();
         RegenerateShields();
-        wallrunCooldown -= getPlayerDeltaTime();
+        wallrunCooldown -= PlayerDeltaTime;
 
         #region the new slowmotion
         //commented out because it has not been tested yet, and will probably require a bit of fixing.
@@ -190,14 +194,14 @@ public class PlayerStateMachine : StateMachine
     /// Returns Time.unscaledDeltaTime multiplied by the players personal timescale.
     /// </summary>
     /// <returns>The players deltaTime</returns>
-    public float getPlayerDeltaTime()
-    {
-        if (Mathf.Approximately(playerTimeScale, 1.0f)) // make this prettier
-        {
-            return Time.deltaTime;
-        }
-        return Time.unscaledDeltaTime * playerTimeScale;
-    }
+    //public float getPlayerDeltaTime()
+    //{
+    //    if (Mathf.Approximately(playerTimeScale, 1.0f)) // make this prettier
+    //    {
+    //        return Time.deltaTime;
+    //    }
+    //    return Time.unscaledDeltaTime * playerTimeScale;
+    //}
 
     /// <summary>
     /// Reduces the players current "shields" by a specified ammount.
@@ -396,7 +400,7 @@ public class PlayerStateMachine : StateMachine
             MainCameraController.StopAiming();
         }
 
-        fireCoolDown -= getPlayerDeltaTime();
+        fireCoolDown -= PlayerDeltaTime;
     }
 
     /// <summary>
