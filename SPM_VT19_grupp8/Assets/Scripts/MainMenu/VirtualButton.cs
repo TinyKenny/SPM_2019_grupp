@@ -16,6 +16,7 @@ public class VirtualButton : MonoBehaviour
         }
         if (letter == "<-" && input.text.Length > 0)
         {
+            letter = "";
             input.text = input.text.Substring(0, input.text.Length - 1);
         }
         input.text += letter;
