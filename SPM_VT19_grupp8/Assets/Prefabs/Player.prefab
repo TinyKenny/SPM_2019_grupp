@@ -277,8 +277,8 @@ MonoBehaviour:
   slowedWorldTimeScale: 0.2
   slowMotionEnergyMax: 5
   slowMotionEnergyRegeneration: 1
-  timeSlowEnergySlider: {fileID: 0}
   slowMotionCooldown: 1
+  slowMotionEnergySlider: {fileID: 0}
 --- !u!114 &2112523359584729377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,7 +303,7 @@ MonoBehaviour:
   collisionLayers:
     serializedVersion: 2
     m_Bits: 8704
-  turnSpeedModifier: 10
+  turnSpeedModifier: 3
   projectilePrefab: {fileID: 1468789670608892739, guid: 4bd3c14ec32e9a34bb17dffeab61485b,
     type: 3}
   fireRate: 1
@@ -322,12 +322,6 @@ MonoBehaviour:
   damageSound: {fileID: 8300000, guid: 5ff6e37f1aa565740a43dba0d6fbaaa6, type: 3}
   deathSound: {fileID: 8300000, guid: b8f00654f9b12424ea18d756cbaf0d0b, type: 3}
   gunShotSound: {fileID: 8300000, guid: 383e9fc6797f9ca4f9c1f04ec5e96921, type: 3}
-  slowedPlayerTimeScale: 0.5
-  slowedWorldTimeScale: 0.2
-  slowMotionEnergyMax: 5
-  slowMotionEnergyRegeneration: 1
-  timeSlowEnergy: {fileID: 0}
-  slowMotionCooldown: 1
   respawnPoint: {fileID: 0}
 --- !u!82 &7801506606482085374
 AudioSource:

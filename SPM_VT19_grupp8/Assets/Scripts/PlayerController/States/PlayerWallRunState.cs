@@ -54,7 +54,10 @@ public class PlayerWallRunState : PlayerAirState
         else
         {
             if (currentCooldown < 0)
+            {
+                Velocity = Vector3.Lerp(Vector3.ProjectOnPlane(Velocity, Transform.forward), Velocity, 0.3f);
                 Owner.TransitionTo<PlayerAirState>();
+            }
             currentCooldown -= PlayerDeltaTime;
         }
     }

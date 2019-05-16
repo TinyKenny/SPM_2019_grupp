@@ -8,7 +8,7 @@ public class PlayerAirState : PlayerBaseState
     private Vector3 direction;
     protected float MinimumYVelocity = -10f;
     protected float maxYVelocity = 12.5f;
-    protected static float jumpPower = 12.5f; // get rid of this somehow?
+    protected static float jumpPower = 15f; // get rid of this somehow?
 
     public override void HandleUpdate()
     {
@@ -105,11 +105,10 @@ public class PlayerAirState : PlayerBaseState
 
         if (Input.GetButtonDown("Jump"))
         {
-            Velocity += (normal + Vector3.up).normalized * (jumpPower/* * Owner.TimeSlowMultiplier*/);
-            Vector3 horizontalVelocity = new Vector3(Velocity.x, 0, Velocity.z);
-            horizontalVelocity = Vector3.ClampMagnitude(horizontalVelocity, MaxSpeed);
-            horizontalVelocity.y = Velocity.y;
-            Velocity = horizontalVelocity;
+            Vector3 jumpVelocity = Vector3.ClampMagnitude(Velocity, Velocity.magnitude - jumpPower);
+
+            Velocity = Vector3.Slerp(jumpVelocity, (normal + Vector3.up) * JumpPower, 0.25f);
+
             jumpPower *= 0.7f;
             Animator.SetTrigger("Jump");
             Owner.TransitionTo<PlayerAirState>();

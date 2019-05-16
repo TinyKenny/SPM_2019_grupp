@@ -97,14 +97,16 @@ public class PlayerWalkingState : PlayerBaseState
 
         float turnDot = Vector3.Dot(direction.normalized, velocityOnGround.normalized);
 
-        if (velocityOnGround.magnitude > MathHelper.floatEpsilon && turnDot < -0.5f)
-        {
-            Velocity += Vector3.ClampMagnitude(direction, 1.0f) * TurnSpeedModifier * Acceleration * PlayerDeltaTime;
-        }
-        else
-        {
-            Velocity += Vector3.ClampMagnitude(direction, 1.0f) * Acceleration * PlayerDeltaTime;
-        }
+        Velocity += Vector3.ClampMagnitude(direction, 1.0f) * Acceleration * PlayerDeltaTime;
+        Velocity = Vector3.Lerp(Velocity, direction.normalized * Velocity.magnitude, TurnSpeedModifier * PlayerDeltaTime);
+        //if (velocityOnGround.magnitude > MathHelper.floatEpsilon && turnDot < -0.5f)
+        //{
+        //    Velocity += Vector3.ClampMagnitude(direction, 1.0f) * TurnSpeedModifier * Acceleration * PlayerDeltaTime;
+        //}
+        //else
+        //{
+        //    Velocity += Vector3.ClampMagnitude(direction, 1.0f) * Acceleration * PlayerDeltaTime;
+        //}
 
         if (Velocity.sqrMagnitude > MaxSpeed * MaxSpeed)
         {
