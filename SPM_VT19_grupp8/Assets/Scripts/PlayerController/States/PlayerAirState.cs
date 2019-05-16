@@ -51,10 +51,10 @@ public class PlayerAirState : PlayerBaseState
             Jump(wallRunCheck.normal);
             LedgeGrabCheck();
 
-            if (Input.GetButton("Wallrun") && Velocity.y > MinimumYVelocity && wallRunCheck.normal.y > -0.5f && Owner.WallrunAllowed() && Mathf.Abs(Vector3.Dot(wallRunCheck.normal, Vector3.up)) < MathHelper.floatEpsilon)
+            if (Input.GetButton("Wallrun") && Velocity.y > MinimumYVelocity && wallRunCheck.normal.y > -0.5f && Owner.WallrunAllowed()/* && Mathf.Abs(Vector3.Dot(wallRunCheck.normal, Vector3.up)) < MathHelper.floatEpsilon*/)
             {
                 Animator.SetBool("WallRunning", true);
-                if (Mathf.Abs(Vector3.Angle(Transform.forward, wallRunCheck.normal)) > 140)
+                if (Mathf.Abs(Vector3.Angle(Transform.forward, wallRunCheck.normal)) > 160)
                 {
                     Owner.ResetWallrunCooldown();
                     Owner.TransitionTo<PlayerVerticalWallRunState>();
@@ -72,7 +72,7 @@ public class PlayerAirState : PlayerBaseState
     {
         RaycastHit wall;
         Vector3 topPoint = Transform.position + ThisCollider.center + Transform.up * (ThisCollider.height / 2 - ThisCollider.radius);
-        bool b = Physics.BoxCast(topPoint, new Vector3(ThisCollider.radius / 2, ThisCollider.height / 4, ThisCollider.radius / 2), Transform.forward, out wall, Transform.rotation, ThisCollider.radius + SkinWidth * 10, CollisionLayers) && wall.transform.tag == "Grabable";
+        bool b = Physics.BoxCast(topPoint, new Vector3(ThisCollider.radius / 2, ThisCollider.height / 4, ThisCollider.radius / 2), Transform.forward, out wall, Transform.rotation, ThisCollider.radius + SkinWidth * 10, CollisionLayers) && wall.transform.CompareTag("Grabable");
         if (b && wall.collider.bounds.max.y < ThisCollider.bounds.max.y)
             Owner.TransitionTo<PlayerLedgeGrabState>();
     }
@@ -84,7 +84,7 @@ public class PlayerAirState : PlayerBaseState
 
     protected bool WallRun(out RaycastHit wall)
     {
-        bool wallFound = FindCollision(Transform.forward, out wall, SkinWidth * 2) || FindCollision(Transform.right, out wall, SkinWidth * 2) || FindCollision(-Transform.right, out wall, SkinWidth * 2);
+        bool wallFound = FindCollision(Transform.forward, out wall, SkinWidth * 10) || FindCollision(Transform.right, out wall, SkinWidth * 10) || FindCollision(-Transform.right, out wall, SkinWidth * 10);
         return wallFound;
     }
 

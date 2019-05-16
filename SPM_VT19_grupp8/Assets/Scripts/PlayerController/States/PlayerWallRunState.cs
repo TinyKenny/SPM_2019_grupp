@@ -31,31 +31,19 @@ public class PlayerWallRunState : PlayerAirState
 
     public override void HandleUpdate()
     {
-        if (Velocity.y > maxVerticalVelocity)
-            Velocity = new Vector3(Velocity.x, maxVerticalVelocity, Velocity.z);
+        Movement();
 
 
-        if (Velocity.magnitude > MaxSpeed)
-        {
-            Velocity = Velocity.normalized * MaxSpeed;
-        }
+        CauseDiegeticSound();
 
-        Velocity += Vector3.down * (Gravity / 2) * PlayerDeltaTime;
+        CheckStateChange();
+    }
 
-        CheckCollision(Velocity * PlayerDeltaTime);
-
-        bool grounded = GroundCheck();
-
-        Velocity *= Mathf.Pow(AirResistanceCoefficient, PlayerDeltaTime) * 2;
-
+    private void CheckStateChange()
+    {
         RaycastHit wall = new RaycastHit();
 
-        Jump(wallNormal);
-
-        float soundDistance = (Velocity.magnitude / Owner.MaxSpeed) * MovementSoundRange;
-        EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerDiegeticSoundEventInfo(Owner.gameObject, soundDistance));
-
-        if (grounded)
+        if (GroundCheck())
         {
             TransitionToWalkingState();
         }
@@ -69,6 +57,32 @@ public class PlayerWallRunState : PlayerAirState
                 Owner.TransitionTo<PlayerAirState>();
             currentCooldown -= PlayerDeltaTime;
         }
+    }
+
+    private void Movement()
+    {
+        if (Velocity.y > maxVerticalVelocity)
+            Velocity = new Vector3(Velocity.x, maxVerticalVelocity, Velocity.z);
+
+
+        if (Velocity.magnitude > MaxSpeed)
+        {
+            Velocity = Velocity.normalized * MaxSpeed;
+        }
+
+        Velocity += Vector3.down * (Gravity / 2) * PlayerDeltaTime;
+
+        CheckCollision(Velocity * PlayerDeltaTime);
+
+        Velocity *= Mathf.Pow(AirResistanceCoefficient, PlayerDeltaTime) * 2;
+
+        Jump(wallNormal);
+    }
+
+    private void CauseDiegeticSound()
+    {
+        float soundDistance = (Velocity.magnitude / Owner.MaxSpeed) * MovementSoundRange;
+        EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerDiegeticSoundEventInfo(Owner.gameObject, soundDistance));
     }
 
     private Vector3 ProjectSpeedOnSurface()

@@ -234,7 +234,7 @@ public class PlayerStateMachine : StateMachine
     {
         if (Input.GetAxisRaw("Aim") == 1f)
         {
-            MainCameraController.Aiming();
+            //MainCameraController.Aiming();
 
             if (Input.GetAxisRaw("Shoot") == 1f && fireCoolDown < 0 && Ammo > 0 && Time.timeScale > 0)
             {
