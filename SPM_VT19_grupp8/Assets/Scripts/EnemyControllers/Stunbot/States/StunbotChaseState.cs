@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "States/Enemies/Stunbot/Chase State")]
 public class StunbotChaseState : StunbotBaseState
 {
+    private bool foundPath;
+
     public override void Enter()
     {
         base.Enter();

@@ -107,6 +107,8 @@ public class AStarPathfindning : MonoBehaviour
 
         Debug.Log("number of boxes checked: " + laps); // for testing purposes
 
+        paths.Add(list[bcnEnd.GetBox()].DistanceTraveled + (list[bcnEnd.GetBox()].Position - end).sqrMagnitude, end);
+
         for (BoxCompareNode b = list[bcnEnd.GetBox()]; b != null; b = list[b.GetBox()].Previous)
         {
             paths.Add(b.DistanceTraveled, b.Position);

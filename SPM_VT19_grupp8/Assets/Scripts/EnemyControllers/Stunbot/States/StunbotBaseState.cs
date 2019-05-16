@@ -25,7 +25,7 @@ public class StunbotBaseState : State
     protected float SkinWidth { get { return Owner.SkinWidth; } }
 
 
-    protected bool foundPath { get; set; }
+    protected bool hasPath { get; set; } // use this to make sure the entire path is followed?
     protected Vector3 NextTargetPosition { get; set; }
     protected SortedList<float, Vector3> Paths { get; private set; } = new SortedList<float, Vector3>();
 
@@ -34,7 +34,7 @@ public class StunbotBaseState : State
     public override void Initialize(StateMachine owner)
     {
         Owner = (StunbotStateMachine)owner;
-        foundPath = false;
+        hasPath = false;
     }
 
     public override void HandleUpdate()
