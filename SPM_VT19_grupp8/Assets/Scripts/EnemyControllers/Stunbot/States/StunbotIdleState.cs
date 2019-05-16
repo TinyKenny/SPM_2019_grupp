@@ -9,7 +9,14 @@ public class StunbotIdleState : StunbotBaseState
     public override void Enter()
     {
         base.Enter();
-        FindTarget();
+        if (PatrolLocations != null)
+        {
+            FindTarget(PatrolLocations[CurrentPatrolPointIndex].position);
+        }
+        else
+        {
+            NextTargetPosition = ThisTransform.position;
+        }
     }
 
     public override void HandleUpdate()
@@ -20,7 +27,7 @@ public class StunbotIdleState : StunbotBaseState
 
         base.HandleUpdate();
 
-        if (CanSeePlayer(60.0f))
+        if (false && CanSeePlayer(60.0f))
         {
             Owner.TransitionTo<StunbotChaseState>();
         }
@@ -42,7 +49,7 @@ public class StunbotIdleState : StunbotBaseState
             else
             {
                 CurrentPatrolPointIndex = (CurrentPatrolPointIndex + 1) % PatrolLocations.Length;
-                FindTarget();
+                FindTarget(PatrolLocations[CurrentPatrolPointIndex].position);
             }
         }
     }

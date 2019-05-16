@@ -27,8 +27,8 @@ public class StunbotStateMachine : EnemyStateMachine
     #endregion
 
     #region serialized private variables
-    [SerializeField] private LayerMask visionMask;
-    [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private LayerMask visionMask = 0;
+    [SerializeField] private LayerMask playerLayer = 0;
     #endregion
 
     #region non-serialized private variables
@@ -36,7 +36,7 @@ public class StunbotStateMachine : EnemyStateMachine
     #endregion
 
     #region readonly values
-    public readonly float allowedOriginDistance = 100.0f;
+    public readonly float allowedOriginDistance = 40.0f;
     #endregion
 
     protected override void Awake()
@@ -45,11 +45,7 @@ public class StunbotStateMachine : EnemyStateMachine
         ThisCollider = GetComponent<SphereCollider>();
         PathFinder = GetComponent<AStarPathfindning>();
         CurrentPatrolPointIndex = 0;
-        if(PatrolLocations.Length == 0)
-        {
-            PatrolLocations = new Transform[1];
-            PatrolLocations[0] = transform;
-        }
+
         base.Awake();
     }
 

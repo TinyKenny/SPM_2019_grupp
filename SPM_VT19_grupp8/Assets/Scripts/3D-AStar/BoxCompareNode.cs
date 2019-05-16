@@ -11,18 +11,18 @@ using System;
 public class BoxCompareNode : IComparable<BoxCompareNode>
 {
     private NavBox box;
-    private BoxCompareNode end;
+    private Vector3 endPosition;
 
     public BoxCompareNode Previous { get; set; }
-    public List<NavBox> Neighbours { get { return box.Neighbours; } }
+    public List<NavBox> Neighbours { get { return box.GetNeighbours(); } }
     public float DistanceTraveled { get; set; } = Mathf.Infinity;
     public bool Known { get; set; } = false;
     public Vector3 Position { get; set; }
 
-    public BoxCompareNode (NavBox b, BoxCompareNode e)
+    public BoxCompareNode (NavBox b, Vector3 e)
     {
         box = b;
-        end = e;
+        endPosition = e;
         Previous = null;
     }
 
@@ -37,7 +37,7 @@ public class BoxCompareNode : IComparable<BoxCompareNode>
     /// <returns>Heuristic path plus how far it has travelled to get to this node</returns>
     private float GetValue()
     {
-        return (end.box.transform.position - box.transform.position).magnitude + PreviousDistance();
+        return (endPosition - Position).sqrMagnitude + PreviousDistance();
     }
 
     /// <summary>
@@ -50,7 +50,7 @@ public class BoxCompareNode : IComparable<BoxCompareNode>
 
         if (Previous != null)
         {
-            previousDistance += (box.Coll.bounds.max - Previous.box.Coll.bounds.max).magnitude + Previous.PreviousDistance();
+            previousDistance += (box.Coll.bounds.max - Previous.box.Coll.bounds.max).sqrMagnitude + Previous.PreviousDistance();
         }
 
         return previousDistance;

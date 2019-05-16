@@ -25,6 +25,7 @@ public class StunbotBaseState : State
     protected float SkinWidth { get { return Owner.SkinWidth; } }
 
 
+    protected bool foundPath { get; set; }
     protected Vector3 NextTargetPosition { get; set; }
     protected SortedList<float, Vector3> Paths { get; private set; } = new SortedList<float, Vector3>();
 
@@ -33,6 +34,7 @@ public class StunbotBaseState : State
     public override void Initialize(StateMachine owner)
     {
         Owner = (StunbotStateMachine)owner;
+        foundPath = false;
     }
 
     public override void HandleUpdate()
@@ -43,6 +45,21 @@ public class StunbotBaseState : State
 
         if (Paths.Count > 0)
         {
+            #region debugging
+
+            Color pathDrawColor = new Color32(255, 165, 0, 255);
+            Vector3 lastPosition = NextTargetPosition;
+
+            Debug.DrawLine(ThisTransform.position, lastPosition, pathDrawColor);
+
+            foreach(KeyValuePair<float, Vector3> pos in Paths)
+            {
+                Debug.DrawLine(lastPosition, pos.Value, pathDrawColor);
+                lastPosition = pos.Value;
+            }
+
+            #endregion
+
             if (Vector3.Distance(NextTargetPosition, ThisTransform.position) < Mathf.Max(Velocity.magnitude * 0.1f, 0.1f))
             {
                 float f = 0;
@@ -170,7 +187,7 @@ public class StunbotBaseState : State
         if (Vector3.Dot(Velocity.normalized, direction) > 0.0f)
         {
             Vector3 lerpTargetVector = direction * Velocity.magnitude;
-            Velocity = Vector3.Lerp(Velocity, lerpTargetVector, 1.5f * Time.deltaTime);
+            Velocity = Vector3.Slerp(Velocity, lerpTargetVector, 3.0f * Time.deltaTime);
         }
     }
 
@@ -195,18 +212,42 @@ public class StunbotBaseState : State
     /// Uses A* pathfinding to find the "best" path to the position of the player character.
     /// If no working path was found, the stunbot will fly straight towards the position of the player character.
     /// </summary>
-    protected virtual void FindTarget()
+    protected virtual void FindTarget(Vector3 target)
     {
-        if (PlayerTransform == null)
-        {
-            NextTargetPosition = ThisTransform.position;
-            Paths = PathFinder.FindPath(ThisTransform.position, PlayerTransform.position);
+        // pathfinding doesnt go all the way, missing final "step"?
+        // stunbot skips the final point of the path
 
-            if (Paths == null)
-            {
-                NextTargetPosition = PatrolLocations[CurrentPatrolPointIndex].position;
-            }
+
+        #region in development
+        //bool cantFlyDirectly;
+        //RaycastHit raycastHit;
+
+        //cantFlyDirectly = Physics.SphereCast(ThisTransform.position, ThisCollider.radius, (target - ThisTransform.position).normalized, out raycastHit, VisionMask);
+        #endregion
+
+        NextTargetPosition = ThisTransform.position;
+        Paths = PathFinder.FindPath(ThisTransform.position, target);
+
+        if(Paths == null)
+        {
+            Debug.Log("no path found!");
+            Paths = new SortedList<float, Vector3>();
+            NextTargetPosition = target;
         }
+
+
+
+
+        //if (PlayerTransform == null)
+        //{
+        //    NextTargetPosition = ThisTransform.position;
+        //    Paths = PathFinder.FindPath(ThisTransform.position, PlayerTransform.position);
+
+        //    if (Paths == null)
+        //    {
+        //        NextTargetPosition = PatrolLocations[CurrentPatrolPointIndex].position;
+        //    }
+        //}
     }
 
     protected virtual void NoTargetAvailable()

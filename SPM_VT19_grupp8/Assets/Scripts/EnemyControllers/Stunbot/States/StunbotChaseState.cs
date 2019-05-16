@@ -5,23 +5,33 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "States/Enemies/Stunbot/Chase State")]
 public class StunbotChaseState : StunbotBaseState
 {
-    private bool foundPath = false;
-
     public override void Enter()
     {
         base.Enter();
-        FindTarget();
-        foundPath = true;
+        if (PlayerTransform != null)
+        {
+            FindTarget(PlayerTransform.position);
+            foundPath = true;
+        }
+        else
+        {
+            NextTargetPosition = ThisTransform.position;
+            foundPath = false;
+        }
     }
 
     public override void HandleUpdate()
     {
         //raycasta för att kolla om man behöver räkna ut en ny väg
-        RaycastHit hit = new RaycastHit();
-        if ((!foundPath) && Physics.SphereCast(ThisTransform.position, ThisCollider.radius, (PlayerTransform.position - ThisTransform.position).normalized, out hit, Mathf.Infinity, VisionMask))
+        if (PlayerTransform != null)
         {
-            foundPath = true;
-            FindTarget();
+            RaycastHit hit = new RaycastHit();
+            if ((!foundPath) && Physics.SphereCast(ThisTransform.position, ThisCollider.radius, (PlayerTransform.position - ThisTransform.position).normalized, out hit, Mathf.Infinity, VisionMask))
+            {
+                Debug.Log(foundPath);
+                foundPath = true;
+                FindTarget(PlayerTransform.position);
+            }
         }
 
         FlyToTarget(NextTargetPosition);
@@ -56,7 +66,13 @@ public class StunbotChaseState : StunbotBaseState
 
     protected override void NoTargetAvailable()
     {
-        NextTargetPosition = PlayerTransform.position;
-        foundPath = false;
+        if (PlayerTransform != null)
+        {
+            NextTargetPosition = PlayerTransform.position;
+        }
+        else
+        {
+            NextTargetPosition = ThisTransform.position;
+        }
     }
 }

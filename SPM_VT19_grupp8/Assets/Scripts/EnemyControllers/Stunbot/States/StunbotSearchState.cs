@@ -11,7 +11,7 @@ public class StunbotSearchState : StunbotBaseState
     {
         base.Enter();
         searchTimer = 30.0f;
-        FindTarget();
+        FindTarget(LastPlayerLocation);
     }
 
     public override void HandleUpdate()

@@ -27,21 +27,23 @@ public class AStarPathfindning : MonoBehaviour
 
         try
         {
+            LayerMask navLayer = LayerMask.GetMask(new string[] {"3DNavMesh"});
             Collider[] colls;
-            colls = Physics.OverlapBox(end, new Vector3(0.1f, 0.1f, 0.1f), Quaternion.identity, 1 << 14); //end
-            colls = Physics.OverlapBox(start, new Vector3(0.1f, 0.1f, 0.1f), Quaternion.identity, 1 << 14); //start
 
+            colls = Physics.OverlapBox(end, new Vector3(0.1f, 0.1f, 0.1f), Quaternion.identity, navLayer); //end
             NavBox endBox = colls[0].GetComponent<NavBox>();
+
+            colls = Physics.OverlapBox(start, new Vector3(0.1f, 0.1f, 0.1f), Quaternion.identity, navLayer); //start
             NavBox startBox = colls[0].GetComponent<NavBox>();
 
-            bcnEnd = new BoxCompareNode(endBox, null);
-            bcnStart = new BoxCompareNode(startBox, bcnEnd);
+            bcnEnd = new BoxCompareNode(endBox, end);
+            bcnStart = new BoxCompareNode(startBox, end);
         }
         catch (System.IndexOutOfRangeException)
         {
             return null;
         }
-        
+
         list = new Dictionary<NavBox, BoxCompareNode>();
         pq = new PriorityQueue();
 
@@ -53,23 +55,29 @@ public class AStarPathfindning : MonoBehaviour
         pq.Insert(bcnStart);
         Vector3 currentPosition = start;
 
-        while (!bcnEnd.Known && !(pq.Size() == 0))
+        int laps = 0; // for testing purposes
+
+        while (bcnEnd.Known == false && pq.Size() != 0)
         {
+            laps++; // for testing purposes
+
             BoxCompareNode box = pq.DeleteMin();
             currentPosition = box.Position;
 
             if(box.GetBox() == bcnEnd.GetBox())
             {
+                Debug.Log("End found");
                 break;
             }
 
             if (!box.Known)
             {
+                
                 box.Known = true;
 
                 foreach (NavBox aBox in box.Neighbours)
                 {
-                    BoxCompareNode compBox = new BoxCompareNode(aBox, bcnEnd);
+                    BoxCompareNode compBox = new BoxCompareNode(aBox, end);
                     if (list.ContainsKey(aBox))
                     {
                         compBox = list[aBox];
@@ -81,9 +89,8 @@ public class AStarPathfindning : MonoBehaviour
 
                     if (!compBox.Known)
                     {
-                        //Vector3 nextPosition = compBox.GetBox().Coll.ClosestPointOnBounds(currentPosition);
-                        Vector3 nextPosition = compBox.GetBox().Coll.center + compBox.GetBox().transform.position;
-                        float distance = box.DistanceTraveled + Vector3.Distance(currentPosition, nextPosition);
+                        Vector3 nextPosition = compBox.GetBox().Coll.ClosestPointOnBounds(currentPosition);
+                        float distance = box.DistanceTraveled + (currentPosition - nextPosition).sqrMagnitude;
                         if (distance < compBox.DistanceTraveled)
                         {
                             compBox.DistanceTraveled = distance;
@@ -97,6 +104,8 @@ public class AStarPathfindning : MonoBehaviour
         }
 
         SortedList<float, Vector3> paths = new SortedList<float, Vector3>();
+
+        Debug.Log("number of boxes checked: " + laps); // for testing purposes
 
         for (BoxCompareNode b = list[bcnEnd.GetBox()]; b != null; b = list[b.GetBox()].Previous)
         {

@@ -9,9 +9,9 @@ using System;
 /// </summary>
 public class NavBox : MonoBehaviour, IEquatable<NavBox>
 {
-    public List<NavBox> Neighbours { get; set; } = new List<NavBox>();
+    [HideInInspector] [SerializeField]
+    private List<NavBox> neighbours = new List<NavBox>();
     public BoxCollider Coll { get; private set; }
-
 
     private void Awake()
     {
@@ -33,5 +33,10 @@ public class NavBox : MonoBehaviour, IEquatable<NavBox>
     public override int GetHashCode()
     {
         return gameObject.GetHashCode();
+    }
+
+    public List<NavBox> GetNeighbours()
+    {
+        return neighbours;
     }
 }

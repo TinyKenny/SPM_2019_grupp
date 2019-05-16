@@ -126,7 +126,7 @@ public class NavmeshRenderer : MonoBehaviour
         foreach (Collider coll in colliders)
         {
             if (!coll.transform.gameObject.Equals(traversableBox.gameObject))
-                traversableBox.GetComponent<NavBox>().Neighbours.Add(coll.transform.GetComponent<NavBox>());
+                traversableBox.GetComponent<NavBox>().GetNeighbours().Add(coll.transform.GetComponent<NavBox>());
         }
     }
 }
