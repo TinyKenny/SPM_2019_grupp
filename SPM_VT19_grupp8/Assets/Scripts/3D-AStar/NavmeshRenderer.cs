@@ -61,10 +61,6 @@ public class NavmeshRenderer : MonoBehaviour
             boxes.Remove(area.GetComponent<NavBox>());
             DestroyImmediate(area.gameObject);
         }
-        else
-        {
-            
-        }
         return area;
     }
 

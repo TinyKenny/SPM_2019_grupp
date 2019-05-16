@@ -825,14 +825,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cef0a30bdeb013048baf9e531ddcaa9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookSensitivity: 10
-  gamePadSensitivity: 15
-  mouseSensitivity: 1
   playerTransform: {fileID: 1828900657}
-  playerLayer:
+  ignoreLayer:
     serializedVersion: 2
-    m_Bits: 1024
-  thirdPerson: 1
+    m_Bits: 0
   rotationX: 0
   rotationY: 0
   aimFOV: 30
@@ -2647,6 +2643,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5805542884097080927, guid: cc03fd6b535ec1f43a36b04dee47abdf,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -3.8701172
+      objectReference: {fileID: 0}
     - target: {fileID: 4002492119716555742, guid: cc03fd6b535ec1f43a36b04dee47abdf,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -2860,6 +2861,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
+        type: 3}
+      propertyPath: ammoNumber
+      value: 
+      objectReference: {fileID: 1309507550}
+    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
+        type: 3}
+      propertyPath: timeSlowEnergy
+      value: 
+      objectReference: {fileID: 805541944}
+    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
+        type: 3}
+      propertyPath: shieldAmount
+      value: 
+      objectReference: {fileID: 1861549786}
+    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
+        type: 3}
+      propertyPath: respawnPoint
+      value: 
+      objectReference: {fileID: 129343101}
     - target: {fileID: 2112523359584729376, guid: 8bc4dc44ebc45d0408638807052809b2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2915,31 +2941,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
+    - target: {fileID: 5504036232725367530, guid: 8bc4dc44ebc45d0408638807052809b2,
         type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
-        type: 3}
-      propertyPath: ammoNumber
-      value: 
-      objectReference: {fileID: 1309507550}
-    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
-        type: 3}
-      propertyPath: timeSlowEnergy
+      propertyPath: slowMotionEnergySlider
       value: 
       objectReference: {fileID: 805541944}
-    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
-        type: 3}
-      propertyPath: shieldAmount
-      value: 
-      objectReference: {fileID: 1861549786}
-    - target: {fileID: 2112523359584729377, guid: 8bc4dc44ebc45d0408638807052809b2,
-        type: 3}
-      propertyPath: respawnPoint
-      value: 
-      objectReference: {fileID: 129343101}
     - target: {fileID: 2112523359584729378, guid: 8bc4dc44ebc45d0408638807052809b2,
         type: 3}
       propertyPath: m_Enabled
