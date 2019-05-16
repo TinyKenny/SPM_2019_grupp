@@ -6,14 +6,12 @@ using UnityEngine;
 public class StunbotSearchState : StunbotBaseState
 {
     private float searchTimer;
-    Vector3 direction;
 
     public override void Enter()
     {
         base.Enter();
         searchTimer = 30.0f;
         FindTarget();
-        direction = Vector3.zero;
     }
 
     public override void HandleUpdate()
