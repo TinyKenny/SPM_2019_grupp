@@ -47,4 +47,9 @@ public class EnemySpawner : MonoBehaviour
             currentGO.GetComponent<EnemyStateMachine>().PatrolLocations = PatrolLocations;
         }
     }
+
+    private void OnDestroy()
+    {
+        EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<PlayerRespawnEventInfo>(SpawnEnemy);
+    }
 }

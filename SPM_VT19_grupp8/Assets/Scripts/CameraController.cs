@@ -93,4 +93,9 @@ public class CameraController : MonoBehaviour
         rotationY = transform.rotation.eulerAngles.y;
         rotationX = transform.rotation.eulerAngles.x;
     }
+
+    private void OnDestroy()
+    {
+        EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<PlayerRespawnEventInfo>(OnPlayerRespawn);
+    }
 }

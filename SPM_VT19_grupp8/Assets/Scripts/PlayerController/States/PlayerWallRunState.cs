@@ -33,7 +33,6 @@ public class PlayerWallRunState : PlayerAirState
     {
         Movement();
 
-
         CauseDiegeticSound();
 
         CheckStateChange();
@@ -93,7 +92,9 @@ public class PlayerWallRunState : PlayerAirState
         Vector3 projection = Vector3.Dot(Velocity, wallNormal) * wallNormal;
         Vector3 tempVelocity = Velocity - projection;
         Vector3 magnitude = projection.magnitude * tempVelocity.normalized;
-        return  magnitude;
+        magnitude = Vector3.ClampMagnitude(magnitude, Velocity.magnitude);
+
+        return Vector3.Max(magnitude, magnitude.normalized * Velocity.magnitude);
     }
 
     public override void Exit()

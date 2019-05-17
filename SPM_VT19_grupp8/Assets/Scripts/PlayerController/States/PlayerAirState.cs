@@ -107,7 +107,7 @@ public class PlayerAirState : PlayerBaseState
         {
             Velocity = Vector3.Slerp(Velocity, (normal + Vector3.up) * JumpPower, 0.4f);
 
-            jumpPower *= 0.7f;
+            jumpPower *= 0.5f;
             Animator.SetTrigger("Jump");
             Owner.TransitionTo<PlayerAirState>();
         }

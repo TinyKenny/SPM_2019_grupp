@@ -41,4 +41,9 @@ public class AmmoPickup : MonoBehaviour
         gameObject.SetActive(true);
         EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<PlayerRespawnEventInfo>(EnablePickup);
     }
+
+    private void OnDestroy()
+    {
+        EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<PlayerRespawnEventInfo>(EnablePickup);
+    }
 }
