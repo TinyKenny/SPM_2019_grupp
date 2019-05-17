@@ -114,7 +114,7 @@ MonoBehaviour:
   maxSpeed: 12
   frictionCoefficient: 0.8
   airResistanceCoefficient: 0.9
-  gravity: 25
+  gravity: 20
   skinWidth: 0.02
   velocity: {x: 0, y: 0, z: 0}
 --- !u!114 &5504036232725367530
@@ -171,6 +171,8 @@ MonoBehaviour:
   shieldAmount: {fileID: 0}
   wallrunCooldownAmount: 0.5
   jumpPower: 12.5
+  attackAngle: 0.25
+  attackRange: 10
   movementSoundRange: 20
   shootSoundRange: 50
   ammoNumber: {fileID: 0}

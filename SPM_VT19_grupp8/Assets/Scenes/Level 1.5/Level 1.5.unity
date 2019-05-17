@@ -31505,11 +31505,6 @@ PrefabInstance:
       propertyPath: aus
       value: 
       objectReference: {fileID: 1446426774}
-    - target: {fileID: 2112523359584729378, guid: 8bc4dc44ebc45d0408638807052809b2,
-        type: 3}
-      propertyPath: gravity
-      value: 20
-      objectReference: {fileID: 0}
     - target: {fileID: 7324594909714858374, guid: 8bc4dc44ebc45d0408638807052809b2,
         type: 3}
       propertyPath: m_IsActive
