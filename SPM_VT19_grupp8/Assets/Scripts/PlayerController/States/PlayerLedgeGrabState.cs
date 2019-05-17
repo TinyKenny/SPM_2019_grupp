@@ -75,5 +75,6 @@ public class PlayerLedgeGrabState : PlayerBaseState
     {
         base.Exit();
         Animator.SetBool("LedgeGrab", false);
+        forwardClimbPosition = Vector3.zero;
     }
 }
