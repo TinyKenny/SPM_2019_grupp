@@ -9,12 +9,14 @@ public class PlayerLedgeGrabState : PlayerBaseState
     private float climbForwardSpeed = 25f;
     private float climbForwardLength = 0.6f;
     private Vector3 forwardClimbPosition;
+    private Vector3 wallNormal;
 
     public override void Enter()
     {
         Velocity = Vector3.zero;
         Animator.SetBool("LedgeGrab", true);
         FindCollision(Transform.forward, out RaycastHit hit, SkinWidth * 5);
+        wallNormal = hit.normal;
     }
 
     public override void HandleUpdate()
@@ -39,17 +41,18 @@ public class PlayerLedgeGrabState : PlayerBaseState
             {
                 Velocity += Transform.up * climbUpSpeed * Time.deltaTime;
             }
-            else
-            {
-                forwardClimbPosition = Transform.position;
-            }
         }
         else
         {
+            if (forwardClimbPosition.Equals(Vector3.zero))
+            {
+                forwardClimbPosition = Transform.position;
+            }
             ClimbForward();
 
             if (Vector3.Distance(Vector3.ProjectOnPlane(forwardClimbPosition, Transform.up), Vector3.ProjectOnPlane(Transform.position, Transform.up)) > climbForwardLength)
             {
+                Debug.Log(Vector3.Distance(Vector3.ProjectOnPlane(forwardClimbPosition, Transform.up), Vector3.ProjectOnPlane(Transform.position, Transform.up)));
                 Owner.TransitionTo<PlayerAirState>();
             }
         }
