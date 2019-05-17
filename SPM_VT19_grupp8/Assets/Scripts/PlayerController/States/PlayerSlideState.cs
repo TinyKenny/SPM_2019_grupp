@@ -8,6 +8,9 @@ public class PlayerSlideState : PlayerBaseState
     [Range(0.0f, 1.0f)]
     public float decelerationMultiplier = 0.1f;
 
+    private bool standingObstructed;
+    private bool grounded;
+
     public override void Initialize(StateMachine owner)
     {
         base.Initialize(owner);
@@ -33,9 +36,19 @@ public class PlayerSlideState : PlayerBaseState
 
         Shoot();
 
+        standingObstructed = FindCollision(Vector3.up, Mathf.Clamp(StandardColliderHeight, SkinWidth + ThisCollider.radius * 2, Mathf.Infinity) - ThisCollider.radius * 2);
+        grounded = GroundCheck();
+
+        if(grounded && standingObstructed == false && Input.GetButton("Jump"))
+        {
+            Debug.Log("slide jump");
+            Velocity += Vector3.up * JumpPower;
+            Owner.TransitionTo<PlayerAirState>();
+        }
+
         CheckCollision(Velocity * PlayerDeltaTime);
 
-        if (!GroundCheck())
+        if (!grounded)
         {
             Owner.TransitionTo<PlayerAirState>();
         }
@@ -45,7 +58,7 @@ public class PlayerSlideState : PlayerBaseState
         }
         else if (!Input.GetButton("Crouch"))
         {
-            if (FindCollision(Vector3.up, Mathf.Clamp(StandardColliderHeight, SkinWidth + ThisCollider.radius * 2, Mathf.Infinity) - ThisCollider.radius * 2))
+            if (standingObstructed)
             {
                 Owner.TransitionTo<PlayerCrouchState>();
             }
