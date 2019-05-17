@@ -194,7 +194,7 @@ public class StunbotBaseState : State
     /// <summary>
     /// Linearly decelerates, untill the magnitude of Velocity zero.
     /// </summary>
-    private void Decelerate()
+    protected void Decelerate()
     {
         Vector3 decelerationvector = Velocity.normalized * Deceleration * Time.deltaTime;
 

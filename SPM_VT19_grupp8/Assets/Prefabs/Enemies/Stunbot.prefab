@@ -132,9 +132,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 15173d1ee78928b40afc08e52d5d0ac1, type: 2}
   - {fileID: 11400000, guid: 67cbb676ea65fa84cb9957c3ae59a2ea, type: 2}
   - {fileID: 11400000, guid: 79d0ede46bd873348a7105878e14a5b2, type: 2}
+  - {fileID: 11400000, guid: 4fcaba227804b5e4d8bf3689460b644b, type: 2}
   currentState: {fileID: 0}
-  playerTransform: {fileID: 0}
-  patrolLocations: []
   alertSound: {fileID: 0}
   visionMask:
     serializedVersion: 2
@@ -142,18 +141,6 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 1024
-  thisCollider: {fileID: 0}
-  turningModifier: 1
-  currentPatrolPointIndex: 0
-  lastPlayerLocation: {x: 0, y: 0, z: 0}
-  faceDirection: {x: 0, y: 0, z: 0}
-  NavLayer:
-    serializedVersion: 2
-    m_Bits: 16384
-  EnviromentLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  PathFinder: {fileID: 0}
 --- !u!114 &8340632382355158521
 MonoBehaviour:
   m_ObjectHideFlags: 0

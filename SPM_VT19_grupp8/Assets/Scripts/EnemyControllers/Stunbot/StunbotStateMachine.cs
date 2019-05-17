@@ -53,4 +53,14 @@ public class StunbotStateMachine : EnemyStateMachine
     {
         base.Update();
     }
+
+    protected override void HitByPlayerAttack(PlayerAttackEventInfo pAEI)
+    {
+        base.HitByPlayerAttack(pAEI);
+
+        Vector3 directionFromAttackOrigin = (transform.position - pAEI.Origin).normalized;
+
+        Velocity = directionFromAttackOrigin;
+        TransitionTo<StunbotBoopedState>();
+    }
 }

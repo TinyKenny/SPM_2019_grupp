@@ -17,6 +17,7 @@ public class EnemyStateMachine : StateMachine
     protected override void Awake()
     {
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerDiegeticSoundEventInfo>(PlayerSoundAlertCheck);
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerAttackEventInfo>(OnPlayerAttack);
         aus = GetComponent<AudioSource>();
         base.Awake();
     }
@@ -42,6 +43,36 @@ public class EnemyStateMachine : StateMachine
                     HeardPlayer(enemyEvent.GO);
             }
         }
+    }
+
+    /// <summary>
+    /// Determines wether the enemy is hit a player attack or not.
+    /// If the enemy is hit, calls the virtual method 
+    /// </summary>
+    /// <param name="eI"></param>
+    private void OnPlayerAttack(EventInfo eI)
+    {
+        PlayerAttackEventInfo pAEI = (PlayerAttackEventInfo)eI;
+
+        Vector3 positionDifference = transform.position - pAEI.Origin;
+
+        if(positionDifference.sqrMagnitude < pAEI.Range * pAEI.Range && Vector3.Dot(positionDifference.normalized, pAEI.Direction) >= pAEI.Angle)
+        {
+            HitByPlayerAttack(pAEI);
+        }
+
+
+
+
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="pAEI"></param>
+    protected virtual void HitByPlayerAttack(PlayerAttackEventInfo pAEI)
+    {
+
     }
 
     /// <summary>
