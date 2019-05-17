@@ -32,7 +32,7 @@ public class PlayerBaseState : State
 
     protected PlayerStateMachine Owner { get; private set; }
 
-    [Header("Leave at 1 in WalkingState")]
+    [Header("Leave at 1 in WalkingState"), Min(0.0f)]
     [SerializeField] protected float MaxSpeedMod = 1.0f;
 
 
