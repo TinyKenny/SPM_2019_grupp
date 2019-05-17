@@ -27,7 +27,7 @@ public class StunbotIdleState : StunbotBaseState
 
         base.HandleUpdate();
 
-        if (false && CanSeePlayer(60.0f))
+        if (CanSeePlayer(60.0f))
         {
             Owner.TransitionTo<StunbotChaseState>();
         }
