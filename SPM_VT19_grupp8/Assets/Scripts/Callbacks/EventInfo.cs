@@ -69,3 +69,35 @@ public class AmmoPickupEventInfo : EventInfo
         AmmoAmount = amount;
     }
 }
+
+/// <summary>
+/// <see cref="EventInfo"/> class for when the player attacks. Every enemy should have a listener for this event type.
+/// </summary>
+public class PlayerAttackEventInfo : EventInfo
+{
+    public Vector3 Origin { get; private set; }
+    public Vector3 Direction { get; private set; }
+    public int Range { get; private set; }
+
+    /// <summary>
+    /// Constructor for player attack events.
+    /// </summary>
+    /// <param name="gO">The gameobject of the player.</param>
+    /// <param name="origin">The origin point of the attack, typically the position of the player</param>
+    /// <param name="direction">The "forward" direction of the attack.</param>
+    /// <param name="angle">
+    ///     How aligned an object must be with <see cref="Direction"/> in order to be hit.
+    ///     Ranges from 0 to 1, where:
+    ///         0 means the attack only hits objects directly in front of it
+    ///         0.5 means the attack hits objects in a half-sphere in front of it
+    ///         1 means it hits objects in a full sphere around it.
+    /// </param>
+    /// <param name="range">The maximum distance at which the attack can hit an object.</param>
+    /// <param name="description">Optional description field.</param>
+    public PlayerAttackEventInfo(GameObject gO, Vector3 origin, Vector3 direction, float angle, int range, string description = "Player attacked") : base(gO, description)
+    {
+        Origin = origin;
+        Direction = direction;
+        Range = range;
+    }
+}

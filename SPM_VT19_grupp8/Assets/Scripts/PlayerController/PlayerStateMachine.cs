@@ -232,6 +232,15 @@ public class PlayerStateMachine : StateMachine
 
     public void Shoot()
     {
+        if(Mathf.Approximately(Input.GetAxisRaw("Shoot"), 1.0f) && fireCoolDown < 0 && Ammo > 0 && Time.timeScale > 0)
+        {
+            //PlayerAttackEventInfo pAEI = new PlayerAttackEventInfo();
+
+
+            //EventCoordinator.CurrentEventCoordinator.ActivateEvent();
+        }
+
+
         if (Input.GetAxisRaw("Aim") == 1f)
         {
             //MainCameraController.Aiming();

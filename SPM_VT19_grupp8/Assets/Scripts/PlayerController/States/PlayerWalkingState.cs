@@ -37,17 +37,6 @@ public class PlayerWalkingState : PlayerBaseState
         {
             Owner.TransitionTo<PlayerAirState>();
         }
-        else if(Input.GetButton("Crouch"))
-        {
-            if (Velocity.magnitude > (MaxSpeed / 2) && Mathf.Approximately(MaxSpeedMod, 1.0f))
-            {
-                Owner.TransitionTo<PlayerSlideState>();
-            }
-            else
-            {
-                Owner.TransitionTo<PlayerCrouchState>();
-            }
-        }
     }
 
     private void MovementInput()
