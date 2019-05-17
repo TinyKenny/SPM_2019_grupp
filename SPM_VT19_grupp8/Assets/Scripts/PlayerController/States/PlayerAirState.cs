@@ -8,7 +8,7 @@ public class PlayerAirState : PlayerBaseState
     private Vector3 direction;
     protected float MinimumYVelocity = -10f;
     protected float maxYVelocity = 12.5f;
-    protected static float jumpPower = 15f; // get rid of this somehow?
+    protected static float jumpPower = 12.5f; // get rid of this somehow?
 
     public override void HandleUpdate()
     {

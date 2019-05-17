@@ -17,6 +17,8 @@ public class PlayerLedgeGrabState : PlayerBaseState
         Animator.SetBool("LedgeGrab", true);
         FindCollision(Transform.forward, out RaycastHit hit, SkinWidth * 5);
         wallNormal = hit.normal;
+
+        Transform.LookAt(Transform.position - wallNormal);
     }
 
     public override void HandleUpdate()

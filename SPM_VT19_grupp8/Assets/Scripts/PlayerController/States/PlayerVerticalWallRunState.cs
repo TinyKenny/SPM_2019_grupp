@@ -7,7 +7,6 @@ public class PlayerVerticalWallRunState : PlayerAirState
 {
     private float maxVerticalVelocity = 10f;
     private Vector3 wallNormal;
-    private float verticalSpeedMultiplier = 2;
 
     public override void Enter()
     {
@@ -16,9 +15,6 @@ public class PlayerVerticalWallRunState : PlayerAirState
         WallRun(out wall);
 
         wallNormal = wall.normal;
-
-        if(Velocity.y < 0)
-            Velocity = new Vector3(Velocity.x, 0f, Velocity.z);
 
         Velocity = ProjectSpeedOnSurface();
 
@@ -50,7 +46,6 @@ public class PlayerVerticalWallRunState : PlayerAirState
         else if (WallRun(out wall) && Velocity.y > MinimumYVelocity && Input.GetButton("Wallrun"))
         {
             LedgeGrabCheck();
-            //Velocity += Vector3.RotateTowards(MathHelper.NormalForce(Velocity, wallNormal), Vector3.up, 1, 1) * (Acceleration/5) /*Vector3.ClampMagnitude(new Vector3(0, Velocity.y, 0).normalized, 1.0f) * (Acceleration / 2)*/ * PlayerDeltaTime;
 
 
 
@@ -65,9 +60,11 @@ public class PlayerVerticalWallRunState : PlayerAirState
     private Vector3 ProjectSpeedOnSurface()
     {
         Vector3 projection = Vector3.Dot(Velocity, wallNormal) * wallNormal;
-        float magnitude = projection.magnitude * verticalSpeedMultiplier;
-        float velY = Mathf.Clamp(Velocity.y + magnitude, -20f, jumpPower);
-        return new Vector3(Velocity.x, Velocity.y + magnitude, Velocity.z) - projection;
+        Vector3 tempVelocity = Velocity - projection;
+        Vector3 magnitude = projection.magnitude * tempVelocity.normalized;
+        magnitude = Vector3.ClampMagnitude(magnitude, Velocity.magnitude);
+
+        return magnitude;
     }
 
     public override void Exit()
