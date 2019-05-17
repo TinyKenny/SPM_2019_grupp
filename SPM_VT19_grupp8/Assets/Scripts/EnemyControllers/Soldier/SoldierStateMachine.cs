@@ -26,6 +26,14 @@ public class SoldierStateMachine : EnemyStateMachine
     [Header("Random variance max in rate of fire")]
     [SerializeField] private float fireRateCooldownVarianceMax = 0.5f;
 
+
+    #region boop-values, move these
+    public Vector3 BoopVelocity { get { return boopVelocity; } set { boopVelocity = value; } }
+    private Vector3 boopVelocity = Vector3.zero;
+    public float BoopStrength { get { return boopStrength; } }
+    private float boopStrength = 18.5f;
+    #endregion
+
     protected override void Awake()
     {
         Agent = GetComponent<NavMeshAgent>();
@@ -39,6 +47,18 @@ public class SoldierStateMachine : EnemyStateMachine
             PlayerLastLocation = lastLocation;
             TransitionTo<SoldierAlertState>();
         }
-          
+    }
+
+    protected override void HitByPlayerAttack(PlayerAttackEventInfo pAEI)
+    {
+        Vector3 directionFromAttackOrigin = (transform.position - pAEI.Origin).normalized;
+        directionFromAttackOrigin = Vector3.Slerp(directionFromAttackOrigin, pAEI.Direction, 0.5f);
+
+
+        boopVelocity = Vector3.ClampMagnitude(boopVelocity + directionFromAttackOrigin * boopStrength, boopStrength);
+
+        
+
+        TransitionTo<SoldierBoopedState>();
     }
 }
