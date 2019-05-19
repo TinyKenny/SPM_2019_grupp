@@ -108,11 +108,11 @@ public class EnemyStateMachine : StateMachine
     public void SaveEnemy(EventInfo eI)
     {
         EnemySaveEventInfo sEI = (EnemySaveEventInfo)eI;
-        GameController.gameControllerInstance.CurrentSave.AddEnemy(transform.position, GetComponent<EnemyHealthPOC>().CurrentHealth);
+        GameController.GameControllerInstance.CurrentSave.AddEnemy(transform.position, GetComponent<EnemyHealthPOC>().CurrentHealth);
 
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath + "/gamesave.save");
-        bf.Serialize(file, GameController.gameControllerInstance.CurrentSave);
+        bf.Serialize(file, GameController.GameControllerInstance.CurrentSave);
         file.Close();
     }
 }

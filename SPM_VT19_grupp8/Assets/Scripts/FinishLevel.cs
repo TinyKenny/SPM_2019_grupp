@@ -11,7 +11,7 @@ public class FinishLevel : MonoBehaviour
         //Debug.Log("Wat");
         if (other.CompareTag("Player"))
         {
-            GameController.gameControllerInstance.LoadLevel(sceneToLoad);
+            GameController.GameControllerInstance.LoadLevel(sceneToLoad);
         }
     }
 }

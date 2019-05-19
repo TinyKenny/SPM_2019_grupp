@@ -44,6 +44,7 @@ public class MenuSetPlayerNameState : MenuBaseState
 
     public void LoadScene()
     {
+        SaveFile.ClearSave();
         PlayerPrefs.SetString("playerName", playerName);
         PlayerPrefs.SetFloat("playerTime", 0f);
         PlayerPrefs.SetInt("playerAmmo", 0);

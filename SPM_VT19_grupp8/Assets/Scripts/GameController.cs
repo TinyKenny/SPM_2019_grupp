@@ -22,7 +22,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public static GameController gameControllerInstance;
+    public static GameController GameControllerInstance { get; private set; }
     public Text timeText;
     public PlayerStateMachine player;
     public GameObject PausePanel;
@@ -30,10 +30,14 @@ public class GameController : MonoBehaviour
 
     private float levelTime = 0.0f;
     private SaveFile save = null;
-    
+
+    private void Awake()
+    {
+        GameControllerInstance = this;
+    }
+
     void Start()
     {
-        gameControllerInstance = this;
         levelTime = PlayerPrefs.GetFloat("playerTime");
         PlayerPrefs.SetFloat("playerTime", 0.0f);
         player.AddAmmo(new AmmoPickupEventInfo(gameObject, PlayerPrefs.GetInt("playerAmmo"))); // make this better, please
@@ -58,7 +62,9 @@ public class GameController : MonoBehaviour
 
     public void LoadLevel(int sceneIndex)
     {
-        if(SceneManager.GetActiveScene().buildIndex == 2)
+        SaveFile.ClearSave();
+
+        if (SceneManager.GetActiveScene().buildIndex == 2)
         {
             ScoreSaveLoad.SaveScore(PlayerPrefs.GetString("playerName"), levelTime);
         }
