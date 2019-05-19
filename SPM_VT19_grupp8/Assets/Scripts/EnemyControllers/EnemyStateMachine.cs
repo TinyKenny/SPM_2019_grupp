@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 /// <summary>
 /// Superclass for all enemy statemachines. Used for general variables all enemies should have and functions.
@@ -18,6 +20,7 @@ public class EnemyStateMachine : StateMachine
     {
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerDiegeticSoundEventInfo>(PlayerSoundAlertCheck);
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerAttackEventInfo>(OnPlayerAttack);
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<EnemySaveEventInfo>(SaveEnemy);
         aus = GetComponent<AudioSource>();
         base.Awake();
     }
@@ -99,5 +102,17 @@ public class EnemyStateMachine : StateMachine
     {
         EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<PlayerDiegeticSoundEventInfo>(PlayerSoundAlertCheck);
         EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<PlayerAttackEventInfo>(OnPlayerAttack);
+        EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<EnemySaveEventInfo>(SaveEnemy);
+    }
+
+    public void SaveEnemy(EventInfo eI)
+    {
+        EnemySaveEventInfo sEI = (EnemySaveEventInfo)eI;
+        GameController.gameControllerInstance.CurrentSave.AddEnemy(transform.position, GetComponent<EnemyHealthPOC>().CurrentHealth);
+
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(Application.persistentDataPath + "/gamesave.save");
+        bf.Serialize(file, GameController.gameControllerInstance.CurrentSave);
+        file.Close();
     }
 }

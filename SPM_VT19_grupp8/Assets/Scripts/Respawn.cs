@@ -14,16 +14,13 @@ public class Respawn : MonoBehaviour
         player = GameObject.Find("Player");
     }
 
-    private void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        if (!triggerd)
+        if (other.CompareTag("Player") && triggerd == false)
         {
-            if (Vector3.Distance(player.transform.position, transform.position) < 4.0f)
-            {
-                Debug.Log("Changed");
-                player.GetComponent<PlayerStateMachine>().respawnPoint = transform;
-                triggerd = true;
-            }
+            player.GetComponent<PlayerStateMachine>().respawnPoint = transform;
+            triggerd = true;
+            EventCoordinator.CurrentEventCoordinator.ActivateEvent(new EnemySaveEventInfo(gameObject));
         }
     }
 

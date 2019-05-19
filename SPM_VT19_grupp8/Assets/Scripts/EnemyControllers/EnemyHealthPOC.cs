@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyHealthPOC : MonoBehaviour
 {
+    public float CurrentHealth { get { return currentHealth; } }
+
     [SerializeField]private float maxHealth = 2.0f;
     private float currentHealth = 2.0f;
 

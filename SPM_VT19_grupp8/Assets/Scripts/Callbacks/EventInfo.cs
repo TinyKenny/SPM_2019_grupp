@@ -103,3 +103,9 @@ public class PlayerAttackEventInfo : EventInfo
         Range = range;
     }
 }
+
+public class EnemySaveEventInfo : EventInfo
+{public EnemySaveEventInfo(GameObject gO, string description = "Save current state of enemies") : base(gO, description)
+    {
+    }
+}

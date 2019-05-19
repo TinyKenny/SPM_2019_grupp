@@ -163,6 +163,8 @@ public class PlayerStateMachine : StateMachine
 
         PlayerRespawnEventInfo PREI = new PlayerRespawnEventInfo(gameObject);
         EventCoordinator.CurrentEventCoordinator.ActivateEvent(PREI);
+
+        GameController.gameControllerInstance.LoadGame();
     }
 
     /// <summary>
