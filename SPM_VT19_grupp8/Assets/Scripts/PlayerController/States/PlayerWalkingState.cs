@@ -9,10 +9,17 @@ public class PlayerWalkingState : PlayerBaseState
     protected bool jumpAllowed = true; //replace this with something better
     protected bool grounded = true;
     protected RaycastHit groundCheckHit;
+    private float groundToAirGracePeriod = 0.2f;
 
     public override void Initialize(StateMachine owner)
     {
         base.Initialize(owner);
+    }
+
+    public override void Enter()
+    {
+        jumpAllowed = true;
+        base.Enter();
     }
 
     public override void HandleUpdate()
@@ -35,7 +42,7 @@ public class PlayerWalkingState : PlayerBaseState
         
         if (!grounded)
         {
-            Owner.TransitionTo<PlayerAirState>();
+            Owner.Invoke("TransitToAirState", groundToAirGracePeriod);
         }
     }
 
@@ -55,13 +62,21 @@ public class PlayerWalkingState : PlayerBaseState
             {
                 Accelerate(direction);
             }
-
-            if (Input.GetButtonDown("Jump") && jumpAllowed && Time.timeScale > 0)
-            {
-                Animator.SetTrigger("Jump");
-                Velocity += Vector3.up * (JumpPower/* * Owner.TimeSlowMultiplier*/); // replace timwslowmultiplier with gravity reduction
-            }
         }
+
+        if (Input.GetButtonDown("Jump") && jumpAllowed && Time.timeScale > 0)
+        {
+            Jump();
+            jumpAllowed = false;
+        }
+    }
+
+    private void Jump()
+    {
+        Animator.SetTrigger("Jump");
+        Velocity = Vector3.ProjectOnPlane(Velocity, Transform.up);
+        Velocity += Vector3.up * JumpPower;
+        Owner.TransitionTo<PlayerAirState>();
     }
 
     private void Decelerate()

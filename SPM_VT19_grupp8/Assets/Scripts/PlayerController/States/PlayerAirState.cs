@@ -105,7 +105,7 @@ public class PlayerAirState : PlayerBaseState
 
         if (Input.GetButtonDown("Jump"))
         {
-            Velocity = Vector3.Slerp(Velocity, (normal + Vector3.up) * JumpPower, 0.4f);
+            Velocity = Vector3.Slerp(Vector3.ClampMagnitude(Velocity, jumpPower), (normal + Vector3.up) * jumpPower, 0.4f);
 
             jumpPower *= 0.5f;
             Animator.SetTrigger("Jump");

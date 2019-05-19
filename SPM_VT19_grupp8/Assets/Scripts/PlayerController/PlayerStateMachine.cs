@@ -295,4 +295,9 @@ public class PlayerStateMachine : StateMachine
         if (playerSound.AC != null)
             playerSound.GO.GetComponent<AudioSource>().PlayOneShot(playerSound.AC);
     }
+
+    public void TransitToAirState()
+    {
+        TransitionTo<PlayerAirState>();
+    }
 }
