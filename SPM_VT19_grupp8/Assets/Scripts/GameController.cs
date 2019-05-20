@@ -59,13 +59,15 @@ public class GameController : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(SelectedPauseButton);
             }
         }
+        else if(Time.timeScale > 0)
+            PausePanel.SetActive(false);
     }
 
     public void LoadLevel(int sceneIndex)
     {
         SaveFile.ClearSave();
 
-        if (SceneManager.GetActiveScene().buildIndex == 2)
+        if (SceneManager.GetActiveScene().buildIndex == 2 && sceneIndex == 3)
         {
             ScoreSaveLoad.SaveScore(PlayerPrefs.GetString("playerName"), levelTime);
         }
@@ -86,5 +88,10 @@ public class GameController : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    public void ReturnToMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 }

@@ -18,8 +18,13 @@ public class Respawn : MonoBehaviour
     {
         if (other.CompareTag("Player") && triggerd == false)
         {
-            player.GetComponent<PlayerStateMachine>().respawnPoint = transform;
+            player.GetComponent<PlayerStateMachine>().respawnPoint = transform.position;
+            player.GetComponent<PlayerStateMachine>().respawnRotation = transform.eulerAngles;
+            GameController.GameControllerInstance.CurrentSave.PlayerPosition = new PositionInfo(transform.position);
+            GameController.GameControllerInstance.CurrentSave.PlayerRotation = new PositionInfo(transform.eulerAngles);
+
             triggerd = true;
+
             EventCoordinator.CurrentEventCoordinator.ActivateEvent(new EnemySaveEventInfo(gameObject));
 
             SaveFile.ClearSave();

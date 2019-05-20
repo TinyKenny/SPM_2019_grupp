@@ -54,7 +54,8 @@ public class PlayerAirState : PlayerBaseState
 
             if (Input.GetButton("Wallrun") && Velocity.y > MinimumYVelocity && wallRunCheck.normal.y > -0.5f && Owner.WallrunAllowed()/* && Mathf.Abs(Vector3.Dot(wallRunCheck.normal, Vector3.up)) < MathHelper.floatEpsilon*/)
             {
-                float forwardMagnitude = (Velocity - Vector3.ProjectOnPlane(Velocity, Transform.forward)).magnitude;
+                Vector3 projectionOnForward = Vector3.ProjectOnPlane(Velocity, Transform.forward);
+                float forwardMagnitude = (Velocity - projectionOnForward).magnitude;
                 Animator.SetBool("WallRunning", true);
                 if (Mathf.Abs(Vector3.Angle(Transform.forward, wallRunCheck.normal)) > 160 && Vector3.Dot(wallRunCheck.normal, Transform.forward) < -0.8)
                 {

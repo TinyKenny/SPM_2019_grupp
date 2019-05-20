@@ -81,7 +81,11 @@ public class PlayerStateMachine : StateMachine
     public readonly float groundCheckDistance = 0.01f;
     #endregion
 
-    public Transform respawnPoint; // make this private, create a new event type ("CheckpointReachedEventInfo", maybe?) and make a listener for that event type in PlayerStateMachine
+    public Vector3 respawnPoint; // make this private, create a new event type ("CheckpointReachedEventInfo", maybe?) and make a listener for that event type in PlayerStateMachine
+    public Vector3 respawnRotation;
+
+    [SerializeField]
+    private Transform respawn;
 
     protected override void Awake()
     {
@@ -103,6 +107,7 @@ public class PlayerStateMachine : StateMachine
     
     private void Start()
     {
+        LoadInitialSpawn();
         Respawn();
     }
 
@@ -159,12 +164,12 @@ public class PlayerStateMachine : StateMachine
     /// </summary>
     public void Respawn()
     {
+        SaveFile.LoadSave();
+        
         ResetValues();
 
         PlayerRespawnEventInfo PREI = new PlayerRespawnEventInfo(gameObject);
         EventCoordinator.CurrentEventCoordinator.ActivateEvent(PREI);
-
-        SaveFile.LoadSave();
     }
 
     /// <summary>
@@ -177,8 +182,9 @@ public class PlayerStateMachine : StateMachine
     {
         Velocity = Vector3.zero;
         TransitionTo<PlayerAirState>();
-        transform.position = respawnPoint.position;
-        transform.rotation = Quaternion.Euler(0.0f, respawnPoint.rotation.eulerAngles.y, 0.0f);
+        transform.position = respawnPoint;
+        //transform.rotation = Quaternion.Euler(0.0f, respawnPoint.eulerAngles.y, 0.0f);
+        transform.eulerAngles = respawnRotation;
         Time.timeScale = 1.0f; // create stop-slow method?
         currentShields = shieldsMax;
         fireCoolDown = 0.0f;
@@ -186,7 +192,7 @@ public class PlayerStateMachine : StateMachine
         ammoNumber.text = Ammo.ToString();
         timeController.ResetValues();
     }
-
+   
     /// <summary>
     /// Adds the specified ammount of ammunition to the players reserves.
     /// </summary>
@@ -301,5 +307,26 @@ public class PlayerStateMachine : StateMachine
     public void TransitToAirState()
     {
         TransitionTo<PlayerAirState>();
+    }
+
+    private void LoadInitialSpawn()
+    {
+        if(GameController.GameControllerInstance.CurrentSave.PlayerPosition != null && GameController.GameControllerInstance.CurrentSave.PlayerRotation != null)
+        {
+            respawnPoint = GameController.GameControllerInstance.CurrentSave.PlayerPosition.Position;
+            respawnRotation = GameController.GameControllerInstance.CurrentSave.PlayerPosition.Position;
+        }
+        else
+        {
+            respawnPoint = respawn.position;
+            respawnRotation = respawn.eulerAngles;
+        }
+
+    }
+
+    private void OnDestroy()
+    {
+        EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<AmmoPickupEventInfo>(AddAmmo);
+        EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<PlayerDiegeticSoundEventInfo>(PlayerDiegeticSound);
     }
 }

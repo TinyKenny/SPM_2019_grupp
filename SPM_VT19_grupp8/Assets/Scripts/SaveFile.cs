@@ -7,12 +7,12 @@ using System.Runtime.Serialization.Formatters.Binary;
 [System.Serializable]
 public class SaveFile
 {
-    public Dictionary<string, EnemyPositionInfo> EnemyInfoList
+    public Dictionary<string, PositionInfo> EnemyInfoList
     {
         get
         {
             if (enemyInfoList == null)
-                enemyInfoList = new Dictionary<string, EnemyPositionInfo>();
+                enemyInfoList = new Dictionary<string, PositionInfo>();
             return enemyInfoList;
         }
         private set
@@ -20,11 +20,13 @@ public class SaveFile
             enemyInfoList = value;
         }
     }
-    private Dictionary<string, EnemyPositionInfo> enemyInfoList;
+    public PositionInfo PlayerPosition { get; set; }
+    public PositionInfo PlayerRotation { get; set; }
+    private Dictionary<string, PositionInfo> enemyInfoList;
 
     public void AddEnemy(Vector3 position, string name)
     {
-        EnemyInfoList[name] = new EnemyPositionInfo(position);
+        EnemyInfoList[name] = new PositionInfo(position);
     }
 
     public void RemoveEnemy(string name)
@@ -62,7 +64,7 @@ public class SaveFile
 }
 
 [System.Serializable]
-public class EnemyPositionInfo
+public class PositionInfo
 {
     public Vector3 Position
     {
@@ -82,7 +84,7 @@ public class EnemyPositionInfo
     private float y;
     private float z;
 
-    public EnemyPositionInfo(Vector3 position)
+    public PositionInfo(Vector3 position)
     {
         Position = position;
     }

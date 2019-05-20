@@ -43,4 +43,9 @@ public class TimeController : StateMachine
         TransitionTo<TimeControllerUnpausedState>();
         currentState.Initialize(this); // ful lösning, men det nollställer värdena
     }
+
+    public void UnPause()
+    {
+        TransitionTo<TimeControllerUnpausedState>();
+    }
 }

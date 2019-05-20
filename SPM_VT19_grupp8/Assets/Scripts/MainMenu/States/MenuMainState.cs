@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.IO;
 
 [CreateAssetMenu(menuName = "States/Menu/Main/Main State")]
 public class MenuMainState : MenuBaseState
@@ -21,6 +22,10 @@ public class MenuMainState : MenuBaseState
             buttons.Add(b.name, b);
         }
 
+        if (File.Exists(Application.persistentDataPath + "/gamesave.save"))
+            buttons["ContinueGame"].onClick.AddListener(ContinueGame);
+        else
+            buttons["ContinueGame"].enabled = false;
         buttons["StartGame"].onClick.AddListener(StartGame);
         buttons["LevelSelect"].onClick.AddListener(LevelSelect);
         buttons["Options"].onClick.AddListener(Options);
@@ -46,7 +51,12 @@ public class MenuMainState : MenuBaseState
         owner.levelToLoad = 1;
         owner.TransitionTo<MenuSetPlayerNameState>();
     }
-    
+
+    public void ContinueGame()
+    {
+        
+    }
+
     public void LevelSelect()
     {
         owner.TransitionTo<MenuLevelSelectState>();
