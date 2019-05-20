@@ -21,7 +21,9 @@ public class SaveFile
         }
     }
     public PositionInfo PlayerPosition { get; set; }
-    public PositionInfo PlayerRotation { get; set; }
+    public float PlayerRotationY { get; set; }
+
+    private PositionInfo playerRotation;
     private Dictionary<string, PositionInfo> enemyInfoList;
 
     public void AddEnemy(Vector3 position, string name)

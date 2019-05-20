@@ -81,14 +81,15 @@ public class PlayerStateMachine : StateMachine
     public readonly float groundCheckDistance = 0.01f;
     #endregion
 
-    public Vector3 respawnPoint; // make this private, create a new event type ("CheckpointReachedEventInfo", maybe?) and make a listener for that event type in PlayerStateMachine
-    public Vector3 respawnRotation;
+    private Vector3 respawnPoint; // make this private, create a new event type ("CheckpointReachedEventInfo", maybe?) and make a listener for that event type in PlayerStateMachine
+    private Quaternion respawnRotation;
 
     [SerializeField]
     private Transform respawn;
 
     protected override void Awake()
     {
+        respawnRotation = Quaternion.identity;
         physicsComponent = GetComponent<PhysicsComponent>();
         timeController = GetComponent<TimeController>();
         ThisCollider = GetComponent<CapsuleCollider>();
@@ -107,7 +108,6 @@ public class PlayerStateMachine : StateMachine
     
     private void Start()
     {
-        LoadInitialSpawn();
         Respawn();
     }
 
@@ -165,7 +165,9 @@ public class PlayerStateMachine : StateMachine
     public void Respawn()
     {
         SaveFile.LoadSave();
-        
+
+        LoadSpawnLocation();
+
         ResetValues();
 
         PlayerRespawnEventInfo PREI = new PlayerRespawnEventInfo(gameObject);
@@ -183,8 +185,7 @@ public class PlayerStateMachine : StateMachine
         Velocity = Vector3.zero;
         TransitionTo<PlayerAirState>();
         transform.position = respawnPoint;
-        //transform.rotation = Quaternion.Euler(0.0f, respawnPoint.eulerAngles.y, 0.0f);
-        transform.eulerAngles = respawnRotation;
+        transform.rotation = Quaternion.Euler(0.0f, respawnRotation.y, 0.0f);
         Time.timeScale = 1.0f; // create stop-slow method?
         currentShields = shieldsMax;
         fireCoolDown = 0.0f;
@@ -309,17 +310,17 @@ public class PlayerStateMachine : StateMachine
         TransitionTo<PlayerAirState>();
     }
 
-    private void LoadInitialSpawn()
+    private void LoadSpawnLocation()
     {
-        if(GameController.GameControllerInstance.CurrentSave.PlayerPosition != null && GameController.GameControllerInstance.CurrentSave.PlayerRotation != null)
+        if(GameController.GameControllerInstance.CurrentSave.PlayerPosition != null)
         {
             respawnPoint = GameController.GameControllerInstance.CurrentSave.PlayerPosition.Position;
-            respawnRotation = GameController.GameControllerInstance.CurrentSave.PlayerPosition.Position;
+            respawnRotation.y = GameController.GameControllerInstance.CurrentSave.PlayerRotationY;
         }
         else
         {
             respawnPoint = respawn.position;
-            respawnRotation = respawn.eulerAngles;
+            respawnRotation.y = respawn.rotation.eulerAngles.y;
         }
 
     }
