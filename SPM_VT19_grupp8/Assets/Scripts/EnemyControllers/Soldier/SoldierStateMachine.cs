@@ -52,12 +52,9 @@ public class SoldierStateMachine : EnemyStateMachine
     protected override void HitByPlayerAttack(PlayerAttackEventInfo pAEI)
     {
         Vector3 directionFromAttackOrigin = (transform.position - pAEI.Origin).normalized;
-        directionFromAttackOrigin = Vector3.Slerp(directionFromAttackOrigin, pAEI.Direction, 0.5f);
-
+        directionFromAttackOrigin = Vector3.Slerp(directionFromAttackOrigin, pAEI.Direction, pAEI.DirectionWeight);
 
         boopVelocity = Vector3.ClampMagnitude(boopVelocity + directionFromAttackOrigin * boopStrength, boopStrength);
-
-        
 
         TransitionTo<SoldierBoopedState>();
     }

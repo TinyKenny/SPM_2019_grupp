@@ -60,6 +60,8 @@ public class StunbotStateMachine : EnemyStateMachine
 
         Vector3 directionFromAttackOrigin = (transform.position - pAEI.Origin).normalized;
 
+        directionFromAttackOrigin = Vector3.Slerp(directionFromAttackOrigin, pAEI.Direction, pAEI.DirectionWeight);
+
         Velocity = directionFromAttackOrigin;
         TransitionTo<StunbotBoopedState>();
     }

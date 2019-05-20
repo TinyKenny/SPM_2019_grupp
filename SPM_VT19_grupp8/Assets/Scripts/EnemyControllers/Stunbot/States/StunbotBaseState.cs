@@ -163,7 +163,6 @@ public class StunbotBaseState : State
             Quaternion desiredRotation = Quaternion.LookRotation(targetDirection);
             ThisTransform.rotation = Quaternion.RotateTowards(ThisTransform.rotation, desiredRotation, 90.0f * Time.deltaTime);
 
-
             if (Vector3.Dot(ThisTransform.forward, targetDirection) > 0.75f) // stunbot is close enough to facing the target position
             {
                 AccelerateInDirection(targetDirection);
@@ -234,20 +233,6 @@ public class StunbotBaseState : State
             Paths = new SortedList<float, Vector3>();
             NextTargetPosition = target;
         }
-
-
-
-
-        //if (PlayerTransform == null)
-        //{
-        //    NextTargetPosition = ThisTransform.position;
-        //    Paths = PathFinder.FindPath(ThisTransform.position, PlayerTransform.position);
-
-        //    if (Paths == null)
-        //    {
-        //        NextTargetPosition = PatrolLocations[CurrentPatrolPointIndex].position;
-        //    }
-        //}
     }
 
     protected virtual void NoTargetAvailable()

@@ -7,6 +7,11 @@ public class StunbotBoopedState : StunbotBaseState
 {
     private float boopMultiplier = 2.0f;
 
+    public override void Initialize(StateMachine owner)
+    {
+        base.Initialize(owner);
+    }
+
     public override void Enter()
     {
         base.Enter();

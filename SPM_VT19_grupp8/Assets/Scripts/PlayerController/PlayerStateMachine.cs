@@ -74,6 +74,7 @@ public class PlayerStateMachine : StateMachine
     private float wallrunCooldown;
     private float fireCoolDown = 0.0f; // currently has a public property with both get and set, do something about that
     private bool semiAutoAttackLock;
+    private float attackDirectionWeight = 0.7f;
     #endregion
 
     #region readonly values
@@ -240,7 +241,7 @@ public class PlayerStateMachine : StateMachine
         {
             if(fireCoolDown < 0 && Ammo > 0 && Time.timeScale > 0 && semiAutoAttackLock == false)
             {
-                PlayerAttackEventInfo pAEI = new PlayerAttackEventInfo(gameObject, transform.position, MainCameraController.transform.forward, attackAngle, attackRange);
+                PlayerAttackEventInfo pAEI = new PlayerAttackEventInfo(gameObject, transform.position, MainCameraController.transform.forward, attackAngle, attackRange, attackDirectionWeight);
                 EventCoordinator.CurrentEventCoordinator.ActivateEvent(pAEI);
 
                 Ammo--;
@@ -253,42 +254,6 @@ public class PlayerStateMachine : StateMachine
         {
             semiAutoAttackLock = false;
         }
-
-
-        //if (Input.GetAxisRaw("Aim") == 1f)
-        //{
-        //    //MainCameraController.Aiming();
-
-        //    if (Input.GetAxisRaw("Shoot") == 1f && fireCoolDown < 0 && Ammo > 0 && Time.timeScale > 0)
-        //    {
-        //        Ammo--;
-
-        //        Vector3 reticleLocation = new Vector3(MainCameraController.MainCamera.pixelWidth / 2, MainCameraController.MainCamera.pixelHeight / 2, 0.0f);
-
-        //        Ray aimRay = MainCameraController.MainCamera.ScreenPointToRay(reticleLocation); // make it so that CameraController has a reference to its camera
-
-        //        float projectileRange = ProjectilePrefab.GetComponent<ProjectileBehaviour>().distanceToTravel;
-
-        //        bool rayHasHit = Physics.Raycast(aimRay, out RaycastHit rayHit, projectileRange, ~(1 << gameObject.layer));
-
-        //        Vector3 pointHit = rayHit.point;
-        //        if (!rayHasHit)
-        //        {
-        //            pointHit = aimRay.GetPoint(projectileRange);
-        //        }
-
-        //        GameObject projectile = Instantiate(ProjectilePrefab, transform.position + (MainCameraController.MainCamera.transform.rotation * Vector3.forward), MainCameraController.MainCamera.transform.rotation);
-        //        projectile.transform.LookAt(pointHit);
-        //        projectile.GetComponent<ProjectileBehaviour>().SetInitialValues(1 << gameObject.layer);
-        //        fireCoolDown = FireRate;
-        //        ammoNumber.text = Ammo.ToString();
-        //        EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerDiegeticSoundEventInfo(gameObject, ShootSoundRange, GunShotSound));
-        //    }
-        //}
-        //else
-        //{
-        //    MainCameraController.StopAiming();
-        //}
 
         fireCoolDown -= PlayerDeltaTime;
     }

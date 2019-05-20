@@ -79,6 +79,7 @@ public class PlayerAttackEventInfo : EventInfo
     public Vector3 Direction { get; private set; }
     public float Angle { get; private set; }
     public float Range { get; private set; }
+    public float DirectionWeight { get; private set; }
 
     /// <summary>
     /// Constructor for player attack events.
@@ -94,13 +95,15 @@ public class PlayerAttackEventInfo : EventInfo
     ///         1 means it hits objects in a full sphere around it.
     /// </param>
     /// <param name="range">The maximum distance at which the attack can hit an object.</param>
+    /// <param name="directionWeight">How much the direction of the attack affects the effect of the attack. ranges from 0 to 1</param>
     /// <param name="description">Optional description field.</param>
-    public PlayerAttackEventInfo(GameObject gO, Vector3 origin, Vector3 direction, float angle, float range, string description = "Player attacked") : base(gO, description)
+    public PlayerAttackEventInfo(GameObject gO, Vector3 origin, Vector3 direction, float angle, float range, float directionWeight, string description = "Player attacked") : base(gO, description)
     {
         Origin = origin;
         Direction = direction;
         Angle = Mathf.Lerp(1.0f, -1.0f, angle);
         Range = range;
+        DirectionWeight = Mathf.Clamp01(directionWeight);
     }
 }
 
