@@ -9,6 +9,7 @@ public class PlayerAirState : PlayerBaseState
     protected float MinimumYVelocity = -10f;
     protected float maxYVelocity = 12.5f;
     protected static float jumpPower = 12.5f; // get rid of this somehow?
+    private float forwardWallrunMagnitudeLimit = 8.0f;
 
     public override void HandleUpdate()
     {
@@ -53,13 +54,14 @@ public class PlayerAirState : PlayerBaseState
 
             if (Input.GetButton("Wallrun") && Velocity.y > MinimumYVelocity && wallRunCheck.normal.y > -0.5f && Owner.WallrunAllowed()/* && Mathf.Abs(Vector3.Dot(wallRunCheck.normal, Vector3.up)) < MathHelper.floatEpsilon*/)
             {
+                float forwardMagnitude = (Velocity - Vector3.ProjectOnPlane(Velocity, Transform.forward)).magnitude;
                 Animator.SetBool("WallRunning", true);
-                if (Mathf.Abs(Vector3.Angle(Transform.forward, wallRunCheck.normal)) > 160)
+                if (Mathf.Abs(Vector3.Angle(Transform.forward, wallRunCheck.normal)) > 160 && Vector3.Dot(wallRunCheck.normal, Transform.forward) < -0.8)
                 {
                     Owner.ResetWallrunCooldown();
                     Owner.TransitionTo<PlayerVerticalWallRunState>();
                 }
-                else
+                else if (forwardMagnitude > forwardWallrunMagnitudeLimit)
                 {
                     Owner.ResetWallrunCooldown();
                     Owner.TransitionTo<PlayerWallRunState>();
