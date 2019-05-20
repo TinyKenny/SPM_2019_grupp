@@ -57,7 +57,7 @@ public class PlayerAirState : PlayerBaseState
                 Vector3 projectionOnForward = Vector3.ProjectOnPlane(Velocity, Transform.forward);
                 float forwardMagnitude = (Velocity - projectionOnForward).magnitude;
                 Animator.SetBool("WallRunning", true);
-                if (Mathf.Abs(Vector3.Angle(Transform.forward, wallRunCheck.normal)) > 160 && Vector3.Dot(wallRunCheck.normal, Transform.forward) < -0.8)
+                if (Mathf.Abs(Vector3.Angle(Transform.forward, wallRunCheck.normal)) > 150 && Vector3.Dot(wallRunCheck.normal, Transform.forward) < -0.8)
                 {
                     Owner.ResetWallrunCooldown();
                     Owner.TransitionTo<PlayerVerticalWallRunState>();
