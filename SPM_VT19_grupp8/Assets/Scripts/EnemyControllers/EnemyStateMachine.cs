@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 
 /// <summary>
 /// Superclass for all enemy statemachines. Used for general variables all enemies should have and functions.
@@ -108,11 +106,6 @@ public class EnemyStateMachine : StateMachine
     public void SaveEnemy(EventInfo eI)
     {
         EnemySaveEventInfo sEI = (EnemySaveEventInfo)eI;
-        GameController.GameControllerInstance.CurrentSave.AddEnemy(transform.position, GetComponent<EnemyHealthPOC>().CurrentHealth);
-
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + "/gamesave.save");
-        bf.Serialize(file, GameController.GameControllerInstance.CurrentSave);
-        file.Close();
+        GameController.GameControllerInstance.CurrentSave.AddEnemy(transform.position, transform.parent.name);
     }
 }

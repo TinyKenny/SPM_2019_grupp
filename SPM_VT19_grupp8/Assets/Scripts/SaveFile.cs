@@ -7,12 +7,12 @@ using System.Runtime.Serialization.Formatters.Binary;
 [System.Serializable]
 public class SaveFile
 {
-    public List<EnemyInfo> EnemyInfoList
+    public Dictionary<string, EnemyPositionInfo> EnemyInfoList
     {
         get
         {
             if (enemyInfoList == null)
-                enemyInfoList = new List<EnemyInfo>();
+                enemyInfoList = new Dictionary<string, EnemyPositionInfo>();
             return enemyInfoList;
         }
         private set
@@ -20,16 +20,16 @@ public class SaveFile
             enemyInfoList = value;
         }
     }
-    private List<EnemyInfo> enemyInfoList;
+    private Dictionary<string, EnemyPositionInfo> enemyInfoList;
 
-    public void AddEnemy(Vector3 position, float health)
+    public void AddEnemy(Vector3 position, string name)
     {
-        EnemyInfoList.Add(new EnemyInfo(position, health));
+        EnemyInfoList[name] = new EnemyPositionInfo(position);
     }
 
-    public void RemoveEnemy(Vector3 position, float health)
+    public void RemoveEnemy(string name)
     {
-        EnemyInfoList.Remove(new EnemyInfo(position, health));
+        EnemyInfoList.Remove(name);
     }
 
     public static void ClearSave()
@@ -40,10 +40,29 @@ public class SaveFile
         }
 
     }
+
+    public static void CreateSave()
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(Application.persistentDataPath + "/gamesave.save");
+        bf.Serialize(file, GameController.GameControllerInstance.CurrentSave);
+        file.Close();
+    }
+
+    public static void LoadSave()
+    {
+        if (File.Exists(Application.persistentDataPath + "/gamesave.save"))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/gamesave.save", FileMode.Open);
+            GameController.GameControllerInstance.CurrentSave = (SaveFile)bf.Deserialize(file);
+            file.Close();
+        }
+    }
 }
 
 [System.Serializable]
-public class EnemyInfo
+public class EnemyPositionInfo
 {
     public Vector3 Position
     {
@@ -58,15 +77,13 @@ public class EnemyInfo
             return new Vector3(x, y, z);
         }
     }
-    public float Health { get; private set; }
 
     private float x;
     private float y;
     private float z;
 
-    public EnemyInfo(Vector3 position, float health)
+    public EnemyPositionInfo(Vector3 position)
     {
-        Health = health;
         Position = position;
     }
 }

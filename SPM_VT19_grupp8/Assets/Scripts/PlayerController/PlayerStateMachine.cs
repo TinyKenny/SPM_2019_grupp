@@ -164,7 +164,7 @@ public class PlayerStateMachine : StateMachine
         PlayerRespawnEventInfo PREI = new PlayerRespawnEventInfo(gameObject);
         EventCoordinator.CurrentEventCoordinator.ActivateEvent(PREI);
 
-        GameController.GameControllerInstance.LoadGame();
+        SaveFile.LoadSave();
     }
 
     /// <summary>
@@ -182,7 +182,7 @@ public class PlayerStateMachine : StateMachine
         Time.timeScale = 1.0f; // create stop-slow method?
         currentShields = shieldsMax;
         fireCoolDown = 0.0f;
-        Ammo = 0;
+        Ammo = PlayerPrefs.GetInt("playerAmmo");
         ammoNumber.text = Ammo.ToString();
         timeController.ResetValues();
     }

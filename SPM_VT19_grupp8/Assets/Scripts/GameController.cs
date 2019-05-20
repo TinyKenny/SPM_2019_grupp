@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 
 public class GameController : MonoBehaviour
 {
@@ -13,7 +11,10 @@ public class GameController : MonoBehaviour
         get
         {
             if (save == null)
+            {
                 save = new SaveFile();
+                SaveFile.LoadSave();
+            }
             return save;
         }
         set
@@ -70,29 +71,16 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            PlayerPrefs.SetFloat("playerTime", levelTime);
-            PlayerPrefs.SetInt("playerAmmo", player.Ammo);
+            SavePlayerVariables();
         }
 
         SceneManager.LoadScene(sceneIndex);
     }
 
-    public void LoadGame()
+    public void SavePlayerVariables()
     {
-        if (File.Exists(Application.persistentDataPath + "/gamesave.save"))
-        {
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/gamesave.save", FileMode.Open);
-            CurrentSave = (SaveFile)bf.Deserialize(file);
-            file.Close();
-
-            foreach(EnemyInfo enemy in CurrentSave.EnemyInfoList)
-            {
-                Vector3 position = enemy.Position;
-                float health = enemy.Health;
-                Debug.Log("Position: " + position + ", Health: " + health);
-            }
-        }
+        PlayerPrefs.SetFloat("playerTime", levelTime);
+        PlayerPrefs.SetInt("playerAmmo", player.Ammo);
     }
 
     public void Quit()

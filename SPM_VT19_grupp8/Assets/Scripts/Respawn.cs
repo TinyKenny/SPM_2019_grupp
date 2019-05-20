@@ -21,6 +21,12 @@ public class Respawn : MonoBehaviour
             player.GetComponent<PlayerStateMachine>().respawnPoint = transform;
             triggerd = true;
             EventCoordinator.CurrentEventCoordinator.ActivateEvent(new EnemySaveEventInfo(gameObject));
+
+            SaveFile.ClearSave();
+
+            SaveFile.CreateSave();
+
+            GameController.GameControllerInstance.SavePlayerVariables();
         }
     }
 

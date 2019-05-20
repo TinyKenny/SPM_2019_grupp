@@ -28,6 +28,13 @@ public class EnemySpawner : MonoBehaviour
         PlayerRespawnEventInfo PREI = (PlayerRespawnEventInfo)EI;
         PlayerTransform = PREI.GO.transform;
 
+        Vector3 position = transform.position;
+
+        if (GameController.GameControllerInstance.CurrentSave.EnemyInfoList.ContainsKey(gameObject.name))
+        {
+            position = GameController.GameControllerInstance.CurrentSave.EnemyInfoList[gameObject.name].Position;
+        }
+
         if (currentGO != null)
         {
             Destroy(currentGO);
@@ -46,6 +53,8 @@ public class EnemySpawner : MonoBehaviour
             }
             currentGO.GetComponent<EnemyStateMachine>().PatrolLocations = PatrolLocations;
         }
+
+        currentGO.transform.position = position;
     }
 
     private void OnDestroy()
