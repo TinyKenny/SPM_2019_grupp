@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Respawn : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class Respawn : MonoBehaviour
         {
             GameController.GameControllerInstance.CurrentSave.PlayerPosition = new PositionInfo(transform.position);
             GameController.GameControllerInstance.CurrentSave.PlayerRotationY = transform.rotation.eulerAngles.y;
+            GameController.GameControllerInstance.CurrentSave.LevelIndex = SceneManager.GetActiveScene().buildIndex;
 
             triggerd = true;
 

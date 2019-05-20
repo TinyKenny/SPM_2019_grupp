@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 [CreateAssetMenu(menuName = "States/Menu/Main/Main State")]
 public class MenuMainState : MenuBaseState
@@ -54,7 +55,7 @@ public class MenuMainState : MenuBaseState
 
     public void ContinueGame()
     {
-        
+        SceneManager.LoadScene(SaveFile.GetContinueLevelBuildindex());
     }
 
     public void LevelSelect()

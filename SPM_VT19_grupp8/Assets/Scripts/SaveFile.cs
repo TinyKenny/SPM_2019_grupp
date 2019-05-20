@@ -22,6 +22,7 @@ public class SaveFile
     }
     public PositionInfo PlayerPosition { get; set; }
     public float PlayerRotationY { get; set; }
+    public int LevelIndex { get; set; }
 
     private PositionInfo playerRotation;
     private Dictionary<string, PositionInfo> enemyInfoList;
@@ -62,6 +63,20 @@ public class SaveFile
             GameController.GameControllerInstance.CurrentSave = (SaveFile)bf.Deserialize(file);
             file.Close();
         }
+    }
+
+    public static int GetContinueLevelBuildindex()
+    {
+        int levelIndex = 0;
+        if (File.Exists(Application.persistentDataPath + "/gamesave.save"))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/gamesave.save", FileMode.Open);
+            SaveFile sF = (SaveFile)bf.Deserialize(file);
+            levelIndex = sF.LevelIndex;
+            file.Close();
+        }
+        return levelIndex;
     }
 }
 
