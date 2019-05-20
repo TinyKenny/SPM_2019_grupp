@@ -41,7 +41,7 @@ public class GameController : MonoBehaviour
     {
         levelTime = PlayerPrefs.GetFloat("playerTime");
         PlayerPrefs.SetFloat("playerTime", 0.0f);
-        player.AddAmmo(new AmmoPickupEventInfo(gameObject, PlayerPrefs.GetInt("playerAmmo"))); // make this better, please
+        //player.AddAmmo(new AmmoPickupEventInfo(gameObject, PlayerPrefs.GetInt("playerAmmo"))); // make this better, please
         PlayerPrefs.SetInt("playerAmmo", 0);
         PausePanel.gameObject.SetActive(false);
     }
