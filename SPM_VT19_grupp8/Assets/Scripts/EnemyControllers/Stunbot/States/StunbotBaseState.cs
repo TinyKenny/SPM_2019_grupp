@@ -27,7 +27,7 @@ public class StunbotBaseState : State
 
     protected bool hasPath { get; set; } // use this to make sure the entire path is followed?
     protected Vector3 NextTargetPosition { get; set; }
-    protected SortedList<float, Vector3> Paths { get; private set; } = new SortedList<float, Vector3>();
+    protected List<Vector3> Paths { get; private set; } = new List<Vector3>();
 
     protected StunbotStateMachine Owner { get; private set; }
 
@@ -52,24 +52,18 @@ public class StunbotBaseState : State
 
             Debug.DrawLine(ThisTransform.position, lastPosition, pathDrawColor);
 
-            foreach(KeyValuePair<float, Vector3> pos in Paths)
+            foreach(Vector3 pos in Paths)
             {
-                Debug.DrawLine(lastPosition, pos.Value, pathDrawColor);
-                lastPosition = pos.Value;
+                Debug.DrawLine(lastPosition, pos, pathDrawColor);
+                lastPosition = pos;
             }
 
             #endregion
 
             if (Vector3.Distance(NextTargetPosition, ThisTransform.position) < Mathf.Max(Velocity.magnitude * 0.1f, 0.1f))
             {
-                float f = 0;
-                foreach (KeyValuePair<float, Vector3> pos in Paths)
-                {
-                    NextTargetPosition = pos.Value;
-                    f = pos.Key;
-                    break;
-                }
-                Paths.Remove(f);
+                NextTargetPosition = Paths[0];
+                Paths.RemoveAt(0);
             }
         }
         else if (Paths.Count == 0)
@@ -230,7 +224,7 @@ public class StunbotBaseState : State
         if(Paths == null)
         {
             Debug.Log("no path found!");
-            Paths = new SortedList<float, Vector3>();
+            Paths = new List<Vector3>();
             NextTargetPosition = target;
         }
     }

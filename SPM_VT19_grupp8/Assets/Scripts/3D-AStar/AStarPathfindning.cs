@@ -26,7 +26,7 @@ public class AStarPathfindning : MonoBehaviour
     /// <param name="start">The start position of the path.</param>
     /// <param name="end">The end position of the path.</param>
     /// <returns>Returns a sorted list of all paths that need to be traversed to reach destination. The key is the distance from start, the value is the position to go to. If any end of the path is outside the navmesh null is returned.</returns>
-    public SortedList<float, Vector3> FindPath(Vector3 start, Vector3 end)
+    public List<Vector3> FindPath(Vector3 start, Vector3 end)
     {
         BoxCompareNode bcnEnd;
         BoxCompareNode bcnStart;
@@ -103,15 +103,16 @@ public class AStarPathfindning : MonoBehaviour
             }
         }
 
-        SortedList<float, Vector3> paths = new SortedList<float, Vector3>();
+        List<Vector3> pathList = new List<Vector3>();
 
-        paths.Add(list[bcnEnd.GetBox()].DistanceTraveled + (list[bcnEnd.GetBox()].Position - end).sqrMagnitude, end);
+        pathList.Add(end);
 
         for (BoxCompareNode b = list[bcnEnd.GetBox()]; b != null; b = list[b.GetBox()].Previous)
         {
-            paths.Add(b.DistanceTraveled, b.Position);
+            pathList.Add(b.Position);
         }
+        pathList.Reverse();
 
-        return paths;
+        return pathList;
     }
 }
