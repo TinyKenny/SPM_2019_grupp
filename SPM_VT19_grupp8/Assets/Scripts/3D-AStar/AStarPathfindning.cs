@@ -5,19 +5,10 @@ using UnityEngine;
 /// <summary>
 /// 3D AStarPathfinding for flying enemies. This is the class used on every instance of a flying enemies to find 
 /// paths between start and end. Requires a <see cref="NavmeshRenderer"/> that has generated a 3D NavMesh in 
-/// order to function. Every flying enemy needs its own <see cref="AStarPathfindning"/> to be able to find paths.
+/// order to function.
 /// </summary>
-public class AStarPathfindning : MonoBehaviour
+public static class AStarPathfindning
 {
-    private PriorityQueue pq;
-    private Dictionary<NavBox, BoxCompareNode> list;
-    private LayerMask navLayer;
-
-    private void Awake()
-    {
-        navLayer = LayerMask.GetMask(new string[] { "3DNavMesh" });
-    }
-
     /// <summary>
     /// Calculates the shortest path from start to end on a pregenerated 3D navmesh. Saves all nodes that should be 
     /// traveresed to take the shortest path in a sorted list. The list is sorted on its keys which 
@@ -26,13 +17,14 @@ public class AStarPathfindning : MonoBehaviour
     /// <param name="start">The start position of the path.</param>
     /// <param name="end">The end position of the path.</param>
     /// <returns>Returns a sorted list of all paths that need to be traversed to reach destination. The key is the distance from start, the value is the position to go to. If any end of the path is outside the navmesh null is returned.</returns>
-    public List<Vector3> FindPath(Vector3 start, Vector3 end)
+    public static List<Vector3> FindPath(Vector3 start, Vector3 end)
     {
         BoxCompareNode bcnEnd;
         BoxCompareNode bcnStart;
 
         try
         {
+            LayerMask navLayer = LayerMask.GetMask(new string[] { "3DNavMesh" });
             Collider[] colls;
 
             colls = Physics.OverlapBox(end, new Vector3(0.1f, 0.1f, 0.1f), Quaternion.identity, navLayer); //end
@@ -49,8 +41,8 @@ public class AStarPathfindning : MonoBehaviour
             return null;
         }
 
-        list = new Dictionary<NavBox, BoxCompareNode>();
-        pq = new PriorityQueue();
+        Dictionary<NavBox, BoxCompareNode> list = new Dictionary<NavBox, BoxCompareNode>();
+        PriorityQueue pq = new PriorityQueue();
 
         bcnStart.Known = false;
         bcnStart.DistanceTraveled = 0;

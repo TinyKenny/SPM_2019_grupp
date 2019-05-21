@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 2074944538921330596}
   - component: {fileID: 2074944538921330607}
   - component: {fileID: 2074944538921330592}
-  - component: {fileID: 8340632382355158521}
   - component: {fileID: 1150877339415482010}
   m_Layer: 13
   m_Name: Stunbot
@@ -141,18 +140,6 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 1024
---- !u!114 &8340632382355158521
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2074944538921330597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80485c22c5703694a8fe8b494f2dba0c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!82 &1150877339415482010
 AudioSource:
   m_ObjectHideFlags: 0

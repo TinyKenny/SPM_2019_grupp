@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(SphereCollider), typeof(PhysicsComponent), typeof(AStarPathfindning))]
+[RequireComponent(typeof(SphereCollider), typeof(PhysicsComponent))]
 public class StunbotStateMachine : EnemyStateMachine
 {
     #region "chaining" properties
@@ -18,7 +18,6 @@ public class StunbotStateMachine : EnemyStateMachine
     public int CurrentPatrolPointIndex { get; set; } // do something about this?
     public Vector3 LastPlayerLocation { get; set; } // do something about this?
     public SphereCollider ThisCollider { get; private set; }
-    public AStarPathfindning PathFinder { get; private set; }
     #endregion
 
     #region properties for getting private variables
@@ -43,7 +42,6 @@ public class StunbotStateMachine : EnemyStateMachine
     {
         physicsComponent = GetComponent<PhysicsComponent>();
         ThisCollider = GetComponent<SphereCollider>();
-        PathFinder = GetComponent<AStarPathfindning>();
         CurrentPatrolPointIndex = 0;
 
         base.Awake();

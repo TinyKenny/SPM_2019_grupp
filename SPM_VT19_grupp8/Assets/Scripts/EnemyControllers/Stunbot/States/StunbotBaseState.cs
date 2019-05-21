@@ -12,7 +12,6 @@ public class StunbotBaseState : State
     protected Vector3 LastPlayerLocation { get { return Owner.LastPlayerLocation; } set { Owner.LastPlayerLocation = value; } }
     protected Transform ThisTransform { get { return Owner.transform; } }
     protected SphereCollider ThisCollider { get { return Owner.ThisCollider; } }
-    protected AStarPathfindning PathFinder { get { return Owner.PathFinder; } }
     protected LayerMask VisionMask { get { return Owner.VisionMask; } }
     protected LayerMask PlayerLayer { get { return Owner.PlayerLayer; } }
     protected Transform PlayerTransform { get { return Owner.PlayerTransform; } }
@@ -214,7 +213,7 @@ public class StunbotBaseState : State
         #endregion
 
 
-        Paths = PathFinder.FindPath(ThisTransform.position, target);
+        Paths = AStarPathfindning.FindPath(ThisTransform.position, target);
 
         if (Paths == null)
         {
