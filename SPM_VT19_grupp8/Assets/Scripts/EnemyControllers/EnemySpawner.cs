@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 /// <summary>
@@ -15,7 +16,15 @@ public class EnemySpawner : MonoBehaviour
 
     private void Awake()
     {
-        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerRespawnEventInfo>(SpawnEnemy);
+        bool fileExists = File.Exists(Application.persistentDataPath + "/gamesave.save");
+        bool spawnEnemy = false;
+        if (fileExists)
+            spawnEnemy = GameController.GameControllerInstance.CurrentSave.EnemyInfoList[name] != null;
+        else
+            spawnEnemy = true;
+
+        if (spawnEnemy)
+            EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerRespawnEventInfo>(SpawnEnemy);
     }
 
     /// <summary>

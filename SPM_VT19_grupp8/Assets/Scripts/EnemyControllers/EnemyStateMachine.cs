@@ -96,6 +96,11 @@ public class EnemyStateMachine : StateMachine
 
     }
 
+    public void KillEnemy()
+    {
+
+    }
+
     private void OnDestroy()
     {
         EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<PlayerDiegeticSoundEventInfo>(PlayerSoundAlertCheck);
