@@ -14302,7 +14302,7 @@ PrefabInstance:
     - target: {fileID: 8436239185858029399, guid: 155c97d94b2ca3a45b1f660a65440db2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.2400017
+      value: 11.33
       objectReference: {fileID: 0}
     - target: {fileID: 8436239185858029399, guid: 155c97d94b2ca3a45b1f660a65440db2,
         type: 3}
@@ -60652,21 +60652,6 @@ PrefabInstance:
       propertyPath: respawn
       value: 
       objectReference: {fileID: 1121138271}
-    - target: {fileID: 2112523359584729378, guid: 8bc4dc44ebc45d0408638807052809b2,
-        type: 3}
-      propertyPath: maxSpeed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2112523359584729378, guid: 8bc4dc44ebc45d0408638807052809b2,
-        type: 3}
-      propertyPath: acceleration
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 2112523359584729378, guid: 8bc4dc44ebc45d0408638807052809b2,
-        type: 3}
-      propertyPath: airResistanceCoefficient
-      value: 0.8
-      objectReference: {fileID: 0}
     - target: {fileID: 7324594909714858374, guid: 8bc4dc44ebc45d0408638807052809b2,
         type: 3}
       propertyPath: m_IsActive
