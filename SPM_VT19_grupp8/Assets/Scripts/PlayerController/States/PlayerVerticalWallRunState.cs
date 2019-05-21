@@ -25,10 +25,10 @@ public class PlayerVerticalWallRunState : PlayerAirState
     {
         Velocity += Vector3.down * Gravity * PlayerDeltaTime;
 
-        if (Velocity.magnitude > maxVerticalVelocity)
-        {
-            Velocity = Velocity.normalized * maxVerticalVelocity;
-        }
+        //if (Velocity.magnitude > maxVerticalVelocity)
+        //{
+        //    Velocity = Velocity.normalized * maxVerticalVelocity;
+        //}
 
         CheckCollision(Velocity * PlayerDeltaTime);
 

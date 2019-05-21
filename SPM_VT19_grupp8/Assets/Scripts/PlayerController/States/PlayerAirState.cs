@@ -7,8 +7,7 @@ public class PlayerAirState : PlayerBaseState
 {
     private Vector3 direction;
     protected float MinimumYVelocity = -10f;
-    protected float maxYVelocity = 12.5f;
-    protected static float jumpPower = 12.5f; // get rid of this somehow?
+    protected static float jumpPower = 15f; // get rid of this somehow?
     private float forwardWallrunMagnitudeLimit = 8.0f;
 
     public override void HandleUpdate()
@@ -37,11 +36,6 @@ public class PlayerAirState : PlayerBaseState
         bool grounded = GroundCheck();
 
         Velocity *= Mathf.Pow(AirResistanceCoefficient, PlayerDeltaTime);
-
-        if (Velocity.y > maxYVelocity)
-        {
-            Velocity = new Vector3(Velocity.x, maxYVelocity, Velocity.z);
-        }
 
         if (grounded)
         {
@@ -108,7 +102,7 @@ public class PlayerAirState : PlayerBaseState
 
         if (Input.GetButtonDown("Jump"))
         {
-            Velocity = Vector3.Slerp(Vector3.ClampMagnitude(Velocity, jumpPower), (normal + Vector3.up) * jumpPower, 0.4f);
+            Velocity = Vector3.Slerp(Vector3.ClampMagnitude(Velocity, jumpPower), (normal + Vector3.up) * jumpPower, 0.5f);
 
             jumpPower *= 0.5f;
             Animator.SetTrigger("Jump");

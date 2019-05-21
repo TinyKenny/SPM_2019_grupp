@@ -114,7 +114,7 @@ MonoBehaviour:
   maxSpeed: 12
   frictionCoefficient: 0.8
   airResistanceCoefficient: 0.9
-  gravity: 20
+  gravity: 25
   skinWidth: 0.02
   velocity: {x: 0, y: 0, z: 0}
 --- !u!114 &5504036232725367530
@@ -170,7 +170,7 @@ MonoBehaviour:
   shieldsRegenerationCooldown: 4
   shieldAmount: {fileID: 0}
   wallrunCooldownAmount: 0.5
-  jumpPower: 12.5
+  jumpPower: 15
   attackAngle: 0.25
   attackRange: 10
   movementSoundRange: 20
@@ -182,7 +182,7 @@ MonoBehaviour:
   damageSound: {fileID: 8300000, guid: 5ff6e37f1aa565740a43dba0d6fbaaa6, type: 3}
   deathSound: {fileID: 8300000, guid: b8f00654f9b12424ea18d756cbaf0d0b, type: 3}
   gunShotSound: {fileID: 8300000, guid: 383e9fc6797f9ca4f9c1f04ec5e96921, type: 3}
-  respawnPoint: {fileID: 0}
+  respawn: {fileID: 0}
 --- !u!82 &7801506606482085374
 AudioSource:
   m_ObjectHideFlags: 0

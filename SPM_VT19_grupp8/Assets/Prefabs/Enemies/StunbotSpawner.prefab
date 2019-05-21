@@ -13,7 +13,7 @@ GameObject:
   m_Layer: 0
   m_Name: StunbotSpawner
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -44,5 +44,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2074944538921330597, guid: b33ab0ea85a041340adb7dd9f0d48ec3, type: 3}
-  PlayerTransform: {fileID: 0}
   PatrolLocations: []
