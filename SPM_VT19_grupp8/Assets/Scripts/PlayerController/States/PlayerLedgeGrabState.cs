@@ -52,7 +52,7 @@ public class PlayerLedgeGrabState : PlayerBaseState
             }
             ClimbForward();
 
-            if (Vector3.Distance(Vector3.ProjectOnPlane(forwardClimbPosition, Transform.up), Vector3.ProjectOnPlane(Transform.position, Transform.up)) > climbForwardLength)
+            if (/*Vector3.Distance(Vector3.ProjectOnPlane(forwardClimbPosition, Transform.up), Vector3.ProjectOnPlane(Transform.position, Transform.up)) > climbForwardLength*/ GroundCheck())
             {
                 Debug.Log(Vector3.Distance(Vector3.ProjectOnPlane(forwardClimbPosition, Transform.up), Vector3.ProjectOnPlane(Transform.position, Transform.up)));
                 Owner.TransitionTo<PlayerAirState>();
