@@ -22,7 +22,7 @@ public class PlayerWallRunState : PlayerAirState
 
         wallNormal = wall.normal;
 
-        Velocity = ProjectSpeedOnSurface();
+        ProjectSpeedOnSurface();
 
         Transform.LookAt(Transform.position + new Vector3(Velocity.x, 0.0f, Velocity.z).normalized);
 
@@ -63,20 +63,11 @@ public class PlayerWallRunState : PlayerAirState
 
     private void Movement()
     {
-        if (Velocity.y > maxVerticalVelocity)
-            Velocity = new Vector3(Velocity.x, maxVerticalVelocity, Velocity.z);
-
-
-        if (Velocity.magnitude > MaxSpeed)
-        {
-            Velocity = Velocity.normalized * MaxSpeed;
-        }
-
         Velocity += Vector3.down * (Gravity / 2) * PlayerDeltaTime;
 
         CheckCollision(Velocity * PlayerDeltaTime);
 
-        Velocity *= Mathf.Pow(AirResistanceCoefficient, PlayerDeltaTime) * 2;
+        Velocity *= Mathf.Pow(AirResistanceCoefficient, PlayerDeltaTime);
 
         Jump(wallNormal);
     }
@@ -87,14 +78,12 @@ public class PlayerWallRunState : PlayerAirState
         EventCoordinator.CurrentEventCoordinator.ActivateEvent(new PlayerDiegeticSoundEventInfo(Owner.gameObject, soundDistance));
     }
 
-    private Vector3 ProjectSpeedOnSurface()
+    private void ProjectSpeedOnSurface()
     {
         Vector3 projection = Vector3.Dot(Velocity, wallNormal) * wallNormal;
         Vector3 tempVelocity = Velocity - projection;
-        Vector3 magnitude = projection.magnitude * tempVelocity.normalized;
-        magnitude = Vector3.ClampMagnitude(magnitude, Velocity.magnitude);
-
-        return Vector3.Max(magnitude, magnitude.normalized * Velocity.magnitude);
+        Vector3 magnitude = (projection.magnitude + tempVelocity.magnitude) * tempVelocity.normalized;
+        Velocity = Vector3.ClampMagnitude(magnitude, Velocity.magnitude);
     }
 
     public override void Exit()

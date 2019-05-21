@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "States/Player/Vertical Wall Run State")]
 public class PlayerVerticalWallRunState : PlayerAirState
 {
-    private float maxVerticalVelocity = 10f;
     private Vector3 wallNormal;
 
     public override void Enter()
@@ -16,7 +15,7 @@ public class PlayerVerticalWallRunState : PlayerAirState
 
         wallNormal = wall.normal;
 
-        Velocity = ProjectSpeedOnSurface();
+        ProjectSpeedOnSurface();
 
         Transform.LookAt(Transform.position - wallNormal);
     }
@@ -24,11 +23,6 @@ public class PlayerVerticalWallRunState : PlayerAirState
     public override void HandleUpdate()
     {
         Velocity += Vector3.down * Gravity * PlayerDeltaTime;
-
-        //if (Velocity.magnitude > maxVerticalVelocity)
-        //{
-        //    Velocity = Velocity.normalized * maxVerticalVelocity;
-        //}
 
         CheckCollision(Velocity * PlayerDeltaTime);
 
@@ -57,14 +51,12 @@ public class PlayerVerticalWallRunState : PlayerAirState
         }
     }
 
-    private Vector3 ProjectSpeedOnSurface()
+    private void ProjectSpeedOnSurface()
     {
         Vector3 projection = Vector3.Dot(Velocity, wallNormal) * wallNormal;
         Vector3 tempVelocity = Velocity - projection;
-        Vector3 magnitude = projection.magnitude * tempVelocity.normalized;
-        magnitude = Vector3.ClampMagnitude(magnitude, Velocity.magnitude);
-
-        return magnitude;
+        Vector3 magnitude = (projection.magnitude + tempVelocity.magnitude) * tempVelocity.normalized;
+        Velocity = Vector3.ClampMagnitude(magnitude, Velocity.magnitude);
     }
 
     public override void Exit()
