@@ -11,6 +11,12 @@ public class AStarPathfindning : MonoBehaviour
 {
     private PriorityQueue pq;
     private Dictionary<NavBox, BoxCompareNode> list;
+    private LayerMask navLayer;
+
+    private void Awake()
+    {
+        navLayer = LayerMask.GetMask(new string[] { "3DNavMesh" });
+    }
 
     /// <summary>
     /// Calculates the shortest path from start to end on a pregenerated 3D navmesh. Saves all nodes that should be 
@@ -27,7 +33,6 @@ public class AStarPathfindning : MonoBehaviour
 
         try
         {
-            LayerMask navLayer = LayerMask.GetMask(new string[] {"3DNavMesh"});
             Collider[] colls;
 
             colls = Physics.OverlapBox(end, new Vector3(0.1f, 0.1f, 0.1f), Quaternion.identity, navLayer); //end
@@ -55,18 +60,13 @@ public class AStarPathfindning : MonoBehaviour
         pq.Insert(bcnStart);
         Vector3 currentPosition = start;
 
-        int laps = 0; // for testing purposes
-
         while (bcnEnd.Known == false && pq.Size() != 0)
         {
-            laps++; // for testing purposes
-
             BoxCompareNode box = pq.DeleteMin();
             currentPosition = box.Position;
 
             if(box.GetBox() == bcnEnd.GetBox())
             {
-                Debug.Log("End found");
                 break;
             }
 
@@ -104,8 +104,6 @@ public class AStarPathfindning : MonoBehaviour
         }
 
         SortedList<float, Vector3> paths = new SortedList<float, Vector3>();
-
-        Debug.Log("number of boxes checked: " + laps); // for testing purposes
 
         paths.Add(list[bcnEnd.GetBox()].DistanceTraveled + (list[bcnEnd.GetBox()].Position - end).sqrMagnitude, end);
 

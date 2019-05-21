@@ -44,14 +44,16 @@ public class PriorityQueue
     {
         if (i < 2)
             throw new System.ArgumentException(i + "");
-        return (i - 1) / 2;
+        //return (i - 1) / 2;
+        return i / 2;
     }
 
     public int FirstChildIndex(int i)
     {
         if (i < 1)
             throw new System.ArgumentException(i + "");
-        return (i * 2 + 1);
+        //return (i * 2 + 1);
+        return i * 2;
     }
 
     public int Size()
