@@ -16,7 +16,10 @@ public class StunbotSearchState : StunbotBaseState
 
     public override void HandleUpdate()
     {
-        FlyToTarget(NextTargetPosition);
+        if (Paths.Count > 0)
+        {
+            FlyToTarget(Paths[0]);
+        }
 
         Vector3 previousPosition = ThisTransform.position;
 
