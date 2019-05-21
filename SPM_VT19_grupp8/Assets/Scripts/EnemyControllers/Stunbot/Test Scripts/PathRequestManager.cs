@@ -9,14 +9,14 @@ public class PathRequestManager : MonoBehaviour
     PathRequest currentPathRequest;
 
     static PathRequestManager instance;
-    // Pathfinding pathfinding;
+    AStarPathfindning pathfinding;
 
     bool isProcessingPath;
 
     private void Awake()
     {
         instance = this;
-        // pathfinding = GetComponent<Pathfinding>();
+        pathfinding = GetComponent<AStarPathfindning>();
     }
 
     public static void RequestPath(Vector3 pathStart, Vector3 pathEnd, Action<Vector3[], bool> callback)
@@ -28,9 +28,19 @@ public class PathRequestManager : MonoBehaviour
 
     void TryProcessNext()
     {
+        if(isProcessingPath == false && pathRequestQueue.Count > 0)
+        {
+            currentPathRequest = pathRequestQueue.Dequeue();
+            isProcessingPath = true;
+            pathfinding.StartFindPath(currentPathRequest.pathStart, currentPathRequest.pathEnd);
+        }
+    }
 
-
-
+    public void FinishedProcessingPath(Vector3[] path, bool success)
+    {
+        currentPathRequest.callback(path, success);
+        isProcessingPath = false;
+        TryProcessNext();
     }
 
     struct PathRequest

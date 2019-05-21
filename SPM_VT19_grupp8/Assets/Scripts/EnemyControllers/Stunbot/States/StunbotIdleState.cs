@@ -11,30 +11,28 @@ public class StunbotIdleState : StunbotBaseState
         base.Enter();
         if (PatrolLocations != null)
         {
-            FindTarget(PatrolLocations[CurrentPatrolPointIndex].position);
+            Target = PatrolLocations[CurrentPatrolPointIndex];
         }
         else
         {
-            Paths.Clear();
-            Paths.Add(ThisTransform.position);
+            Target = ThisTransform;
         }
     }
 
     public override void HandleUpdate()
     {
-        Velocity *= Mathf.Pow(AirResistanceCoefficient, Time.deltaTime);
-
-        if (Paths.Count > 0)
-        {
-            FlyToTarget(Paths[0]);
-        }
-
         base.HandleUpdate();
 
         if (CanSeePlayer(60.0f))
         {
             Owner.TransitionTo<StunbotChaseState>();
         }
+    }
+
+    protected override void UpdateTarget()
+    {
+        CurrentPatrolPointIndex = (CurrentPatrolPointIndex + 1) % PatrolLocations.Length;
+        Target = PatrolLocations[CurrentPatrolPointIndex];
     }
 
     protected override void NoTargetAvailable()

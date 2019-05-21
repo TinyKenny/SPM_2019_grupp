@@ -5,59 +5,72 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "States/Enemies/Stunbot/Chase State")]
 public class StunbotChaseState : StunbotBaseState
 {
-    private bool foundPath;
+    public override void Initialize(StateMachine owner)
+    {
+        base.Initialize(owner);
+        stoppingDst = 0.0f;
+    }
 
     public override void Enter()
     {
         base.Enter();
         if (PlayerTransform != null)
         {
-            FindTarget(PlayerTransform.position);
-            foundPath = true;
+            //FindTarget(PlayerTransform.position);
+            //foundPath = true;
+            Target = PlayerTransform;
         }
         else
         {
-            FindTarget(ThisTransform.position);
-            foundPath = false;
+            //FindTarget(ThisTransform.position);
+            //foundPath = false;
+            Target = ThisTransform;
         }
     }
 
     public override void HandleUpdate()
     {
         //raycasta för att kolla om man behöver räkna ut en ny väg
-        if (PlayerTransform != null)
-        {
-            RaycastHit hit = new RaycastHit();
-            if ((!foundPath) && Physics.SphereCast(ThisTransform.position, ThisCollider.radius, (PlayerTransform.position - ThisTransform.position).normalized, out hit, Mathf.Infinity, VisionMask))
-            {
-                Debug.Log(foundPath);
-                foundPath = true;
-                FindTarget(PlayerTransform.position);
-            }
-        }
+        //if (PlayerTransform != null)
+        //{
+        //    RaycastHit hit = new RaycastHit();
+        //    if ((!foundPath) && Physics.SphereCast(ThisTransform.position, ThisCollider.radius, (PlayerTransform.position - ThisTransform.position).normalized, out hit, Mathf.Infinity, VisionMask))
+        //    {
+        //        Debug.Log(foundPath);
+        //        foundPath = true;
+        //        FindTarget(PlayerTransform.position);
+        //    }
+        //}
 
-        if (Paths.Count > 0)
-        {
-            FlyToTarget(Paths[0]);
-        }
+        //if (Paths.Count > 0)
+        //{
+        //    FlyToTarget(Paths[0]);
+        //}
 
-        Vector3 plannedMovement = Velocity * Time.deltaTime;
+        //Vector3 plannedMovement = Velocity * Time.deltaTime;
 
-        RaycastHit playerRayHit;
+        //RaycastHit playerRayHit;
 
-        bool hitPlayer = Physics.SphereCast(ThisTransform.position, ThisCollider.radius, plannedMovement.normalized, out playerRayHit, plannedMovement.magnitude, PlayerLayer);
+        //bool hitPlayer = Physics.SphereCast(ThisTransform.position, ThisCollider.radius, plannedMovement.normalized, out playerRayHit, plannedMovement.magnitude, PlayerLayer);
 
-        if (hitPlayer)
-        {
+        //if (hitPlayer)
+        //{
 
-            PlayerDamageEventInfo pDEI = new PlayerDamageEventInfo(playerRayHit.transform.gameObject, 3);
-            EventCoordinator.CurrentEventCoordinator.ActivateEvent(pDEI);
-            Velocity = Velocity.normalized * MaxSpeed;
-        }
+        //    PlayerDamageEventInfo pDEI = new PlayerDamageEventInfo(playerRayHit.transform.gameObject, 3);
+        //    EventCoordinator.CurrentEventCoordinator.ActivateEvent(pDEI);
+        //    Velocity = Velocity.normalized * MaxSpeed;
+        //}
 
         base.HandleUpdate();
 
-        if (!CanFindOrigin())
+        if((PlayerTransform.position - ThisTransform.position).sqrMagnitude <= MaxSpeed * MaxSpeed * Time.deltaTime * Time.deltaTime * 0.8f)
+        {
+            PlayerDamageEventInfo pDEI = new PlayerDamageEventInfo(ThisTransform.gameObject, 3.0f);
+            EventCoordinator.CurrentEventCoordinator.ActivateEvent(pDEI);
+            Velocity = (PlayerTransform.position - ThisTransform.position).normalized;
+            Owner.TransitionTo<StunbotBoopedState>();
+        }
+        else if (!CanFindOrigin())
         {
             Owner.TransitionTo<StunbotIdleState>();
         }

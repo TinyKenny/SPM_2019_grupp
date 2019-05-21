@@ -27,6 +27,24 @@ public class StunbotBaseState : State
     protected bool hasPath { get; set; } // use this to make sure the entire path is followed?
     protected List<Vector3> Paths { get; private set; } = new List<Vector3>();
 
+    #region pathfollowtest
+    private Path path; // needs value
+    private bool followingPath = false; // needs value
+    private int pathIndex = 0; // needs value
+    private float speedPercent; // needs value
+    private float timeUntillNextRequest = 0.0f;
+    private Vector3 targetPositionOld;
+    private float pathUpdateMoveThreshold = 0.75f;
+
+    protected Transform Target { get { return Owner.Target; } set { Owner.Target = value; } }
+
+    protected float stoppingDst = 2.0f; // might need a different value
+    private float turnSpeed = 3.0f; // might need a different value
+    private float requestCooldown = 1.0f; // might need a different value
+    private float turnDst = 5.0f; // might need a different value
+    #endregion
+
+
     protected StunbotStateMachine Owner { get; private set; }
 
     public override void Initialize(StateMachine owner)
@@ -38,33 +56,110 @@ public class StunbotBaseState : State
     public override void HandleUpdate()
     {
         base.HandleUpdate();
-        ApplyMovement(Velocity * Time.deltaTime);
-        Velocity *= Mathf.Pow(AirResistanceCoefficient, Time.deltaTime);
 
-        if (Paths.Count > 0)
+        if(Time.timeSinceLevelLoad > 0.3f)
         {
-            #region debugging
-
-            Color pathDrawColor = new Color32(255, 165, 0, 255);
-            Vector3 lastPosition = ThisTransform.position;
-
-            foreach(Vector3 pos in Paths)
+            timeUntillNextRequest -= Time.deltaTime;
+            if(timeUntillNextRequest <= 0.0f && (Target == ThisTransform || (Target.position - targetPositionOld).sqrMagnitude > pathUpdateMoveThreshold * pathUpdateMoveThreshold))
             {
-                Debug.DrawLine(lastPosition, pos, pathDrawColor);
-                lastPosition = pos;
-            }
-
-            #endregion
-
-            if (Vector3.Distance(Paths[0], ThisTransform.position) < Mathf.Max(Velocity.magnitude * 0.1f, 0.1f))
-            {
-                Paths.RemoveAt(0);
+                if(Target == ThisTransform)
+                {
+                    UpdateTarget();
+                }
+                RequestPath();
             }
         }
-        else if (Paths.Count == 0)
+
+        if(followingPath)
         {
-            NoTargetAvailable();
+            while (path.turnBoundaries[pathIndex].HasCrossedLine(ThisTransform.position))
+            {
+                if (pathIndex == path.finishLineIndex)
+                {
+                    followingPath = false;
+                    break;
+                }
+                else
+                {
+                    pathIndex++;
+                }
+            }
+
+            if (followingPath)
+            {
+                if (pathIndex >= path.slowDownIndex && stoppingDst > 0)
+                {
+                    speedPercent = Mathf.Clamp01(path.turnBoundaries[path.finishLineIndex].DistanceFromPoint(ThisTransform.position) / stoppingDst);
+                    if (speedPercent < 0.05f)
+                    {
+                        followingPath = false;
+                    }
+                }
+                
+                Quaternion targetRotation = Quaternion.LookRotation(path.lookPoints[pathIndex] - ThisTransform.position);
+                ThisTransform.rotation = Quaternion.Lerp(ThisTransform.rotation, targetRotation, turnSpeed * Time.deltaTime);
+                ThisTransform.Translate(Vector3.forward * Time.deltaTime * MaxSpeed * speedPercent, Space.Self);
+                
+            }
         }
+        if(followingPath == false)
+        {
+            UpdateTarget();
+            RequestPath();
+        }
+
+
+
+        //ApplyMovement(Velocity * Time.deltaTime);
+        //Velocity *= Mathf.Pow(AirResistanceCoefficient, Time.deltaTime);
+
+        //if (Paths.Count > 0)
+        //{
+        //    #region debugging
+
+        //    Color pathDrawColor = new Color32(255, 165, 0, 255);
+        //    Vector3 lastPosition = ThisTransform.position;
+
+        //    foreach(Vector3 pos in Paths)
+        //    {
+        //        Debug.DrawLine(lastPosition, pos, pathDrawColor);
+        //        lastPosition = pos;
+        //    }
+
+        //    #endregion
+
+        //    if (Vector3.Distance(Paths[0], ThisTransform.position) < Mathf.Max(Velocity.magnitude * 0.1f, 0.1f))
+        //    {
+        //        Paths.RemoveAt(0);
+        //    }
+        //}
+        //else if (Paths.Count == 0)
+        //{
+        //    NoTargetAvailable();
+        //}
+    }
+
+    private void RequestPath()
+    {
+        PathRequestManager.RequestPath(ThisTransform.position, Target.position, OnPathFound);
+        targetPositionOld = Target.position;
+        timeUntillNextRequest = requestCooldown;
+    }
+
+    private void OnPathFound(Vector3[] waypoints, bool pathSuccess)
+    {
+        if (pathSuccess)
+        {
+            path = new Path(waypoints, ThisTransform.position, turnDst, stoppingDst);
+            followingPath = true;
+            pathIndex = 0;
+            speedPercent = 1.0f;
+        }
+    }
+
+    protected virtual void UpdateTarget()
+    {
+
     }
 
     /// <summary>
@@ -213,7 +308,7 @@ public class StunbotBaseState : State
         #endregion
 
 
-        Paths = AStarPathfindning.FindPath(ThisTransform.position, target);
+        //Paths = AStarPathfindning.FindPath(ThisTransform.position, target);
 
         if (Paths == null)
         {

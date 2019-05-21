@@ -7,8 +7,20 @@ using UnityEngine;
 /// paths between start and end. Requires a <see cref="NavmeshRenderer"/> that has generated a 3D NavMesh in 
 /// order to function.
 /// </summary>
-public static class AStarPathfindning
+public class AStarPathfindning : MonoBehaviour
 {
+    PathRequestManager requestManager;
+
+    private void Awake()
+    {
+        requestManager = GetComponent<PathRequestManager>();
+    }
+
+    public void StartFindPath(Vector3 startPosition, Vector3 targetPosition)
+    {
+        StartCoroutine(FindPath(startPosition, targetPosition));
+    }
+
     /// <summary>
     /// Calculates the shortest path from start to end on a pregenerated 3D navmesh. Saves all nodes that should be 
     /// traveresed to take the shortest path in a sorted list. The list is sorted on its keys which 
@@ -17,10 +29,13 @@ public static class AStarPathfindning
     /// <param name="start">The start position of the path.</param>
     /// <param name="end">The end position of the path.</param>
     /// <returns>Returns a sorted list of all paths that need to be traversed to reach destination. The key is the distance from start, the value is the position to go to. If any end of the path is outside the navmesh null is returned.</returns>
-    public static List<Vector3> FindPath(Vector3 start, Vector3 end)
+    IEnumerator FindPath(Vector3 start, Vector3 end)
     {
         BoxCompareNode bcnEnd;
         BoxCompareNode bcnStart;
+
+        Vector3[] waypoints = new Vector3[0];
+        bool pathSuccess = false;
 
         try
         {
@@ -38,7 +53,9 @@ public static class AStarPathfindning
         }
         catch (System.IndexOutOfRangeException)
         {
-            return null;
+            //find a way to solve this
+            requestManager.FinishedProcessingPath(waypoints, false);
+            yield break;
         }
 
         Dictionary<NavBox, BoxCompareNode> list = new Dictionary<NavBox, BoxCompareNode>();
@@ -59,6 +76,7 @@ public static class AStarPathfindning
 
             if(box.GetBox() == bcnEnd.GetBox())
             {
+                pathSuccess = true;
                 break;
             }
 
@@ -95,16 +113,33 @@ public static class AStarPathfindning
             }
         }
 
-        List<Vector3> pathList = new List<Vector3>();
 
-        pathList.Add(end);
-
-        for (BoxCompareNode b = list[bcnEnd.GetBox()]; b != null; b = list[b.GetBox()].Previous)
+        if (pathSuccess)
         {
-            pathList.Add(b.Position);
-        }
-        pathList.Reverse();
+            List<Vector3> pathList = new List<Vector3>();
+            pathList.Add(end);
 
-        return pathList;
+            for (BoxCompareNode b = list[bcnEnd.GetBox()]; b != null; b = list[b.GetBox()].Previous)
+            {
+                if (b.GetBox() != bcnStart.GetBox())
+                {
+                    pathList.Add(b.Position);
+                }
+            }
+            pathList.Reverse();
+            waypoints = pathList.ToArray();
+        }
+
+        requestManager.FinishedProcessingPath(waypoints, pathSuccess);
+
+        yield return null;
     }
+
+    
+    //Vector3[] SimplifyPath(List<Vector3> path)
+    //{
+
+    //}
+
+
 }

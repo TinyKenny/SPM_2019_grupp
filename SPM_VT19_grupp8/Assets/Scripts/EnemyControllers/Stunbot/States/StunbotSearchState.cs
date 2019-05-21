@@ -6,23 +6,26 @@ using UnityEngine;
 public class StunbotSearchState : StunbotBaseState
 {
     private float searchTimer;
+    private Transform lastPlayerLocationTransform;
+
+    public override void Initialize(StateMachine owner)
+    {
+        base.Initialize(owner);
+        lastPlayerLocationTransform = new GameObject().transform;
+    }
 
     public override void Enter()
     {
         base.Enter();
         searchTimer = 10.0f;
         FindTarget(LastPlayerLocation);
+        lastPlayerLocationTransform.position = LastPlayerLocation;
+        Target = lastPlayerLocationTransform;
+        Debug.Log((lastPlayerLocationTransform.position - ThisTransform.position).sqrMagnitude);
     }
 
     public override void HandleUpdate()
     {
-        if (Paths.Count > 0)
-        {
-            FlyToTarget(Paths[0]);
-        }
-
-        Vector3 previousPosition = ThisTransform.position;
-
         base.HandleUpdate();
 
         if(searchTimer >= 0.0f)
@@ -34,7 +37,7 @@ public class StunbotSearchState : StunbotBaseState
         {
             Owner.TransitionTo<StunbotChaseState>();
         }
-        if ((LastPlayerLocation - ThisTransform.position).sqrMagnitude < 1.0f || searchTimer <= 0.0f || !CanFindOrigin())
+        if ((lastPlayerLocationTransform.position - ThisTransform.position).sqrMagnitude < 1.0f || searchTimer <= 0.0f || !CanFindOrigin())
         {
             Owner.TransitionTo<StunbotIdleState>();
         }

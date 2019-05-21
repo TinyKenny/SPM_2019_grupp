@@ -38,6 +38,13 @@ public class StunbotStateMachine : EnemyStateMachine
     public readonly float allowedOriginDistance = 40.0f;
     #endregion
 
+
+    #region pathfollow test
+    public Transform Target;
+    
+    #endregion
+
+
     protected override void Awake()
     {
         physicsComponent = GetComponent<PhysicsComponent>();

@@ -36,5 +36,4 @@ public class StunbotBoopedState : StunbotBaseState
             }
         }
     }
-
 }
