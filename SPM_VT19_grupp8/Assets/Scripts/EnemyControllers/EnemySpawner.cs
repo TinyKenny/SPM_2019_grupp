@@ -14,12 +14,12 @@ public class EnemySpawner : MonoBehaviour
     private Transform PlayerTransform;
     private GameObject currentGO = null;
 
-    private void Awake()
+    private void Start()
     {
         bool fileExists = File.Exists(Application.persistentDataPath + "/gamesave.save");
         bool spawnEnemy = false;
         if (fileExists)
-            spawnEnemy = GameController.GameControllerInstance.CurrentSave.EnemyInfoList[name] != null;
+            spawnEnemy = GameController.GameControllerInstance.CurrentSave.EnemyInfoList.ContainsKey(name);
         else
             spawnEnemy = true;
 
