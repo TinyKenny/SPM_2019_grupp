@@ -100,6 +100,7 @@ public class PlayerStateMachine : StateMachine
 
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<AmmoPickupEventInfo>(AddAmmo);
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerDiegeticSoundEventInfo>(PlayerDiegeticSound);
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerDamageEventInfo>(TakeDamage);
 
         base.Awake();
 
@@ -142,8 +143,10 @@ public class PlayerStateMachine : StateMachine
     /// If the players current "shields" are lower than <see cref="MathHelper.floatEpsilon"/> when this method is called, the player dies and respawns.
     /// </summary>
     /// <param name="damage">The ammount to be subtracted from the players shields.</param>
-    public void TakeDamage(float damage)
+    public void TakeDamage(EventInfo eI)
     {
+        PlayerDamageEventInfo pDEI = (PlayerDamageEventInfo)eI;
+
         if (currentShields <= MathHelper.floatEpsilon)
         {
             aus.PlayOneShot(deathSound);
@@ -153,8 +156,9 @@ public class PlayerStateMachine : StateMachine
         else
         {
             aus.PlayOneShot(damageSound);
-            currentShields = Mathf.Clamp(currentShields - damage, 0.0f, shieldsMax);
+            currentShields = Mathf.Clamp(currentShields - pDEI.DamageAmount, 0.0f, shieldsMax);
             shieldsRegenerationTimer = shieldsRegenerationCooldown;
+            Velocity += (transform.position - transform.position).normalized * pDEI.KnockbackAmount * PlayerDeltaTime;
         }
     }
 
@@ -294,5 +298,6 @@ public class PlayerStateMachine : StateMachine
     {
         EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<AmmoPickupEventInfo>(AddAmmo);
         EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<PlayerDiegeticSoundEventInfo>(PlayerDiegeticSound);
+        EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<PlayerDamageEventInfo>(TakeDamage);
     }
 }

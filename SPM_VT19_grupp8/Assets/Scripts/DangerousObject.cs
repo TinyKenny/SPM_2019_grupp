@@ -7,28 +7,33 @@ public class DangerousObject : MonoBehaviour
     [SerializeField] private float damage = 0;
     [SerializeField] private float knockback = 0;
     [SerializeField] private float cooldownAmount = 1;
-    private PlayerStateMachine player;
-    private BoxCollider coll;
+    [SerializeField] private AudioClip dangerSound;
     private float cooldown = 0;
+    private AudioSource ausDanger;
 
-    public AudioSource ausDanger;
-    public AudioClip dangerSound;
     private void Awake()
     {
-        player = GameObject.Find("Player").GetComponent<PlayerStateMachine>();
-        coll = GetComponent<BoxCollider>();
+        ausDanger = GetComponent<AudioSource>();
     }
 
     private void Update()
     {
         cooldown -= Time.deltaTime;
-        RaycastHit hit;
-        if (Physics.BoxCast(transform.position, coll.bounds.extents, (player.transform.position - transform.position).normalized, out hit, Quaternion.identity, player.SkinWidth * 10, 1 << 10, QueryTriggerInteraction.Ignore) && cooldown < 0)
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        ausDanger.PlayOneShot(dangerSound);
+        if (other.CompareTag("Player") && cooldown < 0)
         {
+            PlayerDamageEventInfo pDEI = new PlayerDamageEventInfo(other.gameObject, damage, knockback);
+            EventCoordinator.CurrentEventCoordinator.ActivateEvent(pDEI);
             cooldown = cooldownAmount;
-            player.Velocity += (player.transform.position - transform.position).normalized * knockback * player.PlayerDeltaTime;
-            player.TakeDamage(damage);
-            ausDanger.PlayOneShot(dangerSound);
+        }
+        else if (other.CompareTag("Enemy Hitbox"))
+        {
+            EnemyDamageEventInfo eDEI = new EnemyDamageEventInfo(other.gameObject);
+            EventCoordinator.CurrentEventCoordinator.ActivateEvent(eDEI);
         }
     }
 }

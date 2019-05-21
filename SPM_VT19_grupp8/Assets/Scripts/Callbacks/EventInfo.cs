@@ -113,3 +113,22 @@ public class EnemySaveEventInfo : EventInfo
     {
     }
 }
+
+public class EnemyDamageEventInfo : EventInfo
+{
+    public EnemyDamageEventInfo(GameObject gO, string description = "Enemy was damaged") : base(gO, description)
+    {
+    }
+}
+
+public class PlayerDamageEventInfo : EventInfo
+{
+    public float DamageAmount { get; private set; }
+    public float KnockbackAmount { get; private set; }
+
+    public PlayerDamageEventInfo(GameObject gO, float damageAmount, float knockbackAmount = 0, string description = "Enemy was damaged") : base(gO, description)
+    {
+        DamageAmount = damageAmount;
+        KnockbackAmount = knockbackAmount;
+    }
+}

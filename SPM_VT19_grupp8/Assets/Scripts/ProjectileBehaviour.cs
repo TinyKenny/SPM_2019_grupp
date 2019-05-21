@@ -40,16 +40,16 @@ public class ProjectileBehaviour : MonoBehaviour
             if (rayHit.transform.CompareTag("Player"))
             {
                 Debug.Log("The player was hit!");
-                PlayerStateMachine player = rayHit.transform.GetComponent<PlayerStateMachine>();
-                player.TakeDamage(damage);
+                PlayerDamageEventInfo pDEI = new PlayerDamageEventInfo(rayHit.transform.gameObject, damage);
+                EventCoordinator.CurrentEventCoordinator.ActivateEvent(pDEI);
 
             }
-            else if (rayHit.transform.CompareTag("Enemy Hitbox"))
-            {
-                Debug.Log("An enemy was hit!");
-                EnemyHealthPOC enemyHealth = rayHit.transform.GetComponent<EnemyHealthPOC>();
-                enemyHealth.TakeDamage(damage);
-            }
+            //else if (rayHit.transform.CompareTag("Enemy Hitbox"))
+            //{
+            //    Debug.Log("An enemy was hit!");
+            //    EnemyDamageEventInfo eDEI = new EnemyDamageEventInfo(rayHit.transform.gameObject);
+            //    EventCoordinator.CurrentEventCoordinator.ActivateEvent(eDEI);
+            //}
 
             //Debug.Log("projectile forward: " + transform.forward);
             //Debug.Log("projectile hit: " + rayHit.point);

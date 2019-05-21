@@ -12,6 +12,7 @@ public class EnemyStateMachine : StateMachine
 
     private AudioSource aus;
     [SerializeField] private AudioClip alertSound = null;
+    [SerializeField] private AudioClip deathSound = null;
     private float wallSoundAbsorbation = 0.5f;
 
     protected override void Awake()
@@ -19,6 +20,7 @@ public class EnemyStateMachine : StateMachine
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerDiegeticSoundEventInfo>(PlayerSoundAlertCheck);
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerAttackEventInfo>(OnPlayerAttack);
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<EnemySaveEventInfo>(SaveEnemy);
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<EnemyDamageEventInfo>(EnemyDamageEvent);
         aus = GetComponent<AudioSource>();
         base.Awake();
     }
@@ -96,9 +98,15 @@ public class EnemyStateMachine : StateMachine
 
     }
 
-    public void KillEnemy()
+    public void EnemyDamageEvent(EventInfo ei)
     {
-
+        if (deathSound != null)
+        {
+            AudioSource aS = Instantiate(aus).GetComponent<AudioSource>();
+            aS.PlayOneShot(deathSound);
+            Destroy(aS, deathSound.length);
+        }
+        Destroy(gameObject);
     }
 
     private void OnDestroy()
@@ -106,6 +114,7 @@ public class EnemyStateMachine : StateMachine
         EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<PlayerDiegeticSoundEventInfo>(PlayerSoundAlertCheck);
         EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<PlayerAttackEventInfo>(OnPlayerAttack);
         EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<EnemySaveEventInfo>(SaveEnemy);
+        EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<EnemyDamageEventInfo>(EnemyDamageEvent);
     }
 
     public void SaveEnemy(EventInfo eI)

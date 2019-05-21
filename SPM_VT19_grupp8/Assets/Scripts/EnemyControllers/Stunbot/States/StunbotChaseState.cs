@@ -49,7 +49,9 @@ public class StunbotChaseState : StunbotBaseState
 
         if (hitPlayer)
         {
-            PlayerTransform.GetComponent<PlayerStateMachine>().TakeDamage(3.0f);
+
+            PlayerDamageEventInfo pDEI = new PlayerDamageEventInfo(playerRayHit.transform.gameObject, 3);
+            EventCoordinator.CurrentEventCoordinator.ActivateEvent(pDEI);
             Velocity = Velocity.normalized * MaxSpeed;
         }
 
