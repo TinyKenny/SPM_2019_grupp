@@ -17,7 +17,7 @@ public class StunbotChaseState : StunbotBaseState
         }
         else
         {
-            NextTargetPosition = ThisTransform.position;
+            FindTarget(ThisTransform.position);
             foundPath = false;
         }
     }
@@ -36,7 +36,10 @@ public class StunbotChaseState : StunbotBaseState
             }
         }
 
-        FlyToTarget(NextTargetPosition);
+        if (Paths.Count > 0)
+        {
+            FlyToTarget(Paths[0]);
+        }
 
         Vector3 plannedMovement = Velocity * Time.deltaTime;
 
@@ -70,11 +73,11 @@ public class StunbotChaseState : StunbotBaseState
     {
         if (PlayerTransform != null)
         {
-            NextTargetPosition = PlayerTransform.position;
+            FindTarget(PlayerTransform.position);
         }
         else
         {
-            NextTargetPosition = ThisTransform.position;
+            FindTarget(ThisTransform.position);
         }
     }
 }

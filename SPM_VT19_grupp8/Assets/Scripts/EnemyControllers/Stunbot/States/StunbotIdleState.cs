@@ -15,7 +15,8 @@ public class StunbotIdleState : StunbotBaseState
         }
         else
         {
-            NextTargetPosition = ThisTransform.position;
+            Paths.Clear();
+            Paths.Add(ThisTransform.position);
         }
     }
 
@@ -23,7 +24,10 @@ public class StunbotIdleState : StunbotBaseState
     {
         Velocity *= Mathf.Pow(AirResistanceCoefficient, Time.deltaTime);
 
-        FlyToTarget(NextTargetPosition);
+        if (Paths.Count > 0)
+        {
+            FlyToTarget(Paths[0]);
+        }
 
         base.HandleUpdate();
 
@@ -35,9 +39,9 @@ public class StunbotIdleState : StunbotBaseState
 
     protected override void NoTargetAvailable()
     {
-        NextTargetPosition = PatrolLocations[CurrentPatrolPointIndex].position;
+        Paths.Add(PatrolLocations[CurrentPatrolPointIndex].position);
 
-        if (Vector3.Distance(NextTargetPosition, ThisTransform.position) < Mathf.Max(Velocity.magnitude * 0.1f, 0.1f))
+        if (Vector3.Distance(Paths[0], ThisTransform.position) < Mathf.Max(Velocity.magnitude * 0.1f, 0.1f))
         {
             if (PatrolLocations.Length == 1)
             {

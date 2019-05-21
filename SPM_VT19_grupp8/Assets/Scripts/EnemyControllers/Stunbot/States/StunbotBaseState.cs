@@ -26,7 +26,6 @@ public class StunbotBaseState : State
 
 
     protected bool hasPath { get; set; } // use this to make sure the entire path is followed?
-    protected Vector3 NextTargetPosition { get; set; }
     protected List<Vector3> Paths { get; private set; } = new List<Vector3>();
 
     protected StunbotStateMachine Owner { get; private set; }
@@ -48,9 +47,7 @@ public class StunbotBaseState : State
             #region debugging
 
             Color pathDrawColor = new Color32(255, 165, 0, 255);
-            Vector3 lastPosition = NextTargetPosition;
-
-            Debug.DrawLine(ThisTransform.position, lastPosition, pathDrawColor);
+            Vector3 lastPosition = ThisTransform.position;
 
             foreach(Vector3 pos in Paths)
             {
@@ -60,9 +57,8 @@ public class StunbotBaseState : State
 
             #endregion
 
-            if (Vector3.Distance(NextTargetPosition, ThisTransform.position) < Mathf.Max(Velocity.magnitude * 0.1f, 0.1f))
+            if (Vector3.Distance(Paths[0], ThisTransform.position) < Mathf.Max(Velocity.magnitude * 0.1f, 0.1f))
             {
-                NextTargetPosition = Paths[0];
                 Paths.RemoveAt(0);
             }
         }
@@ -210,7 +206,6 @@ public class StunbotBaseState : State
         // pathfinding doesnt go all the way, missing final "step"?
         // stunbot skips the final point of the path
 
-
         #region in development
         //bool cantFlyDirectly;
         //RaycastHit raycastHit;
@@ -218,14 +213,14 @@ public class StunbotBaseState : State
         //cantFlyDirectly = Physics.SphereCast(ThisTransform.position, ThisCollider.radius, (target - ThisTransform.position).normalized, out raycastHit, VisionMask);
         #endregion
 
-        NextTargetPosition = ThisTransform.position;
+
         Paths = PathFinder.FindPath(ThisTransform.position, target);
 
-        if(Paths == null)
+        if (Paths == null)
         {
             Debug.Log("no path found!");
             Paths = new List<Vector3>();
-            NextTargetPosition = target;
+            Paths.Add(target);
         }
     }
 
