@@ -454,6 +454,7 @@ GameObject:
   - component: {fileID: 8774206875528694271}
   - component: {fileID: 3331124272563816264}
   - component: {fileID: 2355478911927697423}
+  - component: {fileID: 6540325796049125980}
   - component: {fileID: 8042458006219541963}
   - component: {fileID: 7296911440126227618}
   - component: {fileID: 5422956555051794939}
@@ -542,6 +543,19 @@ CapsuleCollider:
   m_Height: 2.000001
   m_Direction: 1
   m_Center: {x: 0.0000005364418, y: -0.0000028610234, z: 0.00002279878}
+--- !u!114 &6540325796049125980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7741504841074928036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b0ce7e03740c7f44819e5924b46cae4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 60
 --- !u!95 &8042458006219541963
 Animator:
   serializedVersion: 3
@@ -550,7 +564,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7741504841074928036}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: bee8a18a09046784a8cc2bb7438993ca, type: 2}
   m_CullingMode: 0

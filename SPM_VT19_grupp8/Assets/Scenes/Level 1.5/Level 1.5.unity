@@ -1042,7 +1042,7 @@ Transform:
   - {fileID: 1931747076}
   - {fileID: 1872412077}
   - {fileID: 305905772}
-  - {fileID: 972013849}
+  - {fileID: 6196376574571645079}
   - {fileID: 925581093}
   - {fileID: 380430393}
   - {fileID: 1092452431}
@@ -42843,12 +42843,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 970113803}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &972013849 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6196376574922796899, guid: 348d2fa322677874997312df73dd8039,
-    type: 3}
-  m_PrefabInstance: {fileID: 1865820148}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &972842406
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -88724,6 +88718,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: fe64d020be4fe404eb23e7061aaefa1d, type: 2}
+    - target: {fileID: 8042458006219541963, guid: 348d2fa322677874997312df73dd8039,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 348d2fa322677874997312df73dd8039, type: 3}
 --- !u!1 &1866266899
@@ -100680,6 +100679,16 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5805542884097080927, guid: cc03fd6b535ec1f43a36b04dee47abdf,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 6.6152344
+      objectReference: {fileID: 0}
+    - target: {fileID: 5805542884097080927, guid: cc03fd6b535ec1f43a36b04dee47abdf,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -3.8701172
+      objectReference: {fileID: 0}
     - target: {fileID: 7255556500318650732, guid: cc03fd6b535ec1f43a36b04dee47abdf,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -100724,16 +100733,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 73.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5805542884097080927, guid: cc03fd6b535ec1f43a36b04dee47abdf,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 6.6152344
-      objectReference: {fileID: 0}
-    - target: {fileID: 5805542884097080927, guid: cc03fd6b535ec1f43a36b04dee47abdf,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -3.8701172
       objectReference: {fileID: 0}
     - target: {fileID: 4423786777097324964, guid: cc03fd6b535ec1f43a36b04dee47abdf,
         type: 3}
@@ -105687,6 +105686,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6049518373167874066, guid: 4f59edb3d7720c340b427862556af32b,
     type: 3}
   m_PrefabInstance: {fileID: 6970328269815528112}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6196376574571645079 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6196376574922796899, guid: 348d2fa322677874997312df73dd8039,
+    type: 3}
+  m_PrefabInstance: {fileID: 1865820148}
   m_PrefabAsset: {fileID: 0}
 --- !u!33 &6610214387669084810
 MeshFilter:
