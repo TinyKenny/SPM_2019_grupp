@@ -17,7 +17,7 @@ public class Respawn : MonoBehaviour
 
             triggerd = true;
 
-            EventCoordinator.CurrentEventCoordinator.ActivateEvent(new EnemySaveEventInfo(gameObject));
+            EventCoordinator.CurrentEventCoordinator.ActivateEvent(new SaveEventInfo(gameObject));
 
             SaveFile.ClearSave();
 

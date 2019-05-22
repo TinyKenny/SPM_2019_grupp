@@ -7,11 +7,15 @@ public class KillZone : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        PlayerStateMachine player = other.GetComponent<PlayerStateMachine>();
-        if (player != null)
+        if (other.CompareTag("Player"))
         {
-
+            PlayerStateMachine player = other.GetComponent<PlayerStateMachine>();
             player.Respawn();
+        }
+        else if (other.CompareTag("Enemy Hitbox"))
+        {
+            EnemyDamageEventInfo eDEI = new EnemyDamageEventInfo(other.gameObject);
+            EventCoordinator.CurrentEventCoordinator.ActivateEvent(eDEI);
         }
     }
 }

@@ -16,6 +16,11 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerRespawnEventInfo>(SpawnEnemy);
+    }
+
+    private bool CheckSpawnSaveStatus()
+    {
         bool fileExists = File.Exists(Application.persistentDataPath + "/gamesave.save");
         bool spawnEnemy = false;
         if (fileExists)
@@ -23,8 +28,7 @@ public class EnemySpawner : MonoBehaviour
         else
             spawnEnemy = true;
 
-        if (spawnEnemy)
-            EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerRespawnEventInfo>(SpawnEnemy);
+        return spawnEnemy;
     }
 
     /// <summary>
@@ -34,36 +38,39 @@ public class EnemySpawner : MonoBehaviour
     /// <param name="EI">A <see cref="PlayerRespawnEventInfo"/> where the player is the gameobject.</param>
     private void SpawnEnemy(EventInfo EI)
     {
-        PlayerRespawnEventInfo PREI = (PlayerRespawnEventInfo)EI;
-        PlayerTransform = PREI.GO.transform;
-
-        Vector3 position = transform.position;
-
-        if (GameController.GameControllerInstance.CurrentSave.EnemyInfoList.ContainsKey(gameObject.name))
+        if (CheckSpawnSaveStatus())
         {
-            position = GameController.GameControllerInstance.CurrentSave.EnemyInfoList[gameObject.name].Position;
-        }
+            PlayerRespawnEventInfo PREI = (PlayerRespawnEventInfo)EI;
+            PlayerTransform = PREI.GO.transform;
 
-        if (currentGO != null)
-        {
-            Destroy(currentGO);
-        }
+            Vector3 position = transform.position;
 
-        currentGO = Instantiate(enemy, gameObject.transform);
-
-        if (currentGO.GetComponent<EnemyStateMachine>() != null)
-        {
-            currentGO.GetComponent<EnemyStateMachine>().PlayerTransform = PlayerTransform;
-
-            if (PatrolLocations.Length == 0)
+            if (GameController.GameControllerInstance.CurrentSave.EnemyInfoList.ContainsKey(gameObject.name))
             {
-                PatrolLocations = new Transform[1];
-                PatrolLocations[0] = transform;
+                position = GameController.GameControllerInstance.CurrentSave.EnemyInfoList[gameObject.name].Position;
             }
-            currentGO.GetComponent<EnemyStateMachine>().PatrolLocations = PatrolLocations;
-        }
 
-        currentGO.transform.position = position;
+            if (currentGO != null)
+            {
+                Destroy(currentGO);
+            }
+
+            currentGO = Instantiate(enemy, gameObject.transform);
+
+            if (currentGO.GetComponent<EnemyStateMachine>() != null)
+            {
+                currentGO.GetComponent<EnemyStateMachine>().PlayerTransform = PlayerTransform;
+
+                if (PatrolLocations.Length == 0)
+                {
+                    PatrolLocations = new Transform[1];
+                    PatrolLocations[0] = transform;
+                }
+                currentGO.GetComponent<EnemyStateMachine>().PatrolLocations = PatrolLocations;
+            }
+
+            currentGO.transform.position = position;
+        }
     }
 
     private void OnDestroy()

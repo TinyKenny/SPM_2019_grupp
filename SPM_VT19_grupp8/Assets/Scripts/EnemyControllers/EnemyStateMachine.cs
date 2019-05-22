@@ -19,7 +19,7 @@ public class EnemyStateMachine : StateMachine
     {
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerDiegeticSoundEventInfo>(PlayerSoundAlertCheck);
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerAttackEventInfo>(OnPlayerAttack);
-        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<EnemySaveEventInfo>(SaveEnemy);
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<SaveEventInfo>(SaveEnemy);
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<EnemyDamageEventInfo>(EnemyDamageEvent);
         aus = GetComponent<AudioSource>();
         base.Awake();
@@ -63,10 +63,6 @@ public class EnemyStateMachine : StateMachine
         {
             HitByPlayerAttack(pAEI);
         }
-
-
-
-
     }
 
     /// <summary>
@@ -100,26 +96,29 @@ public class EnemyStateMachine : StateMachine
 
     public void EnemyDamageEvent(EventInfo ei)
     {
-        if (deathSound != null)
+        if (ei.GO.Equals(gameObject))
         {
-            AudioSource aS = Instantiate(aus).GetComponent<AudioSource>();
-            aS.PlayOneShot(deathSound);
-            Destroy(aS, deathSound.length);
+            if (deathSound != null)
+            {
+                AudioSource aS = Instantiate(aus).GetComponent<AudioSource>();
+                aS.PlayOneShot(deathSound);
+                Destroy(aS, deathSound.length);
+            }
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
     }
 
     private void OnDestroy()
     {
         EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<PlayerDiegeticSoundEventInfo>(PlayerSoundAlertCheck);
         EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<PlayerAttackEventInfo>(OnPlayerAttack);
-        EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<EnemySaveEventInfo>(SaveEnemy);
+        EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<SaveEventInfo>(SaveEnemy);
         EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<EnemyDamageEventInfo>(EnemyDamageEvent);
     }
 
     public void SaveEnemy(EventInfo eI)
     {
-        EnemySaveEventInfo sEI = (EnemySaveEventInfo)eI;
+        SaveEventInfo sEI = (SaveEventInfo)eI;
         GameController.GameControllerInstance.CurrentSave.AddEnemy(transform.position, transform.parent.name);
     }
 }

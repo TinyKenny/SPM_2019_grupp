@@ -20,12 +20,28 @@ public class SaveFile
             enemyInfoList = value;
         }
     }
+
+    public Dictionary<string, bool> AmmmoPickupList
+    {
+        get
+        {
+            if (ammoPickupList == null)
+                ammoPickupList = new Dictionary<string, bool>();
+            return ammoPickupList;
+        }
+        private set
+        {
+            ammoPickupList = value;
+        }
+    }
+
     public PositionInfo PlayerPosition { get; set; }
     public float PlayerRotationY { get; set; }
     public int LevelIndex { get; set; }
 
     private PositionInfo playerRotation;
     private Dictionary<string, PositionInfo> enemyInfoList;
+    private Dictionary<string, bool> ammoPickupList;
 
     public void AddEnemy(Vector3 position, string name)
     {
@@ -35,6 +51,16 @@ public class SaveFile
     public void RemoveEnemy(string name)
     {
         EnemyInfoList.Remove(name);
+    }
+
+    public void AddAmmoPickup(string name, bool active)
+    {
+        AmmmoPickupList[name] = active;
+    }
+
+    public void RemoveAmmoPickup(string name)
+    {
+        AmmmoPickupList.Remove(name);
     }
 
     public static void ClearSave()
