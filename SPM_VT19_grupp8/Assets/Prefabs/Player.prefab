@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   acceleration: 20
-  deceleration: 50
+  deceleration: 80
   maxSpeed: 12
   frictionCoefficient: 0.8
   airResistanceCoefficient: 0.9
