@@ -106,11 +106,11 @@ public class StunbotBaseState : State
                 
             }
         }
-        if(followingPath == false)
-        {
-            UpdateTarget();
-            RequestPath();
-        }
+        //if(followingPath == false)
+        //{
+        //    UpdateTarget();
+        //    RequestPath();
+        //}
 
 
 
