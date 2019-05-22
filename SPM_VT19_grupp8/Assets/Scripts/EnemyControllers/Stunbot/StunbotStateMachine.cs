@@ -70,4 +70,10 @@ public class StunbotStateMachine : EnemyStateMachine
         Velocity = directionFromAttackOrigin;
         TransitionTo<StunbotBoopedState>();
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(transform.position, new Vector3(0.45f, 0.45f, 0.45f) * 2.0f);
+    }
 }
