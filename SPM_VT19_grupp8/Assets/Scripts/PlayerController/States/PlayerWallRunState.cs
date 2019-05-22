@@ -9,6 +9,8 @@ public class PlayerWallRunState : PlayerAirState
     private Vector3 wallNormal;
     private float wallRunCooldown = 0.5f;
     private float currentCooldown;
+    [Range(0f, 1f)]
+    private float forwardArcAmount = 0.4f;
 
     public override void Initialize(StateMachine owner)
     {
@@ -25,6 +27,8 @@ public class PlayerWallRunState : PlayerAirState
         ProjectSpeedOnSurface();
 
         Transform.LookAt(Transform.position + new Vector3(Velocity.x, 0.0f, Velocity.z).normalized);
+
+        Velocity = Vector3.Slerp(Velocity, Transform.forward * Velocity.magnitude, forwardArcAmount);
 
         currentCooldown = wallRunCooldown;
     }
