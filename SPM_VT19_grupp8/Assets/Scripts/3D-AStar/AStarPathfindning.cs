@@ -42,11 +42,13 @@ public class AStarPathfindning : MonoBehaviour
             LayerMask navLayer = LayerMask.GetMask(new string[] { "3DNavMesh" });
             Collider[] colls;
 
-            colls = Physics.OverlapBox(end, new Vector3(0.1f, 0.1f, 0.1f), Quaternion.identity, navLayer); //end
+            colls = Physics.OverlapBox(end, new Vector3(0.45f, 0.45f, 0.45f), Quaternion.identity, navLayer); //end
             NavBox endBox = colls[0].GetComponent<NavBox>();
+            Debug.Log("endbox found: " + endBox);
 
-            colls = Physics.OverlapBox(start, new Vector3(0.1f, 0.1f, 0.1f), Quaternion.identity, navLayer); //start
+            colls = Physics.OverlapBox(start, new Vector3(0.45f, 0.45f, 0.45f), Quaternion.identity, navLayer); //start
             NavBox startBox = colls[0].GetComponent<NavBox>();
+            Debug.Log("startbox found: " + startBox);
 
             bcnEnd = new BoxCompareNode(endBox, end);
             bcnStart = new BoxCompareNode(startBox, end);

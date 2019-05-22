@@ -21,7 +21,6 @@ public class StunbotSearchState : StunbotBaseState
         FindTarget(LastPlayerLocation);
         lastPlayerLocationTransform.position = LastPlayerLocation;
         Target = lastPlayerLocationTransform;
-        Debug.Log((lastPlayerLocationTransform.position - ThisTransform.position).sqrMagnitude);
     }
 
     public override void HandleUpdate()

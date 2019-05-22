@@ -41,7 +41,7 @@ public class StunbotBaseState : State
     protected float stoppingDst = 2.0f; // might need a different value
     private float turnSpeed = 3.0f; // might need a different value
     private float requestCooldown = 1.0f; // might need a different value
-    private float turnDst = 5.0f; // might need a different value
+    private float turnDst = 2.0f; // might need a different value
     #endregion
 
 
@@ -70,7 +70,11 @@ public class StunbotBaseState : State
             }
         }
 
-        if(followingPath)
+        #region debugging
+        Debug.DrawLine(ThisTransform.position, Target.position);
+        #endregion
+
+        if (followingPath)
         {
             while (path.turnBoundaries[pathIndex].HasCrossedLine(ThisTransform.position))
             {
@@ -102,11 +106,11 @@ public class StunbotBaseState : State
                 
             }
         }
-        if(followingPath == false)
-        {
-            UpdateTarget();
-            RequestPath();
-        }
+        //if(followingPath == false)
+        //{
+        //    UpdateTarget();
+        //    RequestPath();
+        //}
 
 
 
@@ -141,6 +145,8 @@ public class StunbotBaseState : State
 
     private void RequestPath()
     {
+        Debug.Log("Path requested");
+
         PathRequestManager.RequestPath(ThisTransform.position, Target.position, OnPathFound);
         targetPositionOld = Target.position;
         timeUntillNextRequest = requestCooldown;
@@ -154,6 +160,10 @@ public class StunbotBaseState : State
             followingPath = true;
             pathIndex = 0;
             speedPercent = 1.0f;
+        }
+        else
+        {
+            Debug.Log("No path found");
         }
     }
 
