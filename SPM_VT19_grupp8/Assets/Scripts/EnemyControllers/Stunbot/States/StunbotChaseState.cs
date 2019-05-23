@@ -28,11 +28,13 @@ public class StunbotChaseState : StunbotBaseState
     {
         base.HandleUpdate();
 
-        if((PlayerTransform.position - ThisTransform.position).sqrMagnitude <= Speed * Speed * Time.deltaTime * Time.deltaTime * 0.8f)
+        
+
+        if((ThisTransform.position - PlayerTransform.position).sqrMagnitude <= (ThisCollider.radius + Speed * Time.deltaTime) * (ThisCollider.radius + Speed * Time.deltaTime) * 1.01f)
         {
             PlayerDamageEventInfo pDEI = new PlayerDamageEventInfo(ThisTransform.gameObject, 3.0f);
             EventCoordinator.CurrentEventCoordinator.ActivateEvent(pDEI);
-            Velocity = (PlayerTransform.position - ThisTransform.position).normalized;
+            Velocity = (ThisTransform.position - PlayerTransform.position).normalized;
             Owner.TransitionTo<StunbotBoopedState>();
         }
         else if (!CanFindOrigin())
