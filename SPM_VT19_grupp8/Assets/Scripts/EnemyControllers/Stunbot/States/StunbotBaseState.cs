@@ -30,7 +30,7 @@ public class StunbotBaseState : State
     private float timeUntillNextRequest = 0.0f; // value changes in methods
     private Vector3 targetPositionOld; // value changes in methods
 
-    private const float pathUpdateMoveThreshold = 0.75f;
+    private const float pathUpdateMoveThreshold = 0.5f;
     private const float stoppingDistance = 2.0f;
     private const float turnSpeed = 5.0f;
     private const float requestCooldown = 0.4f;
