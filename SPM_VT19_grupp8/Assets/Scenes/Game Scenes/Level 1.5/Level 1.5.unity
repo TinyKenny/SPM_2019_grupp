@@ -31931,6 +31931,16 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5504036232725367530, guid: 8bc4dc44ebc45d0408638807052809b2,
+        type: 3}
+      propertyPath: timeSlowEnergySlider
+      value: 
+      objectReference: {fileID: 2075612436}
+    - target: {fileID: 5504036232725367530, guid: 8bc4dc44ebc45d0408638807052809b2,
+        type: 3}
+      propertyPath: slowMotionEnergySlider
+      value: 
+      objectReference: {fileID: 2075612436}
     - target: {fileID: 2112523359584729376, guid: 8bc4dc44ebc45d0408638807052809b2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -32052,16 +32062,6 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5504036232725367530, guid: 8bc4dc44ebc45d0408638807052809b2,
-        type: 3}
-      propertyPath: timeSlowEnergySlider
-      value: 
-      objectReference: {fileID: 2075612436}
-    - target: {fileID: 5504036232725367530, guid: 8bc4dc44ebc45d0408638807052809b2,
-        type: 3}
-      propertyPath: slowMotionEnergySlider
-      value: 
-      objectReference: {fileID: 2075612436}
     - target: {fileID: 1683048530574649172, guid: 8bc4dc44ebc45d0408638807052809b2,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -59078,7 +59078,7 @@ MonoBehaviour:
   m_CancelButton: Cancel
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
+  m_ForceModuleActive: 1
 --- !u!114 &1370849047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100322,6 +100322,21 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6971312965273874850, guid: cc03fd6b535ec1f43a36b04dee47abdf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6971312965273874850, guid: cc03fd6b535ec1f43a36b04dee47abdf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7255556500318650732, guid: cc03fd6b535ec1f43a36b04dee47abdf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5301336622810333607, guid: cc03fd6b535ec1f43a36b04dee47abdf,
         type: 3}
       propertyPath: m_AnchorMin.x
@@ -100551,21 +100566,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 7255556500318650732, guid: cc03fd6b535ec1f43a36b04dee47abdf,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6971312965273874850, guid: cc03fd6b535ec1f43a36b04dee47abdf,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6971312965273874850, guid: cc03fd6b535ec1f43a36b04dee47abdf,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5301336622610287363, guid: cc03fd6b535ec1f43a36b04dee47abdf,
         type: 3}
