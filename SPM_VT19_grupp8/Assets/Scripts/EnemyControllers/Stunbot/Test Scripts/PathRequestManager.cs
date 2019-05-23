@@ -19,9 +19,9 @@ public class PathRequestManager : MonoBehaviour
         pathfinding = GetComponent<AStarPathfindning>();
     }
 
-    public static void RequestPath(Vector3 pathStart, Vector3 pathEnd, Action<Vector3[], bool> callback)
+    public static void RequestPath(Vector3 pathStart, Vector3 pathEnd, float colliderRadius, Action<Vector3[], bool> callback)
     {
-        PathRequest newRequest = new PathRequest(pathStart, pathEnd, callback);
+        PathRequest newRequest = new PathRequest(pathStart, pathEnd, colliderRadius, callback);
         instance.pathRequestQueue.Enqueue(newRequest);
         instance.TryProcessNext();
     }
@@ -32,7 +32,7 @@ public class PathRequestManager : MonoBehaviour
         {
             currentPathRequest = pathRequestQueue.Dequeue();
             isProcessingPath = true;
-            pathfinding.StartFindPath(currentPathRequest.pathStart, currentPathRequest.pathEnd);
+            pathfinding.StartFindPath(currentPathRequest.pathStart, currentPathRequest.pathEnd, currentPathRequest.colliderRadius);
         }
     }
 
@@ -47,13 +47,15 @@ public class PathRequestManager : MonoBehaviour
     {
         public Vector3 pathStart;
         public Vector3 pathEnd;
+        public float colliderRadius;
         public Action<Vector3[], bool> callback;
 
-        public PathRequest(Vector3 _start, Vector3 _end, Action<Vector3[], bool> _callback)
+        public PathRequest(Vector3 start, Vector3 end, float colliderRadius, Action<Vector3[], bool> callback)
         {
-            pathStart = _start;
-            pathEnd = _end;
-            callback = _callback;
+            pathStart = start;
+            pathEnd = end;
+            this.colliderRadius = colliderRadius;
+            this.callback = callback;
         }
     }
 }

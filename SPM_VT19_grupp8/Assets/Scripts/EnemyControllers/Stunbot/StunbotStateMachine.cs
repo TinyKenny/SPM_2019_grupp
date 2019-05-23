@@ -7,17 +7,18 @@ public class StunbotStateMachine : EnemyStateMachine
 {
     #region "chaining" properties
     public Vector3 Velocity { get { return physicsComponent.velocity; } set { physicsComponent.velocity = value; } }
-    public float Acceleration { get { return physicsComponent.acceleration; } }
     public float Deceleration { get { return physicsComponent.deceleration; } }
-    public float MaxSpeed { get { return physicsComponent.maxSpeed; } }
-    public float AirResistanceCoefficient { get { return physicsComponent.airResistanceCoefficient; } }
+    public float Speed { get { return physicsComponent.maxSpeed; } }
     public float SkinWidth { get { return physicsComponent.skinWidth; } }
     #endregion
 
     #region "plain" properties
-    public int CurrentPatrolPointIndex { get; set; } // do something about this?
-    public Vector3 LastPlayerLocation { get; set; } // do something about this?
+    public int CurrentPatrolPointIndex { get; set; }
+    public Vector3 LastPlayerLocation { get; set; }
     public SphereCollider ThisCollider { get; private set; }
+    public Path CurrentPath { get; set; }
+    public bool FollowingPath { get; set; }
+    public Transform Target { get; set; }
     #endregion
 
     #region properties for getting private variables
@@ -38,13 +39,6 @@ public class StunbotStateMachine : EnemyStateMachine
     public readonly float allowedOriginDistance = 40.0f;
     #endregion
 
-
-    #region pathfollow test
-    public Transform Target;
-    
-    #endregion
-
-
     protected override void Awake()
     {
         physicsComponent = GetComponent<PhysicsComponent>();
@@ -52,11 +46,6 @@ public class StunbotStateMachine : EnemyStateMachine
         CurrentPatrolPointIndex = 0;
 
         base.Awake();
-    }
-
-    protected override void Update()
-    {
-        base.Update();
     }
 
     protected override void HitByPlayerAttack(PlayerAttackEventInfo pAEI)
@@ -73,7 +62,17 @@ public class StunbotStateMachine : EnemyStateMachine
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(transform.position, new Vector3(0.45f, 0.45f, 0.45f) * 2.0f);
+        if (FollowingPath)
+        {
+            Vector3 previousPosition = transform.position;
+            foreach(Vector3 point in CurrentPath.lookPoints)
+            {
+                Gizmos.color = Color.blue;
+                Gizmos.DrawSphere(point, 0.35f);
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawLine(previousPosition, point);
+                previousPosition = point;
+            }
+        }
     }
 }

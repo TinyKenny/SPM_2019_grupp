@@ -4,88 +4,118 @@ using UnityEngine;
 
 /// <summary>
 /// Base state for the stunbot.
-/// 
-/// This class, along with its subclasses, is going to get some cleanup soon.
-/// We are aware that there are currently a lot of unused properties and methods in this class and its subclasses.
 /// </summary>
 public class StunbotBaseState : State
 {
     protected int CurrentPatrolPointIndex { get { return Owner.CurrentPatrolPointIndex; } set { Owner.CurrentPatrolPointIndex = value; } }
     protected Vector3 Velocity { get { return Owner.Velocity; } set { Owner.Velocity = value; } }
     protected Vector3 LastPlayerLocation { get { return Owner.LastPlayerLocation; } set { Owner.LastPlayerLocation = value; } }
+    protected Transform Target { get { return Owner.Target; } set { Owner.Target = value; } }
     protected Transform ThisTransform { get { return Owner.transform; } }
-    protected SphereCollider ThisCollider { get { return Owner.ThisCollider; } }
     protected LayerMask VisionMask { get { return Owner.VisionMask; } }
-    protected LayerMask PlayerLayer { get { return Owner.PlayerLayer; } }
     protected Transform PlayerTransform { get { return Owner.PlayerTransform; } }
     protected Transform[] PatrolLocations { get { return Owner.PatrolLocations; } }
-    protected float AllowedOriginDistance { get { return Owner.allowedOriginDistance; } }
-    protected float Acceleration { get { return Owner.Acceleration; } }
-    protected float Deceleration { get { return Owner.Deceleration; } }
-    protected float MaxSpeed { get { return Owner.MaxSpeed; } }
-    protected float AirResistanceCoefficient { get { return Owner.AirResistanceCoefficient; } }
-    protected float SkinWidth { get { return Owner.SkinWidth; } }
+    protected SphereCollider ThisCollider { get { return Owner.ThisCollider; } }
+    protected float Speed { get { return Owner.Speed; } }
 
+    private Path CurrentPath { get { return Owner.CurrentPath; } set { Owner.CurrentPath = value; } }
+    private float AllowedOriginDistance { get { return Owner.allowedOriginDistance; } }
+    private bool FollowingPath { get { return Owner.FollowingPath; } set { Owner.FollowingPath = value; } }
+    private float StoppingDistance { get { return stoppingDistance * stoppingDistanceModifier; } }
 
-    protected bool hasPath { get; set; } // use this to make sure the entire path is followed?
-    protected List<Vector3> Paths { get; private set; } = new List<Vector3>();
+    protected float stoppingDistanceModifier = 1.0f;
 
-    #region pathfollowtest
-    private Path path; // needs value
-    private bool followingPath = false; // needs value
-    private int pathIndex = 0; // needs value
-    private float speedPercent; // needs value
-    private float timeUntillNextRequest = 0.0f;
-    private Vector3 targetPositionOld;
-    private float pathUpdateMoveThreshold = 0.75f;
+    private int pathIndex; // value changes in methods
+    private float speedPercent; // value changes in methods
+    private float timeUntillNextRequest = 0.0f; // value changes in methods
+    private Vector3 targetPositionOld; // value changes in methods
 
-    protected Transform Target { get { return Owner.Target; } set { Owner.Target = value; } }
-
-    protected float stoppingDst = 2.0f; // might need a different value
-    private float turnSpeed = 5.0f; // might need a different value
-    private float requestCooldown = 1.0f; // might need a different value
-    private float turnDst = 1.0f; // might need a different value
-    #endregion
-
+    private const float pathUpdateMoveThreshold = 0.75f;
+    private const float stoppingDistance = 2.0f;
+    private const float turnSpeed = 5.0f;
+    private const float requestCooldown = 0.4f;
+    private const float turnDst = 1.0f;
 
     protected StunbotStateMachine Owner { get; private set; }
 
     public override void Initialize(StateMachine owner)
     {
         Owner = (StunbotStateMachine)owner;
-        hasPath = false;
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
+        FollowingPath = false;
     }
 
     public override void HandleUpdate()
     {
         base.HandleUpdate();
 
-        if(Time.timeSinceLevelLoad > 0.3f)
+        UpdatePath();
+        FollowPath();
+    }
+
+    /// <summary>
+    /// If the current target is the stunbot itself, the stunbot is not following a path or the current target has moved far enough since the current path was found, requests a new path to the target.
+    /// Also calls <see cref="UpdateTarget"/> if the current target is the stunbot itself or if the stunbot is not following a path.
+    /// </summary>
+    private void UpdatePath()
+    {
+        if (Time.timeSinceLevelLoad > 0.3f)
         {
             timeUntillNextRequest -= Time.deltaTime;
-            if(timeUntillNextRequest <= 0.0f && (Target == ThisTransform || (Target.position - targetPositionOld).sqrMagnitude > pathUpdateMoveThreshold * pathUpdateMoveThreshold))
+            if (timeUntillNextRequest <= 0.0f && (FollowingPath == false || Target == ThisTransform || (Target.position - targetPositionOld).sqrMagnitude > pathUpdateMoveThreshold * pathUpdateMoveThreshold))
             {
-                if(Target == ThisTransform)
+                if (FollowingPath == false || Target == ThisTransform)
                 {
                     UpdateTarget();
                 }
                 RequestPath();
             }
         }
+    }
 
-        #region debugging
-        Debug.DrawLine(ThisTransform.position, Target.position);
-        #endregion
+    /// <summary>
+    /// Adds a request, to the <see cref="PathRequestManager"/>, for a path to the current target.
+    /// </summary>
+    private void RequestPath()
+    {
+        PathRequestManager.RequestPath(ThisTransform.position, Target.position, ThisCollider.radius, OnPathFound);
+        targetPositionOld = Target.position;
+        timeUntillNextRequest = requestCooldown;
+    }
 
-        if (followingPath)
+    /// <summary>
+    /// Used as a callback for the <see cref="PathRequestManager"/>, when it has fullfilled the path request.
+    /// If the pathfinding was successful, this method creates a new path-object, representing the path, and sets the variables related to following a path.
+    /// </summary>
+    /// <param name="waypoints">The points, in world space, that the found path passes through.</param>
+    /// <param name="pathSuccess">Whether or not the pathfinding was successful.</param>
+    private void OnPathFound(Vector3[] waypoints, bool pathSuccess)
+    {
+        if (pathSuccess)
         {
-            while (path.turnBoundaries[pathIndex].HasCrossedLine(ThisTransform.position))
+            CurrentPath = new Path(waypoints, ThisTransform.position, turnDst, StoppingDistance);
+            FollowingPath = true;
+            pathIndex = 0;
+            speedPercent = 1.0f;
+        }
+    }
+
+    /// <summary>
+    /// If the stunbot has a path to follow, this method moves the stunbot along that path.
+    /// </summary>
+    private void FollowPath()
+    {
+        if (FollowingPath)
+        {
+            while (CurrentPath.turnBoundaries[pathIndex].HasCrossedLine(ThisTransform.position))
             {
-                if (pathIndex == path.finishLineIndex)
+                if (pathIndex == CurrentPath.finishLineIndex)
                 {
-                    Debug.Log("stop follow path");
-                    followingPath = false;
-                    UpdateTarget();
+                    FollowingPath = false;
                     break;
                 }
                 else
@@ -94,53 +124,29 @@ public class StunbotBaseState : State
                 }
             }
 
-            if (followingPath)
+            if (FollowingPath)
             {
-                if (pathIndex >= path.slowDownIndex && stoppingDst > 0)
+                if (pathIndex >= CurrentPath.slowDownIndex && StoppingDistance > 0)
                 {
-                    speedPercent = Mathf.Clamp01(0.1f + path.turnBoundaries[path.finishLineIndex].DistanceFromPoint(ThisTransform.position) / stoppingDst);
+                    speedPercent = Mathf.Clamp01(0.1f + CurrentPath.turnBoundaries[CurrentPath.finishLineIndex].DistanceFromPoint(ThisTransform.position) / StoppingDistance);
                     if (speedPercent < 0.05f)
                     {
-                        followingPath = false;
+                        FollowingPath = false;
                     }
                 }
-                
-                Quaternion targetRotation = Quaternion.LookRotation(path.lookPoints[pathIndex] - ThisTransform.position);
+
+                Quaternion targetRotation = Quaternion.LookRotation(CurrentPath.lookPoints[pathIndex] - ThisTransform.position);
                 ThisTransform.rotation = Quaternion.Lerp(ThisTransform.rotation, targetRotation, turnSpeed * Time.deltaTime);
-                ThisTransform.Translate(Vector3.forward * Time.deltaTime * MaxSpeed * speedPercent, Space.Self);
-                
+                ThisTransform.Translate(Vector3.forward * Time.deltaTime * Speed * speedPercent, Space.Self);
             }
         }
     }
 
-    private void RequestPath()
-    {
-        Debug.Log("Path requested");
-
-        PathRequestManager.RequestPath(ThisTransform.position, Target.position, OnPathFound);
-        targetPositionOld = Target.position;
-        timeUntillNextRequest = requestCooldown;
-    }
-
-    private void OnPathFound(Vector3[] waypoints, bool pathSuccess)
-    {
-        if (pathSuccess)
-        {
-            path = new Path(waypoints, ThisTransform.position, turnDst, stoppingDst);
-            followingPath = true;
-            pathIndex = 0;
-            speedPercent = 1.0f;
-        }
-        else
-        {
-            Debug.Log("No path found");
-        }
-    }
-
-    protected virtual void UpdateTarget()
-    {
-
-    }
+    /// <summary>
+    /// Method to be overridden in subclasses.
+    /// Is called each time that the stunbot reaches its target.
+    /// </summary>
+    protected virtual void UpdateTarget() { }
 
     /// <summary>
     /// Checks if the player is close enough to the stunbot, and the stunbots patrolpoint, for the stunbot to be able to see the player.
@@ -162,144 +168,5 @@ public class StunbotBaseState : State
     protected bool CanFindOrigin()
     {
         return (ThisTransform.position - PatrolLocations[CurrentPatrolPointIndex].position).sqrMagnitude < AllowedOriginDistance * AllowedOriginDistance;
-    }
-
-    /// <summary>
-    /// Attempts to apply the specified movement to the stunbot, while obeying the physics-simulation rules of the stunbot.
-    /// The physics-simulation rules of the stunbot is that if it collides with anything during its movement, it will bounce off of that object.
-    /// </summary>
-    /// <param name="movement">The desired movement</param>
-    protected void ApplyMovement(Vector3 movement)
-    {
-        RaycastHit rayHit;
-
-        bool rayHasHit = Physics.SphereCast(ThisTransform.position, ThisCollider.radius, movement.normalized, out rayHit, Mathf.Infinity, (VisionMask | PlayerLayer | (1 << ThisTransform.gameObject.layer)));
-
-        if (rayHasHit)
-        {
-            Vector3 hitNormal = rayHit.normal;
-
-            float angle = (Vector3.Angle(hitNormal, movement.normalized) - 90) * Mathf.Deg2Rad;
-            float snapDistanceFromHit = SkinWidth / Mathf.Sin(angle);
-
-            Vector3 snapMovement = movement.normalized * (rayHit.distance - snapDistanceFromHit);
-            snapMovement = Vector3.ClampMagnitude(snapMovement, movement.magnitude);
-
-            movement -= snapMovement;
-
-            ThisTransform.position += snapMovement;
-
-            if (movement.magnitude > 0.01f)
-            {
-                Vector3 reflectDirection = Vector3.Reflect(Velocity.normalized, hitNormal);
-
-                movement = reflectDirection * movement.magnitude;
-                Velocity = reflectDirection * Velocity.magnitude;
-
-                StunbotStateMachine otherStunBot = rayHit.transform.GetComponent<StunbotStateMachine>();
-
-                if (otherStunBot != null)
-                {
-                    Vector3 otherReflectDirection = Vector3.Reflect(otherStunBot.Velocity.normalized, -hitNormal);
-                    otherStunBot.Velocity = otherReflectDirection * otherStunBot.Velocity.magnitude;
-                }
-                ApplyMovement(movement);
-            }
-        }
-        else
-        {
-            ThisTransform.position += movement;
-        }
-    }
-
-    /// <summary>
-    /// Rotates the stunbot towards facing the target position.
-    /// If the stunbot is close enough to facing the target position, it will accelerate linearly, and "turn", towards the target position.
-    /// if the stunbot is not close enough to facing the target position, it will decelerate linearly.
-    /// </summary>
-    /// <param name="targetPosition">The position to fly to</param>
-    protected void FlyToTarget(Vector3 targetPosition)
-    {
-        if (Vector3.Distance(targetPosition, ThisTransform.position) > Velocity.magnitude * 0.1f) // the distance between the target and stunbot is far enough for movement to be worth it
-        {
-            Vector3 targetDirection = (targetPosition - ThisTransform.position).normalized;
-
-            Quaternion desiredRotation = Quaternion.LookRotation(targetDirection);
-            ThisTransform.rotation = Quaternion.RotateTowards(ThisTransform.rotation, desiredRotation, 90.0f * Time.deltaTime);
-
-            if (Vector3.Dot(ThisTransform.forward, targetDirection) > 0.75f) // stunbot is close enough to facing the target position
-            {
-                AccelerateInDirection(targetDirection);
-            }
-            else if (Velocity.magnitude > 0.0f)
-            {
-                Decelerate();
-            }
-        }
-    }
-
-    /// <summary>
-    /// "Turns" and linearly accelerates towards the specified direction.
-    /// </summary>
-    /// <param name="direction">The desired movement direction</param>
-    private void AccelerateInDirection(Vector3 direction)
-    {
-        Vector3 accelerationVector = direction * Acceleration * Time.deltaTime;
-
-        Velocity = Vector3.ClampMagnitude(Velocity + accelerationVector, MaxSpeed);
-        if (Vector3.Dot(Velocity.normalized, direction) > 0.0f)
-        {
-            Vector3 lerpTargetVector = direction * Velocity.magnitude;
-            Velocity = Vector3.Slerp(Velocity, lerpTargetVector, 3.0f * Time.deltaTime);
-        }
-    }
-
-    /// <summary>
-    /// Linearly decelerates, untill the magnitude of Velocity zero.
-    /// </summary>
-    protected void Decelerate()
-    {
-        Vector3 decelerationvector = Velocity.normalized * Deceleration * Time.deltaTime;
-
-        if (decelerationvector.magnitude > Velocity.magnitude)
-        {
-            Velocity = Vector3.zero;
-        }
-        else
-        {
-            Velocity -= decelerationvector;
-        }
-    }
-
-    /// <summary>
-    /// Uses A* pathfinding to find the "best" path to the position of the player character.
-    /// If no working path was found, the stunbot will fly straight towards the position of the player character.
-    /// </summary>
-    protected virtual void FindTarget(Vector3 target)
-    {
-        // pathfinding doesnt go all the way, missing final "step"?
-        // stunbot skips the final point of the path
-
-        #region in development
-        //bool cantFlyDirectly;
-        //RaycastHit raycastHit;
-
-        //cantFlyDirectly = Physics.SphereCast(ThisTransform.position, ThisCollider.radius, (target - ThisTransform.position).normalized, out raycastHit, VisionMask);
-        #endregion
-
-
-        //Paths = AStarPathfindning.FindPath(ThisTransform.position, target);
-
-        if (Paths == null)
-        {
-            Debug.Log("no path found!");
-            Paths = new List<Vector3>();
-            Paths.Add(target);
-        }
-    }
-
-    protected virtual void NoTargetAvailable()
-    {
-
     }
 }

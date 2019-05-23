@@ -18,7 +18,6 @@ public class StunbotSearchState : StunbotBaseState
     {
         base.Enter();
         searchTimer = 10.0f;
-        FindTarget(LastPlayerLocation);
         lastPlayerLocationTransform.position = LastPlayerLocation;
         Target = lastPlayerLocationTransform;
     }

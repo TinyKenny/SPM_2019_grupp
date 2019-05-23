@@ -8,7 +8,7 @@ public class StunbotChaseState : StunbotBaseState
     public override void Initialize(StateMachine owner)
     {
         base.Initialize(owner);
-        stoppingDst = 0.0f;
+        stoppingDistanceModifier = 0.0f;
     }
 
     public override void Enter()
@@ -28,7 +28,7 @@ public class StunbotChaseState : StunbotBaseState
     {
         base.HandleUpdate();
 
-        if((PlayerTransform.position - ThisTransform.position).sqrMagnitude <= MaxSpeed * MaxSpeed * Time.deltaTime * Time.deltaTime * 0.8f)
+        if((PlayerTransform.position - ThisTransform.position).sqrMagnitude <= Speed * Speed * Time.deltaTime * Time.deltaTime * 0.8f)
         {
             PlayerDamageEventInfo pDEI = new PlayerDamageEventInfo(ThisTransform.gameObject, 3.0f);
             EventCoordinator.CurrentEventCoordinator.ActivateEvent(pDEI);
@@ -46,18 +46,6 @@ public class StunbotChaseState : StunbotBaseState
         else
         {
             LastPlayerLocation = PlayerTransform.position;
-        }
-    }
-
-    protected override void NoTargetAvailable()
-    {
-        if (PlayerTransform != null)
-        {
-            FindTarget(PlayerTransform.position);
-        }
-        else
-        {
-            FindTarget(ThisTransform.position);
         }
     }
 }

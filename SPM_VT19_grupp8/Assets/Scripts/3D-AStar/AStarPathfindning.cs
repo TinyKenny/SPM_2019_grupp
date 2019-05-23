@@ -16,26 +16,40 @@ public class AStarPathfindning : MonoBehaviour
         requestManager = GetComponent<PathRequestManager>();
     }
 
-    public void StartFindPath(Vector3 startPosition, Vector3 targetPosition)
+    /// <summary>
+    /// Starts a coroutine of <see cref="FindPath(startPosition, targetPosition, colliderRadius)"/>
+    /// </summary>
+    /// <param name="startPosition"></param>
+    /// <param name="targetPosition"></param>
+    /// <param name="colliderRadius"></param>
+    public void StartFindPath(Vector3 startPosition, Vector3 targetPosition, float colliderRadius)
     {
-        StartCoroutine(FindPath(startPosition, targetPosition));
+        StartCoroutine(FindPath(startPosition, targetPosition, colliderRadius));
     }
 
     /// <summary>
-    /// Calculates the shortest path from start to end on a pregenerated 3D navmesh. Saves all nodes that should be 
-    /// traveresed to take the shortest path in a sorted list. The list is sorted on its keys which 
-    /// is how long away from start they are with a value that is their position.
+    /// Calculates the shortest path from start to end on a pregenerated 3D navmesh.
+    /// Once it is done pathfinding, it calls <see cref="PathRequestManager.FinishedProcessingPath()"/> with the found path, and wether or not the pathfinding was successful or not.
     /// </summary>
     /// <param name="start">The start position of the path.</param>
     /// <param name="end">The end position of the path.</param>
-    /// <returns>Returns a sorted list of all paths that need to be traversed to reach destination. The key is the distance from start, the value is the position to go to. If any end of the path is outside the navmesh null is returned.</returns>
-    IEnumerator FindPath(Vector3 start, Vector3 end)
+    /// <param name="colliderRadius">The radius of the <see cref="SphereCollider"/> on the stunbot.</param>
+    /// <returns>Nothing, as it is a coroutine.</returns>
+    IEnumerator FindPath(Vector3 start, Vector3 end, float colliderRadius)
     {
         BoxCompareNode bcnEnd;
         BoxCompareNode bcnStart;
 
         Vector3[] waypoints = new Vector3[0];
         bool pathSuccess = false;
+
+        if (!Physics.SphereCast(start, colliderRadius, (end - start).normalized, out RaycastHit rayHit, (end-start).magnitude, LayerMask.GetMask(new string[] { "Environment" })))
+        {
+            waypoints = new Vector3[] { end };
+            pathSuccess = true;
+            requestManager.FinishedProcessingPath(waypoints, pathSuccess);
+            yield break;
+        }
 
         try
         {
@@ -44,7 +58,6 @@ public class AStarPathfindning : MonoBehaviour
 
             colls = Physics.OverlapBox(end, new Vector3(0.45f, 0.45f, 0.45f), Quaternion.identity, navLayer); //end
             NavBox endBox = colls[0].GetComponent<NavBox>();
-            Debug.Log("endbox found: " + endBox);
 
             colls = Physics.OverlapBox(start, new Vector3(0.45f, 0.45f, 0.45f), Quaternion.identity, navLayer); //start
             NavBox startBox;
@@ -60,10 +73,9 @@ public class AStarPathfindning : MonoBehaviour
                 }
                 else
                 {
-                    startBox = colls[0].GetComponent<NavBox>(); // this will cause an IndexOutOfRangeException, which we in this case want
+                    startBox = colls[0].GetComponent<NavBox>(); // This will cause an IndexOutOfRangeException, which we in this case want.
                 }
             }
-            Debug.Log("startbox found: " + startBox);
 
             bcnEnd = new BoxCompareNode(endBox, end);
             bcnStart = new BoxCompareNode(startBox, end);
@@ -98,7 +110,6 @@ public class AStarPathfindning : MonoBehaviour
 
             if (!box.Known)
             {
-                
                 box.Known = true;
 
                 foreach (NavBox aBox in box.Neighbours)
@@ -146,7 +157,6 @@ public class AStarPathfindning : MonoBehaviour
         }
 
         requestManager.FinishedProcessingPath(waypoints, pathSuccess);
-
         yield return null;
     }
 }
