@@ -9274,6 +9274,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ControlCenter (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5644820450809776343, guid: 4f59edb3d7720c340b427862556af32b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6049518373167874066, guid: 4f59edb3d7720c340b427862556af32b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -105550,7 +105555,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &5823063797669040814
 MeshRenderer:
   m_ObjectHideFlags: 0
