@@ -87,11 +87,13 @@ public class GameController : MonoBehaviour
 
     public void Quit()
     {
+        SaveFile.SaveGame();
         Application.Quit();
     }
 
     public void ReturnToMenu()
     {
+        SaveFile.SaveGame();
         SceneManager.LoadScene(0);
     }
 }

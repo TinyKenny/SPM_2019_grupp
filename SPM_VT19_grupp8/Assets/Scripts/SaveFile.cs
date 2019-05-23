@@ -104,6 +104,15 @@ public class SaveFile
         }
         return levelIndex;
     }
+
+    public static void SaveGame()
+    {
+        ClearSave();
+
+        CreateSave();
+
+        GameController.GameControllerInstance.SavePlayerVariables();
+    }
 }
 
 [System.Serializable]

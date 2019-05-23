@@ -18,12 +18,6 @@ public class Respawn : MonoBehaviour
             triggerd = true;
 
             EventCoordinator.CurrentEventCoordinator.ActivateEvent(new SaveEventInfo(gameObject));
-
-            SaveFile.ClearSave();
-
-            SaveFile.CreateSave();
-
-            GameController.GameControllerInstance.SavePlayerVariables();
         }
     }
 
