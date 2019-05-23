@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "States/Enemies/Stunbot/Idle State")]
 public class StunbotIdleState : StunbotBaseState
 {
-
     public override void Enter()
     {
         base.Enter();

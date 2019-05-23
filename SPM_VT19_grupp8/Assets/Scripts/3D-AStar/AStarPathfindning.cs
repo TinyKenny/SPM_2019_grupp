@@ -47,7 +47,22 @@ public class AStarPathfindning : MonoBehaviour
             Debug.Log("endbox found: " + endBox);
 
             colls = Physics.OverlapBox(start, new Vector3(0.45f, 0.45f, 0.45f), Quaternion.identity, navLayer); //start
-            NavBox startBox = colls[0].GetComponent<NavBox>();
+            NavBox startBox;
+            if (colls.Length > 0)
+            {
+                startBox = colls[0].GetComponent<NavBox>();
+            }
+            else
+            {
+                if(Physics.BoxCast(start, new Vector3(0.45f, 0.45f, 0.45f), (end - start).normalized, out RaycastHit hitInfo, Quaternion.identity, (end - start).magnitude, navLayer))
+                {
+                    startBox = hitInfo.transform.GetComponent<NavBox>();
+                }
+                else
+                {
+                    startBox = colls[0].GetComponent<NavBox>(); // this will cause an IndexOutOfRangeException, which we in this case want
+                }
+            }
             Debug.Log("startbox found: " + startBox);
 
             bcnEnd = new BoxCompareNode(endBox, end);
@@ -55,7 +70,6 @@ public class AStarPathfindning : MonoBehaviour
         }
         catch (System.IndexOutOfRangeException)
         {
-            //find a way to solve this
             requestManager.FinishedProcessingPath(waypoints, false);
             yield break;
         }
@@ -115,7 +129,6 @@ public class AStarPathfindning : MonoBehaviour
             }
         }
 
-
         if (pathSuccess)
         {
             List<Vector3> pathList = new List<Vector3>();
@@ -136,12 +149,4 @@ public class AStarPathfindning : MonoBehaviour
 
         yield return null;
     }
-
-    
-    //Vector3[] SimplifyPath(List<Vector3> path)
-    //{
-
-    //}
-
-
 }

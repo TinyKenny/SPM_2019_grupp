@@ -23,7 +23,6 @@ public class Path
             Vector3 dirToCurrentPoint = (currentPoint - previousPoint).normalized;
             Vector3 turnBoundaryPoint = (i == finishLineIndex) ? currentPoint : currentPoint - dirToCurrentPoint * turnDst;
 
-            //this might be completely wrong...
             turnBoundaries[i] = new TurnBoundaryPlane(turnBoundaryPoint, previousPoint - dirToCurrentPoint * turnDst);
 
             previousPoint = turnBoundaryPoint;

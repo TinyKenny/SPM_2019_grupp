@@ -109,7 +109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 5
   deceleration: 5
-  maxSpeed: 10
+  maxSpeed: 7
   frictionCoefficient: 0.4
   airResistanceCoefficient: 0.9
   gravity: 0
@@ -134,12 +134,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4fcaba227804b5e4d8bf3689460b644b, type: 2}
   currentState: {fileID: 0}
   alertSound: {fileID: 0}
+  deathSound: {fileID: 0}
   visionMask:
     serializedVersion: 2
     m_Bits: 512
   playerLayer:
     serializedVersion: 2
     m_Bits: 1024
+  Target: {fileID: 0}
 --- !u!82 &1150877339415482010
 AudioSource:
   m_ObjectHideFlags: 0

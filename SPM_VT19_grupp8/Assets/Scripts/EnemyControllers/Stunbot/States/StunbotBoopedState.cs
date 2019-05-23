@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "States/Enemies/Stunbot/Booped State")]
 public class StunbotBoopedState : StunbotBaseState
 {
-    private float boopMultiplier = 1.5f; // 2.0f
+    private float boopMultiplier = 1.5f;
 
     public override void Initialize(StateMachine owner)
     {

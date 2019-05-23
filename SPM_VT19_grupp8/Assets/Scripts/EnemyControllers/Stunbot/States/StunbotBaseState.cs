@@ -4,6 +4,9 @@ using UnityEngine;
 
 /// <summary>
 /// Base state for the stunbot.
+/// 
+/// This class, along with its subclasses, is going to get some cleanup soon.
+/// We are aware that there are currently a lot of unused properties and methods in this class and its subclasses.
 /// </summary>
 public class StunbotBaseState : State
 {
@@ -39,9 +42,9 @@ public class StunbotBaseState : State
     protected Transform Target { get { return Owner.Target; } set { Owner.Target = value; } }
 
     protected float stoppingDst = 2.0f; // might need a different value
-    private float turnSpeed = 3.0f; // might need a different value
+    private float turnSpeed = 5.0f; // might need a different value
     private float requestCooldown = 1.0f; // might need a different value
-    private float turnDst = 2.0f; // might need a different value
+    private float turnDst = 1.0f; // might need a different value
     #endregion
 
 
@@ -80,7 +83,9 @@ public class StunbotBaseState : State
             {
                 if (pathIndex == path.finishLineIndex)
                 {
+                    Debug.Log("stop follow path");
                     followingPath = false;
+                    UpdateTarget();
                     break;
                 }
                 else
@@ -93,7 +98,7 @@ public class StunbotBaseState : State
             {
                 if (pathIndex >= path.slowDownIndex && stoppingDst > 0)
                 {
-                    speedPercent = Mathf.Clamp01(path.turnBoundaries[path.finishLineIndex].DistanceFromPoint(ThisTransform.position) / stoppingDst);
+                    speedPercent = Mathf.Clamp01(0.1f + path.turnBoundaries[path.finishLineIndex].DistanceFromPoint(ThisTransform.position) / stoppingDst);
                     if (speedPercent < 0.05f)
                     {
                         followingPath = false;
@@ -106,41 +111,6 @@ public class StunbotBaseState : State
                 
             }
         }
-        //if(followingPath == false)
-        //{
-        //    UpdateTarget();
-        //    RequestPath();
-        //}
-
-
-
-        //ApplyMovement(Velocity * Time.deltaTime);
-        //Velocity *= Mathf.Pow(AirResistanceCoefficient, Time.deltaTime);
-
-        //if (Paths.Count > 0)
-        //{
-        //    #region debugging
-
-        //    Color pathDrawColor = new Color32(255, 165, 0, 255);
-        //    Vector3 lastPosition = ThisTransform.position;
-
-        //    foreach(Vector3 pos in Paths)
-        //    {
-        //        Debug.DrawLine(lastPosition, pos, pathDrawColor);
-        //        lastPosition = pos;
-        //    }
-
-        //    #endregion
-
-        //    if (Vector3.Distance(Paths[0], ThisTransform.position) < Mathf.Max(Velocity.magnitude * 0.1f, 0.1f))
-        //    {
-        //        Paths.RemoveAt(0);
-        //    }
-        //}
-        //else if (Paths.Count == 0)
-        //{
-        //    NoTargetAvailable();
-        //}
     }
 
     private void RequestPath()
