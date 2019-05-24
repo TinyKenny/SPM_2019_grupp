@@ -23,15 +23,16 @@ public class DangerousObject : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        ausDanger.PlayOneShot(dangerSound);
         if (other.CompareTag("Player") && cooldown < 0)
         {
+            ausDanger.PlayOneShot(dangerSound);
             PlayerDamageEventInfo pDEI = new PlayerDamageEventInfo(other.gameObject, damage, knockback);
             EventCoordinator.CurrentEventCoordinator.ActivateEvent(pDEI);
             cooldown = cooldownAmount;
         }
         else if (other.CompareTag("Enemy Hitbox"))
         {
+            ausDanger.PlayOneShot(dangerSound);
             EnemyDamageEventInfo eDEI = new EnemyDamageEventInfo(other.gameObject);
             EventCoordinator.CurrentEventCoordinator.ActivateEvent(eDEI);
         }
