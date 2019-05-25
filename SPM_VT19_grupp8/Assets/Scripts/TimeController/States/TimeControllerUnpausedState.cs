@@ -8,7 +8,7 @@ public class TimeControllerUnpausedState : TimeControllerBaseState
 {
     private float PlayerTimeScale { get; set; }
     private float SlowMotionCooldownTimer { get; set; }
-    private float CurrentSlowMotionEnergy { get; set; }
+    private float CurrentSlowMotionEnergy { get { return Owner.CurrentSlowMotionEnergy; } set { Owner.CurrentSlowMotionEnergy = value; } }
 
     private float TimeSlowMultiplier { get { return Owner.TimeSlowMultiplier; } set { Owner.TimeSlowMultiplier = value; } }
 

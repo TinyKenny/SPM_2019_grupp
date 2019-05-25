@@ -22,14 +22,13 @@ public class GameController : MonoBehaviour
             save = value;
         }
     }
+    public float LevelTime { get; private set; } = 0.0f;
 
     public static GameController GameControllerInstance { get; private set; }
     public Text timeText;
     public PlayerStateMachine player;
     public GameObject PausePanel;
     public GameObject SelectedPauseButton;
-
-    private float levelTime = 0.0f;
     private SaveFile save = null;
 
     private void Awake()
@@ -39,17 +38,14 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        levelTime = PlayerPrefs.GetFloat("playerTime");
-        PlayerPrefs.SetFloat("playerTime", 0.0f);
-        //player.AddAmmo(new AmmoPickupEventInfo(gameObject, PlayerPrefs.GetInt("playerAmmo"))); // make this better, please
-        PlayerPrefs.SetInt("playerAmmo", 0);
+        LevelTime = CurrentSave.LevelTime;
         PausePanel.gameObject.SetActive(false);
     }
     
     void Update()
     {
-        levelTime += Time.deltaTime;
-        timeText.text = "Time: " + (int)levelTime;
+        LevelTime += Time.deltaTime;
+        timeText.text = "Time: " + (int)LevelTime;
         if (Input.GetButtonDown("Pause"))
         {
             PausePanel.SetActive(!PausePanel.activeSelf);
@@ -69,31 +65,29 @@ public class GameController : MonoBehaviour
 
         if (SceneManager.GetActiveScene().buildIndex == 2 && sceneIndex == 3)
         {
-            ScoreSaveLoad.SaveScore(PlayerPrefs.GetString("playerName"), levelTime);
+            ScoreSaveLoad.SaveScore(PlayerPrefs.GetString("playerName"), LevelTime);
         }
         else
         {
-            SavePlayerVariables();
+            CurrentSave.FinishLevel(LevelTime, player.Ammo);
         }
 
         SceneManager.LoadScene(sceneIndex);
     }
 
-    public void SavePlayerVariables()
-    {
-        PlayerPrefs.SetFloat("playerTime", levelTime);
-        PlayerPrefs.SetInt("playerAmmo", player.Ammo);
-    }
-
     public void Quit()
     {
-        SaveFile.SaveGame();
         Application.Quit();
     }
 
     public void ReturnToMenu()
     {
-        SaveFile.SaveGame();
         SceneManager.LoadScene(0);
+    }
+
+    private void OnDestroy()
+    {
+        CurrentSave.LevelTime = LevelTime;
+        SaveFile.SaveGame();
     }
 }

@@ -101,6 +101,7 @@ public class PlayerStateMachine : StateMachine
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<AmmoPickupEventInfo>(AddAmmo);
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerDiegeticSoundEventInfo>(PlayerDiegeticSound);
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerDamageEventInfo>(TakeDamage);
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<SaveEventInfo>(SavePlayerVariables);
 
         base.Awake();
 
@@ -169,9 +170,15 @@ public class PlayerStateMachine : StateMachine
     /// </summary>
     public void Respawn()
     {
-        SaveFile.LoadSave();
-
         LoadSpawnLocation();
+
+        if (GameController.GameControllerInstance.CurrentSave.PlayerInfo != null)
+        {
+            PlayerVariables pV = GameController.GameControllerInstance.CurrentSave.PlayerInfo;
+            currentShields = pV.ShieldAmount;
+            Ammo = pV.AmmoAmount;
+            timeController.CurrentSlowMotionEnergy = pV.TimeSlowEnergy;
+        }
 
         ResetValues();
 
@@ -194,7 +201,6 @@ public class PlayerStateMachine : StateMachine
         Time.timeScale = 1.0f; // create stop-slow method?
         currentShields = shieldsMax;
         fireCoolDown = 0.0f;
-        Ammo = PlayerPrefs.GetInt("playerAmmo");
         ammoNumber.text = Ammo.ToString();
         timeController.ResetValues();
     }
@@ -281,10 +287,11 @@ public class PlayerStateMachine : StateMachine
 
     private void LoadSpawnLocation()
     {
-        if(GameController.GameControllerInstance.CurrentSave.PlayerPosition != null)
+        PlayerVariables currentSave = GameController.GameControllerInstance.CurrentSave.PlayerInfo;
+        if (currentSave != null && currentSave.SpawnPosition != null)
         {
-            respawnPoint = GameController.GameControllerInstance.CurrentSave.PlayerPosition.Position;
-            respawnRotation.y = GameController.GameControllerInstance.CurrentSave.PlayerRotationY;
+            respawnPoint = currentSave.SpawnPosition.Position;
+            respawnRotation.y = currentSave.SpawnRotationY;
         }
         else
         {
@@ -294,10 +301,16 @@ public class PlayerStateMachine : StateMachine
 
     }
 
+    private void SavePlayerVariables(EventInfo eI)
+    {
+        GameController.GameControllerInstance.CurrentSave.AddPlayerInfo(eI.GO.transform.position, eI.GO.transform.rotation.eulerAngles.y, Ammo, currentShields, timeController.CurrentSlowMotionEnergy);
+    }
+
     private void OnDestroy()
     {
         EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<AmmoPickupEventInfo>(AddAmmo);
         EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<PlayerDiegeticSoundEventInfo>(PlayerDiegeticSound);
         EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<PlayerDamageEventInfo>(TakeDamage);
+        EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<SaveEventInfo>(SavePlayerVariables);
     }
 }

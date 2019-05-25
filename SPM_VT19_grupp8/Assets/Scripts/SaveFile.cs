@@ -7,12 +7,12 @@ using System.Runtime.Serialization.Formatters.Binary;
 [System.Serializable]
 public class SaveFile
 {
-    public Dictionary<string, PositionInfo> EnemyInfoList
+    public Dictionary<string, System.Tuple<PositionInfo, PositionInfo>> EnemyInfoList
     {
         get
         {
             if (enemyInfoList == null)
-                enemyInfoList = new Dictionary<string, PositionInfo>();
+                enemyInfoList = new Dictionary<string, System.Tuple<PositionInfo, PositionInfo>>();
             return enemyInfoList;
         }
         private set
@@ -35,13 +35,13 @@ public class SaveFile
         }
     }
 
-    public PositionInfo PlayerPosition { get; set; }
-    public float PlayerRotationY { get; set; }
     public int LevelIndex { get; set; }
     public bool IsEmpty { get; private set; }
+    public PlayerVariables PlayerInfo { get; set; }
+    public float LevelTime { get; set; } = 0f;
 
     private PositionInfo playerRotation;
-    private Dictionary<string, PositionInfo> enemyInfoList;
+    private Dictionary<string, System.Tuple<PositionInfo, PositionInfo>> enemyInfoList;
     private Dictionary<string, bool> ammoPickupList;
 
     public SaveFile()
@@ -49,9 +49,9 @@ public class SaveFile
         IsEmpty = true;
     }
 
-    public void AddEnemy(Vector3 position, string name)
+    public void AddEnemy(Vector3 position, Vector3 rotation, string name)
     {
-        EnemyInfoList[name] = new PositionInfo(position);
+        EnemyInfoList[name] = System.Tuple.Create(new PositionInfo(position), new PositionInfo(rotation));
         if (IsEmpty)
             IsEmpty = false;
     }
@@ -71,6 +71,13 @@ public class SaveFile
     public void RemoveAmmoPickup(string name)
     {
         AmmmoPickupList.Remove(name);
+    }
+
+    public void AddPlayerInfo(Vector3 position, float yRotation, int ammo, float shield, float timeSlowEnergy)
+    {
+        PlayerInfo = new PlayerVariables(position, yRotation, ammo, shield, timeSlowEnergy);
+        if (IsEmpty)
+            IsEmpty = false;
     }
 
     public static void ClearSave()
@@ -120,8 +127,18 @@ public class SaveFile
         ClearSave();
 
         CreateSave();
+    }
 
-        GameController.GameControllerInstance.SavePlayerVariables();
+    public void FinishLevel(float levelTime, int ammoAmount)
+    {
+        IsEmpty = true;
+        PlayerInfo.AmmoAmount = ammoAmount;
+        PlayerInfo.SpawnPosition = null;
+        enemyInfoList.Clear();
+        ammoPickupList.Clear();
+        LevelTime = levelTime;
+
+        SaveGame();
     }
 }
 

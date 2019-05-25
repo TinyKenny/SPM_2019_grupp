@@ -11,8 +11,6 @@ public class Respawn : MonoBehaviour
     {
         if (other.CompareTag("Player") && triggerd == false)
         {
-            GameController.GameControllerInstance.CurrentSave.PlayerPosition = new PositionInfo(transform.position);
-            GameController.GameControllerInstance.CurrentSave.PlayerRotationY = transform.rotation.eulerAngles.y;
             GameController.GameControllerInstance.CurrentSave.LevelIndex = SceneManager.GetActiveScene().buildIndex;
 
             triggerd = true;

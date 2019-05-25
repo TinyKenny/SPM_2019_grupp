@@ -67,4 +67,9 @@ public class LeaderboardController : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
+
+    private void OnDestroy()
+    {
+        SaveFile.ClearSave();
+    }
 }

@@ -43,10 +43,12 @@ public class EnemySpawner : MonoBehaviour
             PlayerTransform = PREI.GO.transform;
 
             Vector3 position = transform.position;
+            Vector3 rotation = transform.rotation.eulerAngles;
 
             if (GameController.GameControllerInstance.CurrentSave.EnemyInfoList.ContainsKey(gameObject.name))
             {
-                position = GameController.GameControllerInstance.CurrentSave.EnemyInfoList[gameObject.name].Position;
+                position = GameController.GameControllerInstance.CurrentSave.EnemyInfoList[gameObject.name].Item1.Position;
+                rotation = GameController.GameControllerInstance.CurrentSave.EnemyInfoList[gameObject.name].Item2.Position;
             }
 
             if (currentGO != null)
@@ -71,6 +73,7 @@ public class EnemySpawner : MonoBehaviour
             }
 
             currentGO.transform.position = position;
+            currentGO.transform.rotation = Quaternion.Euler(rotation);
         }
     }
 

@@ -11,6 +11,7 @@ public class TimeController : StateMachine
     public float SlowMotionEnergyRegeneration { get { return slowMotionEnergyRegeneration; } }
     public float SlowMotionCooldown { get { return slowMotionCooldown; } }
     public Slider SlowMotionEnergySlider { get { return slowMotionEnergySlider; } }
+    public float CurrentSlowMotionEnergy { get; set; }
 
     [SerializeField] private float slowedPlayerTimeScale = 0.5f;
     [SerializeField] private float slowedWorldTimeScale = 0.2f;

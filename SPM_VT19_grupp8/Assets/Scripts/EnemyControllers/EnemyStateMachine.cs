@@ -121,6 +121,6 @@ public class EnemyStateMachine : StateMachine
     public void SaveEnemy(EventInfo eI)
     {
         SaveEventInfo sEI = (SaveEventInfo)eI;
-        GameController.GameControllerInstance.CurrentSave.AddEnemy(transform.position, transform.parent.name);
+        GameController.GameControllerInstance.CurrentSave.AddEnemy(transform.position, transform.rotation.eulerAngles, transform.parent.name);
     }
 }
