@@ -14,16 +14,15 @@ public class EnemySpawner : MonoBehaviour
     private Transform PlayerTransform;
     private GameObject currentGO = null;
 
-    private void Start()
+    private void Awake()
     {
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerRespawnEventInfo>(SpawnEnemy);
     }
 
     private bool CheckSpawnSaveStatus()
     {
-        bool fileExists = File.Exists(Application.persistentDataPath + "/gamesave.save");
         bool spawnEnemy = false;
-        if (fileExists)
+        if (GameController.GameControllerInstance.CurrentSave.IsEmpty == false)
             spawnEnemy = GameController.GameControllerInstance.CurrentSave.EnemyInfoList.ContainsKey(name);
         else
             spawnEnemy = true;
@@ -59,14 +58,16 @@ public class EnemySpawner : MonoBehaviour
 
             if (currentGO.GetComponent<EnemyStateMachine>() != null)
             {
-                currentGO.GetComponent<EnemyStateMachine>().PlayerTransform = PlayerTransform;
+                EnemyStateMachine eSM = currentGO.GetComponent<EnemyStateMachine>();
+                eSM.PlayerTransform = PlayerTransform;
+                eSM.SpawnerName = name;
 
                 if (PatrolLocations.Length == 0)
                 {
                     PatrolLocations = new Transform[1];
                     PatrolLocations[0] = transform;
                 }
-                currentGO.GetComponent<EnemyStateMachine>().PatrolLocations = PatrolLocations;
+                eSM.PatrolLocations = PatrolLocations;
             }
 
             currentGO.transform.position = position;

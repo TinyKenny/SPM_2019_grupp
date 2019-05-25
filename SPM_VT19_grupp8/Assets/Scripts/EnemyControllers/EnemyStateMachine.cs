@@ -9,6 +9,7 @@ public class EnemyStateMachine : StateMachine
 {
     public Transform[] PatrolLocations { get; set; }
     public Transform PlayerTransform { get; set; }
+    public string SpawnerName { private get; set; }
 
     private AudioSource aus;
     [SerializeField] private AudioClip alertSound = null;
@@ -104,6 +105,7 @@ public class EnemyStateMachine : StateMachine
                 aS.PlayOneShot(deathSound);
                 Destroy(aS, deathSound.length);
             }
+            GameController.GameControllerInstance.CurrentSave.EnemyInfoList.Remove(SpawnerName);
             Destroy(gameObject);
         }
     }

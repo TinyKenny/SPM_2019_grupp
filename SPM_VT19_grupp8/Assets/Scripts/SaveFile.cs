@@ -38,14 +38,22 @@ public class SaveFile
     public PositionInfo PlayerPosition { get; set; }
     public float PlayerRotationY { get; set; }
     public int LevelIndex { get; set; }
+    public bool IsEmpty { get; private set; }
 
     private PositionInfo playerRotation;
     private Dictionary<string, PositionInfo> enemyInfoList;
     private Dictionary<string, bool> ammoPickupList;
 
+    public SaveFile()
+    {
+        IsEmpty = true;
+    }
+
     public void AddEnemy(Vector3 position, string name)
     {
         EnemyInfoList[name] = new PositionInfo(position);
+        if (IsEmpty)
+            IsEmpty = false;
     }
 
     public void RemoveEnemy(string name)
@@ -56,6 +64,8 @@ public class SaveFile
     public void AddAmmoPickup(string name, bool active)
     {
         AmmmoPickupList[name] = active;
+        if (IsEmpty)
+            IsEmpty = false;
     }
 
     public void RemoveAmmoPickup(string name)
