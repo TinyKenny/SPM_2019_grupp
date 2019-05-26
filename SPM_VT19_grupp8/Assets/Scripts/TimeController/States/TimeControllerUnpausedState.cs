@@ -24,7 +24,6 @@ public class TimeControllerUnpausedState : TimeControllerBaseState
         base.Initialize(owner);
         PlayerTimeScale = 1.0f;
         SlowMotionCooldownTimer = 0.0f;
-        CurrentSlowMotionEnergy = SlowMotionEnergyMax;
         SlowMotionEnergySlider.maxValue = SlowMotionEnergyMax;
     }
 
