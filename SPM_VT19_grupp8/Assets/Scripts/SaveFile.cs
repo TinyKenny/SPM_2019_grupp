@@ -7,12 +7,12 @@ using System.Runtime.Serialization.Formatters.Binary;
 [System.Serializable]
 public class SaveFile
 {
-    public Dictionary<string, System.Tuple<PositionInfo, PositionInfo>> EnemyInfoList
+    public Dictionary<string, System.Tuple<PositionInfo, PositionInfo, int>> EnemyInfoList
     {
         get
         {
             if (enemyInfoList == null)
-                enemyInfoList = new Dictionary<string, System.Tuple<PositionInfo, PositionInfo>>();
+                enemyInfoList = new Dictionary<string, System.Tuple<PositionInfo, PositionInfo, int>>();
             return enemyInfoList;
         }
         private set
@@ -35,23 +35,38 @@ public class SaveFile
         }
     }
 
+    public Dictionary<string, bool> CheckpointPickupList
+    {
+        get
+        {
+            if (checkpointPickupList == null)
+                checkpointPickupList = new Dictionary<string, bool>();
+            return checkpointPickupList;
+        }
+        private set
+        {
+            checkpointPickupList = value;
+        }
+    }
+
     public int LevelIndex { get; set; }
     public bool IsEmpty { get; private set; }
     public PlayerVariables PlayerInfo { get; set; }
     public float LevelTime { get; set; } = 0f;
 
     private PositionInfo playerRotation;
-    private Dictionary<string, System.Tuple<PositionInfo, PositionInfo>> enemyInfoList;
+    private Dictionary<string, System.Tuple<PositionInfo, PositionInfo, int>> enemyInfoList;
     private Dictionary<string, bool> ammoPickupList;
+    private Dictionary<string, bool> checkpointPickupList;
 
     public SaveFile()
     {
         IsEmpty = true;
     }
 
-    public void AddEnemy(Vector3 position, Vector3 rotation, string name)
+    public void AddEnemy(Vector3 position, Vector3 rotation, string name, int state)
     {
-        EnemyInfoList[name] = System.Tuple.Create(new PositionInfo(position), new PositionInfo(rotation));
+        EnemyInfoList[name] = System.Tuple.Create(new PositionInfo(position), new PositionInfo(rotation), state);
         if (IsEmpty)
             IsEmpty = false;
     }
@@ -68,9 +83,21 @@ public class SaveFile
             IsEmpty = false;
     }
 
+    public void AddCheckpoint(string name, bool active)
+    {
+        CheckpointPickupList[name] = active;
+        if (IsEmpty)
+            IsEmpty = false;
+    }
+
     public void RemoveAmmoPickup(string name)
     {
         AmmmoPickupList.Remove(name);
+    }
+
+    public void RemoveCheckpoint(string name)
+    {
+        CheckpointPickupList.Remove(name);
     }
 
     public void AddPlayerInfo(Vector3 position, float yRotation, int ammo, float shield, float timeSlowEnergy)

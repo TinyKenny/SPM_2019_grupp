@@ -44,11 +44,14 @@ public class EnemySpawner : MonoBehaviour
 
             Vector3 position = transform.position;
             Vector3 rotation = transform.rotation.eulerAngles;
+            int currentState = 0;
 
             if (GameController.GameControllerInstance.CurrentSave.EnemyInfoList.ContainsKey(gameObject.name))
             {
-                position = GameController.GameControllerInstance.CurrentSave.EnemyInfoList[gameObject.name].Item1.Position;
-                rotation = GameController.GameControllerInstance.CurrentSave.EnemyInfoList[gameObject.name].Item2.Position;
+                System.Tuple<PositionInfo, PositionInfo, int> savedInfo = GameController.GameControllerInstance.CurrentSave.EnemyInfoList[gameObject.name];
+                position = savedInfo.Item1.Position;
+                rotation = savedInfo.Item2.Position;
+                currentState = savedInfo.Item3;
             }
 
             if (currentGO != null)
@@ -70,6 +73,7 @@ public class EnemySpawner : MonoBehaviour
                     PatrolLocations[0] = transform;
                 }
                 eSM.PatrolLocations = PatrolLocations;
+                eSM.SetSavedState(currentState);
             }
 
             currentGO.transform.position = position;

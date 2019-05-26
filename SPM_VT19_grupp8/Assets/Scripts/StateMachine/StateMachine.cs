@@ -13,11 +13,13 @@ public class StateMachine : MonoBehaviour
 
     protected virtual void Awake()
     {
-        foreach (State state in states)
+        for (int i = 0; i < states.Length; i++)
         {
+            State state = states[i];
             State instance = Instantiate(state);
             instance.Initialize(this);
             stateDictionary.Add(instance.GetType(), instance);
+            instance.Index = i;
             if (currentState == null)
             {
                 currentState = instance;
@@ -45,5 +47,14 @@ public class StateMachine : MonoBehaviour
     public virtual void TransitionTask()
     {
 
+    }
+
+    public void SetSavedState(int index)
+    {
+        Type t = states[index].GetType();
+        TransitionTask();
+        currentState.Exit();
+        currentState = stateDictionary[t];
+        currentState.Enter();
     }
 }

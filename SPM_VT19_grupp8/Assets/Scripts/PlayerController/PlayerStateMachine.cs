@@ -199,7 +199,7 @@ public class PlayerStateMachine : StateMachine
         transform.position = respawnPoint;
         transform.rotation = Quaternion.Euler(0.0f, respawnRotation.y, 0.0f);
         Time.timeScale = 1.0f; // create stop-slow method?
-        currentShields = shieldsMax;
+        //currentShields = shieldsMax;
         fireCoolDown = 0.0f;
         ammoNumber.text = Ammo.ToString();
         timeController.ResetValues();
