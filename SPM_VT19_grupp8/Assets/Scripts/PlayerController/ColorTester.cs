@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ColorTester : MonoBehaviour
 {
+    public Color32 TestColor { get { return testColor; } }
     [SerializeField] private Color32 testColor = Color.white;
     private Renderer rend;
 
