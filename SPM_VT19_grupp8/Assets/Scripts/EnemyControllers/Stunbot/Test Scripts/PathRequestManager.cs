@@ -5,25 +5,25 @@ using System;
 
 public class PathRequestManager : MonoBehaviour
 {
-    Queue<PathRequest> pathRequestQueue = new Queue<PathRequest>();
-    PathRequest currentPathRequest;
+    private Queue<PathRequest> pathRequestQueue = new Queue<PathRequest>();
+    private PathRequest currentPathRequest;
 
-    static PathRequestManager instance;
-    AStarPathfindning pathfinding;
+    private static PathRequestManager pathRequestManagerInstance;
+    private AStarPathfindning pathfinding;
 
-    bool isProcessingPath;
+    private bool isProcessingPath;
 
     private void Awake()
     {
-        instance = this;
+        pathRequestManagerInstance = this;
         pathfinding = GetComponent<AStarPathfindning>();
     }
 
     public static void RequestPath(Vector3 pathStart, Vector3 pathEnd, float colliderRadius, Action<Vector3[], bool> callback)
     {
         PathRequest newRequest = new PathRequest(pathStart, pathEnd, colliderRadius, callback);
-        instance.pathRequestQueue.Enqueue(newRequest);
-        instance.TryProcessNext();
+        pathRequestManagerInstance.pathRequestQueue.Enqueue(newRequest);
+        pathRequestManagerInstance.TryProcessNext();
     }
 
     void TryProcessNext()
@@ -32,30 +32,30 @@ public class PathRequestManager : MonoBehaviour
         {
             currentPathRequest = pathRequestQueue.Dequeue();
             isProcessingPath = true;
-            pathfinding.StartFindPath(currentPathRequest.pathStart, currentPathRequest.pathEnd, currentPathRequest.colliderRadius);
+            pathfinding.StartFindPath(currentPathRequest.PathStart, currentPathRequest.PathEnd, currentPathRequest.ColliderRadius);
         }
     }
 
     public void FinishedProcessingPath(Vector3[] path, bool success)
     {
-        currentPathRequest.callback(path, success);
+        currentPathRequest.Callback(path, success);
         isProcessingPath = false;
         TryProcessNext();
     }
 
     struct PathRequest
     {
-        public Vector3 pathStart;
-        public Vector3 pathEnd;
-        public float colliderRadius;
-        public Action<Vector3[], bool> callback;
+        public Vector3 PathStart;
+        public Vector3 PathEnd;
+        public float ColliderRadius;
+        public Action<Vector3[], bool> Callback;
 
         public PathRequest(Vector3 start, Vector3 end, float colliderRadius, Action<Vector3[], bool> callback)
         {
-            pathStart = start;
-            pathEnd = end;
-            this.colliderRadius = colliderRadius;
-            this.callback = callback;
+            PathStart = start;
+            PathEnd = end;
+            this.ColliderRadius = colliderRadius;
+            this.Callback = callback;
         }
     }
 }

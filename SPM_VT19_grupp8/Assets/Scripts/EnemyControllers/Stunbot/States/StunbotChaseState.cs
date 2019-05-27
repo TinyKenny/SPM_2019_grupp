@@ -8,7 +8,7 @@ public class StunbotChaseState : StunbotBaseState
     public override void Initialize(StateMachine owner)
     {
         base.Initialize(owner);
-        stoppingDistanceModifier = 0.0f;
+        StoppingDistanceModifier = 0.0f;
     }
 
     public override void Enter()
