@@ -16,6 +16,7 @@ public class SoldierBaseState : State
     protected NavMeshAgent Agent { get { return owner.Agent; } }
     protected Vector3 Position { get { return owner.transform.position; } set { owner.transform.position = value; } }
     protected Vector3 PlayerPosition { get { return owner.PlayerTransform.position; } }
+    protected Animator Anim { get { return owner.Anim; } }
 
     public override void Initialize(StateMachine owner)
     {

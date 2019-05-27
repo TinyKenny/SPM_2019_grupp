@@ -25,6 +25,8 @@ public class SoldierStateMachine : EnemyStateMachine
     [Header("Random variance max in rate of fire")]
     [SerializeField] private float fireRateCooldownVarianceMax = 0.5f;
 
+    public Animator Anim { get; private set; } = null;
+
 
     #region boop-values, move these
     public Vector3 BoopVelocity { get { return boopVelocity; } set { boopVelocity = value; } }
@@ -35,8 +37,15 @@ public class SoldierStateMachine : EnemyStateMachine
 
     protected override void Awake()
     {
+        Anim = GetComponentInChildren<Animator>();
         Agent = GetComponent<NavMeshAgent>();
         base.Awake();
+    }
+
+    private void Update()
+    {
+        Anim.SetFloat("Speed", Agent.velocity.magnitude / Agent.speed);
+        base.Update();
     }
 
     public override void SetAlerted(Vector3 lastLocation)
