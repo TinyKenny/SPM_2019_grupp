@@ -13,22 +13,15 @@ public class MenuColorSelectState : MenuBaseState
     {
         new Color32(255, 255, 255, 255), // color 0, white
         new Color32(0, 255, 255, 255), // color 1, [what color is this?]
-        new Color32(255, 0, 255, 255), // color 2, [what color is this?]
-        new Color32(255, 255, 0, 255), // color 3, [what color is this?]
-        new Color32(0, 0, 255, 255), // color 4, [what color is this?]
-        new Color32(0, 255, 0, 255), // color 5, [what color is this?]
-        new Color32(255, 0, 0, 255), // color 6, [what color is this?]
-        new Color32(0, 0, 0, 255)  // color 7, [what color is this?]
+        new Color32(255, 255, 255, 255), // color 2, [what color is this?]
+        new Color32(255, 255, 255, 255), // color 3, [what color is this?]
+        new Color32(255, 255, 255, 255), // color 4, [what color is this?]
+        new Color32(255, 255, 255, 255), // color 5, [what color is this?]
+        new Color32(255, 255, 255, 255), // color 6, [what color is this?]
+        new Color32(255, 255, 255, 255)  // color 7, [what color is this?]
     };
-
     private int selectedColor = 0;
-
-    //private GameObject playerPreviewRef;
-
-    private Renderer playerRend;
     private List<Material> colorableMaterials = new List<Material>();
-
-    // add a reference to the player preview
 
     public override void Initialize(StateMachine owner)
     {
@@ -44,13 +37,10 @@ public class MenuColorSelectState : MenuBaseState
         buttons["NextColor"].onClick.AddListener(NextColor);
         buttons["PreviousColor"].onClick.AddListener(PreviousColor);
 
-
-
         foreach(Renderer rend in menu.GetComponentsInChildren<Renderer>())
         {
             if(rend.CompareTag("Color Pickable"))
             {
-                Debug.Log(rend.transform.name);
                 colorableMaterials.Add(rend.material);
             }
         }
@@ -69,6 +59,9 @@ public class MenuColorSelectState : MenuBaseState
     public void LoadScene()
     {
         SaveFile.ClearSave();
+        PlayerPrefs.SetInt("PlayerColorRed", colors[selectedColor].r);
+        PlayerPrefs.SetInt("PlayerColorGreen", colors[selectedColor].g);
+        PlayerPrefs.SetInt("PlayerColorBlue", colors[selectedColor].b);
         SceneManager.LoadScene(owner.levelToLoad);
     }
 
