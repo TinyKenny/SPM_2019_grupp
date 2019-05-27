@@ -49,6 +49,8 @@ MonoBehaviour:
   player: {fileID: 0}
   PausePanel: {fileID: 0}
   SelectedPauseButton: {fileID: 0}
+  projectile: {fileID: 1468789670608892739, guid: 4bd3c14ec32e9a34bb17dffeab61485b,
+    type: 3}
 --- !u!114 &1136783154387243463
 MonoBehaviour:
   m_ObjectHideFlags: 0
