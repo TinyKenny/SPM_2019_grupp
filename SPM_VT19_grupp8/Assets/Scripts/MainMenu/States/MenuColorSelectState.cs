@@ -23,7 +23,10 @@ public class MenuColorSelectState : MenuBaseState
 
     private int selectedColor = 0;
 
-    private GameObject playerPreviewRef;
+    //private GameObject playerPreviewRef;
+
+    private Renderer playerRend;
+    private List<Material> colorableMaterials = new List<Material>();
 
     // add a reference to the player preview
 
@@ -41,12 +44,16 @@ public class MenuColorSelectState : MenuBaseState
         buttons["NextColor"].onClick.AddListener(NextColor);
         buttons["PreviousColor"].onClick.AddListener(PreviousColor);
 
-        #region placeholder
 
-        playerPreviewRef = buttons["Player Preview placeholder"].gameObject;
-        buttons["Player Preview placeholder"].enabled = false;
 
-        #endregion
+        foreach(Renderer rend in menu.GetComponentsInChildren<Renderer>())
+        {
+            if(rend.CompareTag("Color Pickable"))
+            {
+                Debug.Log(rend.transform.name);
+                colorableMaterials.Add(rend.material);
+            }
+        }
 
         UpdatePreview();
 
@@ -56,7 +63,7 @@ public class MenuColorSelectState : MenuBaseState
     public override void Enter()
     {
         base.Enter();
-        EventSystem.current.SetSelectedGameObject(buttons["CSLBack"].gameObject);
+        EventSystem.current.SetSelectedGameObject(buttons["NextColor"].gameObject);
     }
 
     public void LoadScene()
@@ -67,7 +74,10 @@ public class MenuColorSelectState : MenuBaseState
 
     private void UpdatePreview()
     {
-        playerPreviewRef.GetComponent<Image>().color = colors[selectedColor];
+        foreach(Material mat in colorableMaterials)
+        {
+            mat.color = colors[selectedColor];
+        }
     }
 
     private void NextColor()
