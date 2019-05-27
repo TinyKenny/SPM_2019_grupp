@@ -66,4 +66,9 @@ public class SoldierStateMachine : EnemyStateMachine
 
         TransitionTo<SoldierBoopedState>();
     }
+
+    public override void RemoveEnemy()
+    {
+        TransitionTo<SoldierDeathState>();
+    }
 }
