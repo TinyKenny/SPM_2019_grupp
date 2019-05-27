@@ -11,7 +11,7 @@ using UnityEngine;
 public class SoldierIdleState : SoldierBaseState
 {
     private Vector3 closestPoint;
-    private int index;
+    public int CurrentPatrolPointIndex { get { return owner.CurrentPatrolPointIndex; } set { owner.CurrentPatrolPointIndex = value; } }
 
     public override void Enter()
     {
@@ -22,7 +22,7 @@ public class SoldierIdleState : SoldierBaseState
             if (Vector3.Distance(closestPoint, Position) > Vector3.Distance(PatrolLocations[i].position, Position))
             {
                 closestPoint = PatrolLocations[i].position;
-                index = i;
+                CurrentPatrolPointIndex = i;
             }
         } 
         Agent.SetDestination(closestPoint);
@@ -32,15 +32,15 @@ public class SoldierIdleState : SoldierBaseState
     {
         if (Vector3.Distance(Position, closestPoint) < 1f)
         {
-            if (index < PatrolLocations.Length - 1)
+            if (CurrentPatrolPointIndex < PatrolLocations.Length - 1)
             {
-                closestPoint = PatrolLocations[++index].position;
+                closestPoint = PatrolLocations[++CurrentPatrolPointIndex].position;
                 Agent.SetDestination(closestPoint);
             }
             else
             {
-                index = 0;
-                closestPoint = PatrolLocations[index].position;
+                CurrentPatrolPointIndex = 0;
+                closestPoint = PatrolLocations[CurrentPatrolPointIndex].position;
                 Agent.SetDestination(closestPoint);
             }
         }

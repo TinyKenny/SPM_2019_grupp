@@ -13,8 +13,6 @@ public class StunbotStateMachine : EnemyStateMachine
     #endregion
 
     #region "plain" properties
-    public int CurrentPatrolPointIndex { get; set; }
-    public Vector3 LastPlayerLocation { get; set; }
     public SphereCollider ThisCollider { get; private set; }
     public Path CurrentPath { get; set; }
     public bool FollowingPath { get; set; }

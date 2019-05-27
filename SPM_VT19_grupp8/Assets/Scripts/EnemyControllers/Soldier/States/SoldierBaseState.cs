@@ -12,7 +12,7 @@ public class SoldierBaseState : State
     protected Transform PlayerTransform { get { return owner.PlayerTransform; } }
     protected Transform[] PatrolLocations { get { return owner.PatrolLocations; } }
     protected LayerMask VisionMask { get { return owner.VisionMask; } }
-    protected Vector3 PlayerLastLocation { get { return owner.PlayerLastLocation; } set { owner.PlayerLastLocation = value; } }
+    protected Vector3 PlayerLastLocation { get { return owner.LastPlayerLocation; } set { owner.LastPlayerLocation = value; } }
     protected NavMeshAgent Agent { get { return owner.Agent; } }
     protected Vector3 Position { get { return owner.transform.position; } set { owner.transform.position = value; } }
     protected Vector3 PlayerPosition { get { return owner.PlayerTransform.position; } }

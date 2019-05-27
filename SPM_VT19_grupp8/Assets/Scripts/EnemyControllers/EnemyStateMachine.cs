@@ -10,6 +10,8 @@ public class EnemyStateMachine : StateMachine
     public Transform[] PatrolLocations { get; set; }
     public Transform PlayerTransform { get; set; }
     public string SpawnerName { private get; set; }
+    public Vector3 LastPlayerLocation { get; set; }
+    public int CurrentPatrolPointIndex { get; set; }
 
     private AudioSource aus;
     [SerializeField] private AudioClip alertSound = null;
@@ -121,6 +123,6 @@ public class EnemyStateMachine : StateMachine
     public void SaveEnemy(EventInfo eI)
     {
         SaveEventInfo sEI = (SaveEventInfo)eI;
-        GameController.GameControllerInstance.CurrentSave.AddEnemy(transform.position, transform.rotation.eulerAngles, transform.parent.name, currentState.Index);
+        GameController.GameControllerInstance.CurrentSave.AddEnemy(transform.position, transform.rotation.eulerAngles, LastPlayerLocation, transform.parent.name, currentState.Index, CurrentPatrolPointIndex);
     }
 }

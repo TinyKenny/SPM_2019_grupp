@@ -7,12 +7,12 @@ using System.Runtime.Serialization.Formatters.Binary;
 [System.Serializable]
 public class SaveFile
 {
-    public Dictionary<string, System.Tuple<PositionInfo, PositionInfo, int>> EnemyInfoList
+    public Dictionary<string, EnemyInfo> EnemyInfoList
     {
         get
         {
             if (enemyInfoList == null)
-                enemyInfoList = new Dictionary<string, System.Tuple<PositionInfo, PositionInfo, int>>();
+                enemyInfoList = new Dictionary<string, EnemyInfo>();
             return enemyInfoList;
         }
         private set
@@ -55,7 +55,7 @@ public class SaveFile
     public float LevelTime { get; set; } = 0f;
 
     private PositionInfo playerRotation;
-    private Dictionary<string, System.Tuple<PositionInfo, PositionInfo, int>> enemyInfoList;
+    private Dictionary<string, EnemyInfo> enemyInfoList;
     private Dictionary<string, bool> ammoPickupList;
     private Dictionary<string, bool> checkpointPickupList;
 
@@ -64,9 +64,9 @@ public class SaveFile
         IsEmpty = true;
     }
 
-    public void AddEnemy(Vector3 position, Vector3 rotation, string name, int state)
+    public void AddEnemy(Vector3 position, Vector3 rotation, Vector3 lastPlayerLocation, string name, int state, int currentPatrolPointIndex)
     {
-        EnemyInfoList[name] = System.Tuple.Create(new PositionInfo(position), new PositionInfo(rotation), state);
+        EnemyInfoList[name] = new EnemyInfo(position, rotation, lastPlayerLocation, state, currentPatrolPointIndex);
         if (IsEmpty)
             IsEmpty = false;
     }
@@ -100,9 +100,9 @@ public class SaveFile
         CheckpointPickupList.Remove(name);
     }
 
-    public void AddPlayerInfo(Vector3 position, float yRotation, int ammo, float shield, float timeSlowEnergy)
+    public void AddPlayerInfo(Vector3 position, float yRotation, int ammo, float shield, float timeSlowEnergy, float shieldCooldown)
     {
-        PlayerInfo = new PlayerVariables(position, yRotation, ammo, shield, timeSlowEnergy);
+        PlayerInfo = new PlayerVariables(position, yRotation, ammo, shield, timeSlowEnergy, shieldCooldown);
         if (IsEmpty)
             IsEmpty = false;
     }
@@ -193,5 +193,24 @@ public class PositionInfo
     public PositionInfo(Vector3 position)
     {
         Position = position;
+    }
+}
+
+[System.Serializable]
+public class EnemyInfo
+{
+    public PositionInfo Position { get; private set; }
+    public PositionInfo Rotation { get; private set; }
+    public int CurrentState { get; private set; }
+    public int CurrentPatrolPointIndex { get; private set; }
+    public PositionInfo LastPlayerLocation { get; private set; }
+
+    public EnemyInfo(Vector3 position, Vector3 rotation, Vector3 lastPlayerLocation, int currentState, int currentPatrolPointIndex)
+    {
+        Position = new PositionInfo(position);
+        Rotation = new PositionInfo(rotation);
+        LastPlayerLocation = new PositionInfo(lastPlayerLocation);
+        CurrentState = currentState;
+        CurrentPatrolPointIndex = currentPatrolPointIndex;
     }
 }

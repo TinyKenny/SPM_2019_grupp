@@ -178,6 +178,7 @@ public class PlayerStateMachine : StateMachine
             currentShields = pV.ShieldAmount;
             Ammo = pV.AmmoAmount;
             timeController.CurrentSlowMotionEnergy = pV.TimeSlowEnergy;
+            shieldsRegenerationTimer = pV.ShieldCooldown;
         }
         else
         {
@@ -308,7 +309,7 @@ public class PlayerStateMachine : StateMachine
 
     private void SavePlayerVariables(EventInfo eI)
     {
-        GameController.GameControllerInstance.CurrentSave.AddPlayerInfo(eI.GO.transform.position, eI.GO.transform.rotation.eulerAngles.y, Ammo, currentShields, timeController.CurrentSlowMotionEnergy);
+        GameController.GameControllerInstance.CurrentSave.AddPlayerInfo(eI.GO.transform.position, eI.GO.transform.rotation.eulerAngles.y, Ammo, currentShields, timeController.CurrentSlowMotionEnergy, shieldsRegenerationTimer);
     }
 
     private void OnDestroy()

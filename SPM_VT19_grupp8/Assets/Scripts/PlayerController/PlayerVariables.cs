@@ -10,13 +10,15 @@ public class PlayerVariables
     public int AmmoAmount { get; set; } = 0;
     public float ShieldAmount { get; set; }
     public float TimeSlowEnergy { get; set; }
+    public float ShieldCooldown { get; set; }
 
-    public PlayerVariables(Vector3 playerPosition, float playerRotationY, int playerAmmo, float playerShieldAmount, float playerTimeSlowEnergy)
+    public PlayerVariables(Vector3 playerPosition, float playerRotationY, int playerAmmo, float playerShieldAmount, float playerTimeSlowEnergy, float shieldCooldown)
     {
         SpawnPosition = new PositionInfo(playerPosition);
         SpawnRotationY = playerRotationY;
         AmmoAmount = playerAmmo;
         ShieldAmount = playerShieldAmount;
         TimeSlowEnergy = playerTimeSlowEnergy;
+        ShieldCooldown = shieldCooldown;
     }
 }

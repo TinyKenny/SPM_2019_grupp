@@ -15,7 +15,6 @@ public class SoldierStateMachine : EnemyStateMachine
     public float FireRate { get { return fireRate; } }
     public float FireRateCooldownVarianceMax { get { return fireRateCooldownVarianceMax; } }
     public GameObject ProjectilePrefab { get { return projectilePrefab; } }
-    public Vector3 PlayerLastLocation { get; set; }
     public NavMeshAgent Agent { get; private set; }
 
     [Header("Vision obstruction layers")]
@@ -44,7 +43,7 @@ public class SoldierStateMachine : EnemyStateMachine
     {
         if (currentState is SoldierAttackState == false)
         {
-            PlayerLastLocation = lastLocation;
+            LastPlayerLocation = lastLocation;
             TransitionTo<SoldierAlertState>();
         }
     }
