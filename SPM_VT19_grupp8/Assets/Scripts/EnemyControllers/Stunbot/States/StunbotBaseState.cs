@@ -21,9 +21,9 @@ public class StunbotBaseState : State
     private Path CurrentPath { get { return Owner.CurrentPath; } set { Owner.CurrentPath = value; } }
     private float AllowedOriginDistance { get { return Owner.allowedOriginDistance; } }
     private bool FollowingPath { get { return Owner.FollowingPath; } set { Owner.FollowingPath = value; } }
-    private float StoppingDistance { get { return stoppingDistance * stoppingDistanceModifier; } }
+    private float StoppingDistance { get { return stoppingDistance * StoppingDistanceModifier; } }
 
-    protected float stoppingDistanceModifier = 1.0f;
+    protected float StoppingDistanceModifier = 1.0f;
 
     private int pathIndex; // value changes in methods
     private float speedPercent; // value changes in methods
@@ -35,6 +35,7 @@ public class StunbotBaseState : State
     private const float turnSpeed = 5.0f;
     private const float requestCooldown = 0.4f;
     private const float turnDst = 1.0f;
+
 
     protected StunbotStateMachine Owner { get; private set; }
 
