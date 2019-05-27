@@ -29,6 +29,7 @@ public class SoldierAttackState : SoldierBaseState
     /// </summary>
     public override void HandleUpdate()
     {
+        
         if (fireRateCurrentCooldown < 0)
         {
             Shoot();
@@ -53,8 +54,9 @@ public class SoldierAttackState : SoldierBaseState
     /// </summary>
     private void Shoot()
     {
-        float inaccuracy = 4.0f;
+        Anim.SetTrigger("SoldierShoot");
 
+        float inaccuracy = 4.0f;
 
         Vector3 playerPosition = PlayerTransform.position;
         owner.transform.LookAt(PlayerTransform.position);

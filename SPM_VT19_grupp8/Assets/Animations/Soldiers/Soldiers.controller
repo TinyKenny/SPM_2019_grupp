@@ -146,14 +146,14 @@ AnimatorController:
   m_Name: Soldiers
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: SoldiersWalk
-    m_Type: 4
+  - m_Name: Speed
+    m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
   - m_Name: SoldierShoot
-    m_Type: 4
+    m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
