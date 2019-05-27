@@ -108,8 +108,13 @@ public class EnemyStateMachine : StateMachine
                 Destroy(aS, deathSound.length);
             }
             GameController.GameControllerInstance.CurrentSave.EnemyInfoList.Remove(SpawnerName);
-            Destroy(gameObject);
+            RemoveEnemy();
         }
+    }
+
+    public virtual void RemoveEnemy()
+    {
+
     }
 
     private void OnDestroy()
