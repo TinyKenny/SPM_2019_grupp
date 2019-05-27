@@ -49,6 +49,20 @@ public class SaveFile
         }
     }
 
+    public List<ProjectileInfo> Projectiles
+    {
+        get
+        {
+            if (projectiles == null)
+                projectiles = new List<ProjectileInfo>();
+            return projectiles;
+        }
+        private set
+        {
+            projectiles = value;
+        }
+    }
+
     public int LevelIndex { get; set; }
     public bool IsEmpty { get; private set; }
     public PlayerVariables PlayerInfo { get; set; }
@@ -58,6 +72,7 @@ public class SaveFile
     private Dictionary<string, EnemyInfo> enemyInfoList;
     private Dictionary<string, bool> ammoPickupList;
     private Dictionary<string, bool> checkpointPickupList;
+    private List<ProjectileInfo> projectiles;
 
     public SaveFile()
     {
@@ -212,5 +227,18 @@ public class EnemyInfo
         LastPlayerLocation = new PositionInfo(lastPlayerLocation);
         CurrentState = currentState;
         CurrentPatrolPointIndex = currentPatrolPointIndex;
+    }
+}
+
+[System.Serializable]
+public class ProjectileInfo
+{
+    public PositionInfo Position { get; set; }
+    public PositionInfo Rotation { get; set; }
+
+    public ProjectileInfo(Vector3 position, Vector3 rotation)
+    {
+        Position = new PositionInfo(position);
+        Rotation = new PositionInfo(rotation);
     }
 }

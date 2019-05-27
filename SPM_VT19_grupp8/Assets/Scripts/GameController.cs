@@ -31,6 +31,9 @@ public class GameController : MonoBehaviour
     public GameObject SelectedPauseButton;
     private SaveFile save = null;
 
+    [SerializeField]
+    private GameObject projectile;
+
     private void Awake()
     {
         GameControllerInstance = this;
@@ -40,6 +43,7 @@ public class GameController : MonoBehaviour
     {
         LevelTime = CurrentSave.LevelTime;
         PausePanel.gameObject.SetActive(false);
+        SpawnProjectiles();
     }
     
     void Update()
@@ -73,6 +77,19 @@ public class GameController : MonoBehaviour
         }
 
         SceneManager.LoadScene(sceneIndex);
+    }
+
+    private void SpawnProjectiles()
+    {
+        if(CurrentSave.Projectiles.Count > 0)
+        {
+            foreach (ProjectileInfo pI in CurrentSave.Projectiles)
+            {
+                GameObject gO = Instantiate(projectile);
+                gO.transform.position = pI.Position.Position;
+                gO.transform.eulerAngles = pI.Rotation.Position;
+            }
+        }
     }
 
     public void Quit()

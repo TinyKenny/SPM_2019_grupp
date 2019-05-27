@@ -11,6 +11,7 @@ public class ProjectileBehaviour : MonoBehaviour
     public float distanceToTravel = 300.0f;
 
     private SphereCollider thisCollider;
+    private ProjectileInfo projectile = null;
 
     public void SetInitialValues(LayerMask layerToIgnore)
     {
@@ -20,6 +21,7 @@ public class ProjectileBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<SaveEventInfo>(SaveProjectileInfo);
         thisCollider = GetComponent<SphereCollider>();
         Debug.Log(thisCollider.radius);
         Debug.Log(transform.localScale);
@@ -68,5 +70,20 @@ public class ProjectileBehaviour : MonoBehaviour
         {
             distanceTraveled += movement.magnitude;
         }
+    }
+
+    private void SaveProjectileInfo(EventInfo eI)
+    {
+        if (projectile != null)
+            GameController.GameControllerInstance.CurrentSave.Projectiles.Remove(projectile);
+        projectile = new ProjectileInfo(transform.position, transform.rotation.eulerAngles);
+        GameController.GameControllerInstance.CurrentSave.Projectiles.Add(projectile);
+    }
+
+    private void OnDestroy()
+    {
+        EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<SaveEventInfo>(SaveProjectileInfo);
+        if (projectile != null)
+            GameController.GameControllerInstance.CurrentSave.Projectiles.Remove(projectile);
     }
 }
