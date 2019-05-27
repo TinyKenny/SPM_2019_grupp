@@ -20,6 +20,8 @@ public class SoldierAttackState : SoldierBaseState
         fireRateCurrentCooldown = fireRate;
         fireRateCooldownVarianceMax = owner.FireRateCooldownVarianceMax;
         projectilePrefab = owner.ProjectilePrefab;
+
+
     }
 
     /// <summary>
@@ -52,6 +54,7 @@ public class SoldierAttackState : SoldierBaseState
     private void Shoot()
     {
         float inaccuracy = 4.0f;
+
 
         Vector3 playerPosition = PlayerTransform.position;
         owner.transform.LookAt(PlayerTransform.position);
