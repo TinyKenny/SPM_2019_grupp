@@ -90,6 +90,9 @@ public class PlayerStateMachine : StateMachine
 
     protected override void Awake()
     {
+        Debug.Log(PlayerPrefs.GetString("JumpKey", "Jumpkey not found"));
+        Debug.Log(PlayerPrefs.GetString("WallrunKey", "Jumpkey not found"));
+
         respawnRotation = Quaternion.identity;
         physicsComponent = GetComponent<PhysicsComponent>();
         timeController = GetComponent<TimeController>();
