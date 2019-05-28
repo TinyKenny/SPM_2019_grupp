@@ -105,6 +105,20 @@ public class PlayerStateMachine : StateMachine
 
         base.Awake();
 
+        #region Set color
+        byte red = (byte)PlayerPrefs.GetInt("PlayerColorRed", 255);
+        byte green = (byte)PlayerPrefs.GetInt("PlayerColorGreen", 255);
+        byte blue = (byte)PlayerPrefs.GetInt("PlayerColorBlue", 255);
+        Color32 playerColor = new Color32(red, green, blue, 255);
+        foreach(Renderer rend in GetComponentsInChildren<Renderer>())
+        {
+            if(rend.CompareTag("Color Pickable"))
+            {
+                rend.material.color = playerColor;
+            }
+        }
+        #endregion
+
         shieldAmount.maxValue = shieldsMax;
         wallrunCooldown = wallrunCooldownAmount;
     }

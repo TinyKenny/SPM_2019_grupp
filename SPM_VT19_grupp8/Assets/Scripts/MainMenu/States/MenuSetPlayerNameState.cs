@@ -21,7 +21,7 @@ public class MenuSetPlayerNameState : MenuBaseState
         }
 
         buttons["SPNBack"].onClick.AddListener(Back);
-        buttons["Start"].onClick.AddListener(LoadScene);
+        buttons["Start"].onClick.AddListener(SelectColor);
 
         nameField = ((MainMenuStateMachine)owner).TextField;
 
@@ -42,11 +42,18 @@ public class MenuSetPlayerNameState : MenuBaseState
         }
     }
 
+    // remove this
     public void LoadScene()
     {
         SaveFile.ClearSave();
         PlayerPrefs.SetString("playerName", playerName);
         SceneManager.LoadScene(owner.levelToLoad);
+    }
+
+    public void SelectColor()
+    {
+        PlayerPrefs.SetString("playerName", playerName);
+        owner.TransitionTo<MenuColorSelectState>();
     }
 
     public void SetName(string name)

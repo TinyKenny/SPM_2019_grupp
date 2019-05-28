@@ -13,6 +13,7 @@ public class MainMenuStateMachine : StateMachine
     public GameObject HowToPlayState;
     public GameObject LevelSelectState;
     public GameObject SetNameState;
+    public GameObject ColorSelectState;
     public GameObject TextField;
 
     public AudioSource ausMenu;
