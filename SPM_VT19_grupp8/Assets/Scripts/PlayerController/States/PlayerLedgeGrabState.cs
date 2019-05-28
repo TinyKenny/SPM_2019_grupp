@@ -10,6 +10,7 @@ public class PlayerLedgeGrabState : PlayerBaseState
     private float climbForwardLength = 0.6f;
     private Vector3 forwardClimbPosition;
     private Vector3 wallNormal;
+    private bool grabable;
 
     public override void Enter()
     {
@@ -18,7 +19,7 @@ public class PlayerLedgeGrabState : PlayerBaseState
         FindCollision(Transform.forward, out RaycastHit hit, SkinWidth * 5);
         wallNormal = hit.normal;
 
-        Transform.LookAt(Transform.position - wallNormal);
+        Transform.LookAt(Transform.position + (-wallNormal * 5));
     }
 
     public override void HandleUpdate()
@@ -32,14 +33,19 @@ public class PlayerLedgeGrabState : PlayerBaseState
     {
         RaycastHit wallCheckHit;
 
-        if (FindCollision(Transform.forward, out wallCheckHit, SkinWidth * 5))
-        {
+        bool climbUp = FindCollision(Transform.forward, out wallCheckHit, SkinWidth * 5);
 
+        if (wallCheckHit.collider != null)
+            grabable = wallCheckHit.transform.CompareTag("Grabable");
+
+        if (climbUp && grabable)
+        {
+            forwardClimbPosition = Vector3.zero;
             Vector3 bottomPoint = Transform.position + ThisCollider.center - Transform.up * (ThisCollider.height / 2 - ThisCollider.radius);
             Vector3 topPoint = Transform.position + ThisCollider.center + Transform.up * (ThisCollider.height / 2 + ThisCollider.radius);
             float wallTop = wallCheckHit.collider.bounds.max.y;
 
-            if (wallCheckHit.transform.CompareTag("Grabable") && bottomPoint.y < wallTop + SkinWidth * 10 && topPoint.y + ThisCollider.height / 4 > wallTop)
+            if (bottomPoint.y < wallTop + SkinWidth * 10 && topPoint.y + ThisCollider.height / 4 > wallTop)
             {
                 Velocity += Transform.up * climbUpSpeed * Time.deltaTime;
             }
@@ -50,11 +56,16 @@ public class PlayerLedgeGrabState : PlayerBaseState
             {
                 forwardClimbPosition = Transform.position;
             }
+
+            float distanceForward = Vector3.Distance(forwardClimbPosition, Transform.position);
+
             ClimbForward();
 
-            if (/*Vector3.Distance(Vector3.ProjectOnPlane(forwardClimbPosition, Transform.up), Vector3.ProjectOnPlane(Transform.position, Transform.up)) > climbForwardLength*/ GroundCheck())
+            Vector3 topPoint = Transform.position + ThisCollider.center + Transform.up * (ThisCollider.height / 2 - ThisCollider.radius);
+            Vector3 bottomPoint = Transform.position + ThisCollider.center - Transform.up * (ThisCollider.height / 2 - ThisCollider.radius);
+            
+            if ((Physics.CapsuleCast(topPoint, bottomPoint, ThisCollider.radius, Vector3.down, SkinWidth * 12, CollisionLayers) && distanceForward > 0.2f) || grabable == false)
             {
-                Debug.Log(Vector3.Distance(Vector3.ProjectOnPlane(forwardClimbPosition, Transform.up), Vector3.ProjectOnPlane(Transform.position, Transform.up)));
                 Owner.TransitionTo<PlayerAirState>();
             }
         }
@@ -77,6 +88,5 @@ public class PlayerLedgeGrabState : PlayerBaseState
     {
         base.Exit();
         Animator.SetBool("LedgeGrab", false);
-        forwardClimbPosition = Vector3.zero;
     }
 }
