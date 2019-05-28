@@ -44,6 +44,7 @@ public class GameController : MonoBehaviour
         LevelTime = CurrentSave.LevelTime;
         PausePanel.gameObject.SetActive(false);
         SpawnProjectiles();
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<ParticleEventInfo>(TestParticle);
     }
     
     void Update()
@@ -61,6 +62,14 @@ public class GameController : MonoBehaviour
         }
         else if(Time.timeScale > 0)
             PausePanel.SetActive(false);
+
+        #region testcode particlesystem
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            ParticleEventInfo pEI = new ParticleEventInfo(player.gameObject, particle);
+            EventCoordinator.CurrentEventCoordinator.ActivateEvent(pEI);
+        }
+        #endregion
     }
 
     public void LoadLevel(int sceneIndex)
@@ -107,4 +116,15 @@ public class GameController : MonoBehaviour
         CurrentSave.LevelTime = LevelTime;
         SaveFile.SaveGame();
     }
+
+    #region testcode particlesystem
+    [SerializeField]
+    private ParticleSystem particle;
+    private void TestParticle(EventInfo eI)
+    {
+        ParticleEventInfo pEI = (ParticleEventInfo)eI;
+        ParticleSystem gO = Instantiate(pEI.ParticleSys);
+        Destroy(gO, gO.main.startLifetime.constantMax);
+    }
+    #endregion
 }
