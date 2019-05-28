@@ -36,9 +36,9 @@ public class SoldierAttackState : SoldierBaseState
         }
         fireRateCurrentCooldown -= Time.deltaTime;
 
-        if (!PlayerVisionCheck(38))
+        if (!PlayerVisionCheck(50))
         {
-            if (PlayerVisionCheck(60))
+            if (PlayerVisionCheck(80))
                 owner.TransitionTo<SoldierChaseState>();
             else
             {

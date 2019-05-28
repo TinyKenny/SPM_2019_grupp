@@ -20,9 +20,9 @@ public class SoldierChaseState : SoldierBaseState
             Agent.SetDestination(closestEdge.position);
         }
 
-        if (PlayerVisionCheck(30))
+        if (PlayerVisionCheck(40))
             owner.TransitionTo<SoldierAttackState>();
-        else if (!PlayerVisionCheck(60))
+        else if (!PlayerVisionCheck(80))
             owner.TransitionTo<SoldierAlertState>();
     }
 }

@@ -51,7 +51,7 @@ public class SoldierBoopedState : SoldierBaseState
 
         if (grounded && Velocity.sqrMagnitude < Agent.speed * Agent.speed * MathHelper.floatEpsilon) // replace this with a fitting condition, for not being booped anymore
         {
-            if (PlayerVisionCheck(60))
+            if (PlayerVisionCheck(80))
             {
                 owner.TransitionTo<SoldierChaseState>();
             }

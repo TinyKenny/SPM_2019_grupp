@@ -22,7 +22,7 @@ public class SoldierAlertState : SoldierBaseState
         if (Agent.pathStatus.Equals(NavMeshPathStatus.PathPartial))
         {
             NavMeshHit closestEdge;
-            NavMesh.SamplePosition(Position, out closestEdge, 60, VisionMask);
+            NavMesh.SamplePosition(Position, out closestEdge, 80, VisionMask);
             destination = closestEdge.position;
             Agent.SetDestination(destination);
         }
