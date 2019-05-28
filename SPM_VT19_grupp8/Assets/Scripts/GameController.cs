@@ -113,8 +113,11 @@ public class GameController : MonoBehaviour
 
     private void OnDestroy()
     {
-        CurrentSave.LevelTime = LevelTime;
-        SaveFile.SaveGame();
+        if (CurrentSave.CheckpointReached)
+        {
+            CurrentSave.LevelTime = LevelTime;
+            SaveFile.SaveGame();
+        }
     }
 
     #region testcode particlesystem

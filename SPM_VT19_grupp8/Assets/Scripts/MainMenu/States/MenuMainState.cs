@@ -40,13 +40,13 @@ public class MenuMainState : MenuBaseState
     public override void Enter()
     {
         base.Enter();
-        if (owner.previousSelected == null || !buttons.ContainsKey(owner.previousSelected.name))
+        if (owner.previousSelected == null)
         {
             EventSystem.current.SetSelectedGameObject(buttons["StartGame"].gameObject);
             Debug.Log("Setting to start game button selected " + EventSystem.current.currentSelectedGameObject);
         }
     }
-    
+
     public void StartGame()
     {
         owner.levelToLoad = 1;

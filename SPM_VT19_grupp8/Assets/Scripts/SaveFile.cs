@@ -67,6 +67,7 @@ public class SaveFile
     public bool IsEmpty { get; private set; }
     public PlayerVariables PlayerInfo { get; set; }
     public float LevelTime { get; set; } = 0f;
+    public bool CheckpointReached { get; private set; } = false;
 
     private PositionInfo playerRotation;
     private Dictionary<string, EnemyInfo> enemyInfoList;
@@ -103,6 +104,7 @@ public class SaveFile
         CheckpointPickupList[name] = active;
         if (IsEmpty)
             IsEmpty = false;
+        CheckpointReached = true;
     }
 
     public void RemoveAmmoPickup(string name)

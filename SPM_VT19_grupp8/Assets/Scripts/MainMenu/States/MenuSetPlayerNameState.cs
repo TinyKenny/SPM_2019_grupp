@@ -40,6 +40,11 @@ public class MenuSetPlayerNameState : MenuBaseState
         {
             EventSystem.current.SetSelectedGameObject(buttons["QButton"].gameObject);
         }
+
+        if (Input.GetButtonDown("Pause"))
+        {
+            SelectColor();
+        }
     }
 
     // remove this

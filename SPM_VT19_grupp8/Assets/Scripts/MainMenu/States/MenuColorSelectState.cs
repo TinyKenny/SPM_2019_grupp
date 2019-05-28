@@ -59,6 +59,15 @@ public class MenuColorSelectState : MenuBaseState
         EventSystem.current.SetSelectedGameObject(buttons["NextColor"].gameObject);
     }
 
+    public override void HandleUpdate()
+    {
+        base.HandleUpdate();
+        if (Input.GetButtonDown("Pause"))
+        {
+            LoadScene();
+        }
+    }
+
     public void LoadScene()
     {
         SaveFile.ClearSave();
