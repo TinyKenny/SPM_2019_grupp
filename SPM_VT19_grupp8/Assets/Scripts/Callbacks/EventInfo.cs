@@ -132,3 +132,14 @@ public class PlayerDamageEventInfo : EventInfo
         KnockbackAmount = knockbackAmount;
     }
 }
+
+public class ParticleEventInfo : EventInfo
+{
+    public ParticleSystem ParticleSys { get; private set; }
+
+    public ParticleEventInfo(GameObject gO, ParticleSystem particleSys, string description = "Particle generating event") : base(gO, description)
+    {
+        ParticleSys = particleSys;
+        ParticleSys.transform.position = gO.transform.position;
+    }
+}

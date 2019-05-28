@@ -22,6 +22,7 @@ public class MenuColorSelectState : MenuBaseState
         new Color32(99, 159, 94, 255), // color 8, "Green"
         new Color32(112, 173, 241, 255) // color 9, "Blue"
     };
+
     private int selectedColor = 0;
     private List<Material> colorableMaterials = new List<Material>();
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -45,18 +46,20 @@ public class NavmeshRenderer : MonoBehaviour
     /// <returns></returns>
     private BoxCollider CheckCollision(BoxCollider area, int recursion)
     {
-        if (Physics.CheckBox(area.center, area.size / 2 + new Vector3(0.5f, 0.5f, 0.5f), Quaternion.identity, colliders))
-        {
-            if (recursion > 0)
-            {
-                Vector3[] boxPlacing = CalculateBoxWorldPlacing(area);
 
-                for (int i = 0; i < 8; i++)
-                {
-                    BoxCollider traversableBox = Create3DNavigationBox(area, boxPlacing[i], "NavBox" + (precision + 1 - recursion), area.size / 2);
-                    traversableBox = CheckCollision(traversableBox, recursion - 1);
-                }
+        if (recursion > 0)
+        {
+            Vector3[] boxPlacing = CalculateBoxWorldPlacing(area);
+
+            for (int i = 0; i < 8; i++)
+            {
+                BoxCollider traversableBox = Create3DNavigationBox(area, boxPlacing[i], "NavBox" + (precision + 1 - recursion), area.size / 2);
+                traversableBox = CheckCollision(traversableBox, recursion - 1);
             }
+        }
+
+        if (Physics.CheckBox(area.center, area.size / 2 + new Vector3(0.5f, 0.5f, 0.5f), Quaternion.identity, colliders) || recursion > 0)
+        {
             objects.Remove(area);
             boxes.Remove(area.GetComponent<NavBox>());
             DestroyImmediate(area.gameObject);
