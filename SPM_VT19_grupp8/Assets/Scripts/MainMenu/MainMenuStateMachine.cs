@@ -14,6 +14,7 @@ public class MainMenuStateMachine : StateMachine
     public GameObject LevelSelectState;
     public GameObject SetNameState;
     public GameObject ColorSelectState;
+    public GameObject OptionsState;
     public GameObject TextField;
 
     public AudioSource ausMenu;
