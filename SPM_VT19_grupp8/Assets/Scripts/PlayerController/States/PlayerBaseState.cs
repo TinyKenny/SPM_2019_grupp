@@ -129,7 +129,6 @@ public class PlayerBaseState : State
             Transform.position += movement;
         }
     }
-    
 
     protected virtual void HandleCollition(Vector3 hitNormal, RaycastHit raycastHit)
     {

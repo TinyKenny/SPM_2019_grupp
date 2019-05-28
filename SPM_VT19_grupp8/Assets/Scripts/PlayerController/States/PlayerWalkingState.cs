@@ -5,8 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "States/Player/Walking State")]
 public class PlayerWalkingState : PlayerBaseState
 {
-    
-    protected bool jumpAllowed = true; //replace this with something better
     protected bool grounded = true;
     protected RaycastHit groundCheckHit;
     private float groundToAirGracePeriod = 0.2f;
@@ -18,7 +16,6 @@ public class PlayerWalkingState : PlayerBaseState
 
     public override void Enter()
     {
-        jumpAllowed = true;
         base.Enter();
     }
 
@@ -64,10 +61,9 @@ public class PlayerWalkingState : PlayerBaseState
             }
         }
 
-        if (Input.GetButtonDown("Jump") && jumpAllowed && Time.timeScale > 0)
+        if (Input.GetButtonDown("Jump") && Time.timeScale > 0)
         {
             Jump();
-            jumpAllowed = false;
         }
     }
 
@@ -103,14 +99,6 @@ public class PlayerWalkingState : PlayerBaseState
 
         Velocity += Vector3.ClampMagnitude(direction, 1.0f) * Acceleration * PlayerDeltaTime;
         Velocity = Vector3.Lerp(Velocity, direction.normalized * Velocity.magnitude, TurnSpeedModifier * PlayerDeltaTime);
-        //if (velocityOnGround.magnitude > MathHelper.floatEpsilon && turnDot < -0.5f)
-        //{
-        //    Velocity += Vector3.ClampMagnitude(direction, 1.0f) * TurnSpeedModifier * Acceleration * PlayerDeltaTime;
-        //}
-        //else
-        //{
-        //    Velocity += Vector3.ClampMagnitude(direction, 1.0f) * Acceleration * PlayerDeltaTime;
-        //}
 
         if (Velocity.sqrMagnitude > MaxSpeed * MaxSpeed)
         {

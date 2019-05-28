@@ -46,7 +46,7 @@ public class TimeControllerUnpausedState : TimeControllerBaseState
 
     private void SlowMotion()
     {
-        float timeLerpValue = Input.GetAxisRaw("Aim"); // change up the input axes
+        float timeLerpValue = Input.GetAxisRaw("SlowMotion");
         if (timeLerpValue > 0.0f && SlowMotionCooldownTimer <= MathHelper.floatEpsilon)
         {
             PlayerTimeScale = Mathf.Lerp(1.0f, SlowedPlayerTimeScale, timeLerpValue);
