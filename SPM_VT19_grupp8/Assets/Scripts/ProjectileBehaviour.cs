@@ -18,7 +18,6 @@ public class ProjectileBehaviour : MonoBehaviour
         ignoreLayer |= layerToIgnore;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<SaveEventInfo>(SaveProjectileInfo);
@@ -27,7 +26,6 @@ public class ProjectileBehaviour : MonoBehaviour
         Debug.Log(transform.localScale);
     }
 
-    // Update is called once per frame
     void Update()
     {
         Vector3 movement = transform.forward * speed * Time.deltaTime;
@@ -46,15 +44,6 @@ public class ProjectileBehaviour : MonoBehaviour
                 EventCoordinator.CurrentEventCoordinator.ActivateEvent(pDEI);
 
             }
-            //else if (rayHit.transform.CompareTag("Enemy Hitbox"))
-            //{
-            //    Debug.Log("An enemy was hit!");
-            //    EnemyDamageEventInfo eDEI = new EnemyDamageEventInfo(rayHit.transform.gameObject);
-            //    EventCoordinator.CurrentEventCoordinator.ActivateEvent(eDEI);
-            //}
-
-            //Debug.Log("projectile forward: " + transform.forward);
-            //Debug.Log("projectile hit: " + rayHit.point);
             Destroy(gameObject);
         }
         else
