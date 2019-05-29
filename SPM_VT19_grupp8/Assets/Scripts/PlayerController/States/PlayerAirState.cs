@@ -89,7 +89,7 @@ public class PlayerAirState : PlayerBaseState
             Animator.SetFloat("WallDirection", 1);
         else if (wallLeft)
             Animator.SetFloat("WallDirection", -1);
-        else
+        else if (wallForward)
             Animator.SetFloat("WallDirection", 0);
 
         bool wallFound = wallForward || wallRight || wallLeft;

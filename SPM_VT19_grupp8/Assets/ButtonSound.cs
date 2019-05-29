@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-    [RequireComponent(typeof(Button))]
+#pragma warning disable 0649
+[RequireComponent(typeof(Button))]
 public class ButtonSound : MonoBehaviour
 {
     [SerializeField] private AudioClip buttonClick;

@@ -24,9 +24,12 @@ public class MenuMainState : MenuBaseState
         }
 
         if (File.Exists(Application.persistentDataPath + "/gamesave.save"))
+        {
+            buttons["ContinueGame"].interactable = true;
             buttons["ContinueGame"].onClick.AddListener(ContinueGame);
+        }
         else
-            buttons["ContinueGame"].enabled = false;
+            buttons["ContinueGame"].interactable = false;
         buttons["StartGame"].onClick.AddListener(StartGame);
         buttons["LevelSelect"].onClick.AddListener(LevelSelect);
         buttons["Options"].onClick.AddListener(Options);
