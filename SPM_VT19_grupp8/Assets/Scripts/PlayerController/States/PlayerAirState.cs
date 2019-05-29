@@ -50,13 +50,16 @@ public class PlayerAirState : PlayerBaseState
             {
                 Vector3 projectionOnForward = Vector3.ProjectOnPlane(Velocity, Transform.forward);
                 float forwardMagnitude = (Velocity - projectionOnForward).magnitude;
-                if (Mathf.Abs(Vector3.Angle(Transform.forward, wallRunCheck.normal)) > 150 && Vector3.Dot(wallRunCheck.normal, Transform.forward) < -0.8)
+                float angleFromWall = Vector3.SignedAngle(Transform.forward, -wallRunCheck.normal, Transform.up);
+                if (Mathf.Abs(angleFromWall) < 30 && Vector3.Dot(wallRunCheck.normal, Transform.forward) < -0.8)
                 {
+                    Animator.SetFloat("WallDirection", 0);
                     Owner.ResetWallrunCooldown();
                     Owner.TransitionTo<PlayerVerticalWallRunState>();
                 }
                 else if (forwardMagnitude > forwardWallrunMagnitudeLimit)
                 {
+                    Animator.SetFloat("WallDirection", Mathf.Sign(angleFromWall));
                     Animator.SetBool("WallRunning", true);
                     Owner.ResetWallrunCooldown();
                     Owner.TransitionTo<PlayerWallRunState>();
@@ -81,18 +84,10 @@ public class PlayerAirState : PlayerBaseState
 
     protected bool WallRun(out RaycastHit wall)
     {
-        bool wallForward = FindCollision(Transform.forward, out wall, SkinWidth * 10);
-        bool wallRight = FindCollision(Transform.right, SkinWidth * 10);
-        bool wallLeft = FindCollision(-Transform.right, SkinWidth * 10);
+        bool wallFound = FindCollision(Transform.forward, out wall, SkinWidth * 10) 
+                      || FindCollision(Transform.right, out wall, SkinWidth * 10) 
+                      || FindCollision(-Transform.right, out wall, SkinWidth * 10);
 
-        if (wallRight)
-            Animator.SetFloat("WallDirection", 1);
-        else if (wallLeft)
-            Animator.SetFloat("WallDirection", -1);
-        else if (wallForward)
-            Animator.SetFloat("WallDirection", 0);
-
-        bool wallFound = wallForward || wallRight || wallLeft;
         return wallFound;
     }
 
