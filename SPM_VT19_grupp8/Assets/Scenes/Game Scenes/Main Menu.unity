@@ -38441,22 +38441,22 @@ PrefabInstance:
     - target: {fileID: 6443231866863093551, guid: 2911bbd64578ad647960cc7731345fb2,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 189
+      value: 167.3
       objectReference: {fileID: 0}
     - target: {fileID: 6443231866863093551, guid: 2911bbd64578ad647960cc7731345fb2,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 193
+      value: 85
       objectReference: {fileID: 0}
     - target: {fileID: 6443231866863093551, guid: 2911bbd64578ad647960cc7731345fb2,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 320
+      value: 497.95
       objectReference: {fileID: 0}
     - target: {fileID: 6443231866863093551, guid: 2911bbd64578ad647960cc7731345fb2,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 60
+      value: 379.22
       objectReference: {fileID: 0}
     - target: {fileID: 6443231866863093551, guid: 2911bbd64578ad647960cc7731345fb2,
         type: 3}
@@ -38488,10 +38488,78 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3201678617700951605, guid: 2911bbd64578ad647960cc7731345fb2,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 17.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3201678617700951605, guid: 2911bbd64578ad647960cc7731345fb2,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 17.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2818351194675233737, guid: 2911bbd64578ad647960cc7731345fb2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f5bfb86402ce0bc41a2c0138a52dce7a,
+        type: 3}
+    - target: {fileID: 2818351194675233737, guid: 2911bbd64578ad647960cc7731345fb2,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2818351194675233737, guid: 2911bbd64578ad647960cc7731345fb2,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2818351194675233737, guid: 2911bbd64578ad647960cc7731345fb2,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2818351194675233737, guid: 2911bbd64578ad647960cc7731345fb2,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7662189917520678611, guid: 2911bbd64578ad647960cc7731345fb2,
+        type: 3}
+      propertyPath: m_Transition
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7662189917520678611, guid: 2911bbd64578ad647960cc7731345fb2,
+        type: 3}
+      propertyPath: m_SpriteState.m_HighlightedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 22188e251d7579649b6cfb96e008286f,
+        type: 3}
+    - target: {fileID: 7662189917520678611, guid: 2911bbd64578ad647960cc7731345fb2,
+        type: 3}
+      propertyPath: m_SpriteState.m_PressedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7c17937a8fb23a54180d8d6f053f7afc,
+        type: 3}
     - target: {fileID: 5456680251405038667, guid: 2911bbd64578ad647960cc7731345fb2,
         type: 3}
       propertyPath: m_Text
       value: Back
+      objectReference: {fileID: 0}
+    - target: {fileID: 5456680251405038667, guid: 2911bbd64578ad647960cc7731345fb2,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5456680251405038667, guid: 2911bbd64578ad647960cc7731345fb2,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5456680251405038667, guid: 2911bbd64578ad647960cc7731345fb2,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2911bbd64578ad647960cc7731345fb2, type: 3}
@@ -64068,7 +64136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1272416543
 RectTransform:
   m_ObjectHideFlags: 0
@@ -68036,7 +68104,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1612968264
 RectTransform:
   m_ObjectHideFlags: 0
