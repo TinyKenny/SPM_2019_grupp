@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+#pragma warning disable 0649
 public class GameController : MonoBehaviour
 {
     public SaveFile CurrentSave {
@@ -29,7 +30,7 @@ public class GameController : MonoBehaviour
     public PlayerStateMachine player;
     public GameObject PausePanel;
     public GameObject SelectedPauseButton;
-    private SaveFile save = null;
+    private SaveFile save;
 
     [SerializeField]
     private GameObject projectile;

@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "States/Player/Wall run State")]
 public class PlayerWallRunState : PlayerAirState
 {
-    private float maxVerticalVelocity = 10f;
     private Vector3 wallNormal;
     private float wallRunCooldown = 0.5f;
     private float currentCooldown;

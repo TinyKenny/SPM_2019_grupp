@@ -7,7 +7,6 @@ public class PlayerLedgeGrabState : PlayerBaseState
 {
     private float climbUpSpeed = 12.5f;
     private float climbForwardSpeed = 25f;
-    private float climbForwardLength = 0.6f;
     private Vector3 forwardClimbPosition;
     private Vector3 wallNormal;
     private bool grabable;

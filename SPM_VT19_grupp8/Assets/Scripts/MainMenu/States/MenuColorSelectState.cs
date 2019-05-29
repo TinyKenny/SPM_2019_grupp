@@ -25,6 +25,7 @@ public class MenuColorSelectState : MenuBaseState
 
     private int selectedColor = 0;
     private List<Material> colorableMaterials = new List<Material>();
+    private Animator cameraAnim = null;
 
     public override void Initialize(StateMachine owner)
     {
@@ -50,6 +51,8 @@ public class MenuColorSelectState : MenuBaseState
 
         UpdatePreview();
 
+        cameraAnim = Camera.main.GetComponent<Animator>();
+
         base.Initialize(owner);
     }
 
@@ -57,6 +60,7 @@ public class MenuColorSelectState : MenuBaseState
     {
         base.Enter();
         EventSystem.current.SetSelectedGameObject(buttons["NextColor"].gameObject);
+        cameraAnim.SetTrigger("ZoomInTrigger");
     }
 
     public override void HandleUpdate()
@@ -95,5 +99,11 @@ public class MenuColorSelectState : MenuBaseState
     {
         selectedColor = (colors.Length + selectedColor - 1) % colors.Length;
         UpdatePreview();
+    }
+
+    public override void Exit()
+    {
+        cameraAnim.SetTrigger("ZoomOutTrigger");
+        base.Exit();
     }
 }

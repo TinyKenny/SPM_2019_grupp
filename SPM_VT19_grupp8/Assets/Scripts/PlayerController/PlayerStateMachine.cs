@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+#pragma warning disable 0649
 /// <summary>
 /// This class is a statemachine that (together with its states) acts as the controller for the player character.
 /// This class holds several variables whose values are not meant to be stored in the states themselves.
@@ -49,25 +50,24 @@ public class PlayerStateMachine : StateMachine
     #region serialized private variables
     [SerializeField] private LayerMask collisionLayers = 0;
     [SerializeField] private float turnSpeedModifier = 0;
-    [SerializeField] private GameObject projectilePrefab = null;
+    [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private float fireRate = 1.0f;
     [SerializeField] private float shieldsMax = 10.0f;
     [SerializeField] private float shieldsRegeneration = 1.0f;
     [SerializeField] private float shieldsRegenerationCooldown = 4.0f;
-    [SerializeField] private Slider shieldAmount = null;
+    [SerializeField] private Slider shieldAmount;
     [SerializeField] private float wallrunCooldownAmount = 0.5f;
     [SerializeField] private float jumpPower = 12.5f;
     [SerializeField, Range(0.0f, 1.0f)] private float attackAngle = 0.25f;
     [SerializeField, Min(0.0f)] private float attackRange = 10.0f;
     [SerializeField, Range(0, 100)] private float movementSoundRange = 20.0f;
     [SerializeField, Range(0, 100)] private float shootSoundRange = 50;
-    [SerializeField] private Text ammoNumber = null;
-    [SerializeField] private AudioSource aus = null;
-    [SerializeField] private AudioClip slowSound = null; // this is no longer played when time is slowed down
-    [SerializeField] private AudioClip ammoSound = null;
-    [SerializeField] private AudioClip damageSound = null;
-    [SerializeField] private AudioClip deathSound = null;
-    [SerializeField] private AudioClip gunShotSound = null;
+    [SerializeField] private Text ammoNumber;
+    [SerializeField] private AudioSource aus; // this is no longer played when time is slowed down
+    [SerializeField] private AudioClip ammoSound;
+    [SerializeField] private AudioClip damageSound;
+    [SerializeField] private AudioClip deathSound;
+    [SerializeField] private AudioClip gunShotSound;
     #endregion
 
     #region non-serialized private variables

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+#pragma warning disable 0649
 public class DangerousObject : MonoBehaviour
 {
     [SerializeField] private float damage = 0;

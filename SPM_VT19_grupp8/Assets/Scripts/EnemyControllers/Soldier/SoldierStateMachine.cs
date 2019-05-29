@@ -44,8 +44,8 @@ public class SoldierStateMachine : EnemyStateMachine
         Agent = GetComponent<NavMeshAgent>();
         base.Awake();
     }
-
-    private void Update()
+    
+    protected override void Update()
     {
         Anim.SetFloat("Speed", Agent.velocity.magnitude / Agent.speed);
         base.Update();
