@@ -4,36 +4,25 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public Camera MainCamera { get; private set; }
-
-
-    private float gamePadSensitivity = 150.0f;
     [SerializeField] private Transform playerTransform = null;
     [SerializeField] private LayerMask ignoreLayer = 0;
 
     private Vector3 thirdPersonOffset = new Vector3(0.0f, 0.9f, -4.4f);
-    private float thirdPersonSafety; // shortest allowed distance from a collider
     private Vector3 firstPersonOffset = new Vector3(0.0f, 0.5f, 0.0f);
-    public float rotationX = 0.0f; // we want this private, but respawns affects this. make a respawn-listener in this script?
-    public float rotationY = 0.0f; // we want this private, but respawns affects this. make a respawn-listener in this script?
 
-    [SerializeField] private float aimFOV = 30;
-    [SerializeField] private float aimSensitivityMultiplier = 0.1f;
-    private float startingGamePadSensitivity;
-    private float startingFOV;
-
+    private float gamePadSensitivity = 150.0f;
+    private float thirdPersonSafety; // shortest allowed distance from a collider
+    private float rotationX = 0.0f;
+    private float rotationY = 0.0f;
 
     private void Awake()
     {
-        MainCamera = GetComponent<Camera>();
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerRespawnEventInfo>(OnPlayerRespawn);
     }
 
     private void Start()
     {
-        thirdPersonSafety = MainCamera.nearClipPlane;
-        startingFOV = MainCamera.fieldOfView;
-        startingGamePadSensitivity = gamePadSensitivity;
+        thirdPersonSafety = GetComponent<Camera>().nearClipPlane;
     }
 
     private void LateUpdate()
@@ -62,27 +51,6 @@ public class CameraController : MonoBehaviour
         rotationX = Mathf.Clamp(rotationX, -85.0f, 85.0f);
 
         return Quaternion.Euler(rotationX, rotationY, 0.0f);
-    }
-
-    public void Aiming()
-    {
-        Camera.main.fieldOfView = aimFOV;
-        gamePadSensitivity = startingGamePadSensitivity * aimSensitivityMultiplier;
-
-        RaycastHit hit;
-        if (Physics.Linecast(transform.position, transform.forward * 100f, out hit, playerTransform.GetComponent<PlayerStateMachine>().CollisionLayers))
-        {
-            if (hit.transform.gameObject.layer == 13)
-                gamePadSensitivity = (startingGamePadSensitivity * aimSensitivityMultiplier) / 2;
-            else
-                gamePadSensitivity = startingGamePadSensitivity * aimSensitivityMultiplier;
-        }
-    }
-
-    public void StopAiming()
-    {
-        Camera.main.fieldOfView = startingFOV;
-        gamePadSensitivity = startingGamePadSensitivity;
     }
 
     public void OnPlayerRespawn(EventInfo EI)
