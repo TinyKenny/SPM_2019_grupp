@@ -140,6 +140,7 @@ MonoBehaviour:
   slowMotionEnergyRegeneration: 1
   slowMotionCooldown: 1
   slowMotionEnergySlider: {fileID: 0}
+  slowSound: {fileID: 0}
 --- !u!114 &2112523359584729377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,8 +164,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8704
   turnSpeedModifier: 3
-  projectilePrefab: {fileID: 1468789670608892739, guid: 4bd3c14ec32e9a34bb17dffeab61485b,
-    type: 3}
   fireRate: 1
   shieldsMax: 10
   shieldsRegeneration: 1
@@ -178,7 +177,6 @@ MonoBehaviour:
   shootSoundRange: 75
   ammoNumber: {fileID: 0}
   aus: {fileID: 7801506606482085374}
-  slowSound: {fileID: 8300000, guid: 94659b269a7bbab4f86f0f1d18ed5201, type: 3}
   ammoSound: {fileID: 8300000, guid: 1766c62fe813c2346b72aa62d7344b6e, type: 3}
   damageSound: {fileID: 8300000, guid: 5ff6e37f1aa565740a43dba0d6fbaaa6, type: 3}
   deathSound: {fileID: 8300000, guid: b8f00654f9b12424ea18d756cbaf0d0b, type: 3}
@@ -24045,97 +24043,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!1 &4304772328372248750
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7605932089248664054}
-  - component: {fileID: 4251242620836359938}
-  m_Layer: 0
-  m_Name: Point Light
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7605932089248664054
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4304772328372248750}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0609, y: 0.295, z: -0.001}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 460423096393909792}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!108 &4251242620836359938
-Light:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4304772328372248750}
-  m_Enabled: 1
-  serializedVersion: 9
-  m_Type: 2
-  m_Color: {r: 1, g: 0.8272578, b: 0, a: 1}
-  m_Intensity: 3.06
-  m_Range: 0.08013308
-  m_SpotAngle: 30
-  m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
-  m_Shadows:
-    m_Type: 0
-    m_Resolution: -1
-    m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
-    m_CullingMatrixOverride:
-      e00: 1
-      e01: 0
-      e02: 0
-      e03: 0
-      e10: 0
-      e11: 1
-      e12: 0
-      e13: 0
-      e20: 0
-      e21: 0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-    m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
-  m_Flare: {fileID: 0}
-  m_RenderMode: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingLayerMask: 1
-  m_Lightmapping: 4
-  m_LightShadowCasterMode: 0
-  m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
-  m_ColorTemperature: 6570
-  m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
-  m_UseBoundingSphereOverride: 0
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
 --- !u!1 &6198217913508392353
 GameObject:
   m_ObjectHideFlags: 0
@@ -28916,7 +28823,6 @@ Transform:
   m_LocalScale: {x: 1.2771218, y: 1.2771221, z: 1.2771218}
   m_Children:
   - {fileID: 3869461966327360054}
-  - {fileID: 7605932089248664054}
   m_Father: {fileID: 8915867631967446790}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -29833,21 +29739,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2112523359584729376}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: fd01c6bd5684ace458a6db88f08d07c8,
-        type: 3}
-      propertyPath: m_Name
-      value: TheScavenger_sprint
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: fd01c6bd5684ace458a6db88f08d07c8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2304518960972997497, guid: fd01c6bd5684ace458a6db88f08d07c8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: fd01c6bd5684ace458a6db88f08d07c8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -29917,6 +29808,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1.2771219
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: fd01c6bd5684ace458a6db88f08d07c8,
+        type: 3}
+      propertyPath: m_Name
+      value: TheScavenger_sprint
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: fd01c6bd5684ace458a6db88f08d07c8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2304518960972997497, guid: fd01c6bd5684ace458a6db88f08d07c8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8543080294521486069, guid: fd01c6bd5684ace458a6db88f08d07c8,
         type: 3}
