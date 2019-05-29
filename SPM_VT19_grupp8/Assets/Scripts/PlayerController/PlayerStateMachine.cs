@@ -21,14 +21,12 @@ public class PlayerStateMachine : StateMachine
     public float SkinWidth { get { return physicsComponent.skinWidth; } }
     public float Gravity { get { return physicsComponent.gravity / timeController.TimeSlowMultiplier; } }
     public float PlayerDeltaTime { get { return timeController.GetPlayerDeltaTime(); } } // optimize this?
-    //public float TimeSlowMultiplier { get { return timeController.TimeSlowMultiplier; } } // change this to be gravity reduction?
     #endregion
 
     #region "plain" properties
     public CapsuleCollider ThisCollider { get; private set; }
     public CameraController MainCameraController { get; private set; }
     public Animator Animator { get; private set; }
-    public float StandardColliderHeight { get; private set; }
     public int Ammo { get; private set; }
     public KeyCode PrimaryJumpKey { get; private set; }
     public KeyCode SecondaryJumpKey { get; private set; }
@@ -38,7 +36,6 @@ public class PlayerStateMachine : StateMachine
 
     #region properties for getting private variables
     public LayerMask CollisionLayers { get { return collisionLayers; } }
-    public GameObject ProjectilePrefab { get { return projectilePrefab; } }
     public AudioClip GunShotSound { get { return gunShotSound; } }
     public float TurnSpeedModifier { get { return turnSpeedModifier; } }
     public float FireRate { get { return fireRate; } }
@@ -50,7 +47,6 @@ public class PlayerStateMachine : StateMachine
     #region serialized private variables
     [SerializeField] private LayerMask collisionLayers = 0;
     [SerializeField] private float turnSpeedModifier = 0;
-    [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private float fireRate = 1.0f;
     [SerializeField] private float shieldsMax = 10.0f;
     [SerializeField] private float shieldsRegeneration = 1.0f;
@@ -105,7 +101,6 @@ public class PlayerStateMachine : StateMachine
         ThisCollider = GetComponent<CapsuleCollider>();
         Animator = GetComponentInChildren<Animator>();
         MainCameraController = Camera.main.GetComponent<CameraController>();
-        StandardColliderHeight = ThisCollider.height;
 
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<AmmoPickupEventInfo>(AddAmmo);
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<PlayerDiegeticSoundEventInfo>(PlayerDiegeticSound);
