@@ -40,7 +40,7 @@ public class MenuMainState : MenuBaseState
     public override void Enter()
     {
         base.Enter();
-        if (owner.previousSelected == null)
+        if (Owner.previousSelected == null)
         {
             EventSystem.current.SetSelectedGameObject(buttons["StartGame"].gameObject);
             Debug.Log("Setting to start game button selected " + EventSystem.current.currentSelectedGameObject);
@@ -49,8 +49,8 @@ public class MenuMainState : MenuBaseState
 
     public void StartGame()
     {
-        owner.levelToLoad = 1;
-        owner.TransitionTo<MenuSetPlayerNameState>();
+        Owner.levelToLoad = 1;
+        Owner.TransitionTo<MenuSetPlayerNameState>();
     }
 
     public void ContinueGame()
@@ -60,22 +60,22 @@ public class MenuMainState : MenuBaseState
 
     public void LevelSelect()
     {
-        owner.TransitionTo<MenuLevelSelectState>();
+        Owner.TransitionTo<MenuLevelSelectState>();
     }
 
     public void Options()
     {
-        owner.TransitionTo<MenuOptionsState>();
+        Owner.TransitionTo<MenuOptionsState>();
     }
     
     public void HowToPlay()
     {
-        owner.TransitionTo<MenuHowToPlayState>();
+        Owner.TransitionTo<MenuHowToPlayState>();
     }
 
     public void Credits()
     {
-        owner.TransitionTo<MenuCreditsState>();
+        Owner.TransitionTo<MenuCreditsState>();
     }
 
     public void Quit()

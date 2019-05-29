@@ -25,14 +25,14 @@ public class MenuLevelSelectState : MenuBaseState
 
     public void StartLevel1()
     {
-        owner.levelToLoad = 1;
-        owner.TransitionTo<MenuSetPlayerNameState>();
+        Owner.levelToLoad = 1;
+        Owner.TransitionTo<MenuSetPlayerNameState>();
     }
 
     public void StartLevel2()
     {
-        owner.levelToLoad = 2;
-        owner.TransitionTo<MenuSetPlayerNameState>();
+        Owner.levelToLoad = 2;
+        Owner.TransitionTo<MenuSetPlayerNameState>();
     }
 
     public override void Enter()

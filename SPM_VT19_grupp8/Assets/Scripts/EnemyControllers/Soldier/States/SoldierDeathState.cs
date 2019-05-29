@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "States/Enemies/Soldier/Death State")]
 public class SoldierDeathState : SoldierBaseState
 {
-    private float deathAnimLength = 1;
+    private float deathAnimLength = 1.3f;
 
     public override void Enter()
     {
@@ -20,7 +20,7 @@ public class SoldierDeathState : SoldierBaseState
 
         if (deathAnimLength < 0)
         {
-            Destroy(owner.gameObject);
+            Destroy(Owner.gameObject);
         }
     }
 }

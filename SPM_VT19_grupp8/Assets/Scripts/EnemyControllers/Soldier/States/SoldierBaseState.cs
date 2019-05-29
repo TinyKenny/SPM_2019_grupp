@@ -8,19 +8,19 @@ using UnityEngine.AI;
 /// </summary>
 public class SoldierBaseState : State
 {
-    protected SoldierStateMachine owner { get; private set; }
-    protected Transform PlayerTransform { get { return owner.PlayerTransform; } }
-    protected Transform[] PatrolLocations { get { return owner.PatrolLocations; } }
-    protected LayerMask VisionMask { get { return owner.VisionMask; } }
-    protected Vector3 PlayerLastLocation { get { return owner.LastPlayerLocation; } set { owner.LastPlayerLocation = value; } }
-    protected NavMeshAgent Agent { get { return owner.Agent; } }
-    protected Vector3 Position { get { return owner.transform.position; } set { owner.transform.position = value; } }
-    protected Vector3 PlayerPosition { get { return owner.PlayerTransform.position; } }
-    protected Animator Anim { get { return owner.Anim; } }
+    protected SoldierStateMachine Owner { get; private set; }
+    protected Transform PlayerTransform { get { return Owner.PlayerTransform; } }
+    protected Transform[] PatrolLocations { get { return Owner.PatrolLocations; } }
+    protected LayerMask VisionMask { get { return Owner.VisionMask; } }
+    protected Vector3 PlayerLastLocation { get { return Owner.LastPlayerLocation; } set { Owner.LastPlayerLocation = value; } }
+    protected NavMeshAgent Agent { get { return Owner.Agent; } }
+    protected Vector3 Position { get { return Owner.transform.position; } set { Owner.transform.position = value; } }
+    protected Vector3 PlayerPosition { get { return Owner.PlayerTransform.position; } }
+    protected Animator Anim { get { return Owner.Anim; } }
 
     public override void Initialize(StateMachine owner)
     {
-        this.owner = (SoldierStateMachine)owner;
+        this.Owner = (SoldierStateMachine)owner;
     }
 
     /// <summary>
@@ -30,6 +30,6 @@ public class SoldierBaseState : State
     /// <returns>True if it could see the player within range, false if it couldnt see the player within range.</returns>
     protected bool PlayerVisionCheck(float alertDistance)
     {
-        return Physics.Linecast(Position, PlayerPosition, VisionMask) == false && Vector3.Distance(Position, PlayerPosition) < alertDistance && Vector3.Dot(owner.transform.forward, (PlayerPosition - Position)) > 0.3f;
+        return Physics.Linecast(Position, PlayerPosition, VisionMask) == false && Vector3.Distance(Position, PlayerPosition) < alertDistance && Vector3.Dot(Owner.transform.forward, (PlayerPosition - Position)) > 0.3f;
     }
 }

@@ -34,9 +34,9 @@ public class SoldierAlertState : SoldierBaseState
         {
             coolDown -= Time.deltaTime;
             if (coolDown < 0)
-                owner.TransitionTo<SoldierIdleState>();
+                Owner.TransitionTo<SoldierIdleState>();
         } 
         else if(PlayerVisionCheck(60))
-            owner.TransitionTo<SoldierChaseState>();
+            Owner.TransitionTo<SoldierChaseState>();
     }
 }

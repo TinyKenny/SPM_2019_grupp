@@ -32,6 +32,7 @@ public class StunbotChaseState : StunbotBaseState
 
         if((ThisTransform.position - PlayerTransform.position).sqrMagnitude <= (ThisCollider.radius + Speed * Time.deltaTime) * (ThisCollider.radius + Speed * Time.deltaTime) * 1.01f)
         {
+            Owner.PlaySound(Owner.ShockSound);
             PlayerDamageEventInfo pDEI = new PlayerDamageEventInfo(ThisTransform.gameObject, 3.0f);
             EventCoordinator.CurrentEventCoordinator.ActivateEvent(pDEI);
             Velocity = (ThisTransform.position - PlayerTransform.position).normalized;

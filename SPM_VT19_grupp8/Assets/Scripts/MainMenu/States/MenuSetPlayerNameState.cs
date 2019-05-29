@@ -52,13 +52,13 @@ public class MenuSetPlayerNameState : MenuBaseState
     {
         SaveFile.ClearSave();
         PlayerPrefs.SetString("playerName", playerName);
-        SceneManager.LoadScene(owner.levelToLoad);
+        SceneManager.LoadScene(Owner.levelToLoad);
     }
 
     public void SelectColor()
     {
         PlayerPrefs.SetString("playerName", playerName);
-        owner.TransitionTo<MenuColorSelectState>();
+        Owner.TransitionTo<MenuColorSelectState>();
     }
 
     public void SetName(string name)

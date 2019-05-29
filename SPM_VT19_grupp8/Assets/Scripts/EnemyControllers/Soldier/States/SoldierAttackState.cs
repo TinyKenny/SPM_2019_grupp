@@ -16,10 +16,10 @@ public class SoldierAttackState : SoldierBaseState
     public override void Enter()
     {
         Agent.SetDestination(Position);
-        fireRate = owner.FireRate;
+        fireRate = Owner.FireRate;
         fireRateCurrentCooldown = fireRate;
-        fireRateCooldownVarianceMax = owner.FireRateCooldownVarianceMax;
-        projectilePrefab = owner.ProjectilePrefab;
+        fireRateCooldownVarianceMax = Owner.FireRateCooldownVarianceMax;
+        projectilePrefab = Owner.ProjectilePrefab;
 
 
     }
@@ -39,11 +39,11 @@ public class SoldierAttackState : SoldierBaseState
         if (!PlayerVisionCheck(50))
         {
             if (PlayerVisionCheck(80))
-                owner.TransitionTo<SoldierChaseState>();
+                Owner.TransitionTo<SoldierChaseState>();
             else
             {
                 PlayerLastLocation = PlayerTransform.position;
-                owner.TransitionTo<SoldierAlertState>();
+                Owner.TransitionTo<SoldierAlertState>();
             }
 
         }
@@ -56,14 +56,16 @@ public class SoldierAttackState : SoldierBaseState
     {
         Anim.SetTrigger("SoldierShoot");
 
+        Owner.PlaySound(Owner.ShootSound);
+
         float inaccuracy = 4.0f;
 
         Vector3 playerPosition = PlayerTransform.position;
-        owner.transform.LookAt(PlayerTransform.position);
+        Owner.transform.LookAt(PlayerTransform.position);
 
-        GameObject projectile = Instantiate(projectilePrefab, owner.transform.position, Quaternion.identity);
-        projectile.transform.LookAt(projectile.transform.position + (Quaternion.Euler(Random.Range(0.0f, inaccuracy), Random.Range(-inaccuracy, inaccuracy), 0.0f) * owner.transform.forward));
-        projectile.GetComponent<ProjectileBehaviour>().SetInitialValues(1 << owner.gameObject.layer);
+        GameObject projectile = Instantiate(projectilePrefab, Owner.transform.position, Quaternion.identity);
+        projectile.transform.LookAt(projectile.transform.position + (Quaternion.Euler(Random.Range(0.0f, inaccuracy), Random.Range(-inaccuracy, inaccuracy), 0.0f) * Owner.transform.forward));
+        projectile.GetComponent<ProjectileBehaviour>().SetInitialValues(1 << Owner.gameObject.layer);
 
         fireRateCurrentCooldown = fireRate + Random.Range(0.0f, fireRateCooldownVarianceMax);
     }

@@ -6,13 +6,13 @@ using UnityEngine.UI;
 
 public class MenuBaseState : State
 {
-    protected MainMenuStateMachine owner;
+    protected MainMenuStateMachine Owner { get; private set; }
     protected GameObject menu;
     protected Dictionary<string, Button> buttons = new Dictionary<string, Button>();
 
     public override void Initialize(StateMachine owner)
     {
-        this.owner = (MainMenuStateMachine)owner;
+        this.Owner = (MainMenuStateMachine)owner;
         menu.SetActive(false);
     }
 
@@ -28,18 +28,18 @@ public class MenuBaseState : State
 
     public void Back()
     {
-        GameObject selected = owner.previousSelected;
-        owner.TransitionTo<MenuMainState>();
+        GameObject selected = Owner.previousSelected;
+        Owner.TransitionTo<MenuMainState>();
         if (selected != null && selected.activeInHierarchy)
             EventSystem.current.SetSelectedGameObject(selected);
         else
-            EventSystem.current.SetSelectedGameObject(((MenuMainState)owner.currentState).buttons["StartGame"].gameObject);
+            EventSystem.current.SetSelectedGameObject(((MenuMainState)Owner.currentState).buttons["StartGame"].gameObject);
     }
 
     public override void HandleUpdate()
     {
         base.HandleUpdate();
-        if (Input.GetButtonDown("Cancel") && owner.currentState.GetType() != typeof(MenuMainState))
+        if (Input.GetButtonDown("Cancel") && Owner.currentState.GetType() != typeof(MenuMainState))
         {
             Back();
         }

@@ -16,6 +16,7 @@ public class EnemyStateMachine : StateMachine
     private AudioSource aus;
     [SerializeField] private AudioClip alertSound = null;
     [SerializeField] private AudioClip deathSound = null;
+    [SerializeField] private AudioSource emptyAudioSourcePrefab = null;
     private float wallSoundAbsorbation = 0.5f;
 
     protected override void Awake()
@@ -83,7 +84,6 @@ public class EnemyStateMachine : StateMachine
     /// <param name="player">Gameobject that should always be the player.</param>
     private void HeardPlayer(GameObject player)
     {
-        Debug.Log("Heard player!");
         SetAlerted(player.transform.position);
         aus.PlayOneShot(alertSound);
     }
@@ -103,18 +103,24 @@ public class EnemyStateMachine : StateMachine
         {
             if (deathSound != null)
             {
-                AudioSource aS = Instantiate(aus).GetComponent<AudioSource>();
-                aS.PlayOneShot(deathSound);
-                Destroy(aS, deathSound.length);
+                PlaySound(deathSound);
             }
             GameController.GameControllerInstance.CurrentSave.EnemyInfoList.Remove(SpawnerName);
             RemoveEnemy();
         }
     }
 
+    public void PlaySound(AudioClip ac)
+    {
+        AudioSource aS = Instantiate(emptyAudioSourcePrefab).GetComponent<AudioSource>();
+        aS.transform.position = transform.position;
+        aS.PlayOneShot(ac);
+        Destroy(aS, ac.length);
+    }
+
     public virtual void RemoveEnemy()
     {
-
+        Destroy(gameObject, deathSound.length);
     }
 
     private void OnDestroy()

@@ -11,7 +11,7 @@ using UnityEngine;
 public class SoldierIdleState : SoldierBaseState
 {
     private Vector3 closestPoint;
-    public int CurrentPatrolPointIndex { get { return owner.CurrentPatrolPointIndex; } set { owner.CurrentPatrolPointIndex = value; } }
+    public int CurrentPatrolPointIndex { get { return Owner.CurrentPatrolPointIndex; } set { Owner.CurrentPatrolPointIndex = value; } }
 
     public override void Enter()
     {
@@ -48,7 +48,7 @@ public class SoldierIdleState : SoldierBaseState
 
         if (PlayerVisionCheck(80))
         {
-            owner.TransitionTo<SoldierChaseState>();
+            Owner.TransitionTo<SoldierChaseState>();
         }
     }
 }

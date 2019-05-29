@@ -22,11 +22,14 @@ public class StunbotStateMachine : EnemyStateMachine
     #region properties for getting private variables
     public LayerMask VisionMask { get { return visionMask; } }
     public LayerMask PlayerLayer { get { return playerLayer; } }
+    public AudioClip ShockSound { get { return shockSound; } private set { shockSound = value; } }
     #endregion
 
     #region serialized private variables
     [SerializeField] private LayerMask visionMask = 0;
     [SerializeField] private LayerMask playerLayer = 0;
+    [Header("Attack sound")]
+    [SerializeField] private AudioClip shockSound = null;
     #endregion
 
     #region non-serialized private variables

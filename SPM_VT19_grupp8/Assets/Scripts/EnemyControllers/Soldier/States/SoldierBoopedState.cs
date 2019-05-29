@@ -12,8 +12,8 @@ public class SoldierBoopedState : SoldierBaseState
     private float deceleration = 20;
     private float skinwidth = 0.02f;
     private float groundCheckDistance = 0.01f;
-    private float BoopStrength { get { return owner.BoopStrength; } }
-    private Vector3 Velocity { get { return owner.BoopVelocity; } set { owner.BoopVelocity = value; } }
+    private float BoopStrength { get { return Owner.BoopStrength; } }
+    private Vector3 Velocity { get { return Owner.BoopVelocity; } set { Owner.BoopVelocity = value; } }
 
     public override void Initialize(StateMachine owner)
     {
@@ -32,8 +32,8 @@ public class SoldierBoopedState : SoldierBaseState
     {
         base.HandleUpdate();
 
-        Vector3 topPoint = owner.transform.position + thisCollider.center + owner.transform.up * (thisCollider.height / 2 - thisCollider.radius);
-        Vector3 bottomPoint = owner.transform.position + thisCollider.center - owner.transform.up * (thisCollider.height / 2 - thisCollider.radius);
+        Vector3 topPoint = Owner.transform.position + thisCollider.center + Owner.transform.up * (thisCollider.height / 2 - thisCollider.radius);
+        Vector3 bottomPoint = Owner.transform.position + thisCollider.center - Owner.transform.up * (thisCollider.height / 2 - thisCollider.radius);
         if (Physics.CapsuleCast(topPoint, bottomPoint, thisCollider.radius, Vector3.down, out groundCheckHit, skinwidth + groundCheckDistance, VisionMask, QueryTriggerInteraction.Ignore))
         {
             if (Vector3.Dot(groundCheckHit.normal, Vector3.up) > 0.8f && Mathf.Abs(Vector3.Dot(groundCheckHit.normal, Velocity.normalized)) < 0.1f)
@@ -53,11 +53,11 @@ public class SoldierBoopedState : SoldierBaseState
         {
             if (PlayerVisionCheck(80))
             {
-                owner.TransitionTo<SoldierChaseState>();
+                Owner.TransitionTo<SoldierChaseState>();
             }
             else
             {
-                owner.TransitionTo<SoldierAlertState>();
+                Owner.TransitionTo<SoldierAlertState>();
             }
         }
     }
@@ -85,8 +85,8 @@ public class SoldierBoopedState : SoldierBaseState
 
     private void CheckCollision(Vector3 movement)
     {
-        Vector3 topPoint = owner.transform.position + thisCollider.center + owner.transform.up * (thisCollider.height / 2 - thisCollider.radius);
-        Vector3 bottomPoint = owner.transform.position + thisCollider.center - owner.transform.up * (thisCollider.height / 2 - thisCollider.radius);
+        Vector3 topPoint = Owner.transform.position + thisCollider.center + Owner.transform.up * (thisCollider.height / 2 - thisCollider.radius);
+        Vector3 bottomPoint = Owner.transform.position + thisCollider.center - Owner.transform.up * (thisCollider.height / 2 - thisCollider.radius);
 
         bool castHasHit = Physics.CapsuleCast(topPoint, bottomPoint, thisCollider.radius, movement.normalized, out RaycastHit raycastHit, Mathf.Infinity, VisionMask, QueryTriggerInteraction.Ignore);
 
@@ -102,7 +102,7 @@ public class SoldierBoopedState : SoldierBaseState
 
             movement -= snapMovement;
 
-            owner.transform.position += snapMovement;
+            Owner.transform.position += snapMovement;
 
             if (movement.sqrMagnitude > MathHelper.floatEpsilon * MathHelper.floatEpsilon)
             {
@@ -131,7 +131,7 @@ public class SoldierBoopedState : SoldierBaseState
         }
         else
         {
-            owner.transform.position += movement;
+            Owner.transform.position += movement;
         }
     }
 

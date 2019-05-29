@@ -16,6 +16,7 @@ public class SoldierStateMachine : EnemyStateMachine
     public float FireRateCooldownVarianceMax { get { return fireRateCooldownVarianceMax; } }
     public GameObject ProjectilePrefab { get { return projectilePrefab; } }
     public NavMeshAgent Agent { get; private set; }
+    public AudioClip ShootSound { get { return shootSound; } private set { shootSound = value; } }
 
     [Header("Vision obstruction layers")]
     [SerializeField] private LayerMask visionMask = 0;
@@ -24,6 +25,8 @@ public class SoldierStateMachine : EnemyStateMachine
     [SerializeField] private float fireRate = 2;
     [Header("Random variance max in rate of fire")]
     [SerializeField] private float fireRateCooldownVarianceMax = 0.5f;
+    [Header("Lazer shot sound")]
+    [SerializeField] private AudioClip shootSound = null;
 
     public Animator Anim { get; private set; } = null;
 
