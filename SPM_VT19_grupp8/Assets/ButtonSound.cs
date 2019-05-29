@@ -2,25 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
     [RequireComponent(typeof(Button))]
 public class ButtonSound : MonoBehaviour
 {
-    public AudioClip buttonClick;
-    private Button button { get { return GetComponent<Button>(); } }
-    private AudioSource ausButton { get { return GetComponent<AudioSource>(); } }
+    [SerializeField] private AudioClip buttonClick;
+    private Button button;
 
     void Start()
     {
-        gameObject.AddComponent<AudioSource>();
-        ausButton.clip = buttonClick;
-        ausButton.playOnAwake = false;
+        button = GetComponent<Button>();
 
         button.onClick.AddListener(() => PlaySound());
     }
 
     void PlaySound()
     {
-        ausButton.PlayOneShot(buttonClick);
+        MainMenuStateMachine.AS.PlayOneShot(buttonClick);
     }
 }

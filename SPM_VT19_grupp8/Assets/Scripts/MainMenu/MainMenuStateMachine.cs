@@ -20,6 +20,8 @@ public class MainMenuStateMachine : StateMachine
     public AudioSource ausMenu;
     public AudioClip buttonTransition;
 
+    public static AudioSource AS { get; private set; }
+
     public override void TransitionTask()
     {
         ausMenu.PlayOneShot(buttonTransition);
@@ -30,5 +32,6 @@ public class MainMenuStateMachine : StateMachine
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        AS = GetComponent<AudioSource>();
     }
 }
