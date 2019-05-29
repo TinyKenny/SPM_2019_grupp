@@ -37,7 +37,7 @@ public class PlayerVerticalWallRunState : PlayerAirState
         {
             TransitionToWalkingState();
         }
-        else if (WallRun(out wall) && Velocity.y > MinimumYVelocity && Input.GetButton("Wallrun"))
+        else if (WallRun(out wall) && Velocity.y > MinimumYVelocity && Input.GetKey(WallrunKey))
         {
             LedgeGrabCheck();
 

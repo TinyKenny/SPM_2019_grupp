@@ -61,7 +61,7 @@ public class PlayerWalkingState : PlayerBaseState
             }
         }
 
-        if (Input.GetButtonDown("Jump") && Time.timeScale > 0)
+        if (Input.GetKeyDown(JumpKey) && Time.timeScale > 0)
         {
             Jump();
         }

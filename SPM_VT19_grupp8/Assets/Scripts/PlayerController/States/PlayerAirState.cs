@@ -46,7 +46,7 @@ public class PlayerAirState : PlayerBaseState
             Jump(wallRunCheck.normal);
             LedgeGrabCheck();
 
-            if (Input.GetButton("Wallrun") && Velocity.y > MinimumYVelocity && wallRunCheck.normal.y > -0.5f && Owner.WallrunAllowed()/* && Mathf.Abs(Vector3.Dot(wallRunCheck.normal, Vector3.up)) < MathHelper.floatEpsilon*/)
+            if (Input.GetKey(WallrunKey) && Velocity.y > MinimumYVelocity && wallRunCheck.normal.y > -0.5f && Owner.WallrunAllowed()/* && Mathf.Abs(Vector3.Dot(wallRunCheck.normal, Vector3.up)) < MathHelper.floatEpsilon*/)
             {
                 Vector3 projectionOnForward = Vector3.ProjectOnPlane(Velocity, Transform.forward);
                 float forwardMagnitude = (Velocity - projectionOnForward).magnitude;
@@ -100,7 +100,7 @@ public class PlayerAirState : PlayerBaseState
     protected void Jump(Vector3 normal)
     {
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetKeyDown(JumpKey))
         {
             Velocity = Vector3.Slerp(Vector3.ClampMagnitude(Velocity, jumpPower), (normal + Vector3.up) * jumpPower, 0.5f);
 
