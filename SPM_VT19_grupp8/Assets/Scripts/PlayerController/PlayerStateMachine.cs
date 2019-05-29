@@ -29,6 +29,10 @@ public class PlayerStateMachine : StateMachine
     public Animator Animator { get; private set; }
     public float StandardColliderHeight { get; private set; }
     public int Ammo { get; private set; }
+    public KeyCode PrimaryJumpKey { get; private set; }
+    public KeyCode SecondaryJumpKey { get; private set; }
+    public KeyCode PrimaryWallrunKey { get; private set; }
+    public KeyCode SecondaryWallrunKey { get; private set; }
     #endregion
 
     #region properties for getting private variables
@@ -90,8 +94,10 @@ public class PlayerStateMachine : StateMachine
 
     protected override void Awake()
     {
-        Debug.Log(PlayerPrefs.GetString("JumpKey", "Jumpkey not found"));
-        Debug.Log(PlayerPrefs.GetString("WallrunKey", "Jumpkey not found"));
+        PrimaryJumpKey = MenuOptionsState.availableKeysDict[PlayerPrefs.GetString("PrimaryJumpKey", "Right bumper")];
+        SecondaryJumpKey = MenuOptionsState.availableKeysDict[PlayerPrefs.GetString("SecondaryJumpKey", "A button")];
+        PrimaryWallrunKey = MenuOptionsState.availableKeysDict[PlayerPrefs.GetString("PrimaryWallrunKey", "Left bumper")];
+        SecondaryWallrunKey = MenuOptionsState.availableKeysDict[PlayerPrefs.GetString("SecondaryWallrunKey", "A button")];
 
         respawnRotation = Quaternion.identity;
         physicsComponent = GetComponent<PhysicsComponent>();

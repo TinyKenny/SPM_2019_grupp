@@ -33,6 +33,11 @@ public class TimeController : StateMachine
         base.Update();
     }
 
+    private void OnDestroy()
+    {
+        ResetValues();
+    }
+
     public float GetPlayerDeltaTime()
     {
         TimeControllerBaseState timeControllerState = (TimeControllerBaseState)currentState;

@@ -25,6 +25,10 @@ public class PlayerBaseState : State
     protected float MovementSoundRange { get { return Owner.MovementSoundRange; } }
     protected float ShootSoundRange { get { return Owner.ShootSoundRange; } }
     protected float JumpPower { get { return Owner.JumpPower; } }
+    protected KeyCode PrimaryJumpKey { get { return Owner.PrimaryJumpKey; } }
+    protected KeyCode SecondaryJumpKey { get { return Owner.SecondaryJumpKey; } }
+    protected KeyCode PrimaryWallrunKey { get { return Owner.PrimaryWallrunKey; } }
+    protected KeyCode SecondaryWallrunKey { get { return Owner.SecondaryWallrunKey; } }
     private float FireRate { get { return Owner.FireRate; } }
     private GameObject ProjectilePrefab { get { return Owner.ProjectilePrefab; } }
     private AudioClip GunShotSound { get { return Owner.GunShotSound; } }

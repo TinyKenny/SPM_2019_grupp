@@ -65,7 +65,7 @@ public class MenuMainState : MenuBaseState
 
     public void Options()
     {
-
+        owner.TransitionTo<MenuOptionsState>();
     }
     
     public void HowToPlay()
