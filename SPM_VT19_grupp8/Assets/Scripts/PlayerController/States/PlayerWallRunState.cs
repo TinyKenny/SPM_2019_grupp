@@ -50,7 +50,7 @@ public class PlayerWallRunState : PlayerAirState
         {
             TransitionToWalkingState();
         }
-        else if (WallRun(out wall) && Velocity.y > MinimumYVelocity && Input.GetKey(WallrunKey))
+        else if (WallRun(out wall) && Velocity.y > MinimumYVelocity && (Input.GetKey(PrimaryWallrunKey) || Input.GetKey(SecondaryWallrunKey)))
         {
             currentCooldown = wallRunCooldown;
         }

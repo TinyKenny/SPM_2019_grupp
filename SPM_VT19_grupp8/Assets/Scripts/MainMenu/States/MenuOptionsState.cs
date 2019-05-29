@@ -68,13 +68,23 @@ public class MenuOptionsState : MenuBaseState
             d.AddOptions(new List<string>(availableKeysDict.Keys));
         }
 
-        dropdowns["JumpDropdown"].onValueChanged.AddListener(delegate { JumpMethod(dropdowns["JumpDropdown"]); });
-        string originalJumpKey = PlayerPrefs.GetString("JumpKey", "Right bumper");
-        dropdowns["JumpDropdown"].value  = dropdowns["JumpDropdown"].options.FindIndex((i) => { return i.text.Equals(originalJumpKey); });
+        dropdowns["PrimaryJumpDropdown"].onValueChanged.AddListener(delegate { PrimaryJumpMethod(dropdowns["PrimaryJumpDropdown"]); });
+        string originalPrimaryJumpKey = PlayerPrefs.GetString("PrimaryJumpKey", "Right bumper");
+        dropdowns["PrimaryJumpDropdown"].value  = dropdowns["PrimaryJumpDropdown"].options.FindIndex((i) => { return i.text.Equals(originalPrimaryJumpKey); });
 
-        dropdowns["WallrunDropdown"].onValueChanged.AddListener(delegate { WallrunMethod(dropdowns["WallrunDropdown"]); });
-        string originalWallrunKey = PlayerPrefs.GetString("WallrunKey", "Left bumper");
-        dropdowns["WallrunDropdown"].value  = dropdowns["WallrunDropdown"].options.FindIndex((i) => { return i.text.Equals(originalWallrunKey); });
+        dropdowns["SecondaryJumpDropdown"].onValueChanged.AddListener(delegate { SecondaryJumpMethod(dropdowns["SecondaryJumpDropdown"]); });
+        string originalSecondaryJumpKey = PlayerPrefs.GetString("SecondaryJumpKey", "A button");
+        dropdowns["SecondaryJumpDropdown"].value = dropdowns["SecondaryJumpDropdown"].options.FindIndex((i) => { return i.text.Equals(originalSecondaryJumpKey); });
+
+        dropdowns["PrimaryWallrunDropdown"].onValueChanged.AddListener(delegate { PrimaryWallrunMethod(dropdowns["PrimaryWallrunDropdown"]); });
+        string originalPrimaryWallrunKey = PlayerPrefs.GetString("PrimaryWallrunKey", "Left bumper");
+        dropdowns["PrimaryWallrunDropdown"].value  = dropdowns["PrimaryWallrunDropdown"].options.FindIndex((i) => { return i.text.Equals(originalPrimaryWallrunKey); });
+
+        dropdowns["SecondaryWallrunDropdown"].onValueChanged.AddListener(delegate { SecondaryWallrunMethod(dropdowns["SecondaryWallrunDropdown"]); });
+        string originalSecondaryWallrunKey = PlayerPrefs.GetString("SecondaryWallrunKey", "A button");
+        dropdowns["SecondaryWallrunDropdown"].value = dropdowns["SecondaryWallrunDropdown"].options.FindIndex((i) => { return i.text.Equals(originalSecondaryWallrunKey); });
+
+
 
 
         base.Initialize(owner);
@@ -84,16 +94,26 @@ public class MenuOptionsState : MenuBaseState
     public override void Enter()
     {
         base.Enter();
-        EventSystem.current.SetSelectedGameObject(dropdowns["JumpDropdown"].gameObject);
+        EventSystem.current.SetSelectedGameObject(dropdowns["PrimaryJumpDropdown"].gameObject);
     }
 
-    private void JumpMethod(Dropdown dropdown)
+    private void PrimaryJumpMethod(Dropdown dropdown)
     {
-        PlayerPrefs.SetString("JumpKey", dropdown.options[dropdown.value].text);
+        PlayerPrefs.SetString("PrimaryJumpKey", dropdown.options[dropdown.value].text);
     }
 
-    private void WallrunMethod(Dropdown dropdown)
+    private void SecondaryJumpMethod(Dropdown dropdown)
     {
-        PlayerPrefs.SetString("WallrunKey", dropdown.options[dropdown.value].text);
+        PlayerPrefs.SetString("SecondaryJumpKey", dropdown.options[dropdown.value].text);
+    }
+
+    private void PrimaryWallrunMethod(Dropdown dropdown)
+    {
+        PlayerPrefs.SetString("PrimaryWallrunKey", dropdown.options[dropdown.value].text);
+    }
+
+    private void SecondaryWallrunMethod(Dropdown dropdown)
+    {
+        PlayerPrefs.SetString("SecondaryWallrunKey", dropdown.options[dropdown.value].text);
     }
 }
