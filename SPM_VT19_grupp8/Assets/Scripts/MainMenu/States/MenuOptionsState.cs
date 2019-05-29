@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+
 
 
 [CreateAssetMenu(menuName = "States/Menu/Main/Menu Options State")]
@@ -77,6 +79,12 @@ public class MenuOptionsState : MenuBaseState
 
         base.Initialize(owner);
 
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
+        EventSystem.current.SetSelectedGameObject(dropdowns["JumpDropdown"].gameObject);
     }
 
     private void JumpMethod(Dropdown dropdown)
