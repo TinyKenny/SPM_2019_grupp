@@ -46,11 +46,10 @@ public class PlayerAirState : PlayerBaseState
             Jump(wallRunCheck.normal);
             LedgeGrabCheck();
 
-            if ((Input.GetKey(PrimaryWallrunKey) || Input.GetKey(SecondaryWallrunKey)) && Velocity.y > MinimumYVelocity && wallRunCheck.normal.y > -0.5f && Owner.WallrunAllowed()/* && Mathf.Abs(Vector3.Dot(wallRunCheck.normal, Vector3.up)) < MathHelper.floatEpsilon*/)
+            if ((Input.GetKey(PrimaryWallrunKey) || Input.GetKey(SecondaryWallrunKey)) && Velocity.y > MinimumYVelocity && wallRunCheck.normal.y > -0.5f && Owner.WallrunAllowed())
             {
                 Vector3 projectionOnForward = Vector3.ProjectOnPlane(Velocity, Transform.forward);
                 float forwardMagnitude = (Velocity - projectionOnForward).magnitude;
-                Animator.SetBool("WallRunning", true);
                 if (Mathf.Abs(Vector3.Angle(Transform.forward, wallRunCheck.normal)) > 150 && Vector3.Dot(wallRunCheck.normal, Transform.forward) < -0.8)
                 {
                     Owner.ResetWallrunCooldown();
@@ -58,6 +57,7 @@ public class PlayerAirState : PlayerBaseState
                 }
                 else if (forwardMagnitude > forwardWallrunMagnitudeLimit)
                 {
+                    Animator.SetBool("WallRunning", true);
                     Owner.ResetWallrunCooldown();
                     Owner.TransitionTo<PlayerWallRunState>();
                 }
@@ -81,7 +81,18 @@ public class PlayerAirState : PlayerBaseState
 
     protected bool WallRun(out RaycastHit wall)
     {
-        bool wallFound = FindCollision(Transform.forward, out wall, SkinWidth * 10) || FindCollision(Transform.right, out wall, SkinWidth * 10) || FindCollision(-Transform.right, out wall, SkinWidth * 10);
+        bool wallForward = FindCollision(Transform.forward, out wall, SkinWidth * 10);
+        bool wallRight = FindCollision(Transform.right, out wall, SkinWidth * 10);
+        bool wallLeft = FindCollision(-Transform.right, out wall, SkinWidth * 10);
+
+        if (wallRight)
+            Animator.SetFloat("WallDirection", 1);
+        else if (wallLeft)
+            Animator.SetFloat("WallDirection", -1);
+        else
+            Animator.SetFloat("WallDirection", 0);
+
+        bool wallFound = wallForward || wallRight || wallLeft;
         return wallFound;
     }
 
@@ -123,7 +134,7 @@ public class PlayerAirState : PlayerBaseState
 
     protected void TransitionToWalkingState()
     {
-        jumpPower = 12.5f;
+        jumpPower = 15f;
         Owner.TransitionTo<PlayerWalkingState>();
     }
 }
