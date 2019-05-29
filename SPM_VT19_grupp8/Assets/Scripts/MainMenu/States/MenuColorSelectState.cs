@@ -41,12 +41,16 @@ public class MenuColorSelectState : MenuBaseState
         buttons["NextColor"].onClick.AddListener(NextColor);
         buttons["PreviousColor"].onClick.AddListener(PreviousColor);
 
-        foreach(Renderer rend in menu.GetComponentsInChildren<Renderer>())
+        GameObject[] colorableObjects = GameObject.FindGameObjectsWithTag("Color Pickable");
+
+        foreach(GameObject go in colorableObjects)
         {
-            if(rend.CompareTag("Color Pickable"))
+            Renderer rend = go.GetComponent<Renderer>();
+            if(rend != null)
             {
                 colorableMaterials.Add(rend.material);
             }
+            
         }
 
         UpdatePreview();
