@@ -16,26 +16,26 @@ public class MenuMainState : MenuBaseState
     /// <param name="owner">The statemachine that sets this state.</param>
     public override void Initialize(StateMachine owner)
     {
-        menu = ((MainMenuStateMachine)owner).MainState;
+        Menu = ((MainMenuStateMachine)owner).MainState;
 
-        foreach (Button b in menu.GetComponentsInChildren<Button>())
+        foreach (Button b in Menu.GetComponentsInChildren<Button>())
         {
-            buttons.Add(b.name, b);
+            Buttons.Add(b.name, b);
         }
 
         if (File.Exists(Application.persistentDataPath + "/gamesave.save"))
         {
-            buttons["ContinueGame"].interactable = true;
-            buttons["ContinueGame"].onClick.AddListener(ContinueGame);
+            Buttons["ContinueGame"].interactable = true;
+            Buttons["ContinueGame"].onClick.AddListener(ContinueGame);
         }
         else
-            buttons["ContinueGame"].interactable = false;
-        buttons["StartGame"].onClick.AddListener(StartGame);
-        buttons["LevelSelect"].onClick.AddListener(LevelSelect);
-        buttons["Options"].onClick.AddListener(Options);
-        buttons["HowToPlay"].onClick.AddListener(HowToPlay);
-        buttons["Credits"].onClick.AddListener(Credits);
-        buttons["QuitGame"].onClick.AddListener(Quit);
+            Buttons["ContinueGame"].interactable = false;
+        Buttons["StartGame"].onClick.AddListener(StartGame);
+        Buttons["LevelSelect"].onClick.AddListener(LevelSelect);
+        Buttons["Options"].onClick.AddListener(Options);
+        Buttons["HowToPlay"].onClick.AddListener(HowToPlay);
+        Buttons["Credits"].onClick.AddListener(Credits);
+        Buttons["QuitGame"].onClick.AddListener(Quit);
 
         base.Initialize(owner);
     }
@@ -43,16 +43,16 @@ public class MenuMainState : MenuBaseState
     public override void Enter()
     {
         base.Enter();
-        if (Owner.PreviousSelected == null)
+        if (PreviousSelected == null)
         {
-            EventSystem.current.SetSelectedGameObject(buttons["StartGame"].gameObject);
+            EventSystem.current.SetSelectedGameObject(Buttons["StartGame"].gameObject);
             Debug.Log("Setting to start game button selected " + EventSystem.current.currentSelectedGameObject);
         }
     }
 
     public void StartGame()
     {
-        Owner.levelToLoad = 1;
+        LevelToLoad = 1;
         Owner.TransitionTo<MenuSetPlayerNameState>();
     }
 

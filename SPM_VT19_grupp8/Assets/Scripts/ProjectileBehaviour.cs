@@ -22,8 +22,6 @@ public class ProjectileBehaviour : MonoBehaviour
     {
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<SaveEventInfo>(SaveProjectileInfo);
         thisCollider = GetComponent<SphereCollider>();
-        Debug.Log(thisCollider.radius);
-        Debug.Log(transform.localScale);
     }
 
     void Update()

@@ -9,35 +9,35 @@ public class MenuLevelSelectState : MenuBaseState
 {
     public override void Initialize(StateMachine owner)
     {
-        menu = ((MainMenuStateMachine)owner).LevelSelectState;
+        Menu = ((MainMenuStateMachine)owner).LevelSelectState;
 
-        foreach (Button b in menu.GetComponentsInChildren<Button>())
+        foreach (Button b in Menu.GetComponentsInChildren<Button>())
         {
-            buttons.Add(b.name, b);
+            Buttons.Add(b.name, b);
         }
 
-        buttons["LSBack"].onClick.AddListener(Back);
-        buttons["Level1"].onClick.AddListener(StartLevel1);
-        buttons["Level2"].onClick.AddListener(StartLevel2);
+        Buttons["LSBack"].onClick.AddListener(Back);
+        Buttons["Level1"].onClick.AddListener(StartLevel1);
+        Buttons["Level2"].onClick.AddListener(StartLevel2);
 
         base.Initialize(owner);
     }
 
     public void StartLevel1()
     {
-        Owner.levelToLoad = 1;
+        LevelToLoad = 1;
         Owner.TransitionTo<MenuSetPlayerNameState>();
     }
 
     public void StartLevel2()
     {
-        Owner.levelToLoad = 2;
+        LevelToLoad = 2;
         Owner.TransitionTo<MenuSetPlayerNameState>();
     }
 
     public override void Enter()
     {
         base.Enter();
-        EventSystem.current.SetSelectedGameObject(buttons["Level1"].gameObject);
+        EventSystem.current.SetSelectedGameObject(Buttons["Level1"].gameObject);
     }
 }

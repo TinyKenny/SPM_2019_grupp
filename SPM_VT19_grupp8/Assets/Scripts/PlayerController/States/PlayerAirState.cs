@@ -76,14 +76,14 @@ public class PlayerAirState : PlayerBaseState
 
     protected bool WallRun()
     {
-        return FindCollision(Transform.forward, SkinWidth * 2);
+        return WallRun(out RaycastHit wall);
     }
 
     protected bool WallRun(out RaycastHit wall)
     {
         bool wallForward = FindCollision(Transform.forward, out wall, SkinWidth * 10);
-        bool wallRight = FindCollision(Transform.right, out wall, SkinWidth * 10);
-        bool wallLeft = FindCollision(-Transform.right, out wall, SkinWidth * 10);
+        bool wallRight = FindCollision(Transform.right, SkinWidth * 10);
+        bool wallLeft = FindCollision(-Transform.right, SkinWidth * 10);
 
         if (wallRight)
             Animator.SetFloat("WallDirection", 1);

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class MainMenuStateMachine : StateMachine
 {
-    public int levelToLoad { get; set; }
+    public int LevelToLoad { get; set; }
     public GameObject PreviousSelected { get { return previousSelected; } private set { previousSelected = value; } }
     public GameObject MainState { get { return mainState; } private set { mainState = value; } }
     public GameObject CreditsState { get { return creditsState; } private set { creditsState = value; } }

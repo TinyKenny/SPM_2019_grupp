@@ -13,15 +13,15 @@ public class MenuSetPlayerNameState : MenuBaseState
 
     public override void Initialize(StateMachine owner)
     {
-        menu = ((MainMenuStateMachine)owner).SetNameState;
+        Menu = ((MainMenuStateMachine)owner).SetNameState;
 
-        foreach (Button b in menu.GetComponentsInChildren<Button>())
+        foreach (Button b in Menu.GetComponentsInChildren<Button>())
         {
-            buttons.Add(b.name, b);
+            Buttons.Add(b.name, b);
         }
 
-        buttons["SPNBack"].onClick.AddListener(Back);
-        buttons["Start"].onClick.AddListener(SelectColor);
+        Buttons["SPNBack"].onClick.AddListener(Back);
+        Buttons["Start"].onClick.AddListener(SelectColor);
 
         nameField = ((MainMenuStateMachine)owner).TextField;
 
@@ -38,7 +38,7 @@ public class MenuSetPlayerNameState : MenuBaseState
 
         if (EventSystem.current.currentSelectedGameObject == nameField && (Input.GetButtonDown("Submit") || Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0.9))
         {
-            EventSystem.current.SetSelectedGameObject(buttons["QButton"].gameObject);
+            EventSystem.current.SetSelectedGameObject(Buttons["QButton"].gameObject);
         }
 
         if (Input.GetButtonDown("Pause"))
@@ -52,7 +52,7 @@ public class MenuSetPlayerNameState : MenuBaseState
     {
         SaveFile.ClearSave();
         PlayerPrefs.SetString("playerName", playerName);
-        SceneManager.LoadScene(Owner.levelToLoad);
+        SceneManager.LoadScene(LevelToLoad);
     }
 
     public void SelectColor()

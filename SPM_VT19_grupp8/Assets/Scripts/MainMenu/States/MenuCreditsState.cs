@@ -9,14 +9,14 @@ public class MenuCreditsState : MenuBaseState
 {
     public override void Initialize(StateMachine owner)
     {
-        menu = ((MainMenuStateMachine)owner).CreditsState;
+        Menu = ((MainMenuStateMachine)owner).CreditsState;
 
-        foreach (Button b in menu.GetComponentsInChildren<Button>())
+        foreach (Button b in Menu.GetComponentsInChildren<Button>())
         {
-            buttons.Add(b.name, b);
+            Buttons.Add(b.name, b);
         }
         
-        buttons["CreditsBack"].onClick.AddListener(Back);
+        Buttons["CreditsBack"].onClick.AddListener(Back);
 
         base.Initialize(owner);
     }
@@ -24,7 +24,7 @@ public class MenuCreditsState : MenuBaseState
     public override void Enter()
     {
         base.Enter();
-        EventSystem.current.SetSelectedGameObject(buttons["CreditsBack"].gameObject);
+        EventSystem.current.SetSelectedGameObject(Buttons["CreditsBack"].gameObject);
     }
 
 }

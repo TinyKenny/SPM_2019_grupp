@@ -52,16 +52,16 @@ public class MenuOptionsState : MenuBaseState
 
     public override void Initialize(StateMachine owner)
     {
-        menu = ((MainMenuStateMachine)owner).OptionsState;
+        Menu = ((MainMenuStateMachine)owner).OptionsState;
 
-        foreach (Button b in menu.GetComponentsInChildren<Button>())
+        foreach (Button b in Menu.GetComponentsInChildren<Button>())
         {
-            buttons.Add(b.name, b);
+            Buttons.Add(b.name, b);
         }
 
-        buttons["OptionsBack"].onClick.AddListener(Back);
+        Buttons["OptionsBack"].onClick.AddListener(Back);
 
-        foreach (Dropdown d in menu.GetComponentsInChildren<Dropdown>())
+        foreach (Dropdown d in Menu.GetComponentsInChildren<Dropdown>())
         {
             dropdowns.Add(d.name, d);
             d.ClearOptions();

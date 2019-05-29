@@ -11,6 +11,7 @@ public class MenuColorSelectState : MenuBaseState
 {
     private Color32[] colors =
     {
+        new Color32(33, 33, 34, 255), // color 7, "Black"
         new Color32(255, 255, 255, 255), // color 0, "white"
         new Color32(104, 85, 61, 255), // color 1, "Bajsbrun"
         new Color32(202, 191, 81, 255), // color 2, "Guldström"
@@ -18,7 +19,6 @@ public class MenuColorSelectState : MenuBaseState
         new Color32(52, 64, 89, 255), // color 4, "Om inte originaltexturen fungerar"
         new Color32(63, 17, 17, 255), // color 5, "Mörkröd"
         new Color32(71, 166, 134, 255), // color 6, "Turquoise"
-        new Color32(33, 33, 34, 255), // color 7, "Black"
         new Color32(99, 159, 94, 255), // color 8, "Green"
         new Color32(112, 173, 241, 255) // color 9, "Blue"
     };
@@ -29,17 +29,17 @@ public class MenuColorSelectState : MenuBaseState
 
     public override void Initialize(StateMachine owner)
     {
-        menu = ((MainMenuStateMachine)owner).ColorSelectState;
+        Menu = ((MainMenuStateMachine)owner).ColorSelectState;
 
-        foreach (Button b in menu.GetComponentsInChildren<Button>())
+        foreach (Button b in Menu.GetComponentsInChildren<Button>())
         {
-            buttons.Add(b.name, b);
+            Buttons.Add(b.name, b);
         }
 
-        buttons["CSLBack"].onClick.AddListener(Back);
-        buttons["Start"].onClick.AddListener(LoadScene);
-        buttons["NextColor"].onClick.AddListener(NextColor);
-        buttons["PreviousColor"].onClick.AddListener(PreviousColor);
+        Buttons["CSLBack"].onClick.AddListener(Back);
+        Buttons["Start"].onClick.AddListener(LoadScene);
+        Buttons["NextColor"].onClick.AddListener(NextColor);
+        Buttons["PreviousColor"].onClick.AddListener(PreviousColor);
 
         GameObject[] colorableObjects = GameObject.FindGameObjectsWithTag("Color Pickable");
 
@@ -63,7 +63,7 @@ public class MenuColorSelectState : MenuBaseState
     public override void Enter()
     {
         base.Enter();
-        EventSystem.current.SetSelectedGameObject(buttons["NextColor"].gameObject);
+        EventSystem.current.SetSelectedGameObject(Buttons["NextColor"].gameObject);
         cameraAnim.SetTrigger("ZoomInTrigger");
     }
 
@@ -82,7 +82,7 @@ public class MenuColorSelectState : MenuBaseState
         PlayerPrefs.SetInt("PlayerColorRed", colors[selectedColor].r);
         PlayerPrefs.SetInt("PlayerColorGreen", colors[selectedColor].g);
         PlayerPrefs.SetInt("PlayerColorBlue", colors[selectedColor].b);
-        SceneManager.LoadScene(Owner.levelToLoad);
+        SceneManager.LoadScene(LevelToLoad);
     }
 
     private void UpdatePreview()
