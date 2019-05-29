@@ -28,7 +28,7 @@ public class MenuBaseState : State
 
     public void Back()
     {
-        GameObject selected = Owner.previousSelected;
+        GameObject selected = Owner.PreviousSelected;
         Owner.TransitionTo<MenuMainState>();
         if (selected != null && selected.activeInHierarchy)
             EventSystem.current.SetSelectedGameObject(selected);

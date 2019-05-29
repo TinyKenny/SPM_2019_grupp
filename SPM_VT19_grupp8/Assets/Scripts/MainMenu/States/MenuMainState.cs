@@ -43,7 +43,7 @@ public class MenuMainState : MenuBaseState
     public override void Enter()
     {
         base.Enter();
-        if (Owner.previousSelected == null)
+        if (Owner.PreviousSelected == null)
         {
             EventSystem.current.SetSelectedGameObject(buttons["StartGame"].gameObject);
             Debug.Log("Setting to start game button selected " + EventSystem.current.currentSelectedGameObject);

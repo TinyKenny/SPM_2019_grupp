@@ -112,10 +112,10 @@ public class EnemyStateMachine : StateMachine
 
     public void PlaySound(AudioClip ac)
     {
-        AudioSource aS = Instantiate(emptyAudioSourcePrefab).GetComponent<AudioSource>();
+        AudioSource aS = Instantiate(emptyAudioSourcePrefab);
         aS.transform.position = transform.position;
         aS.PlayOneShot(ac);
-        Destroy(aS, ac.length);
+        Destroy(aS.gameObject, ac.length);
     }
 
     public virtual void RemoveEnemy()

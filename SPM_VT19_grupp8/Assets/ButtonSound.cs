@@ -9,17 +9,27 @@ using UnityEngine.EventSystems;
 public class ButtonSound : MonoBehaviour
 {
     [SerializeField] private AudioClip buttonClick;
+    [SerializeField] private AudioSource auS;
     private Button button;
 
     void Start()
     {
         button = GetComponent<Button>();
 
-        button.onClick.AddListener(() => PlaySound());
+        button.onClick.AddListener(() => ClickSound());
     }
 
-    void PlaySound()
+    void ClickSound()
     {
-        MainMenuStateMachine.AS.PlayOneShot(buttonClick);
+        PlaySound(buttonClick);
+    }
+
+    public void PlaySound(AudioClip ac)
+    {
+        AudioSource aS = Instantiate(auS);
+        aS.transform.position = transform.position;
+        aS.spatialBlend = 0;
+        aS.PlayOneShot(ac);
+        Destroy(aS.gameObject, ac.length);
     }
 }
