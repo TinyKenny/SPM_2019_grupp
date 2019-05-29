@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+#pragma warning disable 0649
 public class TimeController : StateMachine
 {
     public float SlowedPlayerTimeScale { get { return slowedPlayerTimeScale; } }
@@ -18,7 +19,8 @@ public class TimeController : StateMachine
     [SerializeField] private float slowMotionEnergyMax = 5.0f;
     [SerializeField] private float slowMotionEnergyRegeneration = 1.0f;
     [SerializeField] private float slowMotionCooldown = 1.0f;
-    [SerializeField] private Slider slowMotionEnergySlider = null;
+    [SerializeField] private Slider slowMotionEnergySlider;
+    [SerializeField] private AudioClip slowSound;
 
     public float TimeSlowMultiplier { get; set; } // do something about this
 
