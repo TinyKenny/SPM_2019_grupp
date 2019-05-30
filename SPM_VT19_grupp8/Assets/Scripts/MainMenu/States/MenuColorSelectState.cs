@@ -14,7 +14,7 @@ public class MenuColorSelectState : MenuBaseState
         new Color32(33, 33, 34, 255), // color 7, "Black"
         new Color32(255, 255, 255, 255), // color 0, "white"
         new Color32(104, 85, 61, 255), // color 1, "Bajsbrun"
-        new Color32(202, 191, 81, 255), // color 2, "Guldström"
+        new Color32(180, 135, 72, 255), // color 2, "Guldström"
         new Color32(225, 150, 247, 255), // color 3, "Varför kan man vara rosa?"
         new Color32(52, 64, 89, 255), // color 4, "Om inte originaltexturen fungerar"
         new Color32(63, 17, 17, 255), // color 5, "Mörkröd"

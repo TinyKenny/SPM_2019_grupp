@@ -20,7 +20,6 @@ public class PlayerBaseState : State
     protected float SkinWidth { get { return Owner.SkinWidth; } }
     protected float GroundCheckDistance { get { return Owner.groundCheckDistance; } }
     protected float TurnSpeedModifier { get { return Owner.TurnSpeedModifier; } }
-    protected float StandardColliderHeight { get { return Owner.StandardColliderHeight; } }
     protected float PlayerDeltaTime { get { return Owner.PlayerDeltaTime; } }
     protected float MovementSoundRange { get { return Owner.MovementSoundRange; } }
     protected float ShootSoundRange { get { return Owner.ShootSoundRange; } }
@@ -30,7 +29,6 @@ public class PlayerBaseState : State
     protected KeyCode PrimaryWallrunKey { get { return Owner.PrimaryWallrunKey; } }
     protected KeyCode SecondaryWallrunKey { get { return Owner.SecondaryWallrunKey; } }
     private float FireRate { get { return Owner.FireRate; } }
-    private GameObject ProjectilePrefab { get { return Owner.ProjectilePrefab; } }
     private AudioClip GunShotSound { get { return Owner.GunShotSound; } }
     #endregion
 
