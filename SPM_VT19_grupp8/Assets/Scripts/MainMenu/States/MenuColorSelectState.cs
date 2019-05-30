@@ -11,16 +11,16 @@ public class MenuColorSelectState : MenuBaseState
 {
     private Color32[] colors =
     {
-        new Color32(33, 33, 34, 255), // color 7, "Black"
-        new Color32(255, 255, 255, 255), // color 0, "white"
-        new Color32(104, 85, 61, 255), // color 1, "Bajsbrun"
-        new Color32(180, 135, 72, 255), // color 2, "Guldström"
-        new Color32(225, 150, 247, 255), // color 3, "Varför kan man vara rosa?"
-        new Color32(52, 64, 89, 255), // color 4, "Om inte originaltexturen fungerar"
-        new Color32(63, 17, 17, 255), // color 5, "Mörkröd"
-        new Color32(71, 166, 134, 255), // color 6, "Turquoise"
-        new Color32(99, 159, 94, 255), // color 8, "Green"
-        new Color32(112, 173, 241, 255) // color 9, "Blue"
+        new Color32(33, 33, 34, 255),    // "Black"
+        new Color32(255, 255, 255, 255), // "white"
+        new Color32(104, 85, 61, 255),   // "Bajsbrun"
+        new Color32(180, 135, 72, 255),  // "Guldström"
+        new Color32(225, 150, 247, 255), // "Varför kan man vara rosa?"
+        new Color32(52, 64, 89, 255),    // "Om inte originaltexturen fungerar"
+        new Color32(63, 17, 17, 255),    // "Mörkröd"
+        new Color32(71, 166, 134, 255),  // "Turquoise"
+        new Color32(99, 159, 94, 255),   // "Green"
+        new Color32(112, 173, 241, 255)  // "Blue"
     };
 
     private int selectedColor = 0;
