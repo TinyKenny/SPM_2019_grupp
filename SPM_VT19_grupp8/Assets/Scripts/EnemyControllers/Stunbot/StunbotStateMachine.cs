@@ -23,6 +23,7 @@ public class StunbotStateMachine : EnemyStateMachine
     public LayerMask VisionMask { get { return visionMask; } }
     public LayerMask PlayerLayer { get { return playerLayer; } }
     public AudioClip ShockSound { get { return shockSound; } private set { shockSound = value; } }
+    public float BoopStrength { get { return boopStrength; } }
     #endregion
 
     #region serialized private variables
@@ -30,6 +31,8 @@ public class StunbotStateMachine : EnemyStateMachine
     [SerializeField] private LayerMask playerLayer = 0;
     [Header("Attack sound")]
     [SerializeField] private AudioClip shockSound = null;
+    [Header("Boop-power against this stunbot")]
+    [SerializeField, Min(0.0f)] private float boopStrength = 18.5f;
     #endregion
 
     #region non-serialized private variables

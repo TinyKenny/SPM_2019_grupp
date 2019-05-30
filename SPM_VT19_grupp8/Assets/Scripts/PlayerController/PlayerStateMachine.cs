@@ -151,6 +151,16 @@ public class PlayerStateMachine : StateMachine
             currentShields = shieldsMax;
             shieldsRegenerationTimer = 0.0f;
         }
+        if (Input.GetKeyDown(KeyCode.Keypad3))
+        {
+            Debug.Log("Range increase cheat activated!");
+            attackRange += 100.0f;
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad4))
+        {
+            Debug.Log("Attack angle cheat activated!");
+            attackAngle = 1.0f;
+        }
         #endregion
 
         RegenerateShields();

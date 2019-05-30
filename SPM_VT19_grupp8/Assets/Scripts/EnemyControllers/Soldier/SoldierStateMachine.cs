@@ -17,6 +17,8 @@ public class SoldierStateMachine : EnemyStateMachine
     public GameObject ProjectilePrefab { get { return projectilePrefab; } }
     public NavMeshAgent Agent { get; private set; }
     public AudioClip ShootSound { get { return shootSound; } private set { shootSound = value; } }
+    public float BoopStrength { get { return boopStrength; } }
+    public Vector3 BoopVelocity { get { return boopVelocity; } set { boopVelocity = value; } }
 
     [Header("Vision obstruction layers")]
     [SerializeField] private LayerMask visionMask = 0;
@@ -27,16 +29,13 @@ public class SoldierStateMachine : EnemyStateMachine
     [SerializeField] private float fireRateCooldownVarianceMax = 0.5f;
     [Header("Lazer shot sound")]
     [SerializeField] private AudioClip shootSound = null;
+    [Header("Boop-power against this soldier")]
+    [SerializeField, Min(0.0f)]private float boopStrength = 18.5f;
+    
 
     public Animator Anim { get; private set; } = null;
 
-
-    #region boop-values, move these
-    public Vector3 BoopVelocity { get { return boopVelocity; } set { boopVelocity = value; } }
     private Vector3 boopVelocity = Vector3.zero;
-    public float BoopStrength { get { return boopStrength; } }
-    private float boopStrength = 18.5f;
-    #endregion
 
     protected override void Awake()
     {
