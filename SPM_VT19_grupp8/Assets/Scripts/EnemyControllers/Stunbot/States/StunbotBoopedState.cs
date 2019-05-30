@@ -8,7 +8,7 @@ public class StunbotBoopedState : StunbotBaseState
     private LayerMask PlayerLayer { get { return Owner.PlayerLayer; } }
     private float Deceleration { get { return Owner.Deceleration; } }
     private float SkinWidth { get { return Owner.SkinWidth; } }
-    public float BoopStrength { get { return Owner.oopStrength; } }
+    public float BoopStrength { get { return Owner.BoopStrength; } }
 
     //private float boopMultiplier = 1.5f;
 
@@ -21,7 +21,7 @@ public class StunbotBoopedState : StunbotBaseState
     {
         base.Enter();
         LastPlayerLocation = PlayerTransform.position;
-        Velocity = Velocity.normalized * Speed * boopMultiplier;
+        Velocity = Velocity.normalized * BoopStrength;
     }
 
     public override void HandleUpdate()
