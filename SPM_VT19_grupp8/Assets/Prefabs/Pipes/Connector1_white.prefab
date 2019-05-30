@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7238184512267426413}
   - component: {fileID: 3985609931371112084}
   - component: {fileID: 3948636701385397876}
+  - component: {fileID: 7548138356503229075}
   m_Layer: 9
   m_Name: Connector1_white
   m_TagString: Untagged
@@ -91,4 +92,17 @@ CapsuleCollider:
   m_Radius: 0.06030289
   m_Height: 0.1449863
   m_Direction: 1
+  m_Center: {x: -0.008186234, y: 0.07249315, z: 0.00025593303}
+--- !u!65 &7548138356503229075
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3419196462309233224}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.12060578, y: 0.1449863, z: 0.10333192}
   m_Center: {x: -0.008186234, y: 0.07249315, z: 0.00025593303}

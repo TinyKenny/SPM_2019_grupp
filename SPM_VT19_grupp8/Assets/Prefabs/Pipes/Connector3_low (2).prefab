@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3295751824453035278}
   - component: {fileID: 5829868406665469752}
   - component: {fileID: 277907090576155585}
+  - component: {fileID: 1851840406000131637}
   m_Layer: 9
   m_Name: Connector3_low (2)
   m_TagString: Untagged
@@ -77,3 +78,16 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &1851840406000131637
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2010722038582908701}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.10512568, y: 0.044445943, z: 0.1051257}
+  m_Center: {x: 0.000000014365043, y: 0.017989239, z: -0.000000008777105}

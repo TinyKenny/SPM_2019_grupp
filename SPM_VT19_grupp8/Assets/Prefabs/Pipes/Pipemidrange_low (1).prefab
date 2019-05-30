@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3569880302396598271}
   - component: {fileID: 5535422602871070153}
   - component: {fileID: 2300579564524904752}
-  - component: {fileID: 2618782146179799743}
+  - component: {fileID: 552381711240922696}
   m_Layer: 9
   m_Name: Pipemidrange_low (1)
   m_TagString: Untagged
@@ -78,8 +78,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &2618782146179799743
-CapsuleCollider:
+--- !u!65 &552381711240922696
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -88,7 +88,6 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.053332653
-  m_Height: 0.46680176
-  m_Direction: 1
-  m_Center: {x: 0.0000000093132275, y: 0.23340088, z: -0.0000000055879363}
+  serializedVersion: 2
+  m_Size: {x: 0.10666528, y: 0.4668017, z: 0.1066653}
+  m_Center: {x: 0.000000009313227, y: 0.23340085, z: -0.0000000055879363}

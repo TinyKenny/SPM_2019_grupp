@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1202082853364251864}
   - component: {fileID: 7923416430434977518}
   - component: {fileID: 4524191453527276055}
+  - component: {fileID: 9122762521017291492}
   m_Layer: 0
   m_Name: ShortRangePipe_low (1)
   m_TagString: Untagged
@@ -77,3 +78,16 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &9122762521017291492
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2807429375837589195}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.10791781, y: 0.14000002, z: 0.107917815}
+  m_Center: {x: 0.000000001415611, y: 0.07, z: -0.0000000028312206}
