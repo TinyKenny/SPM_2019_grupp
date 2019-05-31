@@ -49,10 +49,10 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 0.44
+    value: 0.46
   color:
     overrideState: 1
-    value: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 1}
+    value: {r: 0.3962264, g: 0.3962264, b: 0.3962264, a: 1}
   ambientOnly:
     overrideState: 0
     value: 1
@@ -95,7 +95,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 5.46
+    value: 8.5
   threshold:
     overrideState: 1
     value: 0.35
@@ -145,7 +145,7 @@ MonoBehaviour:
     value: 0
   color:
     overrideState: 1
-    value: {r: 0, g: 0, b: 0, a: 1}
+    value: {r: 0.49056602, g: 0.49056602, b: 0.49056602, a: 1}
   center:
     overrideState: 1
     value: {x: 0.5, y: 0.5}
@@ -186,6 +186,7 @@ MonoBehaviour:
   - {fileID: -2492095972188712737}
   - {fileID: -6543446173867956163}
   - {fileID: -7378307588089214688}
+  - {fileID: 5129417769311458410}
 --- !u!114 &3798141433263258492
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -203,7 +204,7 @@ MonoBehaviour:
     overrideState: 1
     value: 1
   gradingMode:
-    overrideState: 0
+    overrideState: 1
     value: 1
   externalLut:
     overrideState: 0
@@ -211,7 +212,7 @@ MonoBehaviour:
     defaultState: 1
   tonemapper:
     overrideState: 1
-    value: 0
+    value: 1
   toneCurveToeStrength:
     overrideState: 0
     value: 0
@@ -257,7 +258,7 @@ MonoBehaviour:
     value: 0
   postExposure:
     overrideState: 1
-    value: 0.35
+    value: 0.41
   contrast:
     overrideState: 1
     value: 29.4
@@ -280,7 +281,7 @@ MonoBehaviour:
     overrideState: 0
     value: 0
   mixerBlueOutRedIn:
-    overrideState: 0
+    overrideState: 1
     value: 0
   mixerBlueOutGreenIn:
     overrideState: 0
@@ -293,7 +294,7 @@ MonoBehaviour:
     value: {x: 1, y: 0.9797137, z: 0.9487436, w: 0}
   gamma:
     overrideState: 1
-    value: {x: 1, y: 0.8648639, z: 0.87012833, w: 0}
+    value: {x: 0.9400103, y: 0.9296047, z: 1, w: 0}
   gain:
     overrideState: 0
     value: {x: 1, y: 1, z: 1, w: 0}
@@ -1497,3 +1498,40 @@ MonoBehaviour:
       - 0.5
       - 0.5
       - 0.5
+--- !u!114 &5129417769311458410
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a34fa72bd4185749832024e9c8010bf, type: 3}
+  m_Name: ScreenSpaceReflections
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  preset:
+    overrideState: 1
+    value: 2
+  maximumIterationCount:
+    overrideState: 0
+    value: 16
+  resolution:
+    overrideState: 0
+    value: 0
+  thickness:
+    overrideState: 0
+    value: 8
+  maximumMarchDistance:
+    overrideState: 1
+    value: 100
+  distanceFade:
+    overrideState: 1
+    value: 1
+  vignette:
+    overrideState: 1
+    value: 0
