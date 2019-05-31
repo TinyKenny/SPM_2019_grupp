@@ -32,6 +32,7 @@ public class MenuMainState : MenuBaseState
             Buttons["ContinueGame"].interactable = false;
         Buttons["StartGame"].onClick.AddListener(StartGame);
         Buttons["LevelSelect"].onClick.AddListener(LevelSelect);
+        Buttons["Leaderboard"].onClick.AddListener(Leaderboard);
         Buttons["Options"].onClick.AddListener(Options);
         Buttons["HowToPlay"].onClick.AddListener(HowToPlay);
         Buttons["Credits"].onClick.AddListener(Credits);
@@ -64,6 +65,11 @@ public class MenuMainState : MenuBaseState
     public void LevelSelect()
     {
         Owner.TransitionTo<MenuLevelSelectState>();
+    }
+
+    public void Leaderboard()
+    {
+        Owner.TransitionTo<MenuLeaderboardState>();
     }
 
     public void Options()
