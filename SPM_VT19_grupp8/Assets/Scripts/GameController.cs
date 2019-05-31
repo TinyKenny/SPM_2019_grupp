@@ -27,6 +27,7 @@ public class GameController : MonoBehaviour
 
     public static GameController GameControllerInstance { get; private set; }
     public Text timeText;
+    [SerializeField] private Text playerName;
     public PlayerStateMachine player;
     public GameObject PausePanel;
     public GameObject SelectedPauseButton;
@@ -42,6 +43,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        playerName.text = PlayerPrefs.GetString("playerName");
         LevelTime = CurrentSave.LevelTime;
         PausePanel.gameObject.SetActive(false);
         SpawnProjectiles();
