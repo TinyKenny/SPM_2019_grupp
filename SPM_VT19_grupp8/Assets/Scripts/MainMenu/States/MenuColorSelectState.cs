@@ -26,6 +26,8 @@ public class MenuColorSelectState : MenuBaseState
     private int selectedColor = 0;
     private List<Material> colorableMaterials = new List<Material>();
     private Animator cameraAnim = null;
+    private float selectCooldown = 0.5f;
+    private float selectCooldownMax = 0.5f;
 
     public override void Initialize(StateMachine owner)
     {
@@ -73,6 +75,52 @@ public class MenuColorSelectState : MenuBaseState
         if (Input.GetButtonDown("Pause"))
         {
             LoadScene();
+        }
+
+        ColorSelection();
+    }
+
+    private void ColorSelection()
+    {
+        if (EventSystem.current.currentSelectedGameObject.name.Equals("NextColor"))
+        {
+            if (Input.GetAxisRaw("Horizontal") > 0.9f)
+            {
+                if (selectCooldown <= 0)
+                {
+                    NextColor();
+                    selectCooldown = selectCooldownMax;
+                }
+                else
+                    selectCooldown -= Time.deltaTime;
+            }
+            else if (Input.GetAxisRaw("Horizontal") < -0.9f)
+            {
+                EventSystem.current.SetSelectedGameObject(Buttons["PreviousColor"].gameObject);
+                selectCooldown = selectCooldownMax;
+            }
+            else
+                selectCooldown = 0;
+        }
+        else if (EventSystem.current.currentSelectedGameObject.name.Equals("PreviousColor"))
+        {
+            if (Input.GetAxisRaw("Horizontal") < -0.9f)
+            {
+                if (selectCooldown <= 0)
+                {
+                    PreviousColor();
+                    selectCooldown = selectCooldownMax;
+                }
+                else
+                    selectCooldown -= Time.deltaTime;
+            }
+            else if (Input.GetAxisRaw("Horizontal") > 0.9f)
+            {
+                EventSystem.current.SetSelectedGameObject(Buttons["NextColor"].gameObject);
+                selectCooldown = selectCooldownMax;
+            }
+            else
+                selectCooldown = 0;
         }
     }
 

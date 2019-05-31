@@ -16,6 +16,7 @@ public class MainMenuStateMachine : StateMachine
     public GameObject ColorSelectState { get { return colorSelectState; } private set { colorSelectState = value; } }
     public GameObject OptionsState { get { return optionsState; } private set { optionsState = value; } }
     public GameObject TextField { get { return textField; } private set { textField = value; } }
+    public bool Deselected { get; private set; }
 
     [SerializeField] private GameObject previousSelected;
     [SerializeField] private GameObject mainState;

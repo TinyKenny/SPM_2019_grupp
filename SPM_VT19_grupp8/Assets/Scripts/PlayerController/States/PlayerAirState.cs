@@ -79,7 +79,8 @@ public class PlayerAirState : PlayerBaseState
 
     protected bool WallRun()
     {
-        return WallRun(out RaycastHit wall);
+        RaycastHit wall;
+        return WallRun(out wall);
     }
 
     protected bool WallRun(out RaycastHit wall)
