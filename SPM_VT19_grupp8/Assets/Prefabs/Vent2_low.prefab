@@ -11,12 +11,13 @@ GameObject:
   - component: {fileID: 2984197300137172174}
   - component: {fileID: 5569808995529785160}
   - component: {fileID: 3802948076574901832}
-  m_Layer: 0
+  - component: {fileID: 573651456650249229}
+  m_Layer: 9
   m_Name: Vent2_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2984197300137172174
 Transform:
@@ -77,6 +78,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &573651456650249229
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5908500861324070811}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 27.96505, y: 8.590144, z: 9.816664}
+  m_Center: {x: 0, y: 1.5896679, z: 0}
 --- !u!1 &6472789989875246704
 GameObject:
   m_ObjectHideFlags: 0
@@ -86,12 +100,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8036851567806190691}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Vent2_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8036851567806190691
 Transform:
