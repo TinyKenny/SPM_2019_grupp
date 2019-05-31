@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: 1054332883088769582}
   - component: {fileID: 8948333323822322617}
   - component: {fileID: 902909320169993857}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BudgetFence_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5897280911518496062
 Transform:
@@ -100,7 +100,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5304287604328648430}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Budgetfence_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
