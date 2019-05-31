@@ -123,7 +123,7 @@ public class GameController : MonoBehaviour
         gO.transform.eulerAngles += eI.GO.transform.eulerAngles;
         Vector3 temp = gO.transform.eulerAngles;
         gO.transform.eulerAngles = Vector3.zero;
-        gO.transform.position = eI.GO.transform.position;
+        gO.transform.position += eI.GO.transform.position;
         gO.transform.eulerAngles = temp;
         Destroy(gO, gO.main.startLifetime.constantMax);
     }
