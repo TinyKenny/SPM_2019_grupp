@@ -20,7 +20,7 @@ public class MenuLeaderboardState : MenuBaseState
             Buttons.Add(b.name, b);
         }
 
-        GameObject dingy = Menu.transform.Find("Scores").GetComponentInChildren<;
+        //GameObject dingy = Menu.transform.Find("Scores").GetComponentInChildren;
 
         base.Initialize(owner);
 
