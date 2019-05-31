@@ -15,6 +15,9 @@ public class MainMenuStateMachine : StateMachine
     public GameObject SetNameState { get { return setNameState; } private set { setNameState = value; } }
     public GameObject ColorSelectState { get { return colorSelectState; } private set { colorSelectState = value; } }
     public GameObject OptionsState { get { return optionsState; } private set { optionsState = value; } }
+    public GameObject LeaderboardState { get { return leaderboardState; } private set { leaderboardState = value; } }
+
+
     public GameObject TextField { get { return textField; } private set { textField = value; } }
     public bool Deselected { get; private set; }
 
@@ -26,6 +29,7 @@ public class MainMenuStateMachine : StateMachine
     [SerializeField] private GameObject setNameState;
     [SerializeField] private GameObject colorSelectState;
     [SerializeField] private GameObject optionsState;
+    [SerializeField] private GameObject leaderboardState;
     [SerializeField] private GameObject textField;
 
     public override void TransitionTask()
