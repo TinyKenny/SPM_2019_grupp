@@ -64,6 +64,8 @@ public class PlayerStateMachine : StateMachine
     [SerializeField] private AudioClip damageSound;
     [SerializeField] private AudioClip deathSound;
     [SerializeField] private AudioClip gunShotSound;
+    [SerializeField] private ParticleSystem shootParticle;
+    [SerializeField] private GameObject shootingPoint;
     #endregion
 
     #region non-serialized private variables
@@ -287,6 +289,9 @@ public class PlayerStateMachine : StateMachine
             {
                 PlayerAttackEventInfo pAEI = new PlayerAttackEventInfo(gameObject, transform.position, MainCameraController.transform.forward, attackAngle, attackRange, attackDirectionWeight);
                 EventCoordinator.CurrentEventCoordinator.ActivateEvent(pAEI);
+
+                ParticleEventInfo pEI = new ParticleEventInfo(shootingPoint, shootParticle);
+                EventCoordinator.CurrentEventCoordinator.ActivateEvent(pEI);
 
                 Ammo--;
                 ammoNumber.text = Ammo.ToString();

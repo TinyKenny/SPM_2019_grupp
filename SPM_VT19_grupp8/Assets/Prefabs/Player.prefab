@@ -181,6 +181,9 @@ MonoBehaviour:
   damageSound: {fileID: 8300000, guid: 5ff6e37f1aa565740a43dba0d6fbaaa6, type: 3}
   deathSound: {fileID: 8300000, guid: b8f00654f9b12424ea18d756cbaf0d0b, type: 3}
   gunShotSound: {fileID: 8300000, guid: 383e9fc6797f9ca4f9c1f04ec5e96921, type: 3}
+  shootParticle: {fileID: 8566331801560291258, guid: 37821e5a2d883af4c9d81eee72b75242,
+    type: 3}
+  shootingPoint: {fileID: 3020853332849861888}
   respawn: {fileID: 0}
 --- !u!82 &7801506606482085374
 AudioSource:
@@ -29735,15 +29738,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99b075609d7b10749a0aeab6c759c341, type: 3}
+--- !u!4 &7428324302121402993 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 99b075609d7b10749a0aeab6c759c341,
+    type: 3}
+  m_PrefabInstance: {fileID: 2480358963816737131}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8915867631967446790 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6473791464006618733, guid: 99b075609d7b10749a0aeab6c759c341,
     type: 3}
   m_PrefabInstance: {fileID: 2480358963816737131}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &7428324302121402993 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 99b075609d7b10749a0aeab6c759c341,
+--- !u!1 &3020853332849861888 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 828727545528749163, guid: 99b075609d7b10749a0aeab6c759c341,
     type: 3}
   m_PrefabInstance: {fileID: 2480358963816737131}
   m_PrefabAsset: {fileID: 0}

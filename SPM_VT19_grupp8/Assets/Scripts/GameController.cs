@@ -47,7 +47,7 @@ public class GameController : MonoBehaviour
         LevelTime = CurrentSave.LevelTime;
         PausePanel.gameObject.SetActive(false);
         SpawnProjectiles();
-        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<ParticleEventInfo>(TestParticle);
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<ParticleEventInfo>(FireParticle);
     }
     
     void Update()
@@ -65,14 +65,6 @@ public class GameController : MonoBehaviour
         }
         else if(Time.timeScale > 0)
             PausePanel.SetActive(false);
-
-        #region testcode particlesystem
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            ParticleEventInfo pEI = new ParticleEventInfo(player.gameObject, particle);
-            EventCoordinator.CurrentEventCoordinator.ActivateEvent(pEI);
-        }
-        #endregion
     }
 
     public void LoadLevel(int sceneIndex)
@@ -123,14 +115,16 @@ public class GameController : MonoBehaviour
         }
     }
 
-    #region testcode particlesystem
-    [SerializeField]
-    private ParticleSystem particle;
-    private void TestParticle(EventInfo eI)
+    
+    private void FireParticle(EventInfo eI)
     {
         ParticleEventInfo pEI = (ParticleEventInfo)eI;
         ParticleSystem gO = Instantiate(pEI.ParticleSys);
+        gO.transform.eulerAngles += eI.GO.transform.eulerAngles;
+        Vector3 temp = gO.transform.eulerAngles;
+        gO.transform.eulerAngles = Vector3.zero;
+        gO.transform.position = eI.GO.transform.position;
+        gO.transform.eulerAngles = temp;
         Destroy(gO, gO.main.startLifetime.constantMax);
     }
-    #endregion
 }

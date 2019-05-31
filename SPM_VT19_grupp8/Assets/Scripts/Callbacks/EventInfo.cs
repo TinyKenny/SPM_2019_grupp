@@ -140,6 +140,5 @@ public class ParticleEventInfo : EventInfo
     public ParticleEventInfo(GameObject gO, ParticleSystem particleSys, string description = "Particle generating event") : base(gO, description)
     {
         ParticleSys = particleSys;
-        ParticleSys.transform.position = gO.transform.position;
     }
 }
