@@ -47,7 +47,6 @@ public class MenuMainState : MenuBaseState
         if (PreviousSelected == null)
         {
             EventSystem.current.SetSelectedGameObject(Buttons["StartGame"].gameObject);
-            Debug.Log("Setting to start game button selected " + EventSystem.current.currentSelectedGameObject);
         }
     }
 
