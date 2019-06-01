@@ -9,7 +9,7 @@ public class EnemyStateMachine : StateMachine
 {
     public Transform[] PatrolLocations { get; set; }
     public Transform PlayerTransform { get; set; }
-    public string SpawnerName { private get; set; }
+    public GameObject Spawner { private get; set; }
     public Vector3 LastPlayerLocation { get; set; }
     public int CurrentPatrolPointIndex { get; set; }
 
@@ -105,7 +105,7 @@ public class EnemyStateMachine : StateMachine
             {
                 PlaySound(deathSound);
             }
-            GameController.GameControllerInstance.CurrentSave.EnemyInfoList.Remove(SpawnerName);
+            EventCoordinator.CurrentEventCoordinator.RegisterEventListener<SaveEventInfo>(Spawner.GetComponent<EnemySpawner>().EnemyDeathSaveEvent);
             RemoveEnemy();
         }
     }

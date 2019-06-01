@@ -26,7 +26,7 @@ public class EnemySpawner : MonoBehaviour
             spawnEnemy = GameController.GameControllerInstance.CurrentSave.EnemyInfoList.ContainsKey(name);
         else
             spawnEnemy = true;
-
+        
         return spawnEnemy;
     }
 
@@ -69,7 +69,7 @@ public class EnemySpawner : MonoBehaviour
             {
                 EnemyStateMachine eSM = currentGO.GetComponent<EnemyStateMachine>();
                 eSM.PlayerTransform = PlayerTransform;
-                eSM.SpawnerName = name;
+                eSM.Spawner = gameObject;
 
                 if (PatrolLocations.Length == 0)
                 {
@@ -87,8 +87,14 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+    public void EnemyDeathSaveEvent(EventInfo eI)
+    {
+        GameController.GameControllerInstance.CurrentSave.EnemyInfoList.Remove(name);
+    }
+
     private void OnDestroy()
     {
         EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<PlayerRespawnEventInfo>(SpawnEnemy);
+        EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<SaveEventInfo>(EnemyDeathSaveEvent);
     }
 }

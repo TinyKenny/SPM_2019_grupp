@@ -21,10 +21,10 @@ public class AmmoPickup : MonoBehaviour
 
     private void CheckSavePickupStatus()
     {
-        if (File.Exists(Application.persistentDataPath + "/gamesave.save"))
+        if (GameController.GameControllerInstance.CurrentSave.IsEmpty == false)
         {
-            if (GameController.GameControllerInstance.CurrentSave.AmmmoPickupList.ContainsKey(name))
-                gameObject.SetActive(GameController.GameControllerInstance.CurrentSave.AmmmoPickupList[name]);
+            if (GameController.GameControllerInstance.CurrentSave.AmmmoPickupList.ContainsKey(GetInstanceID()))
+                gameObject.SetActive(GameController.GameControllerInstance.CurrentSave.AmmmoPickupList[GetInstanceID()]);
             else
                 gameObject.SetActive(true);
         }
@@ -54,7 +54,7 @@ public class AmmoPickup : MonoBehaviour
 
     private void SaveAmmoActiveStatus(EventInfo eI)
     {
-        GameController.GameControllerInstance.CurrentSave.AddAmmoPickup(name, gameObject.activeSelf);
+        GameController.GameControllerInstance.CurrentSave.AddAmmoPickup(GetInstanceID(), gameObject.activeInHierarchy);
     }
 
     /// <summary>
