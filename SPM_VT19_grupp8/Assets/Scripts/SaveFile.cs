@@ -21,12 +21,12 @@ public class SaveFile
         }
     }
 
-    public Dictionary<string, bool> AmmmoPickupList
+    public Dictionary<int, bool> AmmmoPickupList
     {
         get
         {
             if (ammoPickupList == null)
-                ammoPickupList = new Dictionary<string, bool>();
+                ammoPickupList = new Dictionary<int, bool>();
             return ammoPickupList;
         }
         private set
@@ -71,7 +71,7 @@ public class SaveFile
 
     private PositionInfo playerRotation;
     private Dictionary<string, EnemyInfo> enemyInfoList;
-    private Dictionary<string, bool> ammoPickupList;
+    private Dictionary<int, bool> ammoPickupList;
     private Dictionary<string, bool> checkpointPickupList;
     private List<ProjectileInfo> projectiles;
 
@@ -92,9 +92,9 @@ public class SaveFile
         EnemyInfoList.Remove(name);
     }
 
-    public void AddAmmoPickup(string name, bool active)
+    public void AddAmmoPickup(int ID, bool active)
     {
-        AmmmoPickupList[name] = active;
+        AmmmoPickupList[ID] = active;
         if (IsEmpty)
             IsEmpty = false;
     }
@@ -107,9 +107,9 @@ public class SaveFile
         CheckpointReached = true;
     }
 
-    public void RemoveAmmoPickup(string name)
+    public void RemoveAmmoPickup(int ID)
     {
-        AmmmoPickupList.Remove(name);
+        AmmmoPickupList.Remove(ID);
     }
 
     public void RemoveCheckpoint(string name)

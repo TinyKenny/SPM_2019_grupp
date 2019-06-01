@@ -10,7 +10,8 @@ public class SoldierDeathState : SoldierBaseState
     public override void Enter()
     {
         base.Enter();
-        Agent.isStopped = true;
+        if (Agent.isOnNavMesh)
+            Agent.isStopped = true;
         Anim.SetTrigger("SoldierDeath");
     }
 

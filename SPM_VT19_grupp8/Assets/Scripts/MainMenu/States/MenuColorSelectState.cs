@@ -130,7 +130,7 @@ public class MenuColorSelectState : MenuBaseState
         PlayerPrefs.SetInt("PlayerColorRed", colors[selectedColor].r);
         PlayerPrefs.SetInt("PlayerColorGreen", colors[selectedColor].g);
         PlayerPrefs.SetInt("PlayerColorBlue", colors[selectedColor].b);
-        SceneManager.LoadScene(LevelToLoad);
+        LoadingSceneManager.Instance.Show(SceneManager.LoadSceneAsync(LevelToLoad));
     }
 
     private void UpdatePreview()
