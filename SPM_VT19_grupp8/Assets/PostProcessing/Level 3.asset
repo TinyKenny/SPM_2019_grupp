@@ -18,7 +18,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 3.21
+    value: 3.73
   threshold:
     overrideState: 1
     value: 0.35
@@ -265,10 +265,10 @@ MonoBehaviour:
     value: 100
   lift:
     overrideState: 1
-    value: {x: 0.9846996, y: 1, z: 0.982131, w: 0}
+    value: {x: 0.9885299, y: 1, z: 0.97661126, w: 0}
   gamma:
     overrideState: 1
-    value: {x: 1, y: 0.8365379, z: 0.83396804, w: 0}
+    value: {x: 1, y: 0.8411139, z: 0.88422674, w: 0}
   gain:
     overrideState: 1
     value: {x: 0.87396336, y: 1, z: 0.914712, w: 0}
