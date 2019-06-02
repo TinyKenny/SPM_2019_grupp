@@ -51,7 +51,7 @@ public class LoadingSceneManager : MonoBehaviour
     {
         loadingText.color = new Color(loadingText.color.r, loadingText.color.g, loadingText.color.b, Mathf.PingPong(Time.time, 1));
         progressBar.value = progress;
-        progressText.text = progress * 100 + "%";
+        progressText.text = (int)(progress * 100) + "%";
     }
 
     private void Hide()
