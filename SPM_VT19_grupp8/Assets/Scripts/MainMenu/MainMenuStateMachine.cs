@@ -41,5 +41,10 @@ public class MainMenuStateMachine : StateMachine
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        if (PlayerPrefs.GetInt("FinishedGame") == 1)
+        {
+            PlayerPrefs.SetInt("FinishedGame", 0);
+            TransitionTo<MenuLeaderboardState>();
+        }
     }
 }

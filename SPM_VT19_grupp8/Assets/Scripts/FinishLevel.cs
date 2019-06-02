@@ -13,7 +13,6 @@ public class FinishLevel : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             GameController.GameControllerInstance.LoadLevel(sceneToLoad);
-            LoadingSceneManager.Instance.Show(SceneManager.LoadSceneAsync(sceneToLoad));
         }
     }
 }

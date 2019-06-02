@@ -24,17 +24,22 @@ public class GameController : MonoBehaviour
         }
     }
     public float LevelTime { get; private set; } = 0.0f;
-
     public static GameController GameControllerInstance { get; private set; }
-    public Text timeText;
-    [SerializeField] private Text playerName;
-    public PlayerStateMachine player;
-    public GameObject PausePanel;
-    public GameObject SelectedPauseButton;
+
     private SaveFile save;
 
     [SerializeField]
     private GameObject projectile;
+    [SerializeField]
+    private Text timeText;
+    [SerializeField]
+    private Text playerName;
+    [SerializeField]
+    private PlayerStateMachine player;
+    [SerializeField]
+    private GameObject PausePanel;
+    [SerializeField]
+    private GameObject SelectedPauseButton;
 
     private void Awake()
     {
@@ -74,13 +79,15 @@ public class GameController : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex == 2 && sceneIndex == 3)
         {
             ScoreSaveLoad.SaveScore(PlayerPrefs.GetString("playerName"), LevelTime);
+            sceneIndex = 0;
+            PlayerPrefs.SetInt("FinishedGame", 1);
         }
         else
         {
             CurrentSave.FinishLevel(LevelTime, player.Ammo);
         }
-
-        SceneManager.LoadScene(sceneIndex);
+        
+        LoadingSceneManager.Instance.Show(SceneManager.LoadSceneAsync(sceneIndex));
     }
 
     private void SpawnProjectiles()
