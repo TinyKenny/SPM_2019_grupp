@@ -87,9 +87,14 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    public void EnemyDeathSaveEvent(EventInfo eI)
+    private void EnemyDeathSaveEvent(EventInfo eI)
     {
         GameController.GameControllerInstance.CurrentSave.EnemyInfoList.Remove(name);
+    }
+
+    public void RegisterRemovedSpawner()
+    {
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<SaveEventInfo>(EnemyDeathSaveEvent);
     }
 
     private void OnDestroy()

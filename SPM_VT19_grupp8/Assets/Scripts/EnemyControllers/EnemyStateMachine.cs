@@ -105,7 +105,7 @@ public class EnemyStateMachine : StateMachine
             {
                 PlaySound(deathSound);
             }
-            EventCoordinator.CurrentEventCoordinator.RegisterEventListener<SaveEventInfo>(Spawner.GetComponent<EnemySpawner>().EnemyDeathSaveEvent);
+            Spawner.GetComponent<EnemySpawner>().RegisterRemovedSpawner();
             RemoveEnemy();
         }
     }
