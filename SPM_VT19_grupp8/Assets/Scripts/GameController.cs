@@ -115,7 +115,7 @@ public class GameController : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (CurrentSave.CheckpointReached)
+        if (CurrentSave.CheckpointReached && PlayerPrefs.GetInt("FinishedGame") == 0)
         {
             CurrentSave.LevelTime = LevelTime;
             SaveFile.SaveGame();
