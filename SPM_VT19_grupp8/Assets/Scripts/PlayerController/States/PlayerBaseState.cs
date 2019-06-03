@@ -110,23 +110,23 @@ public class PlayerBaseState : State
 
             if (angle * Mathf.Rad2Deg < 70)
             {
-                if (hitNormalMovement.magnitude > MathHelper.floatEpsilon)
+                if (hitNormalMovement.magnitude > MathHelper.FloatEpsilon)
                 {
                     HandleCollition(hitNormal, raycastHit);
                 }
 
-                if (movement.magnitude > MathHelper.floatEpsilon)
+                if (movement.magnitude > MathHelper.FloatEpsilon)
                 {
                     CheckCollision(movement);
                 }
             }
-            else if(hitNormalMovement.magnitude > MathHelper.floatEpsilon)
+            else if(hitNormalMovement.magnitude > MathHelper.FloatEpsilon)
             {
                 Velocity = Vector3.zero;
             }
         }
 
-        else if (movement.magnitude > MathHelper.floatEpsilon)
+        else if (movement.magnitude > MathHelper.FloatEpsilon)
         {
             Transform.position += movement;
         }

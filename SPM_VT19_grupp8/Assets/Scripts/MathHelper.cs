@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class MathHelper
 {
-    public const float floatEpsilon = 0.001f;
+    public static float FloatEpsilon { get; private set; } = 0.001f;
 
     public static Vector3 NormalForce(Vector3 velocity, Vector3 normal)
     {
