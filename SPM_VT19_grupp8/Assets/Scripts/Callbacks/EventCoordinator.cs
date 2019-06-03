@@ -4,7 +4,8 @@ using UnityEngine;
 using System;
 
 /// <summary>
-/// <see cref="EventCoordinator"/> is the callbacks system that handles events triggered by objects so that other objects can react or listen to those events. Events are grouped by different <see cref="EventInfo"/> types.
+/// <see cref="EventCoordinator"/> is the callbacks system that handles events triggered by objects so that other objects can react or listen to those events.
+/// Events are grouped by different <see cref="EventInfo"/> types.
 /// </summary>
 public class EventCoordinator
 {

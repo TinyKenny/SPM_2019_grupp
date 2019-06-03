@@ -4,8 +4,8 @@ using UnityEngine;
 
 public struct TurnBoundaryPlane
 {
-    Plane plane;
-    bool approachSide;
+    private Plane plane;
+    private bool approachSide;
 
     public TurnBoundaryPlane(Vector3 pointOnPlane, Vector3 pointPerpendicularToPlane)
     {

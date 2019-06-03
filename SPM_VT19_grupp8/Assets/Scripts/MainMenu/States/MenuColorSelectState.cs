@@ -52,7 +52,6 @@ public class MenuColorSelectState : MenuBaseState
             {
                 colorableMaterials.Add(rend.material);
             }
-            
         }
 
         UpdatePreview();

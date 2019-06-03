@@ -10,8 +10,7 @@ using System.IO;
 [RequireComponent(typeof(Collider))]
 public class AmmoPickup : MonoBehaviour
 {
-    [Range(0, 100)]
-    [SerializeField] private int ammoAmount = 5;
+    [SerializeField, Min(0)] private int ammoAmount = 5;
 
     private void Start()
     {

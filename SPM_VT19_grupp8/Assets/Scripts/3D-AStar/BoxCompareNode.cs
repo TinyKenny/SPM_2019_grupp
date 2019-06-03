@@ -50,7 +50,6 @@ public class BoxCompareNode : IComparable<BoxCompareNode>
 
         if (Previous != null)
         {
-            //previousDistance += (box.Coll.bounds.max - Previous.box.Coll.bounds.max).sqrMagnitude + Previous.PreviousDistance();
             previousDistance += (Position - Previous.Position).sqrMagnitude + Previous.PreviousDistance();
         }
 

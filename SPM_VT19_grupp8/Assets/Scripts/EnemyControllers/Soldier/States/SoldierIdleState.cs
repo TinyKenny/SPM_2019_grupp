@@ -30,7 +30,7 @@ public class SoldierIdleState : SoldierBaseState
 
     public override void HandleUpdate()
     {
-        if (Vector3.Distance(Position, closestPoint) < 1f)
+        if ((Position - closestPoint).sqrMagnitude < 1.0f)
         {
             if (CurrentPatrolPointIndex < PatrolLocations.Length - 1)
             {
@@ -44,7 +44,6 @@ public class SoldierIdleState : SoldierBaseState
                 Agent.SetDestination(closestPoint);
             }
         }
-            
 
         if (PlayerVisionCheck(80))
         {

@@ -22,7 +22,7 @@ public class NavmeshRenderer : MonoBehaviour
     /// on the colliders layermask. How small the boxcolliders generated can be is set by the precision variable, which
     /// also means higher precision can generate colliders closer to objects on the colliders layer.
     /// </summary>
-    [ContextMenu("Render a 3D-Navigational mesh for stunbot.")]
+    [ContextMenu("Render a 3D-Navigational 'mesh' for stunbot.")]
     public void Generate3DNavmesh()
     {
         BoxCollider area = Create3DNavigationBox(renderArea, renderArea.center, "NavBox 0", renderArea.size);
@@ -58,7 +58,7 @@ public class NavmeshRenderer : MonoBehaviour
             }
         }
 
-        if (Physics.CheckBox(area.center, area.size / 2 + new Vector3(0.5f, 0.5f, 0.5f), Quaternion.identity, colliders) || recursion > 0)
+        if (recursion > 0 || Physics.CheckBox(area.center, area.size / 2 + new Vector3(0.5f, 0.5f, 0.5f), Quaternion.identity, colliders))
         {
             objects.Remove(area);
             boxes.Remove(area.GetComponent<NavBox>());

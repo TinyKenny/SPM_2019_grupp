@@ -15,9 +15,9 @@ public class Respawn : MonoBehaviour
     private void Start()
     {
         SaveFile save = GameController.GameControllerInstance.CurrentSave;
-        if (save.CheckpointPickupList.ContainsKey(name))
+        if (save.CheckpointPickupList.ContainsKey(GetInstanceID()))
         {
-            triggerd = save.CheckpointPickupList[name];
+            triggerd = save.CheckpointPickupList[GetInstanceID()];
         }
     }
 
@@ -35,14 +35,14 @@ public class Respawn : MonoBehaviour
 
     private void SaveCheckPointStatus(EventInfo eI)
     {
-        GameController.GameControllerInstance.CurrentSave.AddCheckpoint(name, triggerd);
+        GameController.GameControllerInstance.CurrentSave.AddCheckpoint(GetInstanceID(), triggerd);
     }
 
     private void OnDestroy()
     {
         SaveFile save = GameController.GameControllerInstance.CurrentSave;
-        if (save.CheckpointPickupList.ContainsKey(name))
-            GameController.GameControllerInstance.CurrentSave.RemoveCheckpoint(name);
+        if (save.CheckpointPickupList.ContainsKey(GetInstanceID()))
+            GameController.GameControllerInstance.CurrentSave.RemoveCheckpoint(GetInstanceID());
         EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<SaveEventInfo>(SaveCheckPointStatus);
     }
 }

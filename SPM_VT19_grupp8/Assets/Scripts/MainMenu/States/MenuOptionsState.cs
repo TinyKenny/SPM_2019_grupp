@@ -9,31 +9,6 @@ using UnityEngine.EventSystems;
 [CreateAssetMenu(menuName = "States/Menu/Main/Menu Options State")]
 public class MenuOptionsState : MenuBaseState
 {
-    private class KeyWithName
-    {
-        public string Name { get; private set; }
-        public KeyCode Key { get; private set; }
-
-        public KeyWithName(string name, KeyCode key)
-        {
-            Name = name;
-            Key = key;
-        }
-    }
-
-    //private List<KeyWithName> availableKeys = new List<KeyWithName>()
-    //{
-    //    new KeyWithName("A button", KeyCode.JoystickButton0),
-    //    new KeyWithName("B button", KeyCode.JoystickButton1),
-    //    new KeyWithName("X button", KeyCode.JoystickButton2),
-    //    new KeyWithName("Y button", KeyCode.JoystickButton3),
-    //    new KeyWithName("Left bumper", KeyCode.JoystickButton4),
-    //    new KeyWithName("Right bumper", KeyCode.JoystickButton5),
-    //    new KeyWithName("Left stick click", KeyCode.JoystickButton8),
-    //    new KeyWithName("Right stick click", KeyCode.JoystickButton9)
-    //};
-
-    // using a dedicated class instead of having this here might be a good idea
     public static readonly Dictionary<string, KeyCode> availableKeysDict = new Dictionary<string, KeyCode>()
     {
         { "A button", KeyCode.JoystickButton0 },
@@ -46,9 +21,7 @@ public class MenuOptionsState : MenuBaseState
         { "Right stick click", KeyCode.JoystickButton9 }
     };
 
-
     private Dictionary<string, Dropdown> dropdowns = new Dictionary<string, Dropdown>();
-
 
     public override void Initialize(StateMachine owner)
     {
@@ -83,9 +56,6 @@ public class MenuOptionsState : MenuBaseState
         dropdowns["SecondaryWallrunDropdown"].onValueChanged.AddListener(delegate { SecondaryWallrunMethod(dropdowns["SecondaryWallrunDropdown"]); });
         string originalSecondaryWallrunKey = PlayerPrefs.GetString("SecondaryWallrunKey", "A button");
         dropdowns["SecondaryWallrunDropdown"].value = dropdowns["SecondaryWallrunDropdown"].options.FindIndex((i) => { return i.text.Equals(originalSecondaryWallrunKey); });
-
-
-
 
         base.Initialize(owner);
 

@@ -31,7 +31,6 @@ public class MenuLeaderboardState : MenuBaseState
         }
     }
 
-    // not sure if im actually going to use this
     private class LeaderboardTextLine : IComparable<LeaderboardTextLine>
     {
         public Text textLine;

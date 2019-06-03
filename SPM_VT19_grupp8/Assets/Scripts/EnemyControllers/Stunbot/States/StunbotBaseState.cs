@@ -167,7 +167,7 @@ public class StunbotBaseState : State
     protected bool CanSeePlayer(float alertDistance)
     {
         return (ThisTransform.position - PlayerTransform.position).sqrMagnitude < alertDistance * alertDistance
-            && (PlayerTransform.position - PatrolLocations[CurrentPatrolPointIndex].position).sqrMagnitude < AllowedOriginDistance *AllowedOriginDistance
+            && (PlayerTransform.position - PatrolLocations[CurrentPatrolPointIndex].position).sqrMagnitude < AllowedOriginDistance * AllowedOriginDistance
             && !Physics.Linecast(ThisTransform.position, PlayerTransform.position, VisionMask);
     }
 
