@@ -12,7 +12,6 @@ public class StunbotSearchState : StunbotBaseState
     {
         base.Initialize(owner);
         lastPlayerLocationTransform = new GameObject("Stunbot search target").transform;
-        //lastPlayerLocationTransform = Instantiate(ThisTransform);
     }
 
     public override void Enter()
