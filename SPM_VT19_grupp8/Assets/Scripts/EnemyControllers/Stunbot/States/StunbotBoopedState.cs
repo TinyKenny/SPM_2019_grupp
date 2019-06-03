@@ -29,7 +29,7 @@ public class StunbotBoopedState : StunbotBaseState
         Decelerate();
         ApplyMovement(Velocity * Time.deltaTime);
 
-        if(Velocity.sqrMagnitude <= Speed * Speed * MathHelper.floatEpsilon)
+        if(Velocity.sqrMagnitude <= Speed * Speed * MathHelper.FloatEpsilon)
         {
             if (CanSeePlayer(60.0f))
             {

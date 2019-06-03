@@ -5,11 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class FinishLevel : MonoBehaviour
 {
-    public int sceneToLoad;
+    [SerializeField] private int sceneToLoad = 0;
 
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log("Wat");
         if (other.CompareTag("Player"))
         {
             GameController.GameControllerInstance.LoadLevel(sceneToLoad);

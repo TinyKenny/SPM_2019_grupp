@@ -49,7 +49,7 @@ public class TimeControllerUnpausedState : TimeControllerBaseState
     private void SlowMotion()
     {
         float timeLerpValue = Input.GetAxisRaw("SlowMotion");
-        if (timeLerpValue > 0.0f && SlowMotionCooldownTimer <= MathHelper.floatEpsilon)
+        if (timeLerpValue > 0.0f && SlowMotionCooldownTimer <= MathHelper.FloatEpsilon)
         {
             if (slowSoundTriggered == false)
             {
@@ -62,7 +62,7 @@ public class TimeControllerUnpausedState : TimeControllerBaseState
 
             CurrentSlowMotionEnergy = Mathf.Clamp(CurrentSlowMotionEnergy - (timeLerpValue * Time.deltaTime / Time.timeScale), 0.0f, SlowMotionEnergyMax);
 
-            if (CurrentSlowMotionEnergy <= MathHelper.floatEpsilon)
+            if (CurrentSlowMotionEnergy <= MathHelper.FloatEpsilon)
             {
                 SlowMotionCooldownTimer = SlowMotionCooldown;
             }
