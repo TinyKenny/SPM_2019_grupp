@@ -19,6 +19,8 @@ public class TimeControllerUnpausedState : TimeControllerBaseState
     private float SlowMotionEnergyRegeneration { get { return Owner.SlowMotionEnergyRegeneration; } }
     private Slider SlowMotionEnergySlider { get { return Owner.SlowMotionEnergySlider; } }
 
+    private bool slowSoundTriggered = false;
+
     public override void Initialize(StateMachine owner)
     {
         base.Initialize(owner);
@@ -49,6 +51,11 @@ public class TimeControllerUnpausedState : TimeControllerBaseState
         float timeLerpValue = Input.GetAxisRaw("SlowMotion");
         if (timeLerpValue > 0.0f && SlowMotionCooldownTimer <= MathHelper.floatEpsilon)
         {
+            if (slowSoundTriggered == false)
+            {
+                Owner.AudioS.PlayOneShot(Owner.SlowSound);
+                slowSoundTriggered = true;
+            }
             PlayerTimeScale = Mathf.Lerp(1.0f, SlowedPlayerTimeScale, timeLerpValue);
             Time.timeScale = Mathf.Lerp(1.0f, SlowedWorldTimeScale, timeLerpValue);
             TimeSlowMultiplier = Mathf.Lerp(1.0f, 1.2f, timeLerpValue);
@@ -62,6 +69,7 @@ public class TimeControllerUnpausedState : TimeControllerBaseState
         }
         else
         {
+            slowSoundTriggered = false;
             PlayerTimeScale = 1.0f;
             Time.timeScale = 1.0f;
             TimeSlowMultiplier = 1.0f;

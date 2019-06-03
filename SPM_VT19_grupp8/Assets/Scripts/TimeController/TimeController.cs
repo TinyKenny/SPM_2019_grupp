@@ -13,6 +13,8 @@ public class TimeController : StateMachine
     public float SlowMotionCooldown { get { return slowMotionCooldown; } }
     public Slider SlowMotionEnergySlider { get { return slowMotionEnergySlider; } }
     public float CurrentSlowMotionEnergy { get; set; }
+    public AudioSource AudioS { get; private set; }
+    public AudioClip SlowSound { get { return slowSound; } }
 
     [SerializeField] private float slowedPlayerTimeScale = 0.5f;
     [SerializeField] private float slowedWorldTimeScale = 0.2f;
@@ -26,6 +28,7 @@ public class TimeController : StateMachine
 
     protected override void Awake()
     {
+        AudioS = GetComponent<AudioSource>();
         base.Awake();
         TransitionTo<TimeControllerUnpausedState>();
     }
