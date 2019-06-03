@@ -59,7 +59,7 @@ public class PlayerStateMachine : StateMachine
     [SerializeField, Range(0, 100)] private float movementSoundRange = 20.0f;
     [SerializeField, Range(0, 100)] private float shootSoundRange = 50;
     [SerializeField] private Text ammoNumber;
-    [SerializeField] private AudioSource aus; // this is no longer played when time is slowed down
+    [SerializeField] private AudioSource aus;
     [SerializeField] private AudioClip ammoSound;
     [SerializeField] private AudioClip damageSound;
     [SerializeField] private AudioClip deathSound;
@@ -294,6 +294,9 @@ public class PlayerStateMachine : StateMachine
 
                 ParticleEventInfo pEI = new ParticleEventInfo(shootingPoint, shootParticle, MainCameraController.transform.eulerAngles);
                 EventCoordinator.CurrentEventCoordinator.ActivateEvent(pEI);
+
+                PlayerDiegeticSoundEventInfo pDSEI = new PlayerDiegeticSoundEventInfo(gameObject, shootSoundRange, gunShotSound);
+                EventCoordinator.CurrentEventCoordinator.ActivateEvent(pDSEI);
 
                 Animator.SetTrigger("Shooting");
 
