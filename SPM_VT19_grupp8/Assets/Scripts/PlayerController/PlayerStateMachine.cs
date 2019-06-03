@@ -13,13 +13,13 @@ using UnityEngine.UI;
 public class PlayerStateMachine : StateMachine
 {
     #region "chaining" properties
-    public Vector3 Velocity { get { return physicsComponent.velocity; } set { physicsComponent.velocity = value; } }
-    public float Acceleration { get { return physicsComponent.acceleration; } }
-    public float Deceleration { get { return physicsComponent.deceleration; } }
-    public float MaxSpeed { get { return physicsComponent.maxSpeed; } }
-    public float AirResistanceCoefficient { get { return physicsComponent.airResistanceCoefficient; } }
-    public float SkinWidth { get { return physicsComponent.skinWidth; } }
-    public float Gravity { get { return physicsComponent.gravity / timeController.TimeSlowMultiplier; } }
+    public Vector3 Velocity { get { return physicsComponent.Velocity; } set { physicsComponent.Velocity = value; } }
+    public float Acceleration { get { return physicsComponent.Acceleration; } }
+    public float Deceleration { get { return physicsComponent.Deceleration; } }
+    public float MaxSpeed { get { return physicsComponent.MaxSpeed; } }
+    public float AirResistanceCoefficient { get { return physicsComponent.AirResistanceCoefficient; } }
+    public float SkinWidth { get { return physicsComponent.SkinWidth; } }
+    public float Gravity { get { return physicsComponent.Gravity / timeController.TimeSlowMultiplier; } }
     public float PlayerDeltaTime { get { return timeController.GetPlayerDeltaTime(); } } // optimize this?
     #endregion
 
@@ -64,6 +64,7 @@ public class PlayerStateMachine : StateMachine
     [SerializeField] private AudioClip damageSound;
     [SerializeField] private AudioClip deathSound;
     [SerializeField] private AudioClip gunShotSound;
+    [SerializeField] private AudioClip jumpSound;
     [SerializeField] private ParticleSystem shootParticle;
     [SerializeField] private GameObject shootingPoint;
     #endregion
@@ -81,7 +82,7 @@ public class PlayerStateMachine : StateMachine
 
     #region readonly values
     //public readonly float skinWidth = 0.01f;
-    public readonly float groundCheckDistance = 0.01f;
+    public float GroundCheckDistance { get; } = 0.01f;
     #endregion
 
     private Vector3 respawnPoint; // make this private, create a new event type ("CheckpointReachedEventInfo", maybe?) and make a listener for that event type in PlayerStateMachine
@@ -171,14 +172,14 @@ public class PlayerStateMachine : StateMachine
 
     /// <summary>
     /// Reduces the players current "shields" by a specified ammount.
-    /// If the players current "shields" are lower than <see cref="MathHelper.floatEpsilon"/> when this method is called, the player dies and respawns.
+    /// If the players current "shields" are lower than <see cref="MathHelper.FloatEpsilon"/> when this method is called, the player dies and respawns.
     /// </summary>
     /// <param name="damage">The ammount to be subtracted from the players shields.</param>
-    public void TakeDamage(EventInfo eI)
+    private void TakeDamage(EventInfo eI)
     {
         PlayerDamageEventInfo pDEI = (PlayerDamageEventInfo)eI;
 
-        if (currentShields <= MathHelper.floatEpsilon)
+        if (currentShields <= MathHelper.FloatEpsilon)
         {
             aus.PlayOneShot(deathSound);
             Debug.Log("Player took fatal damage");
@@ -245,7 +246,7 @@ public class PlayerStateMachine : StateMachine
     /// Adds the specified ammount of ammunition to the players reserves.
     /// </summary>
     /// <param name="ammo"></param>
-    public void AddAmmo(EventInfo eI)
+    private void AddAmmo(EventInfo eI)
     {
         AmmoPickupEventInfo aPEI = (AmmoPickupEventInfo)eI;
 
@@ -318,7 +319,7 @@ public class PlayerStateMachine : StateMachine
     /// Plays a one shot diegetic playersound and checks if any enemies are within range to hear it.
     /// </summary>
     /// <param name="eI"><see cref="PlayerDiegeticSoundEventInfo"/> representing the player, also needs an audioclip. If the range is more than zero enemies might hear the player.</param>
-    public void PlayerDiegeticSound(EventInfo eI)
+    private void PlayerDiegeticSound(EventInfo eI)
     {
         PlayerDiegeticSoundEventInfo playerSound = (PlayerDiegeticSoundEventInfo)eI;
 
@@ -345,6 +346,11 @@ public class PlayerStateMachine : StateMachine
             respawnRotation.y = respawn.rotation.eulerAngles.y;
         }
 
+    }
+
+    public void PlayJumpSound()
+    {
+        aus.PlayOneShot(jumpSound);
     }
 
     private void SavePlayerVariables(EventInfo eI)

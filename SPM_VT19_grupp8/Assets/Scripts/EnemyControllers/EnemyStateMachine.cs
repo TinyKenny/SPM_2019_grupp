@@ -33,10 +33,10 @@ public class EnemyStateMachine : StateMachine
     /// Checks if a sound generated is within hearing range and sets enemy as alerted.
     /// </summary>
     /// <param name="eI"><see cref="PlayerDiegeticSoundEventInfo"/> representing the player and a diegetic sound with range it caused.</param>
-    public void PlayerSoundAlertCheck(EventInfo eI)
+    private void PlayerSoundAlertCheck(EventInfo eI)
     {
         PlayerDiegeticSoundEventInfo enemyEvent = (PlayerDiegeticSoundEventInfo)eI;
-        if (currentState.GetType() == typeof(SoldierIdleState) || currentState.GetType() == typeof(StunbotIdleState))
+        if (CurrentState.GetType() == typeof(SoldierIdleState) || CurrentState.GetType() == typeof(StunbotIdleState))
         {
             if (Vector3.Distance(transform.position, enemyEvent.GO.transform.position) < enemyEvent.Range)
             {
@@ -92,12 +92,12 @@ public class EnemyStateMachine : StateMachine
     /// Sets alerted, needs to be ovverided by sub classes.
     /// </summary>
     /// <param name="position">Last known position of the player.</param>
-    public virtual void SetAlerted(Vector3 position)
+    protected virtual void SetAlerted(Vector3 position)
     {
 
     }
 
-    public void EnemyDamageEvent(EventInfo ei)
+    private void EnemyDamageEvent(EventInfo ei)
     {
         if (ei.GO.Equals(gameObject))
         {
@@ -131,9 +131,9 @@ public class EnemyStateMachine : StateMachine
         EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<EnemyDamageEventInfo>(EnemyDamageEvent);
     }
 
-    public void SaveEnemy(EventInfo eI)
+    private void SaveEnemy(EventInfo eI)
     {
         SaveEventInfo sEI = (SaveEventInfo)eI;
-        GameController.GameControllerInstance.CurrentSave.AddEnemy(transform.position, transform.rotation.eulerAngles, LastPlayerLocation, transform.parent.name, currentState.Index, CurrentPatrolPointIndex);
+        GameController.GameControllerInstance.CurrentSave.AddEnemy(transform.position, transform.rotation.eulerAngles, LastPlayerLocation, transform.parent.name, CurrentState.Index, CurrentPatrolPointIndex);
     }
 }

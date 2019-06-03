@@ -6,10 +6,10 @@ using UnityEngine;
 public class StunbotStateMachine : EnemyStateMachine
 {
     #region "chaining" properties
-    public Vector3 Velocity { get { return physicsComponent.velocity; } set { physicsComponent.velocity = value; } }
-    public float Deceleration { get { return physicsComponent.deceleration; } }
-    public float Speed { get { return physicsComponent.maxSpeed; } }
-    public float SkinWidth { get { return physicsComponent.skinWidth; } }
+    public Vector3 Velocity { get { return physicsComponent.Velocity; } set { physicsComponent.Velocity = value; } }
+    public float Deceleration { get { return physicsComponent.Deceleration; } }
+    public float Speed { get { return physicsComponent.MaxSpeed; } }
+    public float SkinWidth { get { return physicsComponent.SkinWidth; } }
     #endregion
 
     #region "plain" properties
@@ -69,7 +69,7 @@ public class StunbotStateMachine : EnemyStateMachine
         if (FollowingPath)
         {
             Vector3 previousPosition = transform.position;
-            foreach(Vector3 point in CurrentPath.lookPoints)
+            foreach(Vector3 point in CurrentPath.LookPoints)
             {
                 Gizmos.color = Color.blue;
                 Gizmos.DrawSphere(point, 0.35f);

@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+#pragma warning disable 0649
 public class LoadingSceneManager : MonoBehaviour
 {
     private AsyncOperation loadingOperation;

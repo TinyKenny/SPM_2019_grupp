@@ -18,18 +18,15 @@ public class PlayerBaseState : State
     protected float AirResistanceCoefficient { get { return Owner.AirResistanceCoefficient; } }
     protected float Gravity { get { return Owner.Gravity; } }
     protected float SkinWidth { get { return Owner.SkinWidth; } }
-    protected float GroundCheckDistance { get { return Owner.groundCheckDistance; } }
+    protected float GroundCheckDistance { get { return Owner.GroundCheckDistance; } }
     protected float TurnSpeedModifier { get { return Owner.TurnSpeedModifier; } }
     protected float PlayerDeltaTime { get { return Owner.PlayerDeltaTime; } }
     protected float MovementSoundRange { get { return Owner.MovementSoundRange; } }
-    protected float ShootSoundRange { get { return Owner.ShootSoundRange; } }
     protected float JumpPower { get { return Owner.JumpPower; } }
     protected KeyCode PrimaryJumpKey { get { return Owner.PrimaryJumpKey; } }
     protected KeyCode SecondaryJumpKey { get { return Owner.SecondaryJumpKey; } }
     protected KeyCode PrimaryWallrunKey { get { return Owner.PrimaryWallrunKey; } }
     protected KeyCode SecondaryWallrunKey { get { return Owner.SecondaryWallrunKey; } }
-    private float FireRate { get { return Owner.FireRate; } }
-    private AudioClip GunShotSound { get { return Owner.GunShotSound; } }
     #endregion
 
     protected PlayerStateMachine Owner { get; private set; }
@@ -110,23 +107,23 @@ public class PlayerBaseState : State
 
             if (angle * Mathf.Rad2Deg < 70)
             {
-                if (hitNormalMovement.magnitude > MathHelper.floatEpsilon)
+                if (hitNormalMovement.magnitude > MathHelper.FloatEpsilon)
                 {
                     HandleCollition(hitNormal, raycastHit);
                 }
 
-                if (movement.magnitude > MathHelper.floatEpsilon)
+                if (movement.magnitude > MathHelper.FloatEpsilon)
                 {
                     CheckCollision(movement);
                 }
             }
-            else if(hitNormalMovement.magnitude > MathHelper.floatEpsilon)
+            else if(hitNormalMovement.magnitude > MathHelper.FloatEpsilon)
             {
                 Velocity = Vector3.zero;
             }
         }
 
-        else if (movement.magnitude > MathHelper.floatEpsilon)
+        else if (movement.magnitude > MathHelper.FloatEpsilon)
         {
             Transform.position += movement;
         }

@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class ProjectileBehaviour : MonoBehaviour
 {
-    public float damage = 3.0f;
-    private float speed = 60.0f;
-    public LayerMask ignoreLayer;
-    public float distanceTraveled = 0.0f;
-    public float distanceToTravel = 300.0f;
+    [SerializeField] private LayerMask ignoreLayer;
+    [SerializeField, Min(0.0f)] private float range = 300.0f;
+    [SerializeField, Min(0.0f)] private float damage = 3.0f;
+    [SerializeField, Min(0.0f)] private float speed = 60.0f;
 
+    private float distanceTraveled = 0.0f;
     private SphereCollider thisCollider;
     private ProjectileInfo projectile = null;
 
@@ -49,7 +49,7 @@ public class ProjectileBehaviour : MonoBehaviour
             transform.position += movement;
         }
 
-        if (distanceTraveled >= distanceToTravel)
+        if (distanceTraveled >= range)
         {
             Destroy(gameObject);
         }

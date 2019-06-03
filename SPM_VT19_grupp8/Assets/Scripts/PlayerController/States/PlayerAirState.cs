@@ -7,7 +7,7 @@ public class PlayerAirState : PlayerBaseState
 {
     private Vector3 direction;
     protected float MinimumYVelocity = -10f;
-    protected static float jumpPower = 15f; // get rid of this somehow?
+    protected static float JumpPowerAirState = 15f; // get rid of this somehow?
     private float forwardWallrunMagnitudeLimit = 8.0f;
 
     public override void HandleUpdate()
@@ -109,9 +109,10 @@ public class PlayerAirState : PlayerBaseState
 
         if (Input.GetKeyDown(PrimaryJumpKey) || Input.GetKeyDown(SecondaryJumpKey))
         {
-            Velocity = Vector3.Slerp(Vector3.ClampMagnitude(Velocity, jumpPower), (normal + Vector3.up) * jumpPower, 0.5f);
+            Owner.PlayJumpSound();
+            Velocity = Vector3.Slerp(Vector3.ClampMagnitude(Velocity, JumpPowerAirState), (normal + Vector3.up) * JumpPowerAirState, 0.5f);
 
-            jumpPower *= 0.5f;
+            JumpPowerAirState *= 0.5f;
             Animator.SetTrigger("Jump");
             Owner.TransitionTo<PlayerAirState>();
         }
@@ -130,7 +131,7 @@ public class PlayerAirState : PlayerBaseState
 
     protected void TransitionToWalkingState()
     {
-        jumpPower = 15f;
+        JumpPowerAirState = 15f;
         Owner.TransitionTo<PlayerWalkingState>();
     }
 }

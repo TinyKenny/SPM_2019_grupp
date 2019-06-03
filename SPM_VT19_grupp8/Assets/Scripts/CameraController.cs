@@ -53,7 +53,7 @@ public class CameraController : MonoBehaviour
         return Quaternion.Euler(rotationX, rotationY, 0.0f);
     }
 
-    public void OnPlayerRespawn(EventInfo EI)
+    private void OnPlayerRespawn(EventInfo EI)
     {
         PlayerRespawnEventInfo PREI = (PlayerRespawnEventInfo)EI;
 

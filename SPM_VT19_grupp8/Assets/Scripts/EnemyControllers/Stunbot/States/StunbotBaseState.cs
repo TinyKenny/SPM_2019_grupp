@@ -112,9 +112,9 @@ public class StunbotBaseState : State
     {
         if (FollowingPath)
         {
-            while (CurrentPath.turnBoundaries[pathIndex].HasCrossedLine(ThisTransform.position))
+            while (CurrentPath.TurnBoundaries[pathIndex].HasCrossedLine(ThisTransform.position))
             {
-                if (pathIndex == CurrentPath.finishLineIndex)
+                if (pathIndex == CurrentPath.FinishLineIndex)
                 {
                     FollowingPath = false;
                     break;
@@ -127,16 +127,16 @@ public class StunbotBaseState : State
 
             if (FollowingPath)
             {
-                if (pathIndex >= CurrentPath.slowDownIndex && StoppingDistance > 0)
+                if (pathIndex >= CurrentPath.SlowDownIndex && StoppingDistance > 0)
                 {
-                    speedPercent = Mathf.Clamp01(0.1f + CurrentPath.turnBoundaries[CurrentPath.finishLineIndex].DistanceFromPoint(ThisTransform.position) / StoppingDistance);
+                    speedPercent = Mathf.Clamp01(0.1f + CurrentPath.TurnBoundaries[CurrentPath.FinishLineIndex].DistanceFromPoint(ThisTransform.position) / StoppingDistance);
                     if (speedPercent < 0.05f)
                     {
                         FollowingPath = false;
                     }
                 }
 
-                Quaternion targetRotation = Quaternion.LookRotation(CurrentPath.lookPoints[pathIndex] - ThisTransform.position);
+                Quaternion targetRotation = Quaternion.LookRotation(CurrentPath.LookPoints[pathIndex] - ThisTransform.position);
                 ThisTransform.rotation = Quaternion.Lerp(ThisTransform.rotation, targetRotation, turnSpeed * Time.deltaTime);
                 ThisTransform.Translate(Vector3.forward * Time.deltaTime * Speed * speedPercent, Space.Self);
             }

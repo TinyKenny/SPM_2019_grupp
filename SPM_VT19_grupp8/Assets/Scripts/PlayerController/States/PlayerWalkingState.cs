@@ -51,7 +51,7 @@ public class PlayerWalkingState : PlayerBaseState
             direction = MainCameraController.transform.rotation * direction;
             direction = Vector3.ProjectOnPlane(direction, groundCheckHit.normal).normalized * direction.magnitude;
 
-            if (direction.magnitude < MathHelper.floatEpsilon)
+            if (direction.magnitude < MathHelper.FloatEpsilon)
             {
                 Decelerate();
             }
@@ -69,6 +69,7 @@ public class PlayerWalkingState : PlayerBaseState
 
     private void Jump()
     {
+        Owner.PlayJumpSound();
         Animator.SetTrigger("Jump");
         Velocity = Vector3.ProjectOnPlane(Velocity, Transform.up);
         Velocity += Vector3.up * JumpPower;

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class VirtualKeyboard : MonoBehaviour
 {
-    public InputField input;
+    [SerializeField] private InputField input = null;
 
     void Start()
     {

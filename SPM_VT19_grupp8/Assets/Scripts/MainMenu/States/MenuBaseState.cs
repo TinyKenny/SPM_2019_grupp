@@ -44,13 +44,13 @@ public class MenuBaseState : State
         if (selected != null && selected.activeInHierarchy)
             EventSystem.current.SetSelectedGameObject(selected);
         else
-            EventSystem.current.SetSelectedGameObject(((MenuMainState)Owner.currentState).Buttons["StartGame"].gameObject);
+            EventSystem.current.SetSelectedGameObject(((MenuMainState)Owner.CurrentState).Buttons["StartGame"].gameObject);
     }
 
     public override void HandleUpdate()
     {
         base.HandleUpdate();
-        if (Input.GetButtonDown("Cancel") && Owner.currentState.GetType() != typeof(MenuMainState))
+        if (Input.GetButtonDown("Cancel") && Owner.CurrentState.GetType() != typeof(MenuMainState))
         {
             Back();
         }

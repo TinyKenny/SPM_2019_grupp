@@ -1,23 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class FanSpin : MonoBehaviour
 {
-  public  float speed = 10;
+    [SerializeField, Min(0.0f)] private float speed = 10;
 
-
-    void Start()
+    void Awake()
     {
-       
-  
+        transform.Rotate(Vector3.up * Random.Range(0.0f, 360.0f));
     }
 
     void Update()
     {
-
         transform.Rotate(Vector3.up * speed * Time.deltaTime);
-        
-    
     }
 }

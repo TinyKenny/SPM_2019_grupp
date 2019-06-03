@@ -19,7 +19,7 @@ public class EventCoordinator
     }
 
     public delegate void EventListener(EventInfo eventInfo);
-    public Dictionary<Type, EventListener> EventListeners;
+    public Dictionary<Type, EventListener> EventListeners { get; private set; }
 
     /// <summary>
     /// Register a method to listen to a type of events, so that when <see cref="ActivateEvent(EventInfo)"/> runs with the same <see cref="EventInfo"/> type the method will run.
