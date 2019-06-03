@@ -42,6 +42,8 @@ public class PlayerStateMachine : StateMachine
     public float JumpPower { get { return jumpPower; } }
     public float MovementSoundRange { get { return movementSoundRange; } }
     public float ShootSoundRange { get { return shootSoundRange; } }
+    private float pitchLow = 1.0f;
+    private float pitchHigh = 1.2f;
     #endregion
 
     #region serialized private variables
@@ -350,7 +352,9 @@ public class PlayerStateMachine : StateMachine
 
     public void PlayJumpSound()
     {
+        aus.pitch = Random.Range(pitchLow, pitchHigh);
         aus.PlayOneShot(jumpSound);
+
     }
 
     private void SavePlayerVariables(EventInfo eI)
