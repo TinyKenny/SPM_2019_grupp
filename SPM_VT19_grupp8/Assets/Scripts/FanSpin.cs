@@ -2,7 +2,7 @@
 
 public class FanSpin : MonoBehaviour
 {
-    [SerializeField] private float speed = 10;
+    [SerializeField, Min(0.0f)] private float speed = 10;
 
     void Awake()
     {

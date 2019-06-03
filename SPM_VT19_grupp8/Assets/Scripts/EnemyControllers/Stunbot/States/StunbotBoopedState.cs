@@ -8,9 +8,7 @@ public class StunbotBoopedState : StunbotBaseState
     private LayerMask PlayerLayer { get { return Owner.PlayerLayer; } }
     private float Deceleration { get { return Owner.Deceleration; } }
     private float SkinWidth { get { return Owner.SkinWidth; } }
-    public float BoopStrength { get { return Owner.BoopStrength; } }
-
-    //private float boopMultiplier = 1.5f;
+    private float BoopStrength { get { return Owner.BoopStrength; } }
 
     public override void Initialize(StateMachine owner)
     {
