@@ -136,9 +136,11 @@ public class PlayerDamageEventInfo : EventInfo
 public class ParticleEventInfo : EventInfo
 {
     public ParticleSystem ParticleSys { get; private set; }
+    public Vector3 EulerRotation { get; private set; }
 
-    public ParticleEventInfo(GameObject gO, ParticleSystem particleSys, string description = "Particle generating event") : base(gO, description)
+    public ParticleEventInfo(GameObject gO, ParticleSystem particleSys, Vector3 eulerRotation, string description = "Particle generating event") : base(gO, description)
     {
         ParticleSys = particleSys;
+        EulerRotation = eulerRotation;
     }
 }

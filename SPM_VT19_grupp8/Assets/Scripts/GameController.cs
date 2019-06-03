@@ -127,7 +127,7 @@ public class GameController : MonoBehaviour
     {
         ParticleEventInfo pEI = (ParticleEventInfo)eI;
         ParticleSystem gO = Instantiate(pEI.ParticleSys);
-        gO.transform.eulerAngles += eI.GO.transform.eulerAngles;
+        gO.transform.eulerAngles += pEI.EulerRotation;
         Vector3 temp = gO.transform.eulerAngles;
         gO.transform.eulerAngles = Vector3.zero;
         gO.transform.position += eI.GO.transform.position;

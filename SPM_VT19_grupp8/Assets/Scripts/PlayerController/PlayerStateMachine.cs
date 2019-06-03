@@ -290,7 +290,9 @@ public class PlayerStateMachine : StateMachine
                 PlayerAttackEventInfo pAEI = new PlayerAttackEventInfo(gameObject, transform.position, MainCameraController.transform.forward, attackAngle, attackRange, attackDirectionWeight);
                 EventCoordinator.CurrentEventCoordinator.ActivateEvent(pAEI);
 
-                ParticleEventInfo pEI = new ParticleEventInfo(shootingPoint, shootParticle);
+                transform.eulerAngles = new Vector3(0.0f, MainCameraController.transform.eulerAngles.y, 0.0f);
+
+                ParticleEventInfo pEI = new ParticleEventInfo(shootingPoint, shootParticle, MainCameraController.transform.eulerAngles);
                 EventCoordinator.CurrentEventCoordinator.ActivateEvent(pEI);
 
                 Animator.SetTrigger("Shooting");
