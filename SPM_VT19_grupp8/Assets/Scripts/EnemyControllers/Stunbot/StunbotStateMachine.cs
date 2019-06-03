@@ -69,7 +69,7 @@ public class StunbotStateMachine : EnemyStateMachine
         if (FollowingPath)
         {
             Vector3 previousPosition = transform.position;
-            foreach(Vector3 point in CurrentPath.lookPoints)
+            foreach(Vector3 point in CurrentPath.LookPoints)
             {
                 Gizmos.color = Color.blue;
                 Gizmos.DrawSphere(point, 0.35f);

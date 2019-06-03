@@ -8,7 +8,7 @@ public class StateMachine : MonoBehaviour
     [SerializeField] private State[] states = null;
 
     private Dictionary<Type, State> stateDictionary = new Dictionary<Type, State>();
-    public State currentState;
+    public State CurrentState { get; private set; }
 
 
     protected virtual void Awake()
@@ -20,28 +20,28 @@ public class StateMachine : MonoBehaviour
             instance.Initialize(this);
             stateDictionary.Add(instance.GetType(), instance);
             instance.Index = i;
-            if (currentState == null)
+            if (CurrentState == null)
             {
-                currentState = instance;
-                currentState.Enter();
+                CurrentState = instance;
+                CurrentState.Enter();
             }
         }
     }
 
     public void TransitionTo<T>() where T : State
     {
-        if (typeof(T) != currentState.GetType() && stateDictionary.ContainsKey(typeof(T)))
+        if (typeof(T) != CurrentState.GetType() && stateDictionary.ContainsKey(typeof(T)))
         {
             TransitionTask();
-            currentState.Exit();
-            currentState = stateDictionary[typeof(T)];
-            currentState.Enter();
+            CurrentState.Exit();
+            CurrentState = stateDictionary[typeof(T)];
+            CurrentState.Enter();
         }
     }
 
     protected virtual void Update()
     {
-        currentState.HandleUpdate();
+        CurrentState.HandleUpdate();
     }
 
     public virtual void TransitionTask()
@@ -53,8 +53,8 @@ public class StateMachine : MonoBehaviour
     {
         Type t = states[index].GetType();
         TransitionTask();
-        currentState.Exit();
-        currentState = stateDictionary[t];
-        currentState.Enter();
+        CurrentState.Exit();
+        CurrentState = stateDictionary[t];
+        CurrentState.Enter();
     }
 }

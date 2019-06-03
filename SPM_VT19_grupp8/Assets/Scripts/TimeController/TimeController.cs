@@ -45,14 +45,14 @@ public class TimeController : StateMachine
 
     public float GetPlayerDeltaTime()
     {
-        TimeControllerBaseState timeControllerState = (TimeControllerBaseState)currentState;
+        TimeControllerBaseState timeControllerState = (TimeControllerBaseState)CurrentState;
         return timeControllerState.GetPlayerDeltaTime();
     }
 
     public void ResetValues()
     {
         TransitionTo<TimeControllerUnpausedState>();
-        currentState.Initialize(this); // ful lösning, men det nollställer värdena
+        CurrentState.Initialize(this); // ful lösning, men det nollställer värdena
     }
 
     public void UnPause()

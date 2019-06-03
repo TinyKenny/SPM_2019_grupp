@@ -50,9 +50,9 @@ public class SoldierStateMachine : EnemyStateMachine
         base.Update();
     }
 
-    public override void SetAlerted(Vector3 lastLocation)
+    protected override void SetAlerted(Vector3 lastLocation)
     {
-        if (currentState is SoldierAttackState == false)
+        if (CurrentState is SoldierAttackState == false)
         {
             LastPlayerLocation = lastLocation;
             TransitionTo<SoldierAlertState>();

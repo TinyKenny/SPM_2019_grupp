@@ -4,37 +4,37 @@ using UnityEngine;
 
 public class Path
 {
-    public readonly Vector3[] lookPoints;
-    public readonly TurnBoundaryPlane[] turnBoundaries;
-    public readonly int finishLineIndex;
-    public readonly int slowDownIndex;
+    public Vector3[] LookPoints { get; }
+    public TurnBoundaryPlane[] TurnBoundaries { get; }
+    public int FinishLineIndex { get; }
+    public int SlowDownIndex { get; }
 
     public Path(Vector3[] waypoints, Vector3 startPosition, float turnDst, float stoppingDst)
     {
-        lookPoints = waypoints;
-        turnBoundaries = new TurnBoundaryPlane[lookPoints.Length];
-        finishLineIndex = turnBoundaries.Length - 1;
+        LookPoints = waypoints;
+        TurnBoundaries = new TurnBoundaryPlane[LookPoints.Length];
+        FinishLineIndex = TurnBoundaries.Length - 1;
 
         Vector3 previousPoint = startPosition;
 
-        for(int i = 0; i < lookPoints.Length; i++)
+        for(int i = 0; i < LookPoints.Length; i++)
         {
-            Vector3 currentPoint = lookPoints[i];
+            Vector3 currentPoint = LookPoints[i];
             Vector3 dirToCurrentPoint = (currentPoint - previousPoint).normalized;
-            Vector3 turnBoundaryPoint = (i == finishLineIndex) ? currentPoint : currentPoint - dirToCurrentPoint * turnDst;
+            Vector3 turnBoundaryPoint = (i == FinishLineIndex) ? currentPoint : currentPoint - dirToCurrentPoint * turnDst;
 
-            turnBoundaries[i] = new TurnBoundaryPlane(turnBoundaryPoint, previousPoint - dirToCurrentPoint * turnDst);
+            TurnBoundaries[i] = new TurnBoundaryPlane(turnBoundaryPoint, previousPoint - dirToCurrentPoint * turnDst);
 
             previousPoint = turnBoundaryPoint;
         }
 
         float dstFromEndpoint = 0;
-        for(int i = lookPoints.Length - 1; i > 0; i--)
+        for(int i = LookPoints.Length - 1; i > 0; i--)
         {
-            dstFromEndpoint += Vector3.Distance(lookPoints[i], lookPoints[i - 1]);
+            dstFromEndpoint += Vector3.Distance(LookPoints[i], LookPoints[i - 1]);
             if(dstFromEndpoint > stoppingDst)
             {
-                slowDownIndex = i;
+                SlowDownIndex = i;
                 break;
             }
         }

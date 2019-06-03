@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class FinishLevel : MonoBehaviour
 {
-    [SerializeField] private int sceneToLoad = 0;
+    [SerializeField, Min(0)] private int sceneToLoad = 0;
 
     private void OnTriggerEnter(Collider other)
     {
