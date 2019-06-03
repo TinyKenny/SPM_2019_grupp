@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class VirtualButton : MonoBehaviour
 {
-    public InputField input;
+    public InputField input { get; set; }
 
     public void WriteLetter()
     {
