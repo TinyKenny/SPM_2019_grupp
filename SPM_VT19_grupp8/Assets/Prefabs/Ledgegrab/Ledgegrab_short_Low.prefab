@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2623609821064223779}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Ledgegrab_short_Low
-  m_TagString: Untagged
+  m_TagString: Grabable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 2253710412719682899}
   - component: {fileID: 1097041068122416435}
   - component: {fileID: 7554636238863682820}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Ledgegrab_short_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
