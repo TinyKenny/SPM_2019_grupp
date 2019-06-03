@@ -293,6 +293,8 @@ public class PlayerStateMachine : StateMachine
                 ParticleEventInfo pEI = new ParticleEventInfo(shootingPoint, shootParticle);
                 EventCoordinator.CurrentEventCoordinator.ActivateEvent(pEI);
 
+                Animator.SetTrigger("Shooting");
+
                 Ammo--;
                 ammoNumber.text = Ammo.ToString();
                 fireCoolDown = fireRate;

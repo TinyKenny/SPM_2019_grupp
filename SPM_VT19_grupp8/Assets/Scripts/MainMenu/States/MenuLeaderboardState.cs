@@ -43,11 +43,8 @@ public class MenuLeaderboardState : MenuBaseState
 
         public int CompareTo(LeaderboardTextLine other)
         {
-            return other.textLine.transform.position.x.CompareTo(textLine.transform.position.x);
+            return other.textLine.transform.position.y.CompareTo(textLine.transform.position.y);
         }
-
-
-
     }
 
     public override void Initialize(StateMachine owner)
@@ -71,24 +68,16 @@ public class MenuLeaderboardState : MenuBaseState
         EventSystem.current.SetSelectedGameObject(Buttons["LeaderboardBack"].gameObject);
     }
 
-    // testing purposes
-    public override void HandleUpdate()
-    {
-        base.HandleUpdate();
-        if (Input.GetKeyDown(KeyCode.Keypad7))
-        {
-            UpdateLeaderboard();
-        }
-    }
-
     private void UpdateLeaderboard()
     {
         Text[] leaderboardEntries = Menu.transform.Find("Scores").GetComponentsInChildren<Text>();
-        Text[] sortedLeaderboardEntries = new Text[leaderboardEntries.Length];
-        
+        SortedSet<LeaderboardTextLine> sortedLeaderboardEntries = new SortedSet<LeaderboardTextLine>();
 
+        foreach(Text t in leaderboardEntries)
+        {
+            sortedLeaderboardEntries.Add(new LeaderboardTextLine(t));
+        }
 
-        
         Dictionary<string, float> playerScores = ScoreSaveLoad.LoadScores();
         SortedSet<PlayerTime> playerTimes = new SortedSet<PlayerTime>();
 
@@ -98,21 +87,23 @@ public class MenuLeaderboardState : MenuBaseState
             playerTimes.Add(pt);
         }
 
-        int textIndex = 0;
-
         foreach (PlayerTime pt in playerTimes)
         {
-            leaderboardEntries[textIndex].text = pt.name + ": " + pt.GetTime();
-            textIndex++;
-            if (textIndex >= leaderboardEntries.Length)
+            if(sortedLeaderboardEntries.Count <= 0)
             {
                 break;
             }
+            LeaderboardTextLine textEntry = sortedLeaderboardEntries.Min;
+            sortedLeaderboardEntries.Remove(textEntry);
+
+            textEntry.textLine.text = pt.name + ": " + pt.GetTime();
         }
 
-        for (; textIndex < leaderboardEntries.Length; textIndex++)
+        while(sortedLeaderboardEntries.Count > 0)
         {
-            leaderboardEntries[textIndex].text = " ";
+            LeaderboardTextLine textEntry = sortedLeaderboardEntries.Min;
+            sortedLeaderboardEntries.Remove(textEntry);
+            textEntry.textLine.text = " ";
         }
     }
 }
