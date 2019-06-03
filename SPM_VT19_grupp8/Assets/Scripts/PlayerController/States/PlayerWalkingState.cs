@@ -69,6 +69,7 @@ public class PlayerWalkingState : PlayerBaseState
 
     private void Jump()
     {
+        Owner.PlayJumpSound();
         Animator.SetTrigger("Jump");
         Velocity = Vector3.ProjectOnPlane(Velocity, Transform.up);
         Velocity += Vector3.up * JumpPower;

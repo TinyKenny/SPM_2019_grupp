@@ -64,6 +64,7 @@ public class PlayerStateMachine : StateMachine
     [SerializeField] private AudioClip damageSound;
     [SerializeField] private AudioClip deathSound;
     [SerializeField] private AudioClip gunShotSound;
+    [SerializeField] private AudioClip jumpSound;
     [SerializeField] private ParticleSystem shootParticle;
     [SerializeField] private GameObject shootingPoint;
     #endregion
@@ -345,6 +346,11 @@ public class PlayerStateMachine : StateMachine
             respawnRotation.y = respawn.rotation.eulerAngles.y;
         }
 
+    }
+
+    public void PlayJumpSound()
+    {
+        aus.PlayOneShot(jumpSound);
     }
 
     private void SavePlayerVariables(EventInfo eI)
