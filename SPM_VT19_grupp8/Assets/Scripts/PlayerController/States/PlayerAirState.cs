@@ -109,6 +109,7 @@ public class PlayerAirState : PlayerBaseState
 
         if (Input.GetKeyDown(PrimaryJumpKey) || Input.GetKeyDown(SecondaryJumpKey))
         {
+            Owner.PlayJumpSound();
             Velocity = Vector3.Slerp(Vector3.ClampMagnitude(Velocity, JumpPowerAirState), (normal + Vector3.up) * JumpPowerAirState, 0.5f);
 
             JumpPowerAirState *= 0.5f;
