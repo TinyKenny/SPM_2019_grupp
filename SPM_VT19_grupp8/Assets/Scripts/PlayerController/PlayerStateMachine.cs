@@ -81,7 +81,7 @@ public class PlayerStateMachine : StateMachine
 
     #region readonly values
     //public readonly float skinWidth = 0.01f;
-    public readonly float groundCheckDistance = 0.01f;
+    public float GroundCheckDistance { get; } = 0.01f;
     #endregion
 
     private Vector3 respawnPoint; // make this private, create a new event type ("CheckpointReachedEventInfo", maybe?) and make a listener for that event type in PlayerStateMachine
@@ -174,7 +174,7 @@ public class PlayerStateMachine : StateMachine
     /// If the players current "shields" are lower than <see cref="MathHelper.FloatEpsilon"/> when this method is called, the player dies and respawns.
     /// </summary>
     /// <param name="damage">The ammount to be subtracted from the players shields.</param>
-    public void TakeDamage(EventInfo eI)
+    private void TakeDamage(EventInfo eI)
     {
         PlayerDamageEventInfo pDEI = (PlayerDamageEventInfo)eI;
 
@@ -245,7 +245,7 @@ public class PlayerStateMachine : StateMachine
     /// Adds the specified ammount of ammunition to the players reserves.
     /// </summary>
     /// <param name="ammo"></param>
-    public void AddAmmo(EventInfo eI)
+    private void AddAmmo(EventInfo eI)
     {
         AmmoPickupEventInfo aPEI = (AmmoPickupEventInfo)eI;
 
@@ -318,7 +318,7 @@ public class PlayerStateMachine : StateMachine
     /// Plays a one shot diegetic playersound and checks if any enemies are within range to hear it.
     /// </summary>
     /// <param name="eI"><see cref="PlayerDiegeticSoundEventInfo"/> representing the player, also needs an audioclip. If the range is more than zero enemies might hear the player.</param>
-    public void PlayerDiegeticSound(EventInfo eI)
+    private void PlayerDiegeticSound(EventInfo eI)
     {
         PlayerDiegeticSoundEventInfo playerSound = (PlayerDiegeticSoundEventInfo)eI;
 

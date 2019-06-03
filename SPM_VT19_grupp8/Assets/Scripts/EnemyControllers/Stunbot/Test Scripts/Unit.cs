@@ -59,15 +59,15 @@ public class Unit : MonoBehaviour
         bool followingPath = true;
         int pathIndex = 0;
 
-        transform.LookAt(path.lookPoints[0]);
+        transform.LookAt(path.LookPoints[0]);
 
         float speedPercent = 1.0f;
 
         while (followingPath)
         {
-            while (path.turnBoundaries[pathIndex].HasCrossedLine(transform.position))
+            while (path.TurnBoundaries[pathIndex].HasCrossedLine(transform.position))
             {
-                if(pathIndex == path.finishLineIndex)
+                if(pathIndex == path.FinishLineIndex)
                 {
                     followingPath = false;
                     break;
@@ -80,16 +80,16 @@ public class Unit : MonoBehaviour
 
             if (followingPath)
             {
-                if (pathIndex >= path.slowDownIndex && stoppingDst > 0)
+                if (pathIndex >= path.SlowDownIndex && stoppingDst > 0)
                 {
-                    speedPercent = Mathf.Clamp01(path.turnBoundaries[path.finishLineIndex].DistanceFromPoint(transform.position) / stoppingDst);
+                    speedPercent = Mathf.Clamp01(path.TurnBoundaries[path.FinishLineIndex].DistanceFromPoint(transform.position) / stoppingDst);
                     if(speedPercent < 0.01f)
                     {
                         followingPath = false;
                     }
                 }
 
-                Quaternion targetRotation = Quaternion.LookRotation(path.lookPoints[pathIndex] - transform.position);
+                Quaternion targetRotation = Quaternion.LookRotation(path.LookPoints[pathIndex] - transform.position);
                 transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
                 transform.Translate(Vector3.forward * Time.deltaTime * speed * speedPercent, Space.Self);
             }

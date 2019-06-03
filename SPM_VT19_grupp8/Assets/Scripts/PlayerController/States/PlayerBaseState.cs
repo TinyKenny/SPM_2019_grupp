@@ -18,7 +18,7 @@ public class PlayerBaseState : State
     protected float AirResistanceCoefficient { get { return Owner.AirResistanceCoefficient; } }
     protected float Gravity { get { return Owner.Gravity; } }
     protected float SkinWidth { get { return Owner.SkinWidth; } }
-    protected float GroundCheckDistance { get { return Owner.groundCheckDistance; } }
+    protected float GroundCheckDistance { get { return Owner.GroundCheckDistance; } }
     protected float TurnSpeedModifier { get { return Owner.TurnSpeedModifier; } }
     protected float PlayerDeltaTime { get { return Owner.PlayerDeltaTime; } }
     protected float MovementSoundRange { get { return Owner.MovementSoundRange; } }

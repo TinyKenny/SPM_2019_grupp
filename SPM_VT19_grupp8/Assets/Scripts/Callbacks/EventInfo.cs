@@ -7,8 +7,8 @@ using UnityEngine;
 /// </summary>
 public abstract class EventInfo
 {
-    public readonly GameObject GO;
-    public string EventDescription;
+    public GameObject GO { get; private set; }
+    public string EventDescription { get; private set; }
 
     public EventInfo(GameObject gO, string description)
     {
@@ -34,8 +34,8 @@ public class PlayerRespawnEventInfo : EventInfo
 /// </summary>
 public class PlayerDiegeticSoundEventInfo : EventInfo
 {
-    public float Range;
-    public AudioClip AC;
+    public float Range { get; private set; }
+    public AudioClip AC { get; private set; }
 
     /// <summary>
     /// Constructor for diegetic sound events.
