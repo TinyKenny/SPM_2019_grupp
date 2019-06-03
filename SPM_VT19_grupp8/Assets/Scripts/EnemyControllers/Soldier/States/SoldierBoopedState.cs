@@ -108,7 +108,6 @@ public class SoldierBoopedState : SoldierBaseState
             {
                 if (hitNormal.y < 0.5f || Vector3.Project(Velocity, hitNormal).sqrMagnitude > BoopStrength * BoopStrength / 2)
                 {
-                    Debug.Log("bounce");
                     // bounce
                     Vector3 reflectDirection = Vector3.Reflect(Velocity.normalized, hitNormal);
 
