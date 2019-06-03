@@ -7,12 +7,12 @@ using System.Runtime.Serialization.Formatters.Binary;
 [System.Serializable]
 public class SaveFile
 {
-    public Dictionary<string, EnemyInfo> EnemyInfoList
+    public Dictionary<int, EnemyInfo> EnemyInfoList
     {
         get
         {
             if (enemyInfoList == null)
-                enemyInfoList = new Dictionary<string, EnemyInfo>();
+                enemyInfoList = new Dictionary<int, EnemyInfo>();
             return enemyInfoList;
         }
         private set
@@ -35,12 +35,12 @@ public class SaveFile
         }
     }
 
-    public Dictionary<string, bool> CheckpointPickupList
+    public Dictionary<int, bool> CheckpointPickupList
     {
         get
         {
             if (checkpointPickupList == null)
-                checkpointPickupList = new Dictionary<string, bool>();
+                checkpointPickupList = new Dictionary<int, bool>();
             return checkpointPickupList;
         }
         private set
@@ -70,9 +70,9 @@ public class SaveFile
     public bool CheckpointReached { get; private set; } = false;
 
     private PositionInfo playerRotation;
-    private Dictionary<string, EnemyInfo> enemyInfoList;
+    private Dictionary<int, EnemyInfo> enemyInfoList;
     private Dictionary<int, bool> ammoPickupList;
-    private Dictionary<string, bool> checkpointPickupList;
+    private Dictionary<int, bool> checkpointPickupList;
     private List<ProjectileInfo> projectiles;
 
     public SaveFile()
@@ -80,16 +80,16 @@ public class SaveFile
         IsEmpty = true;
     }
 
-    public void AddEnemy(Vector3 position, Vector3 rotation, Vector3 lastPlayerLocation, string name, int state, int currentPatrolPointIndex)
+    public void AddEnemy(Vector3 position, Vector3 rotation, Vector3 lastPlayerLocation, int ID, int state, int currentPatrolPointIndex)
     {
-        EnemyInfoList[name] = new EnemyInfo(position, rotation, lastPlayerLocation, state, currentPatrolPointIndex);
+        EnemyInfoList[ID] = new EnemyInfo(position, rotation, lastPlayerLocation, state, currentPatrolPointIndex);
         if (IsEmpty)
             IsEmpty = false;
     }
 
-    public void RemoveEnemy(string name)
+    public void RemoveEnemy(int ID)
     {
-        EnemyInfoList.Remove(name);
+        EnemyInfoList.Remove(ID);
     }
 
     public void AddAmmoPickup(int ID, bool active)
@@ -99,9 +99,9 @@ public class SaveFile
             IsEmpty = false;
     }
 
-    public void AddCheckpoint(string name, bool active)
+    public void AddCheckpoint(int ID, bool active)
     {
-        CheckpointPickupList[name] = active;
+        CheckpointPickupList[ID] = active;
         if (IsEmpty)
             IsEmpty = false;
         CheckpointReached = true;
@@ -112,9 +112,9 @@ public class SaveFile
         AmmmoPickupList.Remove(ID);
     }
 
-    public void RemoveCheckpoint(string name)
+    public void RemoveCheckpoint(int ID)
     {
-        CheckpointPickupList.Remove(name);
+        CheckpointPickupList.Remove(ID);
     }
 
     public void AddPlayerInfo(Vector3 position, float yRotation, int ammo, float shield, float timeSlowEnergy, float shieldCooldown)

@@ -23,7 +23,7 @@ public class EnemySpawner : MonoBehaviour
     {
         bool spawnEnemy = false;
         if (GameController.GameControllerInstance.CurrentSave.IsEmpty == false)
-            spawnEnemy = GameController.GameControllerInstance.CurrentSave.EnemyInfoList.ContainsKey(name);
+            spawnEnemy = GameController.GameControllerInstance.CurrentSave.EnemyInfoList.ContainsKey(GetInstanceID());
         else
             spawnEnemy = true;
         
@@ -48,9 +48,9 @@ public class EnemySpawner : MonoBehaviour
             int currentState = 0;
             int currentPatrolPointIndex = 0;
 
-            if (GameController.GameControllerInstance.CurrentSave.EnemyInfoList.ContainsKey(gameObject.name))
+            if (GameController.GameControllerInstance.CurrentSave.EnemyInfoList.ContainsKey(GetInstanceID()))
             {
-                EnemyInfo savedInfo = GameController.GameControllerInstance.CurrentSave.EnemyInfoList[gameObject.name];
+                EnemyInfo savedInfo = GameController.GameControllerInstance.CurrentSave.EnemyInfoList[GetInstanceID()];
                 position = savedInfo.Position.Position;
                 rotation = savedInfo.Rotation.Position;
                 lastPlayerLocation = savedInfo.LastPlayerLocation.Position;
@@ -89,7 +89,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void EnemyDeathSaveEvent(EventInfo eI)
     {
-        GameController.GameControllerInstance.CurrentSave.EnemyInfoList.Remove(name);
+        GameController.GameControllerInstance.CurrentSave.EnemyInfoList.Remove(GetInstanceID());
     }
 
     public void RegisterRemovedSpawner()
