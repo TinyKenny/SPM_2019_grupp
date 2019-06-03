@@ -26,7 +26,7 @@ public class PathRequestManager : MonoBehaviour
         pathRequestManagerInstance.TryProcessNext();
     }
 
-    void TryProcessNext()
+    private void TryProcessNext()
     {
         if(isProcessingPath == false && pathRequestQueue.Count > 0)
         {
@@ -54,8 +54,8 @@ public class PathRequestManager : MonoBehaviour
         {
             PathStart = start;
             PathEnd = end;
-            this.ColliderRadius = colliderRadius;
-            this.Callback = callback;
+            ColliderRadius = colliderRadius;
+            Callback = callback;
         }
     }
 }

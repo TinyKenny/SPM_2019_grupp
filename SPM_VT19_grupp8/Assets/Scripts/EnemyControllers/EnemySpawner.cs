@@ -65,9 +65,9 @@ public class EnemySpawner : MonoBehaviour
 
             currentGO = Instantiate(enemy, gameObject.transform);
 
-            if (currentGO.GetComponent<EnemyStateMachine>() != null)
+            EnemyStateMachine eSM = currentGO.GetComponent<EnemyStateMachine>();
+            if (eSM != null)
             {
-                EnemyStateMachine eSM = currentGO.GetComponent<EnemyStateMachine>();
                 eSM.PlayerTransform = PlayerTransform;
                 eSM.Spawner = gameObject;
 

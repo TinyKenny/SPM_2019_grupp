@@ -28,12 +28,11 @@ public class MenuSetPlayerNameState : MenuBaseState
         base.Initialize(owner);
 
         playerName = "No name";
+        nameField.GetComponent<InputField>().onValueChanged.AddListener(SetName);
     }
 
     public override void HandleUpdate()
     {
-        nameField.GetComponent<InputField>().onValueChanged.AddListener(SetName);
-
         base.HandleUpdate();
 
         if (EventSystem.current.currentSelectedGameObject == nameField && (Input.GetButtonDown("Submit") || Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0.9))
@@ -47,13 +46,13 @@ public class MenuSetPlayerNameState : MenuBaseState
         }
     }
 
-    // remove this
-    public void LoadScene()
-    {
-        SaveFile.ClearSave();
-        PlayerPrefs.SetString("playerName", playerName);
-        SceneManager.LoadScene(LevelToLoad);
-    }
+    //// remove this
+    //public void LoadScene()
+    //{
+    //    SaveFile.ClearSave();
+    //    PlayerPrefs.SetString("playerName", playerName);
+    //    SceneManager.LoadScene(LevelToLoad);
+    //}
 
     public void SelectColor()
     {

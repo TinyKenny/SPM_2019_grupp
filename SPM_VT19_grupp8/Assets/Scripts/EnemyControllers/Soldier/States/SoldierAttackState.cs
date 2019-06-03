@@ -11,6 +11,7 @@ public class SoldierAttackState : SoldierBaseState
     private float fireRate;
     private float fireRateCurrentCooldown;
     private float fireRateCooldownVarianceMax;
+    private float inaccuracy = 4.0f;
     private GameObject projectilePrefab;
 
     public override void Enter()
@@ -20,8 +21,6 @@ public class SoldierAttackState : SoldierBaseState
         fireRateCurrentCooldown = fireRate;
         fireRateCooldownVarianceMax = Owner.FireRateCooldownVarianceMax;
         projectilePrefab = Owner.ProjectilePrefab;
-
-
     }
 
     /// <summary>
@@ -29,7 +28,6 @@ public class SoldierAttackState : SoldierBaseState
     /// </summary>
     public override void HandleUpdate()
     {
-        
         if (fireRateCurrentCooldown < 0)
         {
             Shoot();
@@ -57,8 +55,6 @@ public class SoldierAttackState : SoldierBaseState
         Anim.SetTrigger("SoldierShoot");
 
         Owner.PlaySound(Owner.ShootSound);
-
-        float inaccuracy = 4.0f;
 
         Vector3 playerPosition = PlayerTransform.position;
         Owner.transform.LookAt(PlayerTransform.position);

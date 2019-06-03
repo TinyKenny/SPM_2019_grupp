@@ -5,11 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "States/Enemies/Soldier/Booped State")]
 public class SoldierBoopedState : SoldierBaseState
 {
+    [SerializeField, Min(0.0f)] private float gravity = 15.0f;
+    [SerializeField, Min(0.0f)] private float deceleration = 20;
+
     private CapsuleCollider thisCollider;
     private bool grounded;
-    private float gravity = 15.0f;
     private RaycastHit groundCheckHit;
-    private float deceleration = 20;
     private float skinwidth = 0.02f;
     private float groundCheckDistance = 0.01f;
     private float BoopStrength { get { return Owner.BoopStrength; } }
@@ -49,7 +50,7 @@ public class SoldierBoopedState : SoldierBaseState
 
 
 
-        if (grounded && Velocity.sqrMagnitude < Agent.speed * Agent.speed * MathHelper.FloatEpsilon) // replace this with a fitting condition, for not being booped anymore
+        if (grounded && Velocity.sqrMagnitude < Agent.speed * Agent.speed * MathHelper.FloatEpsilon)
         {
             if (PlayerVisionCheck(80))
             {

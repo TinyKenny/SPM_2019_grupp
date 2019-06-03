@@ -38,11 +38,11 @@ public class StunbotChaseState : StunbotBaseState
             Velocity = (ThisTransform.position - PlayerTransform.position).normalized;
             Owner.TransitionTo<StunbotBoopedState>();
         }
-        else if (!CanFindOrigin())
+        else if (CanFindOrigin() == false)
         {
             Owner.TransitionTo<StunbotIdleState>();
         }
-        else if (!CanSeePlayer(65.0f))
+        else if (CanSeePlayer(65.0f) == false)
         {
             Owner.TransitionTo<StunbotSearchState>();
         }
