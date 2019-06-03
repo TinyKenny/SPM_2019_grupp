@@ -6,7 +6,7 @@ public class ElevatorSound : MonoBehaviour
 {
 
     private AudioSource source;
-    public float delay;
+    [SerializeField] private float delay = 0;
 
     // public AudioClip clip;
 
@@ -16,11 +16,5 @@ public class ElevatorSound : MonoBehaviour
         AudioSource source = GetComponent<AudioSource>();
         source.PlayDelayed(delay);
         // source.PlayOneShot(clip);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

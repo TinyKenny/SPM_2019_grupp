@@ -49,7 +49,7 @@ public class SoldierBoopedState : SoldierBaseState
 
 
 
-        if (grounded && Velocity.sqrMagnitude < Agent.speed * Agent.speed * MathHelper.floatEpsilon) // replace this with a fitting condition, for not being booped anymore
+        if (grounded && Velocity.sqrMagnitude < Agent.speed * Agent.speed * MathHelper.FloatEpsilon) // replace this with a fitting condition, for not being booped anymore
         {
             if (PlayerVisionCheck(80))
             {
@@ -104,7 +104,7 @@ public class SoldierBoopedState : SoldierBaseState
 
             Owner.transform.position += snapMovement;
 
-            if (movement.sqrMagnitude > MathHelper.floatEpsilon * MathHelper.floatEpsilon)
+            if (movement.sqrMagnitude > MathHelper.FloatEpsilon * MathHelper.FloatEpsilon)
             {
                 if (hitNormal.y < 0.5f || Vector3.Project(Velocity, hitNormal).sqrMagnitude > BoopStrength * BoopStrength / 2)
                 {

@@ -4,20 +4,10 @@ using UnityEngine;
 
 public class FanSpin : MonoBehaviour
 {
-  public  float speed = 10;
-
-
-    void Start()
-    {
-       
-  
-    }
+  [SerializeField] private float speed = 10;
 
     void Update()
     {
-
         transform.Rotate(Vector3.up * speed * Time.deltaTime);
-        
-    
     }
 }

@@ -30,7 +30,7 @@ public class SoldierAlertState : SoldierBaseState
 
     public override void HandleUpdate()
     {
-        if (Vector3.Distance(Position, destination) < 2.0f || Agent.velocity.magnitude < MathHelper.floatEpsilon)
+        if (Vector3.Distance(Position, destination) < 2.0f || Agent.velocity.magnitude < MathHelper.FloatEpsilon)
         {
             coolDown -= Time.deltaTime;
             if (coolDown < 0)
