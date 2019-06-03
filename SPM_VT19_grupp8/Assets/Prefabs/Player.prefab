@@ -140,7 +140,7 @@ MonoBehaviour:
   slowMotionEnergyRegeneration: 1
   slowMotionCooldown: 1
   slowMotionEnergySlider: {fileID: 0}
-  slowSound: {fileID: 0}
+  slowSound: {fileID: 8300000, guid: 94659b269a7bbab4f86f0f1d18ed5201, type: 3}
 --- !u!114 &2112523359584729377
 MonoBehaviour:
   m_ObjectHideFlags: 0
