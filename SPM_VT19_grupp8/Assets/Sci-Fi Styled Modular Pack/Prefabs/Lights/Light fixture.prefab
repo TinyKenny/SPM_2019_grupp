@@ -226,6 +226,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: light_wall_1
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7f4bb4ae1f8094c47abdd09a12d0a39c, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7f4bb4ae1f8094c47abdd09a12d0a39c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.949505
