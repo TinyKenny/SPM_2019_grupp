@@ -68,7 +68,6 @@ public class PlayerStateMachine : StateMachine
     [SerializeField] private AudioClip gunShotSound;
     [SerializeField] private AudioClip jumpSound;
     [SerializeField] private AudioClip landingSound;
-    [SerializeField] private AudioClip stepSound;
     [SerializeField] private ParticleSystem shootParticle;
     [SerializeField] private GameObject shootingPoint;
     #endregion
@@ -375,9 +374,5 @@ public class PlayerStateMachine : StateMachine
         EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<PlayerDiegeticSoundEventInfo>(PlayerDiegeticSound);
         EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<PlayerDamageEventInfo>(TakeDamage);
         EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<SaveEventInfo>(SavePlayerVariables);
-    }
-    public void PlayStaticFootsteps()
-    {
-        aus.PlayOneShot(stepSound);
     }
 }
