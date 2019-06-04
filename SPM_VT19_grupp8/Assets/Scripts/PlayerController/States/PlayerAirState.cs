@@ -132,6 +132,7 @@ public class PlayerAirState : PlayerBaseState
     protected void TransitionToWalkingState()
     {
         JumpPowerAirState = 15f;
+        Owner.PlayLandingSound();
         Owner.TransitionTo<PlayerWalkingState>();
     }
 }

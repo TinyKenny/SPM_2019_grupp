@@ -67,6 +67,7 @@ public class PlayerStateMachine : StateMachine
     [SerializeField] private AudioClip deathSound;
     [SerializeField] private AudioClip gunShotSound;
     [SerializeField] private AudioClip jumpSound;
+    [SerializeField] private AudioClip landingSound;
     [SerializeField] private ParticleSystem shootParticle;
     [SerializeField] private GameObject shootingPoint;
     #endregion
@@ -354,7 +355,12 @@ public class PlayerStateMachine : StateMachine
     {
         aus.pitch = Random.Range(pitchLow, pitchHigh);
         aus.PlayOneShot(jumpSound);
+    }
 
+    public void PlayLandingSound()
+    {
+        aus.pitch = Random.Range(pitchLow, pitchHigh);
+        aus.PlayOneShot(landingSound);
     }
 
     private void SavePlayerVariables(EventInfo eI)

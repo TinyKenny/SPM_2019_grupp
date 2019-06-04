@@ -178,6 +178,7 @@ MonoBehaviour:
   deathSound: {fileID: 8300000, guid: b8f00654f9b12424ea18d756cbaf0d0b, type: 3}
   gunShotSound: {fileID: 8300000, guid: 383e9fc6797f9ca4f9c1f04ec5e96921, type: 3}
   jumpSound: {fileID: 8300000, guid: 22dfeb84e4ab4a64fb508a4a1a552bff, type: 3}
+  landingSound: {fileID: 8300000, guid: 98345cef0c5d53545b48d5dad705a6ea, type: 3}
   shootParticle: {fileID: 8566331801560291258, guid: 37821e5a2d883af4c9d81eee72b75242,
     type: 3}
   shootingPoint: {fileID: 3020853332849861888}
