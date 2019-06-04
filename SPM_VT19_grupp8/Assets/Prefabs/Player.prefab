@@ -289,7 +289,7 @@ GameObject:
   - component: {fileID: 3867880955103790072}
   - component: {fileID: 3998911970394272880}
   - component: {fileID: 3999094715722739740}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -500,7 +500,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0.62228954, b: 0.1273585, a: 0.5019608}
+      maxColor: {r: 1, g: 0.62228954, b: 0.1273585, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -5041,7 +5041,7 @@ GameObject:
   - component: {fileID: 3869609477655240796}
   - component: {fileID: 3998406873109727386}
   - component: {fileID: 3999192965789090916}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: FireDark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9738,7 +9738,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2e69c8c236ea65447a07e24d8cbed40b, type: 2}
+  - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -9793,7 +9793,7 @@ GameObject:
   - component: {fileID: 3867951767975751284}
   - component: {fileID: 3998289920420876996}
   - component: {fileID: 3997196269803848296}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14545,7 +14545,7 @@ GameObject:
   - component: {fileID: 3869461966327360054}
   - component: {fileID: 3998470896493153806}
   - component: {fileID: 3999098264130794448}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Magic fire pro orange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19247,8 +19247,8 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2eac65df5fa9ead45a3542e2c5465aa2, type: 2}
-  - {fileID: 2100000, guid: 2eac65df5fa9ead45a3542e2c5465aa2, type: 2}
+  - {fileID: 2100000, guid: 6f182feaa92fa624ba70fe6733d6d2c0, type: 2}
+  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -19302,7 +19302,7 @@ GameObject:
   - component: {fileID: 3869599204617823610}
   - component: {fileID: 3964265335682570234}
   - component: {fileID: 3996955431092833542}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23999,7 +23999,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 20e729147a4dad247abfc2305c3dd963, type: 2}
+  - {fileID: 2100000, guid: 6f182feaa92fa624ba70fe6733d6d2c0, type: 2}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -24054,7 +24054,7 @@ GameObject:
   - component: {fileID: 3754440324472389118}
   - component: {fileID: 4294020448978424430}
   - component: {fileID: 1764866604411827695}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: FireDark (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28751,7 +28751,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 14fab0de6c54324468738e7b38a88207, type: 2}
+  - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -28804,7 +28804,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 460423096393909792}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: JetpackFire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
