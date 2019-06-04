@@ -27,6 +27,7 @@ public class GameController : MonoBehaviour
     public static GameController GameControllerInstance { get; private set; }
 
     private SaveFile save;
+    private TimeController timeController;
 
     [SerializeField]
     private GameObject projectile;
@@ -41,6 +42,8 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private GameObject SelectedPauseButton;
 
+    
+
     private void Awake()
     {
         GameControllerInstance = this;
@@ -48,6 +51,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        timeController = player.GetComponent<TimeController>();
         playerName.text = PlayerPrefs.GetString("playerName");
         LevelTime = CurrentSave.LevelTime;
         PausePanel.gameObject.SetActive(false);
@@ -86,7 +90,8 @@ public class GameController : MonoBehaviour
         {
             CurrentSave.FinishLevel(LevelTime, player.Ammo);
         }
-        
+
+        timeController.Pause();
         LoadingSceneManager.Instance.Show(SceneManager.LoadSceneAsync(sceneIndex));
     }
 
