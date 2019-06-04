@@ -134,6 +134,8 @@ public class GameController : MonoBehaviour
 
     private void OnDestroy()
     {
+        EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<ParticleEventInfo>(FireParticle);
+        EventCoordinator.CurrentEventCoordinator.UnregisterEventListener<DisplayPlayerDiedMenuEventInfo>(DisplayPlayerDiedPanel);
         if (CurrentSave.CheckpointReached && PlayerPrefs.GetInt("FinishedGame") == 0)
         {
             CurrentSave.LevelTime = LevelTime;
