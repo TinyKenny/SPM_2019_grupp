@@ -15,10 +15,5 @@ public class TimeControllerPausedState : TimeControllerBaseState
     public override void HandleUpdate()
     {
         base.HandleUpdate();
-
-        if (Input.GetButtonDown("Pause"))
-        {
-            Owner.TransitionTo<TimeControllerUnpausedState>();
-        }
     }
 }

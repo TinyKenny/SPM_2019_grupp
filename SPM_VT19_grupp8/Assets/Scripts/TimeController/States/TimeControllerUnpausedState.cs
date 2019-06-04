@@ -39,11 +39,6 @@ public class TimeControllerUnpausedState : TimeControllerBaseState
     {
         base.HandleUpdate();
         SlowMotion();
-
-        if (Input.GetButtonDown("Pause"))
-        {
-            Owner.TransitionTo<TimeControllerPausedState>();
-        }
     }
 
     private void SlowMotion()

@@ -225,6 +225,9 @@ public class PlayerStateMachine : StateMachine
 
         PlayerRespawnEventInfo PREI = new PlayerRespawnEventInfo(gameObject);
         EventCoordinator.CurrentEventCoordinator.ActivateEvent(PREI);
+
+        DisplayPlayerDiedMenuEventInfo dPDMEI = new DisplayPlayerDiedMenuEventInfo(gameObject);
+        EventCoordinator.CurrentEventCoordinator.ActivateEvent(dPDMEI);
     }
 
     /// <summary>

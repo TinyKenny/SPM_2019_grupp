@@ -29,6 +29,14 @@ public class PlayerRespawnEventInfo : EventInfo
     }
 }
 
+public class DisplayPlayerDiedMenuEventInfo : EventInfo
+{
+    public DisplayPlayerDiedMenuEventInfo(GameObject gO, string description = "Display the 'player died'-menu") : base(gO, description)
+    {
+
+    }
+}
+
 /// <summary>
 /// <see cref="EventInfo"/> class for when a player makes diegetic sounds. All objects that should be able to hear the player like enemies can listen to these events.
 /// </summary>

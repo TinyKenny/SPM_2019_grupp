@@ -41,6 +41,10 @@ public class GameController : MonoBehaviour
     private GameObject PausePanel;
     [SerializeField]
     private GameObject SelectedPauseButton;
+    [SerializeField]
+    private GameObject PlayerDiedPanel;
+    [SerializeField]
+    private GameObject SelectedPlayerDiedButton;
 
     
 
@@ -54,26 +58,36 @@ public class GameController : MonoBehaviour
         timeController = player.GetComponent<TimeController>();
         playerName.text = PlayerPrefs.GetString("playerName");
         LevelTime = CurrentSave.LevelTime;
-        PausePanel.gameObject.SetActive(false);
+        PausePanel.SetActive(false);
+        PlayerDiedPanel.SetActive(false);
         SpawnProjectiles();
         EventCoordinator.CurrentEventCoordinator.RegisterEventListener<ParticleEventInfo>(FireParticle);
+        EventCoordinator.CurrentEventCoordinator.RegisterEventListener<DisplayPlayerDiedMenuEventInfo>(DisplayPlayerDiedPanel);
     }
     
     void Update()
     {
         LevelTime += Time.deltaTime;
         timeText.text = "Time: " + (int)LevelTime;
-        if (Input.GetButtonDown("Pause"))
+        if (Input.GetButtonDown("Pause") && PlayerDiedPanel.activeSelf == false)
         {
             PausePanel.SetActive(!PausePanel.activeSelf);
 
             if (PausePanel.activeSelf)
             {
+                timeController.Pause();
                 EventSystem.current.SetSelectedGameObject(SelectedPauseButton);
             }
+            else
+            {
+                timeController.UnPause();
+            }
         }
-        else if(Time.timeScale > 0)
+        else if (Time.timeScale > 0)
+        {
             PausePanel.SetActive(false);
+            PlayerDiedPanel.SetActive(false);
+        }
     }
 
     public void LoadLevel(int sceneIndex)
@@ -127,7 +141,13 @@ public class GameController : MonoBehaviour
         }
     }
 
-    
+    private void DisplayPlayerDiedPanel(EventInfo eI)
+    {
+        PlayerDiedPanel.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(SelectedPlayerDiedButton);
+        timeController.Pause();
+    }
+
     private void FireParticle(EventInfo eI)
     {
         ParticleEventInfo pEI = (ParticleEventInfo)eI;
