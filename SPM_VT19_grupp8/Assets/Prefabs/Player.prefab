@@ -9739,7 +9739,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: d809881af8249714fb454aa0a25b0116, type: 2}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -14561,7 +14561,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3871435163292758074}
   m_LocalRotation: {x: -0.91357714, y: -0, z: -0, w: 0.40666556}
-  m_LocalPosition: {x: -0.038, y: 0.502, z: -0.028}
+  m_LocalPosition: {x: -0.038, y: 0.561, z: 0.064}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3869599204617823610}
@@ -19248,7 +19248,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6f182feaa92fa624ba70fe6733d6d2c0, type: 2}
+  - {fileID: 2100000, guid: d809881af8249714fb454aa0a25b0116, type: 2}
   - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -28765,7 +28765,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: d809881af8249714fb454aa0a25b0116, type: 2}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -29780,21 +29780,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2112523359584729376}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: fd01c6bd5684ace458a6db88f08d07c8,
-        type: 3}
-      propertyPath: m_Name
-      value: TheScavenger_sprint
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: fd01c6bd5684ace458a6db88f08d07c8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2304518960972997497, guid: fd01c6bd5684ace458a6db88f08d07c8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: fd01c6bd5684ace458a6db88f08d07c8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -29864,6 +29849,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1.2771219
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: fd01c6bd5684ace458a6db88f08d07c8,
+        type: 3}
+      propertyPath: m_Name
+      value: TheScavenger_sprint
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: fd01c6bd5684ace458a6db88f08d07c8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2304518960972997497, guid: fd01c6bd5684ace458a6db88f08d07c8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8543080294521486069, guid: fd01c6bd5684ace458a6db88f08d07c8,
         type: 3}
