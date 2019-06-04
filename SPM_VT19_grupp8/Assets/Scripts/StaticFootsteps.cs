@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Footstep : MonoBehaviour
+public class StaticFootsteps : MonoBehaviour
 {
-    private AudioSource source;
-    public AudioClip clip;
+    private AudioSource aus2;
+    public AudioClip stepSound;
+
     // Start is called before the first frame update
     void Start()
     {
-        source = GetComponent<AudioSource>();
+        aus2 = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -20,7 +21,7 @@ public class Footstep : MonoBehaviour
 
     void PlayStaticFootsteps()
     {
-        source.PlayOneShot(clip);
+        aus2.PlayOneShot(stepSound);
     } 
 
 }

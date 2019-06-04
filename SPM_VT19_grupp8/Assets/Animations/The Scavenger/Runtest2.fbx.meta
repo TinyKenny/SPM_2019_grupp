@@ -5,7 +5,7 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: mixamo.com
+    second: Sprint Forward
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -35,7 +35,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: mixamo.com
+      name: Sprint Forward
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
@@ -58,7 +58,23 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.33858842
+        functionName: PlayStaticFootsteps
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 2cc97a397ef5ba94388d5acb4b863337,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.83792394
+        functionName: PlayStaticFootsteps
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 2cc97a397ef5ba94388d5acb4b863337,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
