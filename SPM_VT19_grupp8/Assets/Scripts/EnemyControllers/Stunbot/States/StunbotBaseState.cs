@@ -21,7 +21,7 @@ public class StunbotBaseState : State
     private Path CurrentPath { get { return Owner.CurrentPath; } set { Owner.CurrentPath = value; } }
     private float AllowedOriginDistance { get { return Owner.allowedOriginDistance; } }
     private bool FollowingPath { get { return Owner.FollowingPath; } set { Owner.FollowingPath = value; } }
-    private bool HasRequestedPath { get { return Owner.HasRequestedPath; } set { Owner.HasRequestedPath = value; } }
+    //private bool HasRequestedPath { get { return Owner.HasRequestedPath; } set { Owner.HasRequestedPath = value; } }
     private float StoppingDistance { get { return stoppingDistance * StoppingDistanceModifier; } }
 
     protected float StoppingDistanceModifier = 1.0f;
@@ -49,7 +49,7 @@ public class StunbotBaseState : State
     {
         base.Enter();
         FollowingPath = false;
-        HasRequestedPath = false;
+        //HasRequestedPath = false;
     }
 
     public override void HandleUpdate()
@@ -69,7 +69,7 @@ public class StunbotBaseState : State
         if (Time.timeSinceLevelLoad > 0.3f)
         {
             timeUntillNextRequest -= Time.deltaTime;
-            if (timeUntillNextRequest <= 0.0f && HasRequestedPath == false && (FollowingPath == false || Target == ThisTransform || (Target.position - targetPositionOld).sqrMagnitude > pathUpdateMoveThreshold * pathUpdateMoveThreshold))
+            if (timeUntillNextRequest <= 0.0f && /*HasRequestedPath == false &&*/ (FollowingPath == false || Target == ThisTransform || (Target.position - targetPositionOld).sqrMagnitude > pathUpdateMoveThreshold * pathUpdateMoveThreshold))
             {
                 if (FollowingPath == false || Target == ThisTransform)
                 {
@@ -88,7 +88,7 @@ public class StunbotBaseState : State
         PathRequestManager.RequestPath(ThisTransform.position, Target.position, ThisCollider.radius, OnPathFound);
         targetPositionOld = Target.position;
         timeUntillNextRequest = requestCooldown;
-        HasRequestedPath = true;
+        //HasRequestedPath = true;
     }
 
     /// <summary>
@@ -99,7 +99,7 @@ public class StunbotBaseState : State
     /// <param name="pathSuccess">Whether or not the pathfinding was successful.</param>
     private void OnPathFound(Vector3[] waypoints, bool pathSuccess)
     {
-        HasRequestedPath = false;
+        //HasRequestedPath = false;
         if (pathSuccess)
         {
             CurrentPath = new Path(waypoints, ThisTransform.position, turnDst, StoppingDistance);

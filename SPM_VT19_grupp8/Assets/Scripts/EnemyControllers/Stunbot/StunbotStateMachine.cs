@@ -16,7 +16,7 @@ public class StunbotStateMachine : EnemyStateMachine
     public SphereCollider ThisCollider { get; private set; }
     public Path CurrentPath { get; set; }
     public bool FollowingPath { get; set; }
-    public bool HasRequestedPath { get; set; }
+    //public bool HasRequestedPath { get; set; }
     public Transform Target { get; set; }
     #endregion
 
@@ -41,7 +41,7 @@ public class StunbotStateMachine : EnemyStateMachine
     #endregion
 
     #region readonly values
-    public readonly float allowedOriginDistance = 40.0f;
+    public readonly float allowedOriginDistance = 400.0f;
     #endregion
 
     protected override void Awake()
