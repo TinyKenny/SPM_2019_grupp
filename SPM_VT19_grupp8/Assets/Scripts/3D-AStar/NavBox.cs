@@ -20,12 +20,10 @@ public class NavBox : MonoBehaviour, IEquatable<NavBox>
 
     public bool Equals(NavBox obj)
     {
-
         if (obj == null || GetType() != obj.GetType())
         {
             return false;
         }
-
         
         return gameObject.Equals(obj.gameObject);
     }

@@ -14,7 +14,6 @@ public class NavmeshRenderer : MonoBehaviour
     [SerializeField] private LayerMask colliders = 0;
     private LayerMask navColl = 1 << 14;
     private List<BoxCollider> objects = new List<BoxCollider>();
-    private List<NavBox> boxes = new List<NavBox>();
 
     /// <summary>
     /// Generates an area of boxcolliders on a layer that is only used for 3D PathFinding.
@@ -61,7 +60,6 @@ public class NavmeshRenderer : MonoBehaviour
         if (recursion > 0 || Physics.CheckBox(area.center, area.size / 2 + new Vector3(0.5f, 0.5f, 0.5f), Quaternion.identity, colliders))
         {
             objects.Remove(area);
-            boxes.Remove(area.GetComponent<NavBox>());
             DestroyImmediate(area.gameObject);
         }
         return area;
@@ -110,7 +108,6 @@ public class NavmeshRenderer : MonoBehaviour
         traversableBox.gameObject.AddComponent<NavBox>();
         traversableBox.gameObject.layer = 14;
         objects.Add(traversableBox);
-        boxes.Add(traversableBox.GetComponent<NavBox>());
 
         return traversableBox;
     }
