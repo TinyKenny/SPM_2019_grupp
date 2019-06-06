@@ -87,10 +87,6 @@ public class PlayerWallRunState : PlayerAirState
 
     private void ProjectSpeedOnSurface()
     {
-        //Vector3 projection = Vector3.Dot(Velocity, wallNormal) * wallNormal;
-        //Vector3 tempVelocity = Velocity - projection;
-        //Vector3 magnitude = (projection.magnitude + tempVelocity.magnitude) * tempVelocity.normalized;
-        //Velocity = Vector3.ClampMagnitude(magnitude, Velocity.magnitude);
         Velocity = Velocity.magnitude * Vector3.ProjectOnPlane(Velocity, wallNormal).normalized;
     }
 
