@@ -18,6 +18,8 @@ public class StunbotStateMachine : EnemyStateMachine
     public bool FollowingPath { get; set; }
     //public bool HasRequestedPath { get; set; }
     public Transform Target { get; set; }
+    public Vector3 PathStartPosition { get; set; }
+    public int PathIndex { get; set; }
     #endregion
 
     #region properties for getting private variables
@@ -69,7 +71,9 @@ public class StunbotStateMachine : EnemyStateMachine
     {
         if (FollowingPath)
         {
-            Vector3 previousPosition = transform.position;
+            Color oldColor = Gizmos.color;
+
+            Vector3 previousPosition = PathStartPosition;
             foreach(Vector3 point in CurrentPath.LookPoints)
             {
                 Gizmos.color = Color.blue;
@@ -78,6 +82,11 @@ public class StunbotStateMachine : EnemyStateMachine
                 Gizmos.DrawLine(previousPosition, point);
                 previousPosition = point;
             }
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(transform.position, CurrentPath.LookPoints[PathIndex]);
+
+            Gizmos.color = oldColor;
         }
     }
 }

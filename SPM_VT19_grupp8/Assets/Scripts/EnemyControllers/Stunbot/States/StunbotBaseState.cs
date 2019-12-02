@@ -102,9 +102,11 @@ public class StunbotBaseState : State
         //HasRequestedPath = false;
         if (pathSuccess)
         {
+            Owner.PathStartPosition = ThisTransform.position;
             CurrentPath = new Path(waypoints, ThisTransform.position, turnDst, StoppingDistance);
             FollowingPath = true;
             pathIndex = 0;
+            Owner.PathIndex = pathIndex;
             speedPercent = 1.0f;
         }
         else
@@ -131,6 +133,7 @@ public class StunbotBaseState : State
                 else
                 {
                     pathIndex++;
+                    Owner.PathIndex = pathIndex;
                 }
             }
 
